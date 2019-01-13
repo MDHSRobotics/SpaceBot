@@ -157,4 +157,9 @@ gradle-app.setting
 bin/
 
 
+# Library jar files
+!lib/
+!lib/*
+
+
 # End of https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
