@@ -44,13 +44,24 @@ repositories {
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
+// MDHS added gson, jetty, and slf4j
 dependencies {
     compile wpi.deps.wpilib()
     compile wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
-    runtime fileTree('lib') { include '*.jar' }
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'org.eclipse.jetty:jetty-http:9.3.7.v20160115'
+    compile 'org.eclipse.jetty:jetty-io:9.3.7.v20160115'
+    compile 'org.eclipse.jetty:jetty-server:9.3.7.v20160115'
+    compile 'org.eclipse.jetty:jetty-util:9.3.7.v20160115'
+    compile 'org.eclipse.jetty.websocket:websocket-api:9.3.7.v20160115'
+    compile 'org.eclipse.jetty.websocket:websocket-common:9.3.7.v20160115'
+    compile 'org.eclipse.jetty.websocket:websocket-server:9.3.7.v20160115'
+    compile 'org.eclipse.jetty.websocket:websocket-servlet:9.3.7.v20160115'
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'org.slf4j:slf4j-simple:1.7.21'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
