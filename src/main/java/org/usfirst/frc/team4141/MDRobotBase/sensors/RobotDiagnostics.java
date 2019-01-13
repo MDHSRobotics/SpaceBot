@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.hal.HALUtil;
+import edu.wpi.first.hal.HALUtil;
 
 
 //TODO  Revisit what is captured in heartbeat and robot configuration
