@@ -14,6 +14,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import edu.wpi.first.hal.HAL;
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,7 +32,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 @SuppressWarnings("unused")
 public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable {
-	private static final double kCalibrationSampleTime = 3.0; // Calibration time in seconds
+	private static final double kCalibrationSampleTime = 5.0; // Calibration time in seconds
 	private static final double kDegreePerSecondPerLSB = 1.0/25.0;
 	private static final double kGPerLSB = 1.0/1200.0;
 	private static final double kMilligaussPerLSB = 1.0/7.0;
@@ -155,7 +157,6 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
   private AtomicBoolean m_freed = new AtomicBoolean(false);
 
   private SPI m_spi;
-  private DigitalOutput m_reset;
   private DigitalInput m_interrupt;
 
   // Sample from the IMU
@@ -222,6 +223,9 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
   private int m_samples_put_index = 0;
   private boolean m_calculate_started = false;
 
+  // Previous timestamp
+  long timestamp_old = 0;
+
   private static class AcquireTask implements Runnable {
     private ADIS16448_IMU imu;
     public AcquireTask(ADIS16448_IMU imu) {
@@ -255,13 +259,12 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
     m_yaw_axis = yaw_axis;
     m_algorithm = algorithm;
 
-    
-    // Force the IMU reset pin to toggle on startup
-    //m_reset = new DigitalOutput(18);  // MXP DIO8
-    //m_reset.set(false);
-    //Timer.delay(0.1);
-    //m_reset.set(true);
-    //Timer.delay(0.1);
+    // Force the IMU reset pin to toggle on startup (doesn't require DS enable)
+    DigitalOutput m_reset_out = new DigitalOutput(18);  // Drive MXP DIO8 low
+    Timer.delay(0.01);  // Wait 10ms
+    m_reset_out.close();
+    DigitalInput m_reset_in = new DigitalInput(18);  // Set MXP DIO8 high
+    Timer.delay(0.5);  // Wait 500ms
 
     m_spi = new SPI(SPI.Port.kMXP);
     m_spi.setClockRate(1000000);
@@ -284,7 +287,7 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
     }
 
     // Set IMU internal decimation to 102.4 SPS
-    writeRegister(kRegSMPL_PRD, 0x0301);
+    writeRegister(kRegSMPL_PRD, 0x0001);
 
     // Enable Data Ready (LOW = Good Data) on DIO1 (PWM0 on MXP) & PoP
     writeRegister(kRegMSC_CTRL, 0x0056);
@@ -327,7 +330,9 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
     
     calibrate();
     
-    //UsageReporting.report(tResourceType.kResourceType_ADIS16448, 0);
+    // Report usage and post data to DS
+
+    HAL.report(tResourceType.kResourceType_ADIS16448, 0);
     setName("ADIS16448_IMU");
   }
 
@@ -381,6 +386,10 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
 	  return ToUShort(buf);
   }
   
+  public static long ToULong(int sint) {
+		return sint & 0x00000000FFFFFFFFL;
+	}
+
   private static int ToShort(int... buf) {
       return (short)(((short)buf[0]) << 8 | buf[1]);
   }
@@ -403,7 +412,7 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
   private void writeRegister(int reg, int val) {
     ByteBuffer buf = ByteBuffer.allocateDirect(2);
     // low byte
-    buf.put(0, (byte) (0x80 | reg));
+    buf.put(0, (byte)((0x80 | reg) | 0x10));
     buf.put(1, (byte) (val & 0xff));
     m_spi.write(buf, 2);
     // high byte
@@ -411,6 +420,19 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
     buf.put(1, (byte) (val >> 8));
     m_spi.write(buf, 2);
   }
+
+  private void printBytes(int[] data) {
+		for(int i = 0; i < data.length; ++i) {
+			System.out.print(data[i] + " ");
+		}
+		System.out.println();
+	}
+  private void printBytes(byte[] data) {
+		for(int i = 0; i < data.length; ++i) {
+			System.out.print(data[i] + " ");
+		}
+		System.out.println();
+	}
 
   /**
    * {@inheritDoc}
@@ -457,138 +479,150 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
   }
 
   private void acquire() {
-    byte[] buffer = new byte[8192];
+    ByteBuffer readBuf = ByteBuffer.allocateDirect(64000);
+    readBuf.order(ByteOrder.LITTLE_ENDIAN);
     double gyro_x, gyro_y, gyro_z, accel_x, accel_y, accel_z, mag_x, mag_y, mag_z, baro, temp;
     int data_count = 0;
     int array_offset = 0;
     int imu_crc = 0;
-    double dt = 0.009765625; // This number must be adjusted if decimation setting is changed. Default is 1/102.4 SPS
+    double dt = 0; // This number must be adjusted if decimation setting is changed. Default is 1/102.4 SPS
     int data_subset[] = new int[28];
-    
+    long timestamp_new = 0;
+    int data_to_read = 0;
+
     while (!m_freed.get()) {
       // Waiting for the buffer to fill...
   	  Timer.delay(.020); // A delay less than 10ms could potentially overflow the local buffer
 
-  	  data_count = m_spi.readAutoReceivedData(buffer,0,0); // Read number of bytes currently stored in the buffer
-  	  array_offset = data_count % 28; // Look for "extra" data
-  	  data_count = data_count - array_offset; // Discard "extra" data
-  	  m_spi.readAutoReceivedData(buffer,data_count,0); // Read data from DMA buffer
-  	  for(int i = 0; i < data_count; i += 28) { // Process each set of 28 bytes
-	  
-		  for(int j = 0; j < 28; j++) { // Split each set of 28 bytes into a sub-array for processing
-			  data_subset[j] = (buffer[i + j] & 0x000000FF);
-		  }
-
-		  // DEBUG: Plot Sub-Array Data in Terminal
-		  /*System.out.println(ToUShort(data_subset[0], data_subset[1]) + "," + ToUShort(data_subset[2], data_subset[3]) + "," + 
-		  ToUShort(data_subset[4], data_subset[5]) + "," + ToUShort(data_subset[6], data_subset[7]) + "," + ToUShort(data_subset[8], data_subset[9]) + "," 
-		  + ToUShort(data_subset[10], data_subset[11]) + "," +
-		  ToUShort(data_subset[12], data_subset[13]) + "," + ToUShort(data_subset[14], data_subset[15]) + "," 
-		  + ToUShort(data_subset[16], data_subset[17]) + "," +
-		  ToUShort(data_subset[18], data_subset[19]) + "," + ToUShort(data_subset[20], data_subset[21]) + "," 
-		  + ToUShort(data_subset[22], data_subset[23]) + "," +
-		  ToUShort(data_subset[24], data_subset[25]) + "," + ToUShort(data_subset[26], data_subset[27]));*/
-
-		  // Calculate CRC-16 on each data packet
-		  int calc_crc = 0x0000FFFF; // Starting word
-		  int read_byte = 0;
-		  for(int k = 4; k < 26; k += 2 ) { // Cycle through XYZ GYRO, XYZ ACCEL, XYZ MAG, BARO, TEMP (Ignore Status & CRC)
-			  read_byte = data_subset[k+1]; // Process LSB
-			  calc_crc = (calc_crc >>> 8) ^ adiscrc[(calc_crc & 0x000000FF) ^ read_byte];
-			  read_byte = data_subset[k]; // Process MSB
-			  calc_crc = (calc_crc >>> 8) ^ adiscrc[(calc_crc & 0x000000FF) ^ read_byte];
-		  }
+  	  data_count = m_spi.readAutoReceivedData(readBuf,0,0); // Read number of bytes currently stored in the buffer
+  	  array_offset = data_count % 116; // Look for "extra" data This is 116 not 29 like in C++ b/c everything is 32-bits and takes up 4 bytes in the buffer
+      data_to_read = data_count - array_offset; // Discard "extra" data
+  	  m_spi.readAutoReceivedData(readBuf,data_to_read,0); // Read data from DMA buffer
+  	  for(int i = 0; i < data_to_read; i += 116) { // Process each set of 28 bytes (timestamp + 28 data) * 4 (32-bit ints)
+		    for(int j = 0; j < 28; j++) { // Split each set of 28 bytes into a sub-array for processing
+			    data_subset[j] = readBuf.getInt(4 + (i + j) * 4); // (i + j) * 4 = position in  buffer + 4 to skip timestamp
+        }
         
-		  // Make sure to mask all but relevant 16 bits
-		  calc_crc = ~calc_crc & 0xFFFF;
-		  calc_crc = ((calc_crc << 8) | (calc_crc >> 8)) & 0xFFFF; 
-		  //System.out.println("Calc: " + calc_crc);
+        // DEBUG: Print the received data
+        //printBytes(data_subset);
 
-		  // This is the data needed for CRC
-		  ByteBuffer bBuf = ByteBuffer.allocateDirect(2);
-		  bBuf.put(buffer[i + 26]);
-		  bBuf.put(buffer[i + 27]);
-		  
-		  imu_crc = ToUShort(bBuf); // Extract DUT CRC from data
-		  //System.out.println("IMU: " + imu_crc);
-		  //System.out.println("------------");
-		  
-		  // Compare calculated vs read CRC. Don't update outputs if CRC-16 is bad
-		  if(calc_crc == imu_crc){
-			  gyro_x = ToShort(data_subset[4], data_subset[5]) * kDegreePerSecondPerLSB;
-			  gyro_y = ToShort(data_subset[6], data_subset[7]) * kDegreePerSecondPerLSB;
-			  gyro_z = ToShort(data_subset[8], data_subset[9]) * kDegreePerSecondPerLSB;
-			  accel_x = ToShort(data_subset[10], data_subset[11]) * kGPerLSB;
-			  accel_y = ToShort(data_subset[12], data_subset[13]) * kGPerLSB;
-			  accel_z = ToShort(data_subset[14], data_subset[15]) * kGPerLSB;
-			  mag_x = ToShort(data_subset[16], data_subset[17]) * kMilligaussPerLSB;
-			  mag_y = ToShort(data_subset[18], data_subset[19]) * kMilligaussPerLSB;
-			  mag_z = ToShort(data_subset[20], data_subset[21]) * kMilligaussPerLSB;
-			  baro = ToUShort(data_subset[22], data_subset[23]) * kMillibarPerLSB;
-			  temp = ToShort(data_subset[24], data_subset[25]) * kDegCPerLSB + kDegCOffset;
-			  			  
-			  // Print scaled data to terminal
-			  /*System.out.println(gyro_x + "," + gyro_y + "," + gyro_z + "," + accel_x + "," + accel_y + "," 
-			  + accel_z + "," + mag_x + "," + mag_y + "," + mag_z + "," + baro + "," + temp + "," + "," 
-			  + ToUShort(data_subset[26], data_subset[27]));*/
-			  //System.out.println("---------------------"); // Frame divider (or else data looks like a mess)
-			  
-			  m_samples_mutex.lock();
-			  try{
-				  // If the FIFO is full, just drop it
-				  if (m_calculate_started && m_samples_count < kSamplesDepth)
-				  {
-					Sample sample = m_samples[m_samples_put_index];
-					sample.gyro_x = gyro_x;
-					sample.gyro_y = gyro_y;
-					sample.gyro_z = gyro_z;
-					sample.accel_x = accel_x;
-					sample.accel_y = accel_y;
-					sample.accel_z = accel_z;
-					sample.mag_x = mag_x;
-					sample.mag_y = mag_y;
-					sample.mag_z = mag_z;
-					sample.baro = baro;
-					sample.temp = temp;
-					sample.dt = dt;
-					++m_samples_put_index;
-					if (m_samples_put_index == (kSamplesDepth + 2))
-					  m_samples_put_index = 0;
-					++m_samples_count;
-					m_samples_not_empty.signal();
-				  }
-			  }catch(Exception e) {
-				  break;
-			  }finally {
-				  m_samples_mutex.unlock();
-			  }
+        // DEBUG: Plot Sub-Array Data in Terminal
+        /*System.out.println(ToUShort(data_subset[0], data_subset[1]) + "," + ToUShort(data_subset[2], data_subset[3]) + "," + 
+        ToUShort(data_subset[4], data_subset[5]) + "," + ToUShort(data_subset[6], data_subset[7]) + "," + ToUShort(data_subset[8], data_subset[9]) + "," 
+        + ToUShort(data_subset[10], data_subset[11]) + "," +
+        ToUShort(data_subset[12], data_subset[13]) + "," + ToUShort(data_subset[14], data_subset[15]) + "," 
+        + ToUShort(data_subset[16], data_subset[17]) + "," +
+        ToUShort(data_subset[18], data_subset[19]) + "," + ToUShort(data_subset[20], data_subset[21]) + "," 
+        + ToUShort(data_subset[22], data_subset[23]) + "," +
+        ToUShort(data_subset[24], data_subset[25]) + "," + ToUShort(data_subset[26], data_subset[27]));*/
 
-			// Update global state
-			synchronized(this){
-			  m_gyro_x = gyro_x;
-			  m_gyro_y = gyro_y;
-			  m_gyro_z = gyro_z;
-			  m_accel_x = accel_x;
-			  m_accel_y = accel_y;
-			  m_accel_z = accel_z;
-			  m_mag_x = mag_x;
-			  m_mag_y = mag_y;
-			  m_mag_z = mag_z;
-			  m_baro = baro;
-			  m_temp = temp;
+        // Calculate CRC-16 on each data packet
+        int calc_crc = 0x0000FFFF; // Starting word
+        int read_byte = 0;
+        for(int k = 4; k < 26; k += 2 ) { // Cycle through XYZ GYRO, XYZ ACCEL, XYZ MAG, BARO, TEMP (Ignore Status & CRC)
+          read_byte = data_subset[k+1]; // Process LSB
+          calc_crc = (calc_crc >>> 8) ^ adiscrc[(calc_crc & 0x000000FF) ^ read_byte];
+          read_byte = data_subset[k]; // Process MSB
+          calc_crc = (calc_crc >>> 8) ^ adiscrc[(calc_crc & 0x000000FF) ^ read_byte];
+        }
+        
+        // Make sure to mask all but relevant 16 bits
+        calc_crc = ~calc_crc & 0xFFFF;
+        calc_crc = ((calc_crc << 8) | (calc_crc >> 8)) & 0xFFFF; 
+        //System.out.println("Calc: " + calc_crc);
 
-			  ++m_accum_count;
-			  m_accum_gyro_x += gyro_x;
-			  m_accum_gyro_y += gyro_y;
-			  m_accum_gyro_z += gyro_z;
+        // This is the data needed for CRC
+        ByteBuffer bBuf = ByteBuffer.allocateDirect(2);
+        bBuf.put((byte)readBuf.getInt((i + 26) * 4 + 4)); // (i + 26) * 4 = position (32-bit ints) + 4 to skip timestamp
+        bBuf.put((byte)readBuf.getInt((i + 27) * 4 + 4)); // (i + 27) * 4 = position (32-bit ints) + 4 to skip timestamp
+        
+        imu_crc = ToUShort(bBuf); // Extract DUT CRC from data
+        //System.out.println("IMU: " + imu_crc);
+        //System.out.println("------------");
+        
+        // Compare calculated vs read CRC. Don't update outputs if CRC-16 is bad
+        if(calc_crc == imu_crc) {
+          // Calculate delta-time (dt) using FPGA timestamps
+          timestamp_new = ToULong(readBuf.getInt(i * 4));
+          dt = (timestamp_new - timestamp_old)/1000000.0; // Calculate dt and convert us to seconds
+          timestamp_old = timestamp_new; // Store new timestamp in old variable for next cycle
 
-			  m_integ_gyro_x += (gyro_x - m_gyro_offset_x) * dt;
-			  m_integ_gyro_y += (gyro_y - m_gyro_offset_y) * dt;
-			  m_integ_gyro_z += (gyro_z - m_gyro_offset_z) * dt;
-			  
-			}
-		 }
-	  }
+          gyro_x = ToShort(data_subset[4], data_subset[5]) * kDegreePerSecondPerLSB;
+          gyro_y = ToShort(data_subset[6], data_subset[7]) * kDegreePerSecondPerLSB;
+          gyro_z = ToShort(data_subset[8], data_subset[9]) * kDegreePerSecondPerLSB;
+          accel_x = ToShort(data_subset[10], data_subset[11]) * kGPerLSB;
+          accel_y = ToShort(data_subset[12], data_subset[13]) * kGPerLSB;
+          accel_z = ToShort(data_subset[14], data_subset[15]) * kGPerLSB;
+          mag_x = ToShort(data_subset[16], data_subset[17]) * kMilligaussPerLSB;
+          mag_y = ToShort(data_subset[18], data_subset[19]) * kMilligaussPerLSB;
+          mag_z = ToShort(data_subset[20], data_subset[21]) * kMilligaussPerLSB;
+          baro = ToUShort(data_subset[22], data_subset[23]) * kMillibarPerLSB;
+          temp = ToShort(data_subset[24], data_subset[25]) * kDegCPerLSB + kDegCOffset;
+                  
+          // Print scaled data to terminal
+          /*System.out.println(gyro_x + "," + gyro_y + "," + gyro_z + "," + accel_x + "," + accel_y + "," 
+          + accel_z + "," + mag_x + "," + mag_y + "," + mag_z + "," + baro + "," + temp + "," + "," 
+          + ToUShort(data_subset[26], data_subset[27]));*/
+          //System.out.println("---------------------"); // Frame divider (or else data looks like a mess)
+          
+          m_samples_mutex.lock();
+          try{
+            // If the FIFO is full, just drop it
+            if (m_calculate_started && m_samples_count < kSamplesDepth)
+            {
+              Sample sample = m_samples[m_samples_put_index];
+              sample.gyro_x = gyro_x;
+              sample.gyro_y = gyro_y;
+              sample.gyro_z = gyro_z;
+              sample.accel_x = accel_x;
+              sample.accel_y = accel_y;
+              sample.accel_z = accel_z;
+              sample.mag_x = mag_x;
+              sample.mag_y = mag_y;
+              sample.mag_z = mag_z;
+              sample.baro = baro;
+              sample.temp = temp;
+              sample.dt = dt;
+              ++m_samples_put_index;
+              if (m_samples_put_index == (kSamplesDepth + 2))
+                m_samples_put_index = 0;
+              ++m_samples_count;
+              m_samples_not_empty.signal();
+            }
+          }catch(Exception e) {
+            break;
+          }finally {
+            m_samples_mutex.unlock();
+          }
+
+          // Update global state
+          synchronized(this){
+            m_gyro_x = gyro_x;
+            m_gyro_y = gyro_y;
+            m_gyro_z = gyro_z;
+            m_accel_x = accel_x;
+            m_accel_y = accel_y;
+            m_accel_z = accel_z;
+            m_mag_x = mag_x;
+            m_mag_y = mag_y;
+            m_mag_z = mag_z;
+            m_baro = baro;
+            m_temp = temp;
+
+            ++m_accum_count;
+            m_accum_gyro_x += gyro_x;
+            m_accum_gyro_y += gyro_y;
+            m_accum_gyro_z += gyro_z;
+
+            m_integ_gyro_x += (gyro_x - m_gyro_offset_x) * dt;
+            m_integ_gyro_y += (gyro_y - m_gyro_offset_y) * dt;
+            m_integ_gyro_z += (gyro_z - m_gyro_offset_z) * dt;
+            
+          }
+        }else{
+          System.out.println("Invalid CRC");
+        }
+	    }
     }
   }
 
@@ -1190,7 +1224,6 @@ public class ADIS16448_IMU extends GyroBase implements Gyro, PIDSource, Sendable
     builder.addDoubleProperty("AngleX", ()-> getAngleX(), null);
     builder.addDoubleProperty("AngleY", ()-> getAngleY(), null);
     builder.addDoubleProperty("AngleZ", ()-> getAngleZ(), null);
-    super.initSendable(builder);
   }
   
 }
