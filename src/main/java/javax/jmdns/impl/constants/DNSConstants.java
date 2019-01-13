@@ -15,9 +15,9 @@ public final class DNSConstants {
     // changed to final class - jeffs
     public static final String MDNS_GROUP                     = "224.0.0.251";
     public static final String MDNS_GROUP_IPV6                = "FF02::FB";
-    public static final int    MDNS_PORT                      = Integer.parseInt(System.getProperty("net.mdns.port", "5353"));
+    public static final int    MDNS_PORT                      = Integer.getInteger("net.mdns.port", 5353);
     public static final int    DNS_PORT                       = 53;
-    public static final int    DNS_TTL                        = 60 * 60;                                                      // default one hour TTL
+    public static final int    DNS_TTL                        = Integer.getInteger("net.dns.ttl", 60 * 60);                   // default one hour TTL
     // public static final int DNS_TTL = 120 * 60; // two hour TTL (draft-cheshire-dnsext-multicastdns.txt ch 13)
 
     public static final int    MAX_MSG_TYPICAL                = 1460;
@@ -53,6 +53,7 @@ public final class DNSConstants {
     public static final int    RECORD_EXPIRY_DELAY            = 1;                                                            // This is 1s delay used in ttl and therefore in seconds
     public static final int    KNOWN_ANSWER_TTL               = 120;
     public static final int    ANNOUNCED_RENEWAL_TTL_INTERVAL = DNS_TTL * 500;                                                // 50% of the TTL in milliseconds
+    public static final int    FLUSH_RECORD_OLDER_THAN_1_SECOND  = 1;                                                         // rfc6762, section 10.2 Flush outdated cache (older than 1 second)
 
     public static final int    STALE_REFRESH_INCREMENT           = 5;
     public static final int    STALE_REFRESH_STARTING_PERCENTAGE = 80;
