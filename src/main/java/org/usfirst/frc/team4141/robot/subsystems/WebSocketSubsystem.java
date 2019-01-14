@@ -1,11 +1,6 @@
 package org.usfirst.frc.team4141.robot.subsystems;
 
-import java.io.IOException;
-import java.net.InetAddress;
 import java.util.Map;
-
-import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceInfo;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDConsoleButton;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
@@ -21,9 +16,8 @@ import org.usfirst.frc.team4141.MDRobotBase.eventmanager.MessageHandler;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.Request;
 import org.usfirst.frc.team4141.MDRobotBase.notifications.ConsoleConnectionNotification;
 import org.usfirst.frc.team4141.MDRobotBase.notifications.RobotConfigurationNotification;
-import org.usfirst.frc.team4141.MDRobotBase.notifications.RobotLogNotification;
 import org.usfirst.frc.team4141.MDRobotBase.notifications.RobotNotification;
-import org.usfirst.frc.team4141.robot.subsystems.WebSocketSubsystem.Remote;
+// import org.usfirst.frc.team4141.robot.subsystems.WebSocketSubsystem.Remote;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Notifier;

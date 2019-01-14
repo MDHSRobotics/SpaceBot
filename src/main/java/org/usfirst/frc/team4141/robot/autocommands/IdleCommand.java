@@ -3,7 +3,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
-import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
+// import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 

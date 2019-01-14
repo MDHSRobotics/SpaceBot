@@ -5,18 +5,18 @@ package org.usfirst.frc.team4141.robot;
 //===================================================================== Imported Systems ===================================================================== //
 //import java.util.Hashtable;
 
-import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
-import org.usfirst.frc.team4141.MDRobotBase.MDCommandGroup;
+// import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
+// import org.usfirst.frc.team4141.MDRobotBase.MDCommandGroup;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_BuiltInAccelerometer;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_IMU;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
-import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
+// import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.MDTalonSRX;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
-import org.usfirst.frc.team4141.MDRobotBase.config.IntegerConfigSetting;
+// import org.usfirst.frc.team4141.MDRobotBase.config.IntegerConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
 import org.usfirst.frc.team4141.robot.commands.AUTOMoveFromWall;
-import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
+// import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
@@ -24,13 +24,13 @@ import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.DriverStation;
+// import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+// import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+// import edu.wpi.first.wpilibj.DriverStation;
 
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
+// import edu.wpi.first.wpilibj.Solenoid;
+// import edu.wpi.first.wpilibj.Talon;
+// import edu.wpi.first.wpilibj.Victor;
 
 /**
  * This system is the entire brain of the robot.
