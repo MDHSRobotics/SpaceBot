@@ -63,8 +63,6 @@ dependencies {
     compile 'org.eclipse.jetty.websocket:websocket-common:9.4.14.v20181114'
     compile 'org.eclipse.jetty.websocket:websocket-server:9.4.14.v20181114'
     compile 'org.eclipse.jetty.websocket:websocket-servlet:9.4.14.v20181114'
-    compile 'org.slf4j:slf4j-api:1.7.25'
-    compile 'org.slf4j:slf4j-simple:1.7.25'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
