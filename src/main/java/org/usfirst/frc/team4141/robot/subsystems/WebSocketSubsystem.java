@@ -95,11 +95,11 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 		} 
 	}
 
-	@SuppressWarnings({"rawtypes" })
+	// @SuppressWarnings({"rawtypes" })
 	@Override
 	public void process(Request request) {
 		//System.out.println("Robot received message: "+request.getMessage());
-		Map message = JSON.parse(request.getMessage());
+		Map<?,?> message = JSON.parse(request.getMessage());
 		if(message.containsKey("type")){
 			String type = message.get("type").toString();
 			if(type.equals("consoleButtonUpdate")){
@@ -118,7 +118,7 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 		message.keySet();
 	}
 
-	private void targetAcquired(Request request, Map message) {
+	private void targetAcquired(Request request, Map<?,?> message) {
 		if(message.containsKey("filter") && message.containsKey("targetAcquired")){
 			HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystem("HolySeeSubsystem");
 			String filter = (String)message.get("filter");
@@ -138,7 +138,7 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 
 	// ------------------------------------------------ //
 
-	private void identifyRemote(Request request, Map message) {
+	private void identifyRemote(Request request, Map<?,?> message) {
 		if(message.containsKey("id")){
 			request.getSocket().setName((String)message.get("id"));
 			debug(message.get("id")+" connected!");
@@ -146,7 +146,7 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 			if(message.get("id").equals(Remote.console.toString())){
 				log("identifyRemote",Remote.console.toString()+" connected.");
 				eventManager.post(new RobotConfigurationNotification(getRobot()));
-//				String consoleAddress="10.41.41.101";  //TODO:  get from Request object
+				//	Get IP address from request object (e.g. 10.41.41.101)
 				String consoleAddress=request.getSocket().getSession().getRemoteAddress().getHostString();
 				if(getRobot().containsSubsystem("HolySeeSubsystem")){
 					HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystem("HolySeeSubsystem");
