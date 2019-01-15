@@ -10,10 +10,10 @@ public class AutonomousSubsystem extends MDSubsystem {
 	private double autoSpeed;
 	private long autoDuration;
 	private MDDriveSubsystem driveSystem;
-	private double P;
-	private double I;
-	private double D;
-	private double F;
+	// private double P;
+	// private double I;
+	// private double D;
+	// private double F;
 	
 	public enum TypeOfDriveStrategy {
 		Duration,			// Open Loop based on time duration

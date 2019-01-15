@@ -3,7 +3,7 @@ package org.usfirst.frc.team4141.robot.subsystems;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.ConfigSetting;
-import org.usfirst.frc.team4141.robot.commands.LiftCommand;
+// import org.usfirst.frc.team4141.robot.commands.LiftCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class LiftSubsystem extends MDSubsystem {
 	
-	private double liftSpeed=1;
+	// private double liftSpeed=1;
 	private SpeedController liftSpeedController;
 	public static String liftMotor1="liftSpeedController";
 	private double governor = 1.0;
@@ -106,7 +106,7 @@ public class LiftSubsystem extends MDSubsystem {
 	 */
 	@Override
 	protected void setUp() {
-		if(getConfigSettings().containsKey("liftSpeed")) liftSpeed = getConfigSettings().get("liftSpeed").getDouble();
+		// if(getConfigSettings().containsKey("liftSpeed")) liftSpeed = getConfigSettings().get("liftSpeed").getDouble();
 		if(getConfigSettings().containsKey("governor")) governor = getConfigSettings().get("governor").getDouble();
 		
 	}
@@ -118,7 +118,7 @@ public class LiftSubsystem extends MDSubsystem {
 	 */
 	@Override
 	public void settingChangeListener(ConfigSetting changedSetting) {
-		if(changedSetting.getName().equals("liftSpeed")) liftSpeed = changedSetting.getDouble();
+		// if(changedSetting.getName().equals("liftSpeed")) liftSpeed = changedSetting.getDouble();
 		if(changedSetting.getName().equals("governor")) governor = changedSetting.getDouble();
 
 	}

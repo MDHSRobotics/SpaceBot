@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 // import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
-import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
+// import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 
 
 public class IdleCommand extends MDCommand {
 	
-	private AutonomousSubsystem autoSubsystem;
+	// private AutonomousSubsystem autoSubsystem;
 	private MDDriveSubsystem driveSubsystem;		// Needed to keep talking to drive to avoid Motor Safety errors
 	
 	private double m_elapsedTime;				// Time (in seconds) that this command has executed
@@ -29,7 +29,7 @@ public class IdleCommand extends MDCommand {
 	public IdleCommand(MDRobotBase robot, String name) {
 		super(robot, name);
 		
-		autoSubsystem = (AutonomousSubsystem) robot.getSubsystem("autoSubsystem");
+		// autoSubsystem = (AutonomousSubsystem) robot.getSubsystem("autoSubsystem");
 		
 		// Make sure that the Drive Subsystem is active - we need it to avoid MotorSafety errors
 

@@ -63,10 +63,10 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private double governor = 1.0;
 	private double timeInS;
 	private MD_IMU imu;
-	private double targetDistance; 
-	private double distanceInFeet;
-	private double encoderDistance; // <--- Placeholder
-	private MDDriveSubsystem driveSystem;
+	// private double targetDistance; 
+	// private double distanceInFeet;
+	// private double encoderDistance; // <--- Placeholder
+	// private MDDriveSubsystem driveSystem;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
 	
 //	private double F=0.0;

@@ -120,7 +120,7 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 
 	private void targetAcquired(Request request, Map<?,?> message) {
 		if(message.containsKey("filter") && message.containsKey("targetAcquired")){
-			HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystem("HolySeeSubsystem");
+			// HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystem("HolySeeSubsystem");
 			String filter = (String)message.get("filter");
 			boolean targetAcquired = ((Boolean)message.get("targetAcquired")).booleanValue();
 			System.out.println("filter "+ filter +" targetAcquired: "+(targetAcquired?"true":"false"));
