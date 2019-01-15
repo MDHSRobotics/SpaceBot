@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4141.robot; 
 
-//Edit by Tyler on WheatlyBot master branch :)
-
 //===================================================================== Imported Systems ===================================================================== //
 //import java.util.Hashtable;
 
@@ -48,9 +46,7 @@ public class Robot extends MDRobotBase {
 		super.teleopInit();
 
 	}
-	
 
-	
 	// ================================================================================ Robot Configuration ========================================================================== //
 	
 	@Override
@@ -60,12 +56,11 @@ public class Robot extends MDRobotBase {
 		// The AutoCommand changes every year and is based off the competition and team agreement.
 		
 		debug("\nEnter configured Robot");
-		add( new CoreSubsystem(this, "core")
-				 .add("name",new StringConfigSetting("WheatlyBot")) // <--- Name
-				 .add("autoCommand",new StringConfigSetting("AUTOCommand")) // <--- Default AutoCommand
-				 .configure()
-		);	
-		
+		CoreSubsystem cSubSys = new CoreSubsystem(this, "core");
+		cSubSys.add("name",new StringConfigSetting("SpaceBot")); // <--- Name
+		cSubSys.add("autoCommand",new StringConfigSetting("AUTOCommand")); // <--- Default AutoCommand
+		cSubSys.configure();
+		add(cSubSys);
 
 		// ================================================== Drive Subsystem Configuration ==================================================================== //				
 		
@@ -81,8 +76,7 @@ public class Robot extends MDRobotBase {
 
 		MDDriveSubsystem driveSubsystem = new MDDriveSubsystem(this, "driveSystem", Type.TankDrive);
 		add(driveSubsystem);
-		  
-			  
+
 		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
 		driveSubsystem.add("IMU", new MD_IMU()) 
 				.add(MotorPosition.left, new MDTalonSRX(1))
@@ -95,7 +89,7 @@ public class Robot extends MDRobotBase {
 				driveSubsystem.configure();
 			
 		// =================================================== Other Subsystems ======================================================================== //		
-				
+
 		/************************************************************************************
 		 * 																					*
 		 * 	Developing a subsystem is very simple.											*
@@ -104,29 +98,34 @@ public class Robot extends MDRobotBase {
 		 * 																					*
 		 ************************************************************************************
 		 */		
-				
-		add(new AutonomousSubsystem(this, "autoSubsystem")
-				.add("delayStartTime", new DoubleConfigSetting(0.0, 15.0, 0.0))
-				.configure()
-		);
-				
-		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.liftMotor1, new MDTalonSRX(5))
-				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
-				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
-				.configure()
-		);
-				
+		
+		AutonomousSubsystem autoSubSys = new AutonomousSubsystem(this, "autoSubsystem");
+		autoSubSys.add("delayStartTime", new DoubleConfigSetting(0.0, 15.0, 0.0));
+		autoSubSys.configure();
+		add(autoSubSys);
+
+		LiftSubsystem liftSubSys = new LiftSubsystem(this, "liftSubsystem");
+		liftSubSys.add(LiftSubsystem.liftMotor1, new MDTalonSRX(5));
+		liftSubSys.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0));
+		liftSubSys.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
+		liftSubSys.configure();
+		add(liftSubSys);
+
 		debug("\n \n \n Done configuring the Robot.");
 		debug("Printing the state of the Robot...");
 		debug(this.toString());
-		
+
 	}
-			
-		public void autonomousInit() {
-			super.autonomousInit();
-			AUTOMoveFromWall autoMoveFromWallCommand = new AUTOMoveFromWall(this);
+
+	public void autonomousInit() {
+		super.autonomousInit();
+		AUTOMoveFromWall autoMoveFromWallCommand = new AUTOMoveFromWall(this);
+		try {
 			autoMoveFromWallCommand.start();
 		}
-	
+		finally {
+			autoMoveFromWallCommand.close();
+		}
+	}
+
 }

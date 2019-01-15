@@ -22,32 +22,57 @@ public class MDJoystick extends Joystick {
 	}
 
 	public MDJoystick cancelWhenPressed(String buttonName,int buttonNumber,MDCommand command){
-			JoystickButton button = new JoystickButton(this, buttonNumber);
+		JoystickButton button = new JoystickButton(this, buttonNumber);
+		try {
 			button.cancelWhenPressed(command);
+		}
+		finally {
+			button.close();
+		}
 		return this;
 	}
 
 	public MDJoystick toggleWhenPressed(String buttonName,int buttonNumber,MDCommand command){
-			JoystickButton button = new JoystickButton(this, buttonNumber);
+		JoystickButton button = new JoystickButton(this, buttonNumber);
+		try {
 			button.toggleWhenPressed(command);
+		}
+		finally {
+			button.close();
+		}
 		return this;
 	}
 	
 	public MDJoystick whenPressed(String buttonName,int buttonNumber,MDCommand command){
-			JoystickButton button = new JoystickButton(this, buttonNumber);
+		JoystickButton button = new JoystickButton(this, buttonNumber);
+		try {
 			button.whenPressed(command);
+		}
+		finally {
+			button.close();
+		}
 		return this;
 	}
 
 	public MDJoystick whenReleased(String buttonName,int buttonNumber,MDCommand command){
-			JoystickButton button = new JoystickButton(this, buttonNumber);
+		JoystickButton button = new JoystickButton(this, buttonNumber);
+		try {
 			button.whenReleased(command);
+		}
+		finally {
+			button.close();
+		}
 		return this;
 	}
 
 	public MDJoystick whileHeld(String buttonName,int buttonNumber,MDCommand command){
-			JoystickButton button = new JoystickButton(this, buttonNumber);
+		JoystickButton button = new JoystickButton(this, buttonNumber);
+		try {
 			button.whileHeld(command);
+		}
+		finally {
+			button.close();
+		}
 		return this;
 	}
 

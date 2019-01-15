@@ -224,18 +224,18 @@ public abstract class MDRobotBase extends TimedRobot{
     	// *** pre configured subsystems
 		
 		//Special Subsystem used for RobotDiagnostics
-		add( new DiagnosticsSubsystem(this, "diagnosticsSubsystem")
-				 .add("diagnosticsSensor",new RobotDiagnostics())
-				 .add("diagnosticsScanPeriod",new DoubleConfigSetting(0.05, 1.0, 0.1))
-				 .configure()
-		);
-		
+		DiagnosticsSubsystem diagSubSys = new DiagnosticsSubsystem(this, "diagnosticsSubsystem");
+		diagSubSys.add("diagnosticsSensor",new RobotDiagnostics());
+		diagSubSys.add("diagnosticsScanPeriod",new DoubleConfigSetting(0.05, 1.0, 0.1));
+		diagSubSys.configure();
+		add(diagSubSys);
+
 		//Subsystem to manage WebSocket Communications
-		add( new WebSocketSubsystem(this, "WebSockets")
-				 .add("enableWebSockets",new BooleanConfigSetting(true))
-				 .configure()
-		);    	
-		
+		WebSocketSubsystem webSockSubSys = new WebSocketSubsystem(this, "WebSockets");
+		webSockSubSys.add("enableWebSockets",new BooleanConfigSetting(true));
+		webSockSubSys.configure();
+		add(webSockSubSys);    	
+
 		//--------------Camera------------------------------------------------------//
 		 new Thread(() -> {
              UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -312,8 +312,13 @@ public abstract class MDRobotBase extends TimedRobot{
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-    	ArcadeDriveCommand arcadeCommand = new ArcadeDriveCommand(this);
-    	arcadeCommand.start();
+		ArcadeDriveCommand arcadeCommand = new ArcadeDriveCommand(this);
+		try {
+			arcadeCommand.start();
+		}
+		finally {
+			arcadeCommand.close();
+		}
     }
 
     /**
