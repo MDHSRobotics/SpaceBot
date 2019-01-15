@@ -97,40 +97,40 @@ public class TankDriveInterpolator {
 		return sb.toString();
 	}
 
-	private static String toMarkDownTable(double[] range,String[][] contour){
-		StringBuilder sb=new StringBuilder();
-		for(int r=0;r<contour.length;r++){
-			if(r==0){
-				for(int c=0;c<range.length;c++){
-					if(c==0){
-						sb.append("");
-					}
-					sb.append(" | ");
-					sb.append(range[c]);
-				}
-				sb.append("\n");
-				for(int c=0;c<range.length;c++){
-					if(c==0){
-						sb.append("---");
-					}
-					sb.append(" | ");
-					sb.append("---");
-				}
-				sb.append("\n");
-			}
-			for (int c=0;c<contour[r].length;c++){
-				if(c==0){
-					sb.append("__");
-					sb.append(range[range.length-1-r]);
-					sb.append("__");
-				}
-				sb.append(" | ");
-				sb.append(contour[r][c]);
-			}
-			sb.append("\n");
-		}
-		return sb.toString();
-	}
+	// private static String toMarkDownTable(double[] range,String[][] contour){
+	// 	StringBuilder sb=new StringBuilder();
+	// 	for(int r=0;r<contour.length;r++){
+	// 		if(r==0){
+	// 			for(int c=0;c<range.length;c++){
+	// 				if(c==0){
+	// 					sb.append("");
+	// 				}
+	// 				sb.append(" | ");
+	// 				sb.append(range[c]);
+	// 			}
+	// 			sb.append("\n");
+	// 			for(int c=0;c<range.length;c++){
+	// 				if(c==0){
+	// 					sb.append("---");
+	// 				}
+	// 				sb.append(" | ");
+	// 				sb.append("---");
+	// 			}
+	// 			sb.append("\n");
+	// 		}
+	// 		for (int c=0;c<contour[r].length;c++){
+	// 			if(c==0){
+	// 				sb.append("__");
+	// 				sb.append(range[range.length-1-r]);
+	// 				sb.append("__");
+	// 			}
+	// 			sb.append(" | ");
+	// 			sb.append(contour[r][c]);
+	// 		}
+	// 		sb.append("\n");
+	// 	}
+	// 	return sb.toString();
+	// }
 
 	private static void test(TankDriveInterpolator tankDriveInterpolator) {
 		// generate the contour map
