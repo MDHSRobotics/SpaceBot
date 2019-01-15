@@ -8,7 +8,7 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.hal.HALUtil;
@@ -39,7 +39,7 @@ import org.usfirst.frc.team4141.robot.subsystems.WebSocketSubsystem;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public abstract class MDRobotBase extends IterativeRobot{
+public abstract class MDRobotBase extends TimedRobot{
 
 	static {
 		Properties props = System.getProperties();
