@@ -62,7 +62,7 @@ public class IntegerConfigSetting implements ConfigSetting {
 			this.min = (Integer)min;
 		}
 		else if (min instanceof Double){
-			this.min = new Integer((int)((Double)min).doubleValue());
+			this.min = (int)((Double)min).doubleValue();
 		}
 		else if (min instanceof String){
 			this.min = Integer.valueOf((String)min);
@@ -78,7 +78,7 @@ public class IntegerConfigSetting implements ConfigSetting {
 			this.max = (Integer)max;
 		}
 		else if (max instanceof Double){
-			this.max = new Integer((int)((Double)max).doubleValue());
+			this.max = (int)((Double)max).doubleValue();
 		}
 		else if (max instanceof String){
 			this.max = Integer.valueOf((String)max);
@@ -95,7 +95,7 @@ public class IntegerConfigSetting implements ConfigSetting {
 //			System.out.printf("setting %s to %d\n",name,value);
 		}
 		else if (value instanceof Double){
-			this.value = new Integer((int)((Double)value).doubleValue());
+			this.value = (int)((Double)value).doubleValue();
 		}
 		else if (value instanceof String){
 			this.value = Integer.valueOf((String)value);

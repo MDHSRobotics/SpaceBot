@@ -34,7 +34,7 @@ public class ConsoleOI extends MDGenericHID {
 
 	@Override
 	public boolean getRawButton(int button) {
-		Integer id = new Integer(button);
+		Integer id = Integer.valueOf(button);
 		if(buttons.containsKey(id)){
 			return buttons.get(id).get();
 		}
@@ -45,35 +45,35 @@ public class ConsoleOI extends MDGenericHID {
 	public ConsoleOI cancelWhenPressed(String buttonName,int buttonNumber,MDCommand command){
 			MDConsoleButton button = new MDConsoleButton(this, buttonName, buttonNumber);
 			button.cancelWhenPressed(command);
-			buttons.put(new Integer(buttonNumber), button);
+			buttons.put(Integer.valueOf(buttonNumber), button);
 		return this;
 	}
 
 	public ConsoleOI toggleWhenPressed(String buttonName,int buttonNumber,MDCommand command){
 			MDConsoleButton button = new MDConsoleButton(this, buttonName, buttonNumber);
 			button.toggleWhenPressed(command);
-			buttons.put(new Integer(buttonNumber), button);
+			buttons.put(Integer.valueOf(buttonNumber), button);
 		return this;
 	}
 	
 	public ConsoleOI whenPressed(String buttonName,int buttonNumber,Command command){
 			MDConsoleButton button = new MDConsoleButton(this, buttonName, buttonNumber);
 			button.whenPressed(command);
-			buttons.put(new Integer(buttonNumber), button);
+			buttons.put(Integer.valueOf(buttonNumber), button);
 		return this;
 	}
 
 	public ConsoleOI whenReleased(String buttonName,int buttonNumber,MDCommand command){
 			MDConsoleButton button = new MDConsoleButton(this, buttonName, buttonNumber);
 			button.whenReleased(command);
-			buttons.put(new Integer(buttonNumber), button);
+			buttons.put(Integer.valueOf(buttonNumber), button);
 		return this;
 	}
 
 	public ConsoleOI whileHeld(String buttonName,int buttonNumber,MDCommand command){
 			MDConsoleButton button = new MDConsoleButton(this, buttonName, buttonNumber);
 			button.whileHeld(command);
-			buttons.put(new Integer(buttonNumber), button);
+			buttons.put(Integer.valueOf(buttonNumber), button);
 		return this;
 	}
 	

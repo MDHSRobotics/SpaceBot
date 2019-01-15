@@ -63,7 +63,7 @@ public class DoubleConfigSetting implements ConfigSetting {
 			this.min = (Double)min;
 		}
 		else if (min instanceof Integer){
-			this.min = new Double((Integer)min);
+			this.min = Double.valueOf((Integer)min);
 		}
 		else if (min instanceof String){
 			this.min = Double.valueOf((String)min);
@@ -79,7 +79,7 @@ public class DoubleConfigSetting implements ConfigSetting {
 			this.max = (Double)max;
 		}
 		else if (max instanceof Integer){
-			this.max = new Double((Integer)max);
+			this.max = Double.valueOf((Integer)max);
 		}
 		else if (max instanceof String){
 			this.max = Double.valueOf((String)max);
@@ -96,7 +96,7 @@ public class DoubleConfigSetting implements ConfigSetting {
 //			System.out.printf("setting %s to %f\n",name,value);
 		}
 		else if (value instanceof Integer){
-			this.value = new Double((Integer)value);
+			this.value = Double.valueOf((Integer)value);
 		}
 		else if (value instanceof String){
 			this.value = Double.valueOf((String)value);
