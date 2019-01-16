@@ -1,34 +1,22 @@
 package org.usfirst.frc.team4141.robot; 
 
 //===================================================================== Imported Systems ===================================================================== //
-//import java.util.Hashtable;
 
-// import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
-// import org.usfirst.frc.team4141.MDRobotBase.MDCommandGroup;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_BuiltInAccelerometer;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_IMU;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
-// import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.MDTalonSRX;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
-// import org.usfirst.frc.team4141.MDRobotBase.config.IntegerConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
 import org.usfirst.frc.team4141.robot.commands.AUTOMoveFromWall;
 // import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
-import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.HatchSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.CargoSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
-
-// import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-// import edu.wpi.first.wpilibj.DriverStation;
-
-// import edu.wpi.first.wpilibj.Solenoid;
-// import edu.wpi.first.wpilibj.Talon;
-// import edu.wpi.first.wpilibj.Victor;
 
 /**
  * This system is the entire brain of the robot.
@@ -74,13 +62,15 @@ public class Robot extends MDRobotBase {
 		 *********************************************************************************
 		 */
 
-		MDDriveSubsystem driveSubsystem = new MDDriveSubsystem(this, "driveSystem", Type.TankDrive);
+		MDDriveSubsystem driveSubsystem = new MDDriveSubsystem(this, "driveSystem", Type.MecanumDrive);
 		add(driveSubsystem);
 
 		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
 		driveSubsystem.add("IMU", new MD_IMU()) 
-				.add(MotorPosition.left, new MDTalonSRX(1))
-				.add(MotorPosition.right, new MDTalonSRX(3))
+				.add(MotorPosition.frontRight, new MDTalonSRX(1))
+				.add(MotorPosition.frontLeft, new MDTalonSRX(2))
+				.add(MotorPosition.rearRight, new MDTalonSRX(3))
+				.add(MotorPosition.rearLeft, new MDTalonSRX(4))
 				.add("Ramp Time In seconds", new DoubleConfigSetting(0.0, 10.0, 1.0))
 				.add("forwardSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
 		 	    .add("rotateSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Slow Speed - Turn Factor
@@ -104,12 +94,20 @@ public class Robot extends MDRobotBase {
 		autoSubSys.configure();
 		add(autoSubSys);
 
-		LiftSubsystem liftSubSys = new LiftSubsystem(this, "liftSubsystem");
-		liftSubSys.add(LiftSubsystem.liftMotor1, new MDTalonSRX(5));
-		liftSubSys.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0));
-		liftSubSys.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
-		liftSubSys.configure();
-		add(liftSubSys);
+		HatchSubsystem hatchSubSys = new HatchSubsystem(this, "hatchSubsystem");
+		hatchSubSys.add(HatchSubsystem.motor1, new MDTalonSRX(5));
+		hatchSubSys.add("moveSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0));
+		hatchSubSys.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
+		hatchSubSys.configure();
+		add(hatchSubSys);
+
+		CargoSubsystem cargoSubSys = new CargoSubsystem(this, "cargoSubsystem");
+		cargoSubSys.add(CargoSubsystem.motor1, new MDTalonSRX(6));
+		cargoSubSys.add("moveSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0));
+		cargoSubSys.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
+		cargoSubSys.configure();
+		add(cargoSubSys);
+
 
 		debug("\n \n \n Done configuring the Robot.");
 		debug("Printing the state of the Robot...");
