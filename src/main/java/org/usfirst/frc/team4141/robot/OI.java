@@ -9,8 +9,6 @@ import org.usfirst.frc.team4141.MDRobotBase.OIBase;
 import org.usfirst.frc.team4141.MDRobotBase.RioHID;
 import org.usfirst.frc.team4141.robot.autocommands.DriveDistanceCommand;
 import org.usfirst.frc.team4141.robot.autocommands.TurnCommand;
-import org.usfirst.frc.team4141.robot.commands.HatchCommand;
-import org.usfirst.frc.team4141.robot.commands.CargoCommand;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.commands.ToggleOrientationCommand;
 
