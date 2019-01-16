@@ -46,7 +46,7 @@ public class CargoSubsystem extends MDSubsystem {
 	}
 	
 	public void autoMove(double power) {
-			cargoSpeedController.set(power);
+		cargoSpeedController.set(power);
 	}
 	
 	public void stop() {

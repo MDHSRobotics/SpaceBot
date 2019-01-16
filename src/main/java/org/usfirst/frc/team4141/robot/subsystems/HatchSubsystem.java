@@ -31,7 +31,7 @@ public class HatchSubsystem extends MDSubsystem {
 	public MDSubsystem configure() {
 		super.configure();
 		
-		if (getMotors()==null || !getMotors().containsKey(motor1)) {
+		if (getMotors() ==null || !getMotors().containsKey(motor1)) {
 			throw new IllegalArgumentException("Invalid motor configuration for Hatch System.");
 		}
 		hatchSpeedController = (SpeedController)(getMotors().get(motor1));
