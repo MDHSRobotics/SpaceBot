@@ -56,8 +56,6 @@ public class Robot extends MDRobotBase {
 		 */
 
 		MDDriveSubsystem driveSubsystem = new MDDriveSubsystem(this, "driveSystem", Type.MecanumDrive);
-		add(driveSubsystem);
-
 		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
 		driveSubsystem.add("IMU", new MD_IMU());
 		driveSubsystem.add(MotorPosition.frontRight, new MDTalonSRX(1));
@@ -69,6 +67,7 @@ public class Robot extends MDRobotBase {
 		driveSubsystem.add("rotateSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Slow Speed - Turn Factor
 		driveSubsystem.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
 		driveSubsystem.configure();
+		add(driveSubsystem);
 
 		// Other Subsystems
 
