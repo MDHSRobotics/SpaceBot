@@ -24,11 +24,6 @@ public class MultiSpeedController implements SpeedController {
             speedController.set(speed);
         }
     }
-//TODO Fixed a error by commenting out Override
-//    @Override
-    public void set(double speed, byte syncGroup) {
-        this.set(speed);
-    }
 
     @Override
     public void pidWrite(double output) {

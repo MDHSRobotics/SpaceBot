@@ -8,7 +8,6 @@ import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 
-
 public class DriveFromWallCommand extends MDCommand {
 
 	private long start;
@@ -20,8 +19,6 @@ public class DriveFromWallCommand extends MDCommand {
 	private AutonomousSubsystem autoSubsystem;
 	private MDDriveSubsystem driveSubsystem;
 	
-	// ------------------------------------------------ //
-	
 	public DriveFromWallCommand(MDRobotBase robot, String name) {
 		super(robot, name);
 		
@@ -29,45 +26,36 @@ public class DriveFromWallCommand extends MDCommand {
 		requires(autoSubsystem);
 		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem");
 		requires(driveSubsystem);
-		
-		
-		// TODO Auto-generated constructor stub
 	}
-	
-	// ------------------------------------------------ //
-	
-	@Override  
+
+	@Override
 	protected void initialize() {
 		driveSubsystem.gyroReset();
 		autoDuration = autoSubsystem.getAutoDuration();
 		autoSpeed = autoSubsystem.getAutoSpeed();
-		start =(new Date()).getTime();	
+		start = (new Date()).getTime();	
 		setAngle = driveSubsystem.getAngle();
-		log(Level.DEBUG, "initialize()", "setAngle="+setAngle);
+		log(Level.DEBUG, "initialize()", "setAngle=" + setAngle);
 	}
-	
+
 	@Override
 	protected boolean isFinished() {
 		long now = (new Date()).getTime();
-		return  (now >=(start+autoDuration));
-			//long now = (new Date()).getTime();
-			//return  (now >=(start+autoDuration));
-		}
-	
+		return (now >= (start + autoDuration));
+	}
+
 	@Override
 	protected void execute() {
 		actualAngle = driveSubsystem.getAngle();
-		driveAngle = setAngle - actualAngle; //driveAngle = setAngle - actualAngle
-	  	log(Level.DEBUG,"execute","setAngle="+setAngle+", actualAngle="+actualAngle+", driveAngle="+driveAngle);
+		driveAngle = setAngle - actualAngle;
+	  	log(Level.DEBUG,"execute", "setAngle=" + setAngle + ", actualAngle=" + actualAngle + ", driveAngle=" + driveAngle);
 
 		driveSubsystem.move(autoSpeed,driveAngle);
 	}
-	
+
 	@Override
 	protected void end() {
 		driveSubsystem.stop();
 	}
-	
+
 }
-
-

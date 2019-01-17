@@ -2,8 +2,6 @@ package org.usfirst.frc.team4141.robot.subsystems;
 
 import java.util.Date;
 
-// import javax.print.attribute.standard.Media;
-
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.MultiSpeedController;
@@ -12,31 +10,25 @@ import org.usfirst.frc.team4141.MDRobotBase.TankDriveInterpolator;
 import org.usfirst.frc.team4141.MDRobotBase.config.ConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_IMU;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.Sensor;
-// import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
-// import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
-// import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWM;
-// import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
-// import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class MDDriveSubsystem extends MDSubsystem {
-	public enum Type{
+
+	public enum Type {
 		TankDrive,
 		MecanumDrive
 	}
-	
 
-	public enum MotorPosition{
+	public enum MotorPosition {
 		left,
 		right,
 		secondRight,
@@ -46,12 +38,11 @@ public class MDDriveSubsystem extends MDSubsystem {
 		frontRight,
 		rearRight
 	}
-	public enum TalonPosition{
-		
+
+	public enum TalonPosition {
+
 	}
-	
-	// ------------------------------------------------ //
-	
+
 	private DifferentialDrive differentialDrive;
 	private MecanumDrive mecanumDrive;
 	private Type type;
@@ -63,36 +54,23 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private double governor = 1.0;
 	private double timeInS;
 	private MD_IMU imu;
-	// private double targetDistance; 
-	// private double distanceInFeet;
-	// private double encoderDistance; // <--- Placeholder
-	// private MDDriveSubsystem driveSystem;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
-	
-//	private double F=0.0;
-//	private double P=0.0;
-//	private double I=0.1;
-//	private double D=0.0;
-//	private double rpm=1.0;
 
-	
-	// ------------------------------------------------ //
-	
 	/**
-	 * The method is used to hold the parameters robot, name, and type.
+	 * The constructor creates an instance of MDDriveSubsystem and sets the robot, name, and type.
 	 *  
-	 * @param robot the default name used after the MDRobotBase in the constructor
-	 * @param name the default name used after the string in the constructor
-	 * @param type is used to determine the type of driveTrain
+	 * @param robot the MDRobotBase
+	 * @param name the default name
+	 * @param type the type of driveTrain
 	 */
 	public MDDriveSubsystem(MDRobotBase robot, String name, Type type) {
 		super(robot, name);
 		this.type = type;
 		debug("\n at the end of the MDDrive Sbsystem Constructor after creating drive");
 	}
-	
+
 	/**
-	 * This method is used to hold the parameters position and speedController.
+	 * This method is used to set the position and speedController.
 	 * Inside the method is a check to see if the speedController is a PWM or 
 	 * a CANTALON in which it will add a position and a speedController. And if it is not a 
 	 * PWM or a CANTALON it will return that the input is not a PWM.
@@ -101,8 +79,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 * @param speedController is used to set the motor to a speed controller
 	 * @return true if the PWM or a CANTALON found, else Input is not a PWM.
 	 */
-	public MDDriveSubsystem add(MotorPosition position,SpeedController speedController){
-		if(speedController instanceof PWM || speedController instanceof WPI_TalonSRX){
+	public MDDriveSubsystem add(MotorPosition position, SpeedController speedController) {
+		if (speedController instanceof PWM || speedController instanceof WPI_TalonSRX){
 //			((TalonSRX) speedController).configClosedloopRamp(timeInS, 10);
 //			((TalonSRX) speedController).configOpenloopRamp(timeInS, 10);
 			super.add(position.toString(),(SpeedController)speedController);
@@ -113,7 +91,6 @@ public class MDDriveSubsystem extends MDSubsystem {
 		}
 		return this;
 	}
-
 
 	public MDDriveSubsystem add(String name,Sensor sensor){
 		super.add(name,sensor);
@@ -421,7 +398,6 @@ public class MDDriveSubsystem extends MDSubsystem {
 	public void pivot(double power) {
 		switch(type){
 		case MecanumDrive:
-			//TODO fix
 //			double magnitude= calculateMagnitude(joystick.getRawAxis(0),joystick.getRawAxis(1));
 //			double direction = calculateDirection(-joystick.getRawAxis(0),-joystick.getRawAxis(1));
 //			double rotation = joystick.getRawAxis(1);
@@ -621,24 +597,14 @@ public class MDDriveSubsystem extends MDSubsystem {
 		differentialDrive.tankDrive(speeds[0], speeds[1]);
 	}
 	
-	public String toString(){
+	public String toString() {
 		String objectString;
 		objectString = super.toString();
 		objectString += "\n Drive Type =" + type;
-		if (differentialDrive != null)
+		if (differentialDrive != null) {
 			objectString += "\n Differential Drive: Name = " + differentialDrive.getName() + "; Descrip = " + differentialDrive.getDescription() + "; IsSafetyEnabled = " + differentialDrive.isSafetyEnabled();
+		}
 		return objectString;
 	}
 
-	/**
-	 * This method is still in the works.
-	 */
-	//TODO 
-	}
-
-	// boolean isOn = false; // Why is this here? What is this? It doesn't link to anything.;
-
-
-
-
-
+}
