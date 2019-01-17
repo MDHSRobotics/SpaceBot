@@ -17,7 +17,7 @@ import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
 
 /**
  * This system is the entire brain of the robot.
- * A brain takes to different parts of the body and tells it what to do (right?).
+ * A brain talks to different parts of the body and tells it what to do (right?).
  * We assign motors and what positions to different subsystems.
  * A robot is composed of subsystems.
  * A robot will typically have one (1) drive system and several other fit to purpose subsystems.
