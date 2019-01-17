@@ -38,8 +38,8 @@ public class Robot extends MDRobotBase {
 		// The name needs to be updated every year to keep track.
 		// The AutoCommand changes every year and is based off the competition and team agreement.
 		CoreSubsystem cSubSys = new CoreSubsystem(this, "core");
-		cSubSys.add("name",new StringConfigSetting("SpaceBot")); // <--- Name
-		cSubSys.add("autoCommand",new StringConfigSetting("AUTOCommand")); // <--- Default AutoCommand
+		cSubSys.add("name", new StringConfigSetting("SpaceBot")); // <--- Name
+		cSubSys.add("autoCommand", new StringConfigSetting("AUTOCommand")); // <--- Default AutoCommand
 		cSubSys.configure();
 		add(cSubSys);
 
