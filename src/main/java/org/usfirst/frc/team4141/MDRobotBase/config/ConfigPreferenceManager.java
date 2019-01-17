@@ -43,8 +43,7 @@ public class ConfigPreferenceManager {
 		System.out.println("updating setting "+robotSetting.getPath()+" from Preferences with "+JSONsetting);
 		if (JSONsetting == null) return;
 
-		@SuppressWarnings("rawtypes")
-		Map parsedSetting = JSON.parse(JSONsetting);
+		Map<?, ?> parsedSetting = JSON.parse(JSONsetting);
 		String key = "value";
 
 		if (parsedSetting.containsKey(key)) {
