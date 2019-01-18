@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class CargoSubsystem extends MDSubsystem {
 
 	private SpeedController cargoSpeedController;
-	public static String motor1 = "cargoSpeedController";
+	public static String motorName = "cargoSpeedController";
 	private double governor = 1.0;
 
 	/**
@@ -31,16 +31,16 @@ public class CargoSubsystem extends MDSubsystem {
 	public MDSubsystem configure() {
 		super.configure();
 
-		if (getMotors() == null || !getMotors().containsKey(motor1)) {
+		if (getMotors() == null || !getMotors().containsKey(motorName)) {
 			throw new IllegalArgumentException("Invalid motor configuration for cargo System.");
 		}
-		cargoSpeedController = (SpeedController)(getMotors().get(motor1));
+		cargoSpeedController = (SpeedController)(getMotors().get(motorName));
 
 		return this;
 	}
 
 	public void moveFromAxis(Joystick xbox) {
-		double axisValue = xbox.getRawAxis(6);
+		double axisValue = xbox.getRawAxis(1);
 		double moveSpeed = axisValue*governor;
 		cargoSpeedController.set(moveSpeed);
 	}

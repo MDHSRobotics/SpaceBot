@@ -7,6 +7,8 @@ import org.usfirst.frc.team4141.MDRobotBase.MDTalonSRX;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
 import org.usfirst.frc.team4141.robot.commands.AUTOMoveFromWall;
+import org.usfirst.frc.team4141.robot.commands.HatchCommand;
+import org.usfirst.frc.team4141.robot.commands.CargoCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.HatchSubsystem;
@@ -14,6 +16,9 @@ import org.usfirst.frc.team4141.robot.subsystems.CargoSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
+
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
  * This system is the entire brain of the robot.
@@ -23,6 +28,10 @@ import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
  * A robot will typically have one (1) drive system and several other fit to purpose subsystems.
  */
 public class Robot extends MDRobotBase {
+
+	public static String cargoSubsystemName = "cargoSubsystem";
+	public static String hatchSubsystemName = "hatchSubsystem";
+	public static String autoSubsystemName = "autoSubsystem";
 
 	// This runs as soon as we press enable teleop in Driver Station (the first thing it does essentially.)
 	public void teleopInit() {
@@ -80,28 +89,39 @@ public class Robot extends MDRobotBase {
 		 ************************************************************************************
 		 */
 
-		AutonomousSubsystem autoSubSys = new AutonomousSubsystem(this, "autoSubsystem");
+		AutonomousSubsystem autoSubSys = new AutonomousSubsystem(this, autoSubsystemName);
 		autoSubSys.add("delayStartTime", new DoubleConfigSetting(0.0, 15.0, 0.0));
 		autoSubSys.configure();
 		add(autoSubSys);
 
-		HatchSubsystem hatchSubSys = new HatchSubsystem(this, "hatchSubsystem");
-		hatchSubSys.add(HatchSubsystem.motor1, new MDTalonSRX(5));
+		HatchSubsystem hatchSubSys = new HatchSubsystem(this, hatchSubsystemName);
+		hatchSubSys.add(HatchSubsystem.motorName, new MDTalonSRX(5));
 		hatchSubSys.add("moveSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0));
 		hatchSubSys.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
 		hatchSubSys.configure();
 		add(hatchSubSys);
 
-		CargoSubsystem cargoSubSys = new CargoSubsystem(this, "cargoSubsystem");
-		cargoSubSys.add(CargoSubsystem.motor1, new MDTalonSRX(6));
+		CargoSubsystem cargoSubSys = new CargoSubsystem(this, cargoSubsystemName);
+		cargoSubSys.add(CargoSubsystem.motorName, new MDTalonSRX(6));
 		cargoSubSys.add("moveSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0));
 		cargoSubSys.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
 		cargoSubSys.configure();
 		add(cargoSubSys);
 
+		initSmartDashboard();
+
 		debug("\n\n\nDone configuring the Robot.");
 		debug("Printing the state of the Robot...");
 		debug(this.toString());
+
+	}
+
+	private void initSmartDashboard(){
+		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putData(getSubsystem(cargoSubsystemName));
+		SmartDashboard.putData(getSubsystem(hatchSubsystemName));
+		SmartDashboard.putData(new HatchCommand(this));
+		SmartDashboard.putData(new CargoCommand(this));
 	}
 
 	public void autonomousInit() {
