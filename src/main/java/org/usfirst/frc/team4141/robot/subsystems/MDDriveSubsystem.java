@@ -297,10 +297,11 @@ public class MDDriveSubsystem extends MDSubsystem {
 	public void arcadeDrive(Joystick joystick) {
 		switch(type){
 		case MecanumDrive:
-			double magnitude= calculateMagnitude(joystick.getRawAxis(0),joystick.getRawAxis(1));
-			double direction = calculateDirection(-joystick.getRawAxis(0),-joystick.getRawAxis(1));
-			double rotation = joystick.getRawAxis(1);
-			mecanumDrive.drivePolar(magnitude, direction, rotation);
+			// double magnitude= calculateMagnitude(joystick.getRawAxis(0),joystick.getRawAxis(1));
+			// double direction = calculateDirection(-joystick.getRawAxis(0),-joystick.getRawAxis(1));
+			// double rotation = joystick.getRawAxis(1);
+			mecanumDrive.driveCartesian(-joystick.getX(), -joystick.getY(),
+			joystick.getZ(), 0.0);
 			break;
 		default:
 		 // double rightTriggerValue = joystick.getRawAxis(3);
