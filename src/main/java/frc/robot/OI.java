@@ -38,7 +38,7 @@ public class OI {
     // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position
     public static CartesianMovement getCartesianMovementFromJoystick(Boolean isFlipped) {
         double xSpeed = Devices.jstick.getX();
-        double ySpeed = Devices.jstick.getY();
+        double ySpeed = -Devices.jstick.getY();
         double zRotation = Devices.jstick.getZ();
         double gyroAngle = 0.0;
 
@@ -50,7 +50,7 @@ public class OI {
         move.xSpeed = xSpeed;
         move.ySpeed = ySpeed;
         move.zRotation = zRotation;
-        move.zRotation = gyroAngle;
+        move.gyroAngle = gyroAngle;
 
         return move;
     }
