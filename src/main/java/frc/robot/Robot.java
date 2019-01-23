@@ -16,6 +16,7 @@ import frc.robot.commands.AutoDriveDistance;
 import frc.robot.commands.AutoDriveTurn;
 import frc.robot.commands.IdleDrive;
 import frc.robot.helpers.Logger;
+import frc.robot.subsystems.Baller;
 import frc.robot.subsystems.Hatcher;
 import frc.robot.subsystems.MecDriver;
 
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
 
     public static MecDriver robotMecDriver;
     public static Hatcher robotHatcher;
+    public static Baller robotBaller;
     public static OI robotOI;
 
     private SendableChooser<Command> m_autoModeChooser;
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
         // Instantiate subsystem singletons
         robotMecDriver = new MecDriver();
         robotHatcher = new Hatcher();
+        robotBaller = new Baller();
         // Always instantiate the OI singleton last
         robotOI = new OI();
 
