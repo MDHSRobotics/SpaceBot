@@ -30,6 +30,7 @@ public class Devices {
     public static WPI_TalonSRX talonSrxWheelFrontLeft = new WPI_TalonSRX(2);
     public static WPI_TalonSRX talonSrxWheelRearRight = new WPI_TalonSRX(3);
     public static WPI_TalonSRX talonSrxWheelRearLeft = new WPI_TalonSRX(4);
+    public static WPI_TalonSRX talonSrxHatch = new WPI_TalonSRX(5);
 
     // Drive singletons
     public static MecanumDrive mecDrive = new MecanumDrive(talonSrxWheelFrontLeft, talonSrxWheelRearLeft, talonSrxWheelFrontRight, talonSrxWheelRearRight);
