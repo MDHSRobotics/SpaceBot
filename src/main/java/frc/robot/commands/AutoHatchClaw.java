@@ -16,7 +16,7 @@ public class AutoHatchClaw extends Command {
     public AutoHatchClaw() {
 
          // Declare subsystem dependencies
-         requires(Robot.robotMecDriver);
+         requires(Robot.robotHatcher);
 
     }
 
