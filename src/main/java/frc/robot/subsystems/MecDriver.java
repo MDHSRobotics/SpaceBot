@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.JoystickDriveCartesian;
 import frc.robot.commands.JoystickDrivePolar;
 import frc.robot.helpers.Logger;
 // Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
@@ -38,7 +39,7 @@ public class MecDriver extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing MecDriver default command -> JoystickDrivePolar...");
 
-        JoystickDrivePolar defaultCmd = new JoystickDrivePolar();
+        JoystickDriveCartesian defaultCmd = new JoystickDriveCartesian();
         setDefaultCommand(defaultCmd);
     }
 
