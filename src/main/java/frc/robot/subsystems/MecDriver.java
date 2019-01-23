@@ -13,7 +13,7 @@ import frc.robot.helpers.Logger;
 // Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
 import frc.robot.Devices;
 
-// Mecanum Driver Subsystem
+// Mecanum driver subsystem
 public class MecDriver extends Subsystem {
 
     public boolean isFlipped = false;

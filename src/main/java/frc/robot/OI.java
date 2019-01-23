@@ -66,6 +66,7 @@ public class OI {
     // Determines the polar movement (magnitude, angle, rotation) from the current joystick position
     public static PolarMovement getPolarMovementFromJoystick(Boolean isFlipped) {
         // Queston: Why are we not just calling getX() and getY()?
+        // This apparently doesn't actually work.
         double rawAxis0 = Devices.jstick.getRawAxis(0);
         double rawAxis1 = Devices.jstick.getRawAxis(1);
 

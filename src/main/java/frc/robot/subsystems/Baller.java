@@ -9,23 +9,26 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.IdleBaller;
-import frc.robot.Devices;
 import frc.robot.helpers.Logger;
+// Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
+import frc.robot.Devices;
 
-
+// Cargo ball subsystem
 public class Baller extends Subsystem {
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
 
-    public Baller(){
+    public Baller() {
         Logger.debug("Constructing Baller...");
+
         Devices.talonSrxBaller.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
         Logger.debug("Initializing Baller default command...");
+
         IdleBaller defaultCmd = new IdleBaller();
         setDefaultCommand(defaultCmd);
     }
@@ -35,7 +38,9 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.stopMotor();
     }
 
+    // Opens or closes the Baller gate based on speed
     public void gate(double speed) {
         Devices.talonSrxBaller.set(speed);
     }
+
 }

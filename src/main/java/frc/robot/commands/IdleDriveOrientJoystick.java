@@ -12,6 +12,7 @@ import frc.robot.helpers.Logger;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
+// This command idles the drive, and flips the joystick Y orientation
 public class IdleDriveOrientJoystick extends Command {
 
     // Constructor
@@ -58,4 +59,5 @@ public class IdleDriveOrientJoystick extends Command {
 
         Robot.robotMecDriver.stop();
     }
+
 }

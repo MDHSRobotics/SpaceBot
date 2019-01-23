@@ -9,10 +9,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
+// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
 public class AutoBallerGate extends Command {
+
     public AutoBallerGate() {
+        Logger.debug("Constructing AutoBallerGate...");
+
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
     }
@@ -20,17 +24,22 @@ public class AutoBallerGate extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        Logger.debug("Initializing AutoBallerGate...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        // TODO: add a constructor to take a speed
+
         Robot.robotBaller.gate(.3);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
+        // TODO: need a limit switch to determine when this is done
+
         return true;
     }
 
@@ -38,6 +47,7 @@ public class AutoBallerGate extends Command {
     @Override
     protected void end() {
         Logger.debug("Ending AutoBallerGate...");
+
         Robot.robotBaller.stop();
     }
 
@@ -46,6 +56,8 @@ public class AutoBallerGate extends Command {
     @Override
     protected void interrupted() {
         Logger.debug("Interrupted AutoBallerGate...");
+
         Robot.robotBaller.stop();
     }
+
 }

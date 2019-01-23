@@ -8,10 +8,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.Devices;
 import frc.robot.commands.IdleHatch;
 import frc.robot.helpers.Logger;
+// Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
+import frc.robot.Devices;
 
+// Hatch subsystem
 public class Hatcher extends Subsystem {
 
     private double m_secondsFromNeutralToFull = 1.0;
@@ -19,12 +21,14 @@ public class Hatcher extends Subsystem {
 
     public Hatcher() {
         Logger.debug("Constructing Hatcher...");
+
         Devices.talonSrxHatch.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
         Logger.debug("Initializing Hatcher default command...");
+
         IdleHatch defaultCmd = new IdleHatch();
         setDefaultCommand(defaultCmd);
     }
@@ -34,8 +38,9 @@ public class Hatcher extends Subsystem {
         Devices.talonSrxHatch.stopMotor();
     }
 
-    //moves the hatch in a + or - direction based on speed
+    // Opens or closes the Hatcher claw based on speed
     public void claw(double speed) {
         Devices.talonSrxHatch.set(speed);
     }
+
 }

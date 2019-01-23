@@ -9,24 +9,28 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
+// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
+// This command opens or closes the Hatch claw
 public class AutoHatchClaw extends Command {
 
     public AutoHatchClaw() {
+        Logger.debug("Constructing AutoBallerGate...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
-
     }
 
     @Override
     protected void initialize() {
+        Logger.debug("Constructing AutoBallerGate...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        // TODO: add a constructor to take a speed
 
         Robot.robotHatcher.claw(.3);
     }
@@ -34,6 +38,8 @@ public class AutoHatchClaw extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
+        // TODO: need a limit switch to determine when this is done
+
         return true;
     }
 
@@ -41,6 +47,7 @@ public class AutoHatchClaw extends Command {
     @Override
     protected void end() {
         Logger.debug("Ending AutoHatchClaw...");
+
         Robot.robotHatcher.stop();
     }
 
@@ -49,6 +56,8 @@ public class AutoHatchClaw extends Command {
     @Override
     protected void interrupted() {
         Logger.debug("Interrupted AutoHatchClaw...");
+
         Robot.robotHatcher.stop();
     }
+
 }

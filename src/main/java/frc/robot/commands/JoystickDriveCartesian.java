@@ -8,8 +8,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.helpers.Logger;
 import frc.robot.helpers.CartesianMovement;
+import frc.robot.helpers.Logger;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -56,4 +56,5 @@ public class JoystickDriveCartesian extends Command {
     protected void interrupted() {
         Logger.debug("Interrupting JoystickDriveCartesian...");
     }
+
 }
