@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.JoystickDriveCartesian;
-import frc.robot.commands.JoystickDrivePolar;
 import frc.robot.helpers.Logger;
 // Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
 import frc.robot.Devices;
