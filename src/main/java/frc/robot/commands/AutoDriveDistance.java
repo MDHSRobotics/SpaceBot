@@ -82,7 +82,7 @@ public class AutoDriveDistance extends Command {
         if (!m_movingForward) {
             power = -power;
         }
-        Robot.robotMecDriver.driveForward(power);
+        Robot.robotMecDriver.driveStraight(power);
 
         // Return number of seconds since the timer was started
         m_elapsedTime = m_timer.get();

@@ -68,7 +68,7 @@ public class OI {
         // Queston: Why are we not just calling getX() and getY()?
         // This apparently doesn't actually work.
         double rawAxis0 = Devices.jstick.getRawAxis(0);
-        double rawAxis1 = Devices.jstick.getRawAxis(1);
+        double rawAxis1 = -Devices.jstick.getRawAxis(1);
 
         if (isFlipped) {
             rawAxis1 = -rawAxis1;

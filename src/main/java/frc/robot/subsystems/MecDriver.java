@@ -68,15 +68,19 @@ public class MecDriver extends Subsystem {
         speed = 0;
     }
 
-    // Drive forward at the given speed
-    public void driveForward(double speed) {
-        Devices.mecDrive.drivePolar(speed, 0, 0);
+    // Drive straight at the given speed
+    public void driveStraight(double speed) {
+        Devices.mecDrive.driveCartesian(speed, 0, 0);
     }
 
-    // Drive forward at the given speed
+    // Pivot at the given speed
     public void pivot(double speed) {
-        // TODO: implement this.
-        throw new RuntimeException("Not yet implemented!");
+        Devices.mecDrive.driveCartesian(0, speed, 0);
+    }
+
+    // Strafe at the given speed
+    public void strafe(double speed) {
+        Devices.mecDrive.driveCartesian(0, 0, speed);
     }
 
     // Drive using the cartesian method
