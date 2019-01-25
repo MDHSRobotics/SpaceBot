@@ -48,6 +48,7 @@ public class JoystickDriveCartesian extends Command {
     @Override
     protected void end() {
         Logger.debug("Ending JoystickDriveCartesian...");
+        Robot.robotMecDriver.stop();
     }
 
     // Called when another command which requires one or more of the same
@@ -55,6 +56,7 @@ public class JoystickDriveCartesian extends Command {
     @Override
     protected void interrupted() {
         Logger.debug("Interrupting JoystickDriveCartesian...");
+        Robot.robotMecDriver.stop();
     }
 
 }
