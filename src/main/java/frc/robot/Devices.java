@@ -34,6 +34,11 @@ public class Devices {
     public static WPI_TalonSRX talonSrxWheelRearLeft = new WPI_TalonSRX(4);
     public static WPI_TalonSRX talonSrxHatch = new WPI_TalonSRX(5);
     public static WPI_TalonSRX talonSrxBaller = new WPI_TalonSRX(6);
+    public static WPI_TalonSRX talonSrxClimbFoot = new WPI_TalonSRX(7); //4 motors attached 
+    public static WPI_TalonSRX talonSrxClimbTank = new WPI_TalonSRX(8); //1 motor attached
+    public static WPI_TalonSRX talonSrxClimbArm = new WPI_TalonSRX(9);  //1 motor attached 
+                                                                        //1 talonsrx for each micro-subsystem
+
 
     // Drive singletons
     public static MecanumDrive mecDrive = new MecanumDrive(talonSrxWheelFrontLeft, talonSrxWheelRearLeft, talonSrxWheelFrontRight, talonSrxWheelRearRight);
