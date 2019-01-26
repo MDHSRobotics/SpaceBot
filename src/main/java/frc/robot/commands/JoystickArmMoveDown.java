@@ -12,26 +12,26 @@ import frc.robot.helpers.Logger;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-//This command idles the Arm motor
-public class IdleArm extends Command {
 
-  public IdleArm() {
-      Logger.debug("Constucting IdleArm...");
+// This command uses 1 button to move the arm down
+public class JoystickArmMoveDown extends Command {
+  public JoystickArmMoveDown() {
+    Logger.debug("Constructing JoystickArmMoveDown...");
 
-      //Declare subsysted dependencies
-      requires(Robot.robotArm);
+    // Declare subsystem dependencies
+    requires(Robot.robotArm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-      Logger.debug("Initializing IdleArm...");
+    Logger.debug("Initializing JoystickArmMoveDown...");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      Robot.robotArm.stop();
+      Robot.robotArm.arms(0.3);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -43,8 +43,7 @@ public class IdleArm extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-      Logger.debug("Ending IdleArm...");
-
+      Logger.debug("Ending JoystickArmMoveDown...");
       Robot.robotArm.stop();
   }
 
@@ -52,8 +51,7 @@ public class IdleArm extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-      Logger.debug("Interrupting IdleArm...");
-
+      Logger.debug("Interrupting JoystickArmMoveDown...");
       Robot.robotArm.stop();
   }
 }

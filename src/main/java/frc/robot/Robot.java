@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
         Logger.debug("Initializing Robot...");
 
         // Instantiate subsystem singletons
+        robotArm = new Arm();
         robotMecDriver = new MecDriver();
         robotHatcher = new Hatcher();
         robotBaller = new Baller();

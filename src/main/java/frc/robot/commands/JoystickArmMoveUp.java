@@ -12,9 +12,11 @@ import frc.robot.helpers.Logger;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-public class JoystickArmMove extends Command {
-  public JoystickArmMove() {
-    Logger.debug("Constructing JoystickArmMove...");
+
+// This command uses 1 button to move the arm up
+public class JoystickArmMoveUp extends Command {
+  public JoystickArmMoveUp() {
+    Logger.debug("Constructing JoystickArmMoveUp...");
 
     // Declare subsystem dependencies
     requires(Robot.robotArm);
@@ -23,13 +25,13 @@ public class JoystickArmMove extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Logger.debug("Initializing JoystickArmMove...");
+    Logger.debug("Initializing JoystickArmMoveDown...");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      Robot.robotArm.arms(.3);
+    Robot.robotArm.arms(.3);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -41,11 +43,15 @@ public class JoystickArmMove extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Logger.debug("Ending JoystickArmMoveUp...");
+    Robot.robotArm.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Logger.debug("Interrupting JoystickArmMoveUp...");
+    Robot.robotArm.stop();
   }
 }
