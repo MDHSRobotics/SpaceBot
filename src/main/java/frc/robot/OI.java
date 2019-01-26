@@ -12,6 +12,8 @@ import frc.robot.commands.AutoDriveDistance;
 import frc.robot.commands.AutoDriveTurn;
 import frc.robot.commands.AutoHatchClaw;
 import frc.robot.commands.IdleDriveOrientJoystick;
+import frc.robot.commands.JoystickArmMoveDown;
+import frc.robot.commands.JoystickArmMoveUp;
 import frc.robot.helpers.Logger;
 import frc.robot.helpers.CartesianMovement;
 import frc.robot.helpers.PolarMovement;
@@ -41,6 +43,12 @@ public class OI {
 
         AutoBallerGate autoBallerGateCmd = new AutoBallerGate();
         Devices.jstickBtn10.whenPressed(autoBallerGateCmd);
+
+        JoystickArmMoveDown joystickArmMoveDownCmd = new JoystickArmMoveDown();
+        Devices.jstickBtn11.whenPressed(joystickArmMoveDownCmd);
+
+        JoystickArmMoveUp joystickArmMoveUpCmd = new JoystickArmMoveUp();
+        Devices.jstickBtn12.whenPressed(joystickArmMoveUpCmd);
     }
 
     // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position

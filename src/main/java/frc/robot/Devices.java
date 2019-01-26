@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 // This class contains singleton human interface devices, robot components, and mappings
 public class Devices {
@@ -23,7 +24,9 @@ public class Devices {
     public static JoystickButton jstickBtn7 = new JoystickButton(jstick, 7);
     public static JoystickButton jstickBtn9 = new JoystickButton(jstick, 9);
     public static JoystickButton jstickBtn10 = new JoystickButton(jstick, 10);
-
+    public static JoystickButton jstickBtn11 = new JoystickButton(jstick, 11);
+    public static JoystickButton jstickBtn12 = new JoystickButton(jstick, 12);
+    
     // Xbox Controller singletons
     public static XboxController xbox = new XboxController(1);
 
@@ -38,6 +41,10 @@ public class Devices {
     public static WPI_TalonSRX talonSrxClimbTank = new WPI_TalonSRX(8); //1 motor attached
     public static WPI_TalonSRX talonSrxClimbArm = new WPI_TalonSRX(9);  //1 motor attached 
                                                                         //1 talonsrx for each micro-subsystem
+                                                                
+    // public static DigitalInput limitSwitchArmUp = new DigitalInput(1);
+    // public static DigitalInput limitSwitchArmDown = new DigitalInput(2);
+    
 
 
     // Drive singletons
