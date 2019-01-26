@@ -9,36 +9,32 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
-import frc.robot.helpers.PolarMovement;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
-import frc.robot.OI;
 import frc.robot.Robot;
 
-// This command uses the joystick input to drive using the polar method
-public class JoystickEncoderMovement extends Command {
+// This command idles the Baller motor
+public class IdleEncoderDrive extends Command {
 
-    // Constructor
-    public JoystickEncoderMovement() {
-        Logger.debug("Constructing JoystickDrivePolar...");
+    public IdleEncoderDrive() {
+        Logger.debug("Constructing IdleEncoderDrive...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotMecDriver);
+        requires(Robot.robotEncoderDrive);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing JoystickDrivePolar...");
+        Logger.debug("Initializing IdleEncoderDrive...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        PolarMovement move = OI.
-        Robot.robotMecDriver.drivePolar(move.magnitude, move.angle, move.rotation);
+        Robot.robotEncoderDrive.stop();
     }
 
-    // This command isn't finished until it is interrupted
+    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return false;
@@ -47,18 +43,18 @@ public class JoystickEncoderMovement extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending JoystickDrivePolar...");
+        Logger.debug("Ending IdleEncoderDrive...");
 
-        Robot.robotMecDriver.stop();
+        Robot.robotEncoderDrive.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting JoystickDrivePolar...");
+        Logger.debug("Interrupting IdleEncoderDrive...");
 
-        Robot.robotMecDriver.stop();
+        Robot.robotEncoderDrive.stop();
     }
 
 }

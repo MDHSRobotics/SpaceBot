@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
 
     public static Hatcher robotHatcher;
     public static Baller robotBaller;
+    public static EncoderDrive robotEncoderDrive;
 
     public static Arm robotArm;
     public static Tank robotTank;
@@ -83,6 +84,7 @@ public class Robot extends TimedRobot {
 
         robotHatcher = new Hatcher();
         robotBaller = new Baller();
+        robotEncoderDrive = new EncoderDrive();
 
         robotArm = new Arm();
         robotTank = new Tank();
