@@ -18,6 +18,7 @@ public class Baller extends Subsystem {
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
+    private double m_speed = 0.2; 
 
     public Baller() {
         Logger.debug("Constructing Baller...");
@@ -39,8 +40,30 @@ public class Baller extends Subsystem {
     }
 
     // Opens or closes the Baller gate based on speed
-    public void gate(double speed) {
-        Devices.talonSrxBaller.set(speed);
-    }
+    public void deploy() {
+       
+        Devices.talonSrxBaller.set(m_speed);
+   
+}
+
+    public void block(){
+        Devices.talonSrxBaller.set(-m_speed);    
+}
+
+    public boolean isDeployed(){
+
+    boolean hitLimit = Devices.limitSwitchBallDown.get();
+    if(hitLimit) Logger.debug("LimitSwitch Pressed");
+    return hitLimit;
+
+}
+
+public boolean isBlocked(){
+
+    boolean hitLimit = Devices.limitSwitchBallUp.get();
+    return hitLimit;
+
+}
+
 
 }

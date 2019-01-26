@@ -12,9 +12,9 @@ import frc.robot.helpers.Logger;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-public class AutoBallerGate extends Command {
+public class AutoBallerBlock extends Command {
 
-    public AutoBallerGate() {
+    public AutoBallerBlock() {
         Logger.debug("Constructing AutoBallerGate...");
 
         // Declare subsystem dependencies
@@ -30,17 +30,14 @@ public class AutoBallerGate extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        // TODO: add a constructor to take a speed
-
-        Robot.robotBaller.gate(.3);
+        Robot.robotBaller.block();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        // TODO: need a limit switch to determine when this is done
-
-        return true;
+        boolean isBlocked = Robot.robotBaller.isBlocked();
+        return isBlocked;
     }
 
     // Called once after isFinished returns true

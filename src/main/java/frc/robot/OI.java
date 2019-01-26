@@ -7,7 +7,8 @@
 
 package frc.robot;
 
-import frc.robot.commands.AutoBallerGate;
+import frc.robot.commands.AutoBallerDeploy;
+import frc.robot.commands.AutoBallerBlock;
 import frc.robot.commands.AutoDriveDistance;
 import frc.robot.commands.AutoDriveTurn;
 import frc.robot.commands.AutoHatchGrab;
@@ -41,7 +42,7 @@ public class OI {
         AutoHatchGrab autoHatchClawCmd = new AutoHatchGrab();
         Devices.jstickBtn9.whenPressed(autoHatchClawCmd);
 
-        AutoBallerGate autoBallerGateCmd = new AutoBallerGate();
+        AutoBallerDeploy autoBallerGateCmd = new AutoBallerDeploy();
         Devices.jstickBtn10.whenPressed(autoBallerGateCmd);
 
         JoystickArmMoveDown joystickArmMoveDownCmd = new JoystickArmMoveDown();
