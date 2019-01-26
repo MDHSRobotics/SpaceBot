@@ -16,6 +16,7 @@ import frc.robot.commands.AutoDriveDistance;
 import frc.robot.commands.AutoDriveTurn;
 import frc.robot.commands.IdleDrive;
 import frc.robot.helpers.Logger;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Baller;
 import frc.robot.subsystems.Hatcher;
 import frc.robot.subsystems.MecDriver;
@@ -30,6 +31,7 @@ import frc.robot.subsystems.MecDriver;
  */
 public class Robot extends TimedRobot {
 
+    public static Arm robotArm;
     public static MecDriver robotMecDriver;
     public static Hatcher robotHatcher;
     public static Baller robotBaller;
