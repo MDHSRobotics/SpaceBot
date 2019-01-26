@@ -12,52 +12,51 @@ import frc.robot.helpers.Logger;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-public class AutoBallerGate extends Command {
+// This command opens or closes the Hatch claw
+public class AutoHatchGrab extends Command {
 
-    public AutoBallerGate() {
+    public AutoHatchGrab() {
         Logger.debug("Constructing AutoBallerGate...");
 
-        // Declare subsystem dependencies
-        requires(Robot.robotBaller);
+         // Declare subsystem dependencies
+         requires(Robot.robotHatcher);
     }
 
-    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoBallerGate...");
+        Logger.debug("Constructing AutoBallerGate...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        // TODO: add a constructor to take a speed
 
-        Robot.robotBaller.gate(.3);
+        Robot.robotHatcher.grab();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        // TODO: need a limit switch to determine when this is done
-
-        return true;
+        boolean isGrabbed = Robot.robotHatcher.isGrabbed();
+        return isGrabbed;
     }
+
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoBallerGate...");
+        Logger.debug("Ending AutoHatchClaw...");
 
-        Robot.robotBaller.stop();
+        Robot.robotHatcher.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoBallerGate...");
+        Logger.debug("Interrupted AutoHatchClaw...");
 
-        Robot.robotBaller.stop();
+        Robot.robotHatcher.stop();
     }
 
 }

@@ -30,12 +30,12 @@ public class Devices {
     // Xbox Controller singletons
     public static XboxController xbox = new XboxController(1);
 
-    // Speed Controller singletons
+    //Speed Controller singletons
     public static WPI_TalonSRX talonSrxWheelFrontRight = new WPI_TalonSRX(1);
     public static WPI_TalonSRX talonSrxWheelFrontLeft = new WPI_TalonSRX(2);
-    public static WPI_TalonSRX talonSrxWheelRearRight = new WPI_TalonSRX(3);
+    public static WPI_TalonSRX talonSrxWheelRearRight = new WPI_TalonSRX(3); /*****/
     public static WPI_TalonSRX talonSrxWheelRearLeft = new WPI_TalonSRX(4);
-    public static WPI_TalonSRX talonSrxHatch = new WPI_TalonSRX(5);
+    public static WPI_TalonSRX talonSrxHatch = new WPI_TalonSRX(5); /*****/
     public static WPI_TalonSRX talonSrxBaller = new WPI_TalonSRX(6);
     public static WPI_TalonSRX talonSrxClimbFoot = new WPI_TalonSRX(7); //4 motors attached 
     public static WPI_TalonSRX talonSrxClimbTank = new WPI_TalonSRX(8); //1 motor attached
@@ -45,8 +45,15 @@ public class Devices {
     // public static DigitalInput limitSwitchArmUp = new DigitalInput(1);
     // public static DigitalInput limitSwitchArmDown = new DigitalInput(2);
     
+    public static DigitalInput  limitSwitchHatchOpen  = new DigitalInput(1);
+    public static DigitalInput  limitSwitchHatchClose = new DigitalInput(2);
+    public static DigitalInput  limitSwitchBallUp = new DigitalInput(3);
+    public static DigitalInput  limitSwitchBallDown = new DigitalInput(4);
 
 
-    // Drive singletons
-    public static MecanumDrive mecDrive = new MecanumDrive(talonSrxWheelFrontLeft, talonSrxWheelRearLeft, talonSrxWheelFrontRight, talonSrxWheelRearRight);
+
+
+
+    //Drive singletons
+   public static MecanumDrive mecDrive = new MecanumDrive(talonSrxWheelFrontLeft, talonSrxWheelRearLeft, talonSrxWheelFrontRight, talonSrxWheelRearRight);
 }
