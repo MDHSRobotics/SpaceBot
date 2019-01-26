@@ -13,9 +13,9 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 // This command opens or closes the Hatch claw
-public class AutoHatchClaw extends Command {
+public class AutoHatchRelease extends Command {
 
-    public AutoHatchClaw() {
+    public AutoHatchRelease() {
         Logger.debug("Constructing AutoBallerGate...");
 
          // Declare subsystem dependencies
@@ -30,18 +30,17 @@ public class AutoHatchClaw extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        // TODO: add a constructor to take a speed
 
-        Robot.robotHatcher.claw(.3);
+        Robot.robotHatcher.release();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        // TODO: need a limit switch to determine when this is done
-
-        return true;
+        boolean isReleased = Robot.robotHatcher.isReleased();
+        return isReleased;
     }
+
 
     // Called once after isFinished returns true
     @Override

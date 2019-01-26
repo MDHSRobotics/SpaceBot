@@ -10,7 +10,7 @@ package frc.robot;
 import frc.robot.commands.AutoBallerGate;
 import frc.robot.commands.AutoDriveDistance;
 import frc.robot.commands.AutoDriveTurn;
-import frc.robot.commands.AutoHatchClaw;
+import frc.robot.commands.AutoHatchGrab;
 import frc.robot.commands.IdleDriveOrientJoystick;
 import frc.robot.commands.JoystickArmMoveDown;
 import frc.robot.commands.JoystickArmMoveUp;
@@ -38,7 +38,7 @@ public class OI {
         AutoDriveTurn autoDriveTurnCmd = new AutoDriveTurn();
         Devices.jstickBtn7.whenPressed(autoDriveTurnCmd);
 
-        AutoHatchClaw autoHatchClawCmd = new AutoHatchClaw();
+        AutoHatchGrab autoHatchClawCmd = new AutoHatchGrab();
         Devices.jstickBtn9.whenPressed(autoHatchClawCmd);
 
         AutoBallerGate autoBallerGateCmd = new AutoBallerGate();
