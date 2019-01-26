@@ -20,6 +20,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Baller;
 import frc.robot.subsystems.Hatcher;
 import frc.robot.subsystems.MecDriver;
+import frc.robot.vision.LineDetector;
 
 
 /**
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
     public static MecDriver robotMecDriver;
     public static Hatcher robotHatcher;
     public static Baller robotBaller;
+    public static LineDetector robotLineDetector;
     public static OI robotOI;
 
     private SendableChooser<Command> m_autoModeChooser;
@@ -53,6 +55,7 @@ public class Robot extends TimedRobot {
         robotMecDriver = new MecDriver();
         robotHatcher = new Hatcher();
         robotBaller = new Baller();
+        robotLineDetector = new LineDetector();
         // Always instantiate the OI singleton last
         robotOI = new OI();
 
