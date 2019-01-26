@@ -8,7 +8,7 @@
 package frc.robot.helpers;
 
 /**
- * The values needed to drive using the cartesian method.
+ * The values needed to drive using cartesian coordinates.
  */
 public class CartesianMovement {
 
