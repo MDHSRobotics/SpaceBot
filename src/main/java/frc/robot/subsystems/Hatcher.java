@@ -50,12 +50,12 @@ public class Hatcher extends Subsystem {
 
     // TODO: Need to change these to use encoders
     public boolean isGrabbed() {
-        boolean hitLimit = Devices.limitSwitchHatchOpen.get();
+        boolean hitLimit = Devices.limitSwitchHatchGrabbed.get();
         return hitLimit;
     }
 
     public boolean isReleased() {
-        boolean hitLimit = Devices.limitSwitchHatchClose.get();
+        boolean hitLimit = Devices.limitSwitchHatchReleased.get();
         return hitLimit;
     }
 
