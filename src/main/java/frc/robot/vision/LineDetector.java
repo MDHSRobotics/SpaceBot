@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
-import frc.robot.vision.LinePipeline;
-
 
 public class LineDetector {
 

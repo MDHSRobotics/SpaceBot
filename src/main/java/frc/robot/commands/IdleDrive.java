@@ -9,8 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
+
 
 // This command idles the drive
 public class IdleDrive extends Command {
@@ -34,7 +34,7 @@ public class IdleDrive extends Command {
         Robot.robotMecDriver.stop();
     }
 
-    // This command isn't finished until it is interrupted
+    // This command continues to run until it is interrupted
     @Override
     protected boolean isFinished() {
         return false;

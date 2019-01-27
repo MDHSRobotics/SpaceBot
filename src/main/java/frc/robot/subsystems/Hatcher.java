@@ -8,11 +8,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.IdleHatch;
+
+import frc.robot.commands.IdleHatcher;
 import frc.robot.helpers.Logger;
-// Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
 import frc.robot.Devices;
-import com.ctre.phoenix.motorcontrol.*;
+
 
 // Hatch subsystem
 public class Hatcher extends Subsystem {
@@ -25,16 +25,13 @@ public class Hatcher extends Subsystem {
         Logger.debug("Constructing Hatcher...");
 
         Devices.talonSrxHatch.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        // Devices.talonSrxHatch.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 30);
-        // Devices.talonSrxHatch.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 30);
     }
 
     @Override
     public void initDefaultCommand() {
         Logger.debug("Initializing Hatcher default command...");
 
-        IdleHatch defaultCmd = new IdleHatch();
-        setDefaultCommand(defaultCmd);
+        setDefaultCommand(new IdleHatcher());
     }
 
     // Stop all the drive motors
@@ -44,32 +41,22 @@ public class Hatcher extends Subsystem {
 
     // Opens or closes the Hatcher claw based on speed
     public void grab() {
-       
-            Devices.talonSrxHatch.set(m_speed);
-       
+        Devices.talonSrxHatch.set(m_speed);
     }
 
-    public void release(){
-        
-            Devices.talonSrxHatch.set(-m_speed);
-
-        
+    public void release() {
+        Devices.talonSrxHatch.set(-m_speed);
     }
 
-    public boolean isGrabbed(){
-
+    // TODO: Need to change these to use encoders
+    public boolean isGrabbed() {
         boolean hitLimit = Devices.limitSwitchHatchOpen.get();
         return hitLimit;
-
     }
 
-    public boolean isReleased(){
-
+    public boolean isReleased() {
         boolean hitLimit = Devices.limitSwitchHatchClose.get();
         return hitLimit;
-
     }
-
-
 
 }

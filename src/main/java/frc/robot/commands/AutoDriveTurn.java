@@ -9,9 +9,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
+
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
+
 
 public class AutoDriveTurn extends Command {
 
@@ -50,14 +51,19 @@ public class AutoDriveTurn extends Command {
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
 
-		m_turningRight = (targetAngle > 0); // Use sign of targetAngle to determine whether turning right or left
+        // Use sign of targetAngle to determine whether turning right or left
+		m_turningRight = (targetAngle > 0);
 		m_targetAngle = targetAngle;
 		m_power = power;
 		m_currentAngle = 0;
 		m_elapsedTime = 0;
-		m_timer = new Timer();
-		m_angularVelocity = m_power * angularVelocityAtFullPower; // Scale velocity at full power by the current power (which is between 0 and 1.0)
-		if (!m_turningRight) m_angularVelocity *= (-1.0); // Negate angular velocity if turning to the left (i.e. negative angle)
+        m_timer = new Timer();
+        // Scale velocity at full power by the current power (which is between 0 and 1.0)
+		m_angularVelocity = m_power * angularVelocityAtFullPower;
+		if (!m_turningRight) {
+            // Negate angular velocity if turning to the left (i.e. negative angle)
+            m_angularVelocity *= (-1.0);
+        }
     }
 
     // Called just before this Command runs the first time
@@ -68,7 +74,7 @@ public class AutoDriveTurn extends Command {
 		m_timer.reset();
 		m_timer.start();
 		m_elapsedTime = 0;
-        m_counter = 0; 
+        m_counter = 0;
 		Logger.debug("Target = " + m_targetAngle + " degrees" + "; Power = " + m_power);
     }
 
@@ -93,7 +99,8 @@ public class AutoDriveTurn extends Command {
 		}
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // The command is finished when the target angle is estimated to have been reached
+    // TODO: This should be determined by an encoder
     @Override
     protected boolean isFinished() {
 		if (m_targetAngle < 0.) {

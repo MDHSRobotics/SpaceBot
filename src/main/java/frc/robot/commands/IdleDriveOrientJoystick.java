@@ -8,9 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
+
 
 // This command idles the drive, and flips the joystick Y orientation
 public class IdleDriveOrientJoystick extends Command {
@@ -37,7 +38,7 @@ public class IdleDriveOrientJoystick extends Command {
         Robot.robotMecDriver.flip();
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // This finishes immediately
     @Override
     protected boolean isFinished() {
         return true;

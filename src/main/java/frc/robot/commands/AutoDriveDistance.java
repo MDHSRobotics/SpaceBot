@@ -95,7 +95,8 @@ public class AutoDriveDistance extends Command {
 		}
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // The command is finished when the target distance is estimated to have been reached
+    // TODO: This should be determined by an encoder
     @Override
     protected boolean isFinished() {
         return (m_distanceTraveled >= m_targetDistanceInFeet);

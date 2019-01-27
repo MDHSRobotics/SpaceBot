@@ -12,14 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.commands.AutoDriveDistance;
 import frc.robot.commands.AutoDriveTurn;
 import frc.robot.commands.IdleDrive;
 import frc.robot.helpers.Logger;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Baller;
-import frc.robot.subsystems.Hatcher;
-import frc.robot.subsystems.MecDriver;
+import frc.robot.subsystems.*;
 import frc.robot.vision.LineDetector;
 
 
@@ -33,10 +31,11 @@ import frc.robot.vision.LineDetector;
 public class Robot extends TimedRobot {
 
     public static Arm robotArm;
-    public static MecDriver robotMecDriver;
-    public static Hatcher robotHatcher;
     public static Baller robotBaller;
+    public static Hatcher robotHatcher;
     public static LineDetector robotLineDetector;
+    public static MecDriver robotMecDriver;
+
     public static OI robotOI;
 
     private SendableChooser<Command> m_autoModeChooser;
@@ -52,14 +51,14 @@ public class Robot extends TimedRobot {
 
         // Instantiate subsystem singletons
         robotArm = new Arm();
-        robotMecDriver = new MecDriver();
-        robotHatcher = new Hatcher();
         robotBaller = new Baller();
+        robotHatcher = new Hatcher();
         robotLineDetector = new LineDetector();
+        robotMecDriver = new MecDriver();
         // Always instantiate the OI singleton last
         robotOI = new OI();
 
-        // Instantiate auto commands
+        // Instantiate auto commands to add to the SmartDashboard
         IdleDrive idleDriveCmd = new IdleDrive();
         AutoDriveDistance autoDriveDist = new AutoDriveDistance();
         AutoDriveTurn autoDriveTurn = new AutoDriveTurn();

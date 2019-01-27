@@ -16,7 +16,7 @@ import frc.robot.Robot;
 // Automatically drive to line up on the line seen by the vision system.
 public class AutoDriveLine extends Command {
 
-    private double m_magnitude = -.5;
+    private double m_magnitude = -0.5;
 
     public AutoDriveLine() {
         Logger.debug("Constructing AutoDriveLine...");

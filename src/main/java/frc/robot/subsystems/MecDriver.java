@@ -8,16 +8,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.commands.JoystickDriveCartesian;
 import frc.robot.helpers.Logger;
-// Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
 import frc.robot.Devices;
+
 
 // Mecanum driver subsystem
 public class MecDriver extends Subsystem {
 
     public boolean isFlipped = false;
-    public double speed = 0;
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
@@ -38,25 +38,20 @@ public class MecDriver extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing MecDriver default command -> JoystickDrivePolar...");
 
-        JoystickDriveCartesian defaultCmd = new JoystickDriveCartesian();
-        setDefaultCommand(defaultCmd);
+        setDefaultCommand(new JoystickDriveCartesian());
     }
 
     // Flip the control direction of the joystick
     public Boolean flip() {
         Logger.debug("Toggling MecDriver control flipping...");
 
-        if (speed != 0) {
-            Logger.debug("Cannot flip control without stopping first.");
+        isFlipped = !isFlipped;
+
+        if (isFlipped) {
+            Logger.debug("MecDriver control is now flipped.");
         }
         else {
-            isFlipped = !isFlipped;
-
-            if (isFlipped) {
-                Logger.debug("MecDriver control is now flipped.");
-            } else {
-                Logger.debug("MecDriver control is now standard (not flipped).");
-            }
+            Logger.debug("MecDriver control is now standard (not flipped).");
         }
 
         return isFlipped;
@@ -65,7 +60,6 @@ public class MecDriver extends Subsystem {
     // Stop all the drive motors
     public void stop() {
         Devices.mecDrive.stopMotor();
-        speed = 0;
     }
 
     // Drive straight at the given speed

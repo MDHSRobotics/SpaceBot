@@ -1,12 +1,11 @@
 package frc.robot.vision;
 
+import edu.wpi.first.vision.VisionPipeline;
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.wpi.first.vision.VisionPipeline;
-
 import org.opencv.core.*;
 import org.opencv.imgproc.*;
+
 
 /**
 * LinePipeline class.

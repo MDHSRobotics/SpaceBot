@@ -8,14 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-public class AutoBallerBlock extends Command {
 
-    public AutoBallerBlock() {
-        Logger.debug("Constructing AutoBallerGate...");
+public class AutoBallBlock extends Command {
+
+    public AutoBallBlock() {
+        Logger.debug("Constructing AutoBallBlock...");
 
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
@@ -24,7 +25,7 @@ public class AutoBallerBlock extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoBallerGate...");
+        Logger.debug("Initializing AutoBallBlock...");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,7 +34,7 @@ public class AutoBallerBlock extends Command {
         Robot.robotBaller.block();
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // This command is finished when the Ball has been fully blocked
     @Override
     protected boolean isFinished() {
         boolean isBlocked = Robot.robotBaller.isBlocked();
@@ -43,7 +44,7 @@ public class AutoBallerBlock extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoBallerGate...");
+        Logger.debug("Ending AutoBallBlock...");
 
         Robot.robotBaller.stop();
     }
@@ -52,7 +53,7 @@ public class AutoBallerBlock extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoBallerGate...");
+        Logger.debug("Interrupted AutoBallBlock...");
 
         Robot.robotBaller.stop();
     }

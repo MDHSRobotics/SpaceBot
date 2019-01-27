@@ -8,9 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
+
 
 // This command idles the Baller motor
 public class IdleBaller extends Command {
@@ -34,7 +35,7 @@ public class IdleBaller extends Command {
         Robot.robotBaller.stop();
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // This command continues to run until it is interrupted
     @Override
     protected boolean isFinished() {
         return false;

@@ -13,51 +13,52 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command grabs the hatch
-public class AutoHatchGrab extends Command {
+// This command is activated by a button and lowers the arm until interrupted
+public class AutoArmLower extends Command {
 
-    public AutoHatchGrab() {
-        Logger.debug("Constructing AutoBallerGate...");
+    // TODO: This speed is the same as the AutoArmRaise command. One of these should be negative.
+    private double m_speed = 0.3;
 
-         // Declare subsystem dependencies
-         requires(Robot.robotHatcher);
+    public AutoArmLower() {
+        Logger.debug("Constructing AutoArmLower...");
+
+        // Declare subsystem dependencies
+        requires(Robot.robotArm);
     }
 
+    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Constructing AutoBallerGate...");
+        Logger.debug("Initializing AutoArmLower...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
-        Robot.robotHatcher.grab();
+        Robot.robotArm.move(m_speed);
     }
 
-    // The command is finished when the Hatch is grabbed
+    // This command continues until it is interrupted
     @Override
     protected boolean isFinished() {
-        boolean isGrabbed = Robot.robotHatcher.isGrabbed();
-        return isGrabbed;
+        return false;
     }
-
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoHatchClaw...");
+        Logger.debug("Ending AutoArmLower...");
 
-        Robot.robotHatcher.stop();
+        Robot.robotArm.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoHatchClaw...");
+        Logger.debug("Interrupting AutoArmLower...");
 
-        Robot.robotHatcher.stop();
+        Robot.robotArm.stop();
     }
 
 }
