@@ -31,7 +31,7 @@ public class Devices {
     public static JoystickButton jstickBtn9 = new JoystickButton(jstick, 9);
     public static JoystickButton jstickBtn10 = new JoystickButton(jstick, 10);
     public static JoystickButton jstickBtn11 = new JoystickButton(jstick, 11);
-    public static JoystickButton jstickBtn12 = new JoystickButton(jstick, 12);
+    public static JoystickButton jstickBtn12 = new JoystickButton(jstick, 11);
 
     // Xbox Controller singletons
     public static XboxController xbox = new XboxController(1);

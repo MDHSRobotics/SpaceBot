@@ -22,13 +22,13 @@ public class OI {
         Logger.debug("Constructing OI...");
 
         // Bind the joystick buttons to specific commands
-        Devices.jstickBtn5.whenPressed(new IdleDriveOrientJoystick());
-        Devices.jstickBtn7.whenPressed(new AutoDriveTurn());
-        Devices.jstickBtn8.whenPressed(new AutoDriveDistance());
-        Devices.jstickBtn9.whenPressed(new AutoHatchGrab());
-        Devices.jstickBtn10.whenPressed(new AutoBallDeploy());
-        Devices.jstickBtn11.whenPressed(new AutoArmLower());
-        Devices.jstickBtn12.whenPressed(new AutoArmRaise());
+        Devices.jstickBtn1.whenPressed(new AutoDriveLine());
+        Devices.jstickBtn3.whenPressed(new AutoHatchGrab());
+        Devices.jstickBtn4.whenPressed(new AutoHatchRelease());
+        Devices.jstickBtn5.whenPressed(new AutoBallDeploy());
+        Devices.jstickBtn6.whenPressed(new AutoBallBlock());
+        Devices.jstickBtn7.whenPressed(new AutoArmLower());
+        Devices.jstickBtn8.whenPressed(new AutoArmRaise());
 
         // TODO: Need to establish a dead zone for the joystick
     }
