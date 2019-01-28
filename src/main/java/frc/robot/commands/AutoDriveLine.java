@@ -16,8 +16,6 @@ import frc.robot.Robot;
 // Automatically drive to line up on the line seen by the vision system.
 public class AutoDriveLine extends Command {
 
-    private double m_magnitude = -0.5;
-
     public AutoDriveLine() {
         Logger.debug("Constructing AutoDriveLine...");
 
@@ -34,15 +32,44 @@ public class AutoDriveLine extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        boolean detected = Robot.robotLineDetector.lineDetected();
+        if (!detected) {
+            Logger.debug("Line not detected!");
+            return;
+        }
+
         double angle = Robot.robotLineDetector.getCurrentAngle();
-        Robot.robotMecDriver.drivePolar(m_magnitude, angle, -angle);
+        boolean straight = Robot.robotLineDetector.isStraight(angle);
+        if (!straight) {
+            double z = Robot.robotLineDetector.getCorrectedZ();
+            Logger.debug("Pivot to correct: " + z);
+            Robot.robotMecDriver.pivot(z);
+            return;
+        }
+
+        double centerX = Robot.robotLineDetector.getCurrentCenterX();
+        boolean centered = Robot.robotLineDetector.isCentered(centerX);
+        if (!centered) {
+            double x = Robot.robotLineDetector.getCorrectedX();
+            Logger.debug("Strafe to correct: " + x);
+            Robot.robotMecDriver.strafe(x);
+            return;
+        }
     }
 
-    // We're finished when the line looks straight enough
+    // We're finished when the line looks straight and is centered enough (or a line is not detected)
     @Override
     protected boolean isFinished() {
-        double angle = Robot.robotLineDetector.getCurrentAngle();
-        return (-5 <= angle && angle <= 5);
+        boolean detected = Robot.robotLineDetector.lineDetected();
+        if (!detected) return true;
+
+        boolean straight = Robot.robotLineDetector.isStraight();
+        if (!straight) return false;
+
+        boolean centered = Robot.robotLineDetector.isCentered();
+        if (!centered) return false;
+
+        return true;
     }
 
     // Called once after isFinished returns true

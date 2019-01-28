@@ -44,8 +44,8 @@ public class Robot extends TimedRobot {
 
     public static OI robotOI;
 
-    private static final int m_camResolutionWidth = 320;
-	private static final int m_camResolutionHeight = 240;
+    public static final int lineCamResolutionWidth = 320;
+	public static final int lineCamResolutionHeight = 240;
 
     private SendableChooser<Command> m_autoModeChooser;
     private Command m_autoCmd;
@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
             Logger.debug("Starting Line Camera Capture...");
             CameraServer camServer = CameraServer.getInstance();
             robotLineCamera = camServer.startAutomaticCapture();
-            robotLineCamera.setResolution(m_camResolutionWidth, m_camResolutionHeight);
+            robotLineCamera.setResolution(lineCamResolutionWidth, lineCamResolutionHeight);
         }
 
         // Instantiate Line Detector singleton

@@ -18,11 +18,22 @@ import frc.robot.helpers.Logger;
 
 public class LineDetector {
 
-	private VisionThread m_visionThread;
-	private double m_angle = 0.0;
+    private double m_minimumArea = (Robot.lineCamResolutionHeight / 3) ^ 2;
 
-	private final Object m_imgLock = new Object();
+    private double m_targetAngle = 0;
+    private double m_targetCenterX = Robot.lineCamResolutionWidth / 2;
 
+    private double m_angleThreshold = 10;
+    private double m_centerXThreshold = Robot.lineCamResolutionWidth / 32;
+
+    private double m_area = 0;
+    private double m_angle = 0;
+    private double m_centerX = 0;
+
+    private VisionThread m_visionThread;
+    private final Object m_imgLock = new Object();
+
+    // Constructor
     public LineDetector(boolean cameraIsConnected) {
         Logger.debug("Constructing Line Detector...");
 
@@ -37,28 +48,54 @@ public class LineDetector {
         LinePipeline linePipe = new LinePipeline();
         m_visionThread = new VisionThread(Robot.robotLineCamera, linePipe, pipeline -> {
             ArrayList<MatOfPoint> output = pipeline.filterContoursOutput();
-            boolean outputIsEmpty = output.isEmpty();
-            if (!outputIsEmpty) {
+            int outputSize = output.size();
+            if (outputSize == 1) {
                 MatOfPoint contour = output.get(0);
 
-                // Get the rotated rectangle.
+                // Get the rotated rectangle
                 Point[] points = contour.toArray();
                 MatOfPoint2f contour2f = new MatOfPoint2f(points);
                 RotatedRect rotRect = Imgproc.minAreaRect(contour2f);
 
-                // Get the rotation angle.
-                double angle = rotRect.angle;
-                if (rotRect.size.width < rotRect.size.height) {
-                    angle = 90 + angle;
-                }
+                // Get the area of the rotated rectangle
+                double area = rotRect.size.area();
+                if (area >= m_minimumArea)
+                {
+                    // Get the rotation angle of the rotated rectangle
+                    double angle = rotRect.angle;
+                    if (rotRect.size.width < rotRect.size.height) {
+                        angle = 90 + angle;
+                    }
 
+                    // Get the center X of the bounding rectangle
+                    Rect boundRect = rotRect.boundingRect();
+                    double centerX = boundRect.x + (boundRect.width / 2);
+
+                    // Set the thread-safe variables for use by outside commands
+                    synchronized (m_imgLock) {
+                        m_area = area;
+                        m_angle = angle;
+                        m_centerX = centerX;
+                    }
+                }
+            }
+            else {
+                // We can only work with one contour, so set the area to zero
                 synchronized (m_imgLock) {
-                    m_angle = angle;
+                    m_area = 0;
                 }
             }
         });
         Logger.debug("Starting Line Detector Thread...");
         m_visionThread.start();
+    }
+
+    public double getCurrentArea() {
+        double area;
+        synchronized (m_imgLock) {
+            area = m_area;
+        }
+        return area;
     }
 
     public double getCurrentAngle() {
@@ -67,6 +104,57 @@ public class LineDetector {
             angle = m_angle;
         }
         return angle;
+    }
+
+    public double getCurrentCenterX() {
+        double centerX;
+        synchronized (m_imgLock) {
+            centerX = m_centerX;
+        }
+        return centerX;
+    }
+
+    public boolean lineDetected() {
+        double area = getCurrentArea();
+        boolean detected = lineDetected(area);
+        return detected;
+    }
+
+    public boolean lineDetected(double area) {
+        boolean detected = area >= m_minimumArea;
+        return detected;
+    }
+
+    public boolean isStraight() {
+        double angle = getCurrentAngle();
+        boolean straight = isStraight(angle);
+        return straight;
+    }
+
+    public boolean isStraight(double angle) {
+        boolean straight = (m_targetAngle - m_angleThreshold <= angle && angle <= m_targetAngle + m_angleThreshold);
+        return straight;
+    }
+
+    public boolean isCentered() {
+        double centerX = getCurrentCenterX();
+        boolean centered = isCentered(centerX);
+        return centered;
+    }
+
+    public boolean isCentered(double centerX) {
+        boolean centered = (m_targetCenterX - m_centerXThreshold <= centerX && centerX <= m_targetCenterX + m_centerXThreshold);
+        return centered;
+    }
+
+    public double getCorrectedZ() {
+        double angle = getCurrentAngle();
+        return m_targetAngle - angle;
+    }
+
+    public double getCorrectedX() {
+        double centerX = getCurrentCenterX();
+        return m_targetCenterX - centerX;
     }
 
 }
