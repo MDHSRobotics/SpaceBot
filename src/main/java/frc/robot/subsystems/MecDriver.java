@@ -80,12 +80,14 @@ public class MecDriver extends Subsystem {
     // Drive using the cartesian method
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation, double gyroAngle) {
         Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
+
         Devices.mecDrive.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
     }
 
     // Drive using the polar method
     public void drivePolar(double magnitude, double angle, double rotation) {
         Logger.debug("Polar Movement: " + magnitude + ", " + angle + ", " + rotation);
+
         Devices.mecDrive.drivePolar(magnitude, angle, rotation);
     }
 

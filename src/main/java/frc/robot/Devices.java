@@ -56,6 +56,6 @@ public class Devices {
     public static DigitalInput limitSwitchBallDeployed = new DigitalInput(4);
 
     //Drive singletons
-   public static MecanumDrive mecDrive = new MecanumDrive(talonSrxWheelFrontLeft, talonSrxWheelRearLeft, talonSrxWheelFrontRight, talonSrxWheelRearRight);
+    public static MecanumDrive mecDrive = new MecanumDrive(talonSrxWheelFrontLeft, talonSrxWheelRearLeft, talonSrxWheelFrontRight, talonSrxWheelRearRight);
 
 }

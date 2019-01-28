@@ -29,6 +29,8 @@ public class OI {
         Devices.jstickBtn10.whenPressed(new AutoBallDeploy());
         Devices.jstickBtn11.whenPressed(new AutoArmLower());
         Devices.jstickBtn12.whenPressed(new AutoArmRaise());
+
+        // TODO: Need to establish a dead zone for the joystick
     }
 
     // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position
