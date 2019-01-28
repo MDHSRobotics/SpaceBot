@@ -7,30 +7,35 @@
 
 package frc.robot.vision;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.vision.VisionThread;
 import java.util.ArrayList;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
+import frc.robot.Robot;
+import frc.robot.helpers.Logger;
+
 
 public class LineDetector {
-
-    private static final int IMG_WIDTH = 320;
-	private static final int IMG_HEIGHT = 240;
 
 	private VisionThread m_visionThread;
 	private double m_angle = 0.0;
 
 	private final Object m_imgLock = new Object();
 
-    public LineDetector() {
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+    public LineDetector(boolean cameraIsConnected) {
+        Logger.debug("Constructing Line Detector...");
+
+        if (cameraIsConnected) {
+            intitialize();
+        }
+    }
+
+    public void intitialize() {
+        Logger.debug("Intitializing Line Detector...");
 
         LinePipeline linePipe = new LinePipeline();
-        m_visionThread = new VisionThread(camera, linePipe, pipeline -> {
+        m_visionThread = new VisionThread(Robot.robotLineCamera, linePipe, pipeline -> {
             ArrayList<MatOfPoint> output = pipeline.filterContoursOutput();
             boolean outputIsEmpty = output.isEmpty();
             if (!outputIsEmpty) {
@@ -44,7 +49,7 @@ public class LineDetector {
                 // Get the rotation angle.
                 double angle = rotRect.angle;
                 if (rotRect.size.width < rotRect.size.height) {
-                  angle = 90 + angle;
+                    angle = 90 + angle;
                 }
 
                 synchronized (m_imgLock) {
@@ -52,6 +57,7 @@ public class LineDetector {
                 }
             }
         });
+        Logger.debug("Starting Line Detector Thread...");
         m_visionThread.start();
     }
 
