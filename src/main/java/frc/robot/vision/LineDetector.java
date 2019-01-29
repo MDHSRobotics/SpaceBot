@@ -24,14 +24,19 @@ public class LineDetector {
     private double m_targetCenterX = Robot.lineCamResolutionWidth / 2;
 
     private double m_angleThreshold = 10;
-    private double m_centerXThreshold = Robot.lineCamResolutionWidth / 32;
+    private double m_centerXThreshold = Robot.lineCamResolutionWidth / 64;
 
     private double m_area = 0;
     private double m_angle = 0;
     private double m_centerX = 0;
+    private double m_centerY = 0;
 
     private VisionThread m_visionThread;
     private final Object m_imgLock = new Object();
+
+    private enum Quadrant {
+        UPPERLEFT, UPPERRIGHT, LOWERLEFT, LOWERRIGHT;
+    }
 
     // Constructor
     public LineDetector(boolean cameraIsConnected) {
@@ -49,6 +54,7 @@ public class LineDetector {
         m_visionThread = new VisionThread(Robot.robotLineCamera, linePipe, pipeline -> {
             ArrayList<MatOfPoint> output = pipeline.filterContoursOutput();
             int outputSize = output.size();
+            // We can only work with one contour
             if (outputSize == 1) {
                 MatOfPoint contour = output.get(0);
 
@@ -61,26 +67,41 @@ public class LineDetector {
                 double area = rotRect.size.area();
                 if (area >= m_minimumArea)
                 {
+                    // Get the center X & Y of the bounding rectangle
+                    Rect boundRect = rotRect.boundingRect();
+                    double centerX = boundRect.x + (boundRect.width / 2);
+                    double centerY = boundRect.y + (boundRect.height / 2);
+
                     // Get the rotation angle of the rotated rectangle
                     double angle = rotRect.angle;
                     if (rotRect.size.width < rotRect.size.height) {
                         angle = 90 + angle;
                     }
-
-                    // Get the center X of the bounding rectangle
-                    Rect boundRect = rotRect.boundingRect();
-                    double centerX = boundRect.x + (boundRect.width / 2);
+                    Quadrant centerQuad = getQuadrant(centerX, centerY);
+                    switch (centerQuad) {
+                        case UPPERLEFT:
+                            break;
+                        case UPPERRIGHT:
+                            break;
+                        case LOWERLEFT:
+                            if (angle > 0) angle = angle - 180;
+                            break;
+                        case LOWERRIGHT:
+                            if (angle < 0) angle = angle + 180;
+                            break;
+                    }
 
                     // Set the thread-safe variables for use by outside commands
                     synchronized (m_imgLock) {
                         m_area = area;
                         m_angle = angle;
                         m_centerX = centerX;
+                        m_centerY = centerY;
                     }
                 }
             }
             else {
-                // We can only work with one contour, so set the area to zero
+                // We can't work with these contours, so set the area to zero
                 synchronized (m_imgLock) {
                     m_area = 0;
                 }
@@ -88,6 +109,27 @@ public class LineDetector {
         });
         Logger.debug("Starting Line Detector Thread...");
         m_visionThread.start();
+    }
+
+    private Quadrant getQuadrant(double x, double y) {
+        boolean isUpper = (y <= Robot.lineCamResolutionHeight / 2);
+        boolean isLeft = (x <= Robot.lineCamResolutionWidth / 2);
+        if (isUpper) {
+            if (isLeft) {
+                return Quadrant.UPPERLEFT;
+            }
+            else {
+                return Quadrant.UPPERRIGHT;
+            }
+        }
+        else {
+            if (isLeft) {
+                return Quadrant.LOWERLEFT;
+            }
+            else {
+                return Quadrant.LOWERRIGHT;
+            }
+        }
     }
 
     public double getCurrentArea() {
@@ -112,6 +154,14 @@ public class LineDetector {
             centerX = m_centerX;
         }
         return centerX;
+    }
+
+    public double getCurrentCenterY() {
+        double centerY;
+        synchronized (m_imgLock) {
+            centerY = m_centerY;
+        }
+        return centerY;
     }
 
     public boolean lineDetected() {
