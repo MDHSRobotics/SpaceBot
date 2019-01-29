@@ -8,15 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
+
 
 // This command opens or closes the Hatch claw
 public class AutoHatchRelease extends Command {
 
     public AutoHatchRelease() {
-        Logger.debug("Constructing AutoBallerGate...");
+        Logger.debug("Constructing AutoHatchRelease...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -24,28 +25,26 @@ public class AutoHatchRelease extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing AutoBallerGate...");
+        Logger.debug("Constructing AutoHatchRelease...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
         Robot.robotHatcher.release();
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // The command is finished when the Hatch is released
     @Override
     protected boolean isFinished() {
         boolean isReleased = Robot.robotHatcher.isReleased();
         return isReleased;
     }
 
-
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoHatchClaw...");
+        Logger.debug("Ending AutoHatchRelease...");
 
         Robot.robotHatcher.stop();
     }
@@ -54,7 +53,7 @@ public class AutoHatchRelease extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoHatchClaw...");
+        Logger.debug("Interrupted AutoHatchRelease...");
 
         Robot.robotHatcher.stop();
     }

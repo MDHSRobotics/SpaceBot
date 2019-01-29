@@ -7,19 +7,22 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.concurrent.TimeUnit;
+
 import frc.robot.commands.AutoDriveDistance;
+import frc.robot.commands.AutoDriveLine;
 import frc.robot.commands.AutoDriveTurn;
 import frc.robot.commands.IdleDrive;
 import frc.robot.helpers.Logger;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Baller;
-import frc.robot.subsystems.Hatcher;
-import frc.robot.subsystems.MecDriver;
+import frc.robot.subsystems.*;
+import frc.robot.vision.LineDetector;
 
 
 /**
@@ -32,10 +35,17 @@ import frc.robot.subsystems.MecDriver;
 public class Robot extends TimedRobot {
 
     public static Arm robotArm;
-    public static MecDriver robotMecDriver;
-    public static Hatcher robotHatcher;
     public static Baller robotBaller;
+    public static Hatcher robotHatcher;
+    public static MecDriver robotMecDriver;
+
+    public static UsbCamera robotLineCamera;
+    public static LineDetector robotLineDetector;
+
     public static OI robotOI;
+
+    public static final int lineCamResolutionWidth = 320;
+	public static final int lineCamResolutionHeight = 240;
 
     private SendableChooser<Command> m_autoModeChooser;
     private Command m_autoCmd;
@@ -48,25 +58,51 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         Logger.debug("Initializing Robot...");
 
-        // Instantiate subsystem singletons
+        // Instantiate subsystem singletons FIRST
         robotArm = new Arm();
-        robotMecDriver = new MecDriver();
-        robotHatcher = new Hatcher();
         robotBaller = new Baller();
-        // Always instantiate the OI singleton last
+        robotHatcher = new Hatcher();
+        robotMecDriver = new MecDriver();
+
+        // Instantiate the OI singleton AFTER all the subsystems
         robotOI = new OI();
 
-        // Instantiate auto commands
-        IdleDrive idleDriveCmd = new IdleDrive();
-        AutoDriveDistance autoDriveDist = new AutoDriveDistance();
-        AutoDriveTurn autoDriveTurn = new AutoDriveTurn();
-
+        // Instantiate auto commands and add them to the SmartDashboard
+        Logger.debug("Adding Auto modes to SmartDashboard...");
         m_autoModeChooser = new SendableChooser<>();
-        m_autoModeChooser.setDefaultOption("Idle Drive", idleDriveCmd);
-        m_autoModeChooser.addOption("Drive Distance", autoDriveDist);
-        m_autoModeChooser.addOption("Drive Turn", autoDriveTurn);
+
+        m_autoModeChooser.setDefaultOption("Idle Drive", new IdleDrive());
+        m_autoModeChooser.addOption("Drive Distance", new AutoDriveDistance());
+        m_autoModeChooser.addOption("Drive Turn", new AutoDriveTurn());
+        m_autoModeChooser.addOption("Drive Line Detect", new AutoDriveLine());
 
         SmartDashboard.putData("Auto mode", m_autoModeChooser);
+
+        // Initialize camera, if connected
+        Logger.debug("Checking for Camera Connection...");
+        UsbCamera testCam = new UsbCamera("Test Camera", 0);
+        Logger.debug("Waiting 1 second for the USB Camera to connect, if there is one...");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        }
+        catch (InterruptedException e) {
+            Logger.debug("Swallowed InterruptedException...?");
+        }
+        boolean cameraIsConnected = testCam.isConnected();
+        testCam.close();
+        if (!cameraIsConnected) {
+            Logger.debug("No USB Camera Found, Disabling Line Detection...");
+            robotLineCamera = null;
+        }
+        else {
+            Logger.debug("Starting Line Camera Capture...");
+            CameraServer camServer = CameraServer.getInstance();
+            robotLineCamera = camServer.startAutomaticCapture();
+            robotLineCamera.setResolution(lineCamResolutionWidth, lineCamResolutionHeight);
+        }
+
+        // Instantiate Line Detector singleton
+        robotLineDetector = new LineDetector(cameraIsConnected);
     }
 
     /**

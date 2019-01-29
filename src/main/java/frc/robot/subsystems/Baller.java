@@ -8,10 +8,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.commands.IdleBaller;
 import frc.robot.helpers.Logger;
-// Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
 import frc.robot.Devices;
+
 
 // Cargo ball subsystem
 public class Baller extends Subsystem {
@@ -30,8 +31,7 @@ public class Baller extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing Baller default command...");
 
-        IdleBaller defaultCmd = new IdleBaller();
-        setDefaultCommand(defaultCmd);
+        setDefaultCommand(new IdleBaller());
     }
 
     // Stop all the drive motors
@@ -39,31 +39,32 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.stopMotor();
     }
 
-    // Opens or closes the Baller gate based on speed
+    // Deploys the ball
     public void deploy() {
-       
         Devices.talonSrxBaller.set(m_speed);
-   
-}
+    }
 
-    public void block(){
+    // Blocks the ball
+    public void block() {
         Devices.talonSrxBaller.set(-m_speed);    
-}
+    }
 
-    public boolean isDeployed(){
+    // Determines if the Ball Deployed limit switch is active
+    public boolean isDeployed() {
+        boolean hitLimit = Devices.limitSwitchBallDeployed.get();
+        if (hitLimit) {
+            Logger.debug("Ball has been deployed!");
+        }
+        return hitLimit;
+    }
 
-    boolean hitLimit = Devices.limitSwitchBallDown.get();
-    if(hitLimit) Logger.debug("LimitSwitch Pressed");
-    return hitLimit;
-
-}
-
-public boolean isBlocked(){
-
-    boolean hitLimit = Devices.limitSwitchBallUp.get();
-    return hitLimit;
-
-}
-
+    // Determines if the Ball Blocked limit switch is active
+    public boolean isBlocked() {
+        boolean hitLimit = Devices.limitSwitchBallBlocked.get();
+        if (hitLimit) {
+            Logger.debug("Ball is now blocked!");
+        }
+        return hitLimit;
+    }
 
 }

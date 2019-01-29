@@ -8,52 +8,54 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
+
 
 //This command idles the Arm motor
 public class IdleArm extends Command {
 
-  public IdleArm() {
-      Logger.debug("Constucting IdleArm...");
+    public IdleArm() {
+        Logger.debug("Constucting IdleArm...");
 
-      //Declare subsysted dependencies
-      requires(Robot.robotArm);
-  }
+        //Declare subsysted dependencies
+        requires(Robot.robotArm);
+    }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-      Logger.debug("Initializing IdleArm...");
-  }
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+        Logger.debug("Initializing IdleArm...");
+    }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-      Robot.robotArm.stop();
-  }
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
+        Robot.robotArm.stop();
+    }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    // This command continues to run until it is interrupted
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-      Logger.debug("Ending IdleArm...");
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+        Logger.debug("Ending IdleArm...");
 
-      Robot.robotArm.stop();
-  }
+        Robot.robotArm.stop();
+    }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-      Logger.debug("Interrupting IdleArm...");
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+        Logger.debug("Interrupting IdleArm...");
 
-      Robot.robotArm.stop();
-  }
+        Robot.robotArm.stop();
+    }
+
 }

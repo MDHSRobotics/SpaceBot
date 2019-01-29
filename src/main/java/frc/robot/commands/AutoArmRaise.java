@@ -13,51 +13,54 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command grabs the hatch
-public class AutoHatchGrab extends Command {
+// This command is activated by a button and raises the arm until it hits a limit switch
+public class AutoArmRaise extends Command {
 
-    public AutoHatchGrab() {
-        Logger.debug("Constructing AutoBallerGate...");
+    // TODO: This speed is the same as the AutoArmLower command. One of these should be negative.
+    private double m_speed = 0.3;
 
-         // Declare subsystem dependencies
-         requires(Robot.robotHatcher);
+    public AutoArmRaise() {
+        Logger.debug("Constructing AutoRaiseArm...");
+
+        // Declare subsystem dependencies
+        requires(Robot.robotArm);
     }
 
+    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Constructing AutoBallerGate...");
+        Logger.debug("Initializing AutoRaiseArm...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
-        Robot.robotHatcher.grab();
+        Robot.robotArm.move(m_speed);
     }
 
-    // The command is finished when the Hatch is grabbed
+    // This command is finished when the Arm has been fully raised
     @Override
     protected boolean isFinished() {
-        boolean isGrabbed = Robot.robotHatcher.isGrabbed();
-        return isGrabbed;
-    }
+        // TODO: Needs to check a limit switch here
 
+        return true;
+    }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoHatchClaw...");
+        Logger.debug("Ending AutoRaiseArm...");
 
-        Robot.robotHatcher.stop();
+        Robot.robotArm.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoHatchClaw...");
+        Logger.debug("Interrupting AutoRaiseArm...");
 
-        Robot.robotHatcher.stop();
+        Robot.robotArm.stop();
     }
 
 }

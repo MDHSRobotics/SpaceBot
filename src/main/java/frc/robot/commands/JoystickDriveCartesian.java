@@ -8,11 +8,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.helpers.CartesianMovement;
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.OI;
 import frc.robot.Robot;
+
 
 // This command uses the joystick input to drive using the cartesian method
 public class JoystickDriveCartesian extends Command {
@@ -38,7 +39,7 @@ public class JoystickDriveCartesian extends Command {
         Robot.robotMecDriver.driveCartesian(move.xSpeed, move.ySpeed, move.zRotation, move.gyroAngle);
     }
 
-    // This command isn't finished until it is interrupted
+    // This command continues to run until it is interrupted
     @Override
     protected boolean isFinished() {
         return false;
@@ -48,6 +49,7 @@ public class JoystickDriveCartesian extends Command {
     @Override
     protected void end() {
         Logger.debug("Ending JoystickDriveCartesian...");
+
         Robot.robotMecDriver.stop();
     }
 
@@ -56,6 +58,7 @@ public class JoystickDriveCartesian extends Command {
     @Override
     protected void interrupted() {
         Logger.debug("Interrupting JoystickDriveCartesian...");
+
         Robot.robotMecDriver.stop();
     }
 

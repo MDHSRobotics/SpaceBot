@@ -7,6 +7,7 @@
 
 package frc.robot.helpers;
 
+
 /**
  * This is a helper class for robot logging.
  */

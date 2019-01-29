@@ -8,15 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-// This command idles the Hatch motor
-public class IdleHatch extends Command {
 
-    public IdleHatch() {
-        Logger.debug("Constructing IdleHatch...");
+// This command idles the Hatcher motor
+public class IdleHatcher extends Command {
+
+    public IdleHatcher() {
+        Logger.debug("Constructing IdleHatcher...");
 
         // Declare subsystem dependencies
         requires(Robot.robotHatcher);
@@ -25,7 +26,7 @@ public class IdleHatch extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleHatch...");
+        Logger.debug("Initializing IdleHatcher...");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -34,7 +35,7 @@ public class IdleHatch extends Command {
         Robot.robotHatcher.stop();
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // This continues to run until interrupted
     @Override
     protected boolean isFinished() {
         return false;
@@ -43,7 +44,7 @@ public class IdleHatch extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending IdleHatch...");
+        Logger.debug("Ending IdleHatcher...");
 
         Robot.robotHatcher.stop();
     }
@@ -52,7 +53,7 @@ public class IdleHatch extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleHatch...");
+        Logger.debug("Interrupting IdleHatcher...");
 
         Robot.robotHatcher.stop();
     }

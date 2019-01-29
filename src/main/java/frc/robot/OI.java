@@ -7,17 +7,9 @@
 
 package frc.robot;
 
-import frc.robot.commands.AutoBallerDeploy;
-import frc.robot.commands.AutoBallerBlock;
-import frc.robot.commands.AutoDriveDistance;
-import frc.robot.commands.AutoDriveTurn;
-import frc.robot.commands.AutoHatchGrab;
-import frc.robot.commands.IdleDriveOrientJoystick;
-import frc.robot.commands.JoystickArmMoveDown;
-import frc.robot.commands.JoystickArmMoveUp;
-import frc.robot.helpers.Logger;
-import frc.robot.helpers.CartesianMovement;
-import frc.robot.helpers.PolarMovement;
+import frc.robot.commands.*;
+import frc.robot.helpers.*;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -30,26 +22,15 @@ public class OI {
         Logger.debug("Constructing OI...");
 
         // Bind the joystick buttons to specific commands
-        IdleDriveOrientJoystick idleDriveOrientJstickCmd = new IdleDriveOrientJoystick();
-        Devices.jstickBtn5.whenPressed(idleDriveOrientJstickCmd);
+        Devices.jstickBtn1.whenPressed(new AutoDriveLine());
+        Devices.jstickBtn3.whenPressed(new AutoHatchGrab());
+        Devices.jstickBtn4.whenPressed(new AutoHatchRelease());
+        Devices.jstickBtn5.whenPressed(new AutoBallDeploy());
+        Devices.jstickBtn6.whenPressed(new AutoBallBlock());
+        Devices.jstickBtn7.whenPressed(new AutoArmLower());
+        Devices.jstickBtn8.whenPressed(new AutoArmRaise());
 
-        AutoDriveDistance autoDriveDistCmd = new AutoDriveDistance();
-        Devices.jstickBtn8.whenPressed(autoDriveDistCmd);
-
-        AutoDriveTurn autoDriveTurnCmd = new AutoDriveTurn();
-        Devices.jstickBtn7.whenPressed(autoDriveTurnCmd);
-
-        AutoHatchGrab autoHatchClawCmd = new AutoHatchGrab();
-        Devices.jstickBtn9.whenPressed(autoHatchClawCmd);
-
-        AutoBallerDeploy autoBallerGateCmd = new AutoBallerDeploy();
-        Devices.jstickBtn10.whenPressed(autoBallerGateCmd);
-
-        JoystickArmMoveDown joystickArmMoveDownCmd = new JoystickArmMoveDown();
-        Devices.jstickBtn11.whenPressed(joystickArmMoveDownCmd);
-
-        JoystickArmMoveUp joystickArmMoveUpCmd = new JoystickArmMoveUp();
-        Devices.jstickBtn12.whenPressed(joystickArmMoveUpCmd);
+        // TODO: Need to establish a dead zone for the joystick
     }
 
     // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position
