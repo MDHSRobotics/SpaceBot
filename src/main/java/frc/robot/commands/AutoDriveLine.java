@@ -16,6 +16,9 @@ import frc.robot.Robot;
 // Automatically drive to line up on the line seen by the vision system.
 public class AutoDriveLine extends Command {
 
+    private double m_zSpeed = .3;
+    private double m_xSpeed = .3;
+
     public AutoDriveLine() {
         Logger.debug("Constructing AutoDriveLine...");
 
@@ -42,8 +45,12 @@ public class AutoDriveLine extends Command {
         boolean straight = Robot.robotLineDetector.isStraight(angle);
         if (!straight) {
             double z = Robot.robotLineDetector.getCorrectedZ();
-            Logger.debug("Pivot to correct: " + z);
-            Robot.robotMecDriver.pivot(z);
+            Logger.debug("Pivot angle to correct: " + z);
+            double zSpeed = m_zSpeed;
+            if (z > 0) {
+                zSpeed = -zSpeed;
+            }
+            Robot.robotMecDriver.pivot(zSpeed);
             return;
         }
 
@@ -51,8 +58,12 @@ public class AutoDriveLine extends Command {
         boolean centered = Robot.robotLineDetector.isCentered(centerX);
         if (!centered) {
             double x = Robot.robotLineDetector.getCorrectedX();
-            Logger.debug("Strafe to correct: " + x);
-            Robot.robotMecDriver.strafe(x);
+            Logger.debug("Strafe pixels to correct: " + x);
+            double xSpeed = m_xSpeed;
+            if (x > 0) {
+                xSpeed = -xSpeed;
+            }
+            Robot.robotMecDriver.strafe(xSpeed);
             return;
         }
     }
