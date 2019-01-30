@@ -38,11 +38,13 @@ public class Robot extends TimedRobot {
     public static Baller robotBaller;
     public static Hatcher robotHatcher;
     public static MecDriver robotMecDriver;
+    public static Tanker robotTanker;
 
     public static UsbCamera robotLineCamera;
     public static LineDetector robotLineDetector;
 
     public static OI robotOI;
+    
 
     public static final int lineCamResolutionWidth = 320;
 	public static final int lineCamResolutionHeight = 240;
