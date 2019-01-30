@@ -9,8 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IdleLighter extends Command {
-  public IdleLighter() {
+public class AutoLighterOff extends Command {
+  public AutoLighterOff() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }

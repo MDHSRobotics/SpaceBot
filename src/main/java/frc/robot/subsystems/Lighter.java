@@ -8,15 +8,31 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.helpers.Logger;
+import frc.robot.commands.AutoLighterOff;
 
-
+// Lighter Subsystem
 public class Lighter extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
+    public Lighter() {
+        Logger.debug("Constructing Lighter...");
+
+    }
+
+    @Override
+    public void initDefaultCommand() {
+        Logger.debug("Initializing Lighter default command...");
+
+        setDefaultCommand(new AutoLighterOff());
+    }
+
+
+    public boolean isOn() {
+    return true;
+    }
+
+    public boolean isOff() {
+    return false;
+    }
+
 }
