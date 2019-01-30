@@ -15,6 +15,7 @@ import frc.robot.commands.IdleEncoderDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
  * Add your docs here.
@@ -32,22 +33,22 @@ public class EncoderDrive extends Subsystem{
         Logger.debug("Constructing EncoderDrive...");
 
         //Config TalonSRX encoder     
-        Devices.talonSrxWheelFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.setSensorPhase(Constants.kSensorPhase);
-        Devices.talonSrxWheelFrontRight.setInverted(Constants.kMotorInvert);
+        Devices.talonSrxWheelFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
+        Devices.talonSrxWheelFrontRight.setSensorPhase(false);
+        Devices.talonSrxWheelFrontRight.setInverted(false);
         Devices.talonSrxWheelFrontRight.configNominalOutputForward(0, Constants.kTimeoutMs);
         Devices.talonSrxWheelFrontRight.configNominalOutputReverse(0, Constants.kTimeoutMs);
         Devices.talonSrxWheelFrontRight.configPeakOutputForward(1, Constants.kTimeoutMs);
         Devices.talonSrxWheelFrontRight.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.configAllowableClosedloopError(Constants.kPIDLoopIdx, 0, Constants.kTimeoutMs);
+        Devices.talonSrxWheelFrontRight.configAllowableClosedloopError(Constants.kPIDLoopPrimary, 0, Constants.kTimeoutMs);
 
-        Devices.talonSrxWheelFrontRight.config_kF(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.config_kP(Constants.kPIDLoopIdx, 0.1, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.config_kI(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.config_kD(Constants.kPIDLoopIdx, 0.0, Constants.kTimeoutMs);	
+        Devices.talonSrxWheelFrontRight.config_kF(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
+        Devices.talonSrxWheelFrontRight.config_kP(Constants.kPIDLoopPrimary, 0.15, Constants.kTimeoutMs);
+        Devices.talonSrxWheelFrontRight.config_kI(Constants.kPIDLoopPrimary, 0.001, Constants.kTimeoutMs);
+        Devices.talonSrxWheelFrontRight.config_kD(Constants.kPIDLoopPrimary, 1.5, Constants.kTimeoutMs);	
 
         
-        Devices.talonSrxWheelFrontRight.setSelectedSensorPosition(absolutePosition, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        Devices.talonSrxWheelFrontRight.setSelectedSensorPosition(absolutePosition, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
     }
 
     @Override
@@ -63,21 +64,26 @@ public class EncoderDrive extends Subsystem{
         Devices.talonSrxWheelRearRight.stopMotor();
     }
 
-    // Opens or closes the Baller gate based on speed
-    public void positionDrive(double distance) {
-        Devices.talonSrxWheelRearRight.set(ControlMode.Position, distance);
+    // Rotates the motor for a certain amount of raw encoder units
+    // One rotations equals 4096 raw units
+    public void positionDrive(double rawUnits) {
+        Devices.talonSrxWheelRearRight.set(ControlMode.Position, rawUnits);
     }
 
     public int getPosition(){
-        return Devices.talonSrxWheelRearRight.getSelectedSensorPosition(Constants.kPIDLoopIdx); 
+        return Devices.talonSrxWheelRearRight.getSelectedSensorPosition(Constants.kPIDLoopPrimary); 
+    }
+
+    public int getVelocity(){
+        return Devices.talonSrxWheelRearRight.getSelectedSensorVelocity(Constants.kPIDLoopPrimary);
     }
 
     // Resets the encoder position
     public void resetEncoderPosition(){
-        Devices.talonSrxWheelRearRight.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.setSelectedSensorPosition(0, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
     }
 
-    public boolean isPositionMet(){
+    public static boolean isPositionMet(){
         int velocity = Devices.talonSrxWheelRearRight.getSensorCollection().getPulseWidthVelocity();
         if(velocity == 0){
             return true;

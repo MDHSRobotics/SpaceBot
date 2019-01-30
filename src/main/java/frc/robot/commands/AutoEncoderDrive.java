@@ -9,9 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
-//import frc.robot.helpers.PolarMovement;
+import frc.robot.subsystems.EncoderDrive;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
-import frc.robot.OI;
 import frc.robot.Robot;
 
 // This command uses the joystick input to drive using the polar method
@@ -36,21 +35,20 @@ public class AutoEncoderDrive extends Command {
     @Override
     protected void execute() {
         Robot.robotEncoderDrive.positionDrive(4096);
-        Logger.debug(Robot.robotEncoderDrive.getPosition());
+        Logger.debug("Position: " + Robot.robotEncoderDrive.getPosition());
+        Logger.debug("Velocity: " + Robot.robotEncoderDrive.getVelocity());
     }
 
     // This command isn't finished until it is interrupted
     @Override
     protected boolean isFinished() {
-        boolean isPositionMet = Robot.robotEncoderDrive.isPositionMet();
-    /*    if(isPositionMet){
-            return true;
-        }
-        else{
+        //boolean isPositionMet = EncoderDrive.isPositionMet();
+        // if(isPositionMet){
+        //     return true;
+        // }
+        // else{
             return false;
-        }
-    */
-    return false;
+        //}
     }
 
     // Called once after isFinished returns true
