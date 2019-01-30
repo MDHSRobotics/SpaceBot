@@ -8,37 +8,50 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.helpers.Logger;
+import frc.robot.Robot;
 
 public class AutoLighterOn extends Command {
-  public AutoLighterOn() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-  }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
+    public AutoLighterOn() {
+        Logger.debug("Constructing AutoLighterOn...");
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
+         // Declare subsystem dependencies
+         requires(Robot.robotLighter);
+    }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    @Override
+    protected void initialize() {
+        Logger.debug("Constructing AutoLighterOn...");
+    }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
+        Robot.robotLighter.isOn();
+    }
+
+    protected boolean isFinished() {
+        return false;
+    }
+
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+        Logger.debug("Ending AutoLighterOn...");
+
+        Robot.robotLighter.stop();
+    }
+
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+        Logger.debug("Interrupted AutoLighterOff...");
+
+        Robot.robotLighter.stop();
+    }
+
 }
