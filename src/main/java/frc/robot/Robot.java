@@ -34,7 +34,7 @@ import frc.robot.vision.LineDetector;
  */
 public class Robot extends TimedRobot {
 
-    public static Arm robotArm;
+    public static ClimbArm robotClimbArm;
     public static Baller robotBaller;
     public static Hatcher robotHatcher;
     public static MecDriver robotMecDriver;
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
         Logger.debug("Initializing Robot...");
 
         // Instantiate subsystem singletons FIRST
-        robotArm = new Arm();
+        robotClimbArm = new ClimbArm();
         robotBaller = new Baller();
         robotHatcher = new Hatcher();
         robotMecDriver = new MecDriver();

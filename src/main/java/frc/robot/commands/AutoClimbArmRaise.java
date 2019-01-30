@@ -13,49 +13,54 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-//This command idles the Arm motor
-public class IdleArm extends Command {
+// This command is activated by a button and raises the arm until it hits a limit switch
+public class AutoClimbArmRaise extends Command {
 
-    public IdleArm() {
-        Logger.debug("Constucting IdleArm...");
+    // TODO: This speed is the same as the AutoClimbArmLower command. One of these should be negative.
+    private double m_speed = 0.3;
 
-        //Declare subsysted dependencies
-        requires(Robot.robotArm);
+    public AutoClimbArmRaise() {
+        Logger.debug("Constructing AutoClimbArmRaise...");
+
+        // Declare subsystem dependencies
+        requires(Robot.robotClimbArm);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleArm...");
+        Logger.debug("Initializing AutoClimbArmRaise...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.move(m_speed);
     }
 
-    // This command continues to run until it is interrupted
+    // This command is finished when the Arm has been fully raised
     @Override
     protected boolean isFinished() {
-        return false;
+        // TODO: Needs to check a limit switch here
+
+        return true;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending IdleArm...");
+        Logger.debug("Ending AutoClimbArmRaise...");
 
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleArm...");
+        Logger.debug("Interrupting AutoClimbArmRaise...");
 
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.stop();
     }
 
 }

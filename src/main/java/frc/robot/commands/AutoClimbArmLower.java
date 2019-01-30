@@ -13,54 +13,52 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command is activated by a button and raises the arm until it hits a limit switch
-public class AutoArmRaise extends Command {
+// This command is activated by a button and lowers the arm until interrupted
+public class AutoClimbArmLower extends Command {
 
-    // TODO: This speed is the same as the AutoArmLower command. One of these should be negative.
+    // TODO: This speed is the same as the AutoClimbArmRaise command. One of these should be negative.
     private double m_speed = 0.3;
 
-    public AutoArmRaise() {
-        Logger.debug("Constructing AutoRaiseArm...");
+    public AutoClimbArmLower() {
+        Logger.debug("Constructing AutoClimbArmLower...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotArm);
+        requires(Robot.robotClimbArm);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoRaiseArm...");
+        Logger.debug("Initializing AutoClimbArmLower...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.robotArm.move(m_speed);
+        Robot.robotClimbArm.move(m_speed);
     }
 
-    // This command is finished when the Arm has been fully raised
+    // This command continues until it is interrupted
     @Override
     protected boolean isFinished() {
-        // TODO: Needs to check a limit switch here
-
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoRaiseArm...");
+        Logger.debug("Ending AutoClimbArmLower...");
 
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoRaiseArm...");
+        Logger.debug("Interrupting AutoClimbArmLower...");
 
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.stop();
     }
 
 }

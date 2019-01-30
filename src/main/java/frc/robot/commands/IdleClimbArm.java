@@ -13,32 +13,29 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command is activated by a button and lowers the arm until interrupted
-public class AutoArmLower extends Command {
+//This command idles the Arm motor
+public class IdleClimbArm extends Command {
 
-    // TODO: This speed is the same as the AutoArmRaise command. One of these should be negative.
-    private double m_speed = 0.3;
+    public IdleClimbArm() {
+        Logger.debug("Constucting IdleClimbArm...");
 
-    public AutoArmLower() {
-        Logger.debug("Constructing AutoArmLower...");
-
-        // Declare subsystem dependencies
-        requires(Robot.robotArm);
+        //Declare subsysted dependencies
+        requires(Robot.robotClimbArm);
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoArmLower...");
+        Logger.debug("Initializing IdleCLimbArm...");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.robotArm.move(m_speed);
+        Robot.robotClimbArm.stop();
     }
 
-    // This command continues until it is interrupted
+    // This command continues to run until it is interrupted
     @Override
     protected boolean isFinished() {
         return false;
@@ -47,18 +44,18 @@ public class AutoArmLower extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoArmLower...");
+        Logger.debug("Ending IdleClimbArm...");
 
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoArmLower...");
+        Logger.debug("Interrupting IdleClimbArm...");
 
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.stop();
     }
 
 }

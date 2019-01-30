@@ -9,29 +9,29 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.IdleArm;
+import frc.robot.commands.IdleClimbArm;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
 
 // Subsystem to move the Arm
-public class Arm extends Subsystem {
+public class ClimbArm extends Subsystem {
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
 
     // Constructor
-    public Arm(){
-        Logger.debug("Contructing Arm...");
+    public ClimbArm(){
+        Logger.debug("Contructing ClimbArm...");
 
         Devices.talonSrxClimbArm.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Arm default command...");
+        Logger.debug("Initializing ClimbArm default command...");
 
-        setDefaultCommand(new IdleArm());
+        setDefaultCommand(new IdleClimbArm());
     }
 
     // Stop the Arm motor
