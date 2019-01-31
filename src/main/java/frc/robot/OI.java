@@ -28,7 +28,6 @@ public class OI {
         Devices.jstickBtn5.whenPressed(new AutoBallDeploy());
         Devices.jstickBtn6.whenPressed(new AutoBallBlock());
         Devices.jstickBtn7.whenPressed(new AutoClimbArmLower());
-        Devices.jstickBtn8.whenPressed(new AutoClimbArmRaise());
 
         // TODO: Need to establish a dead zone for the joystick
     }
