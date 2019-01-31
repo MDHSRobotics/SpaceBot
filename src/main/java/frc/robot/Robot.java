@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
     public static Hatcher robotHatcher;
     public static MecDriver robotMecDriver;
     public static Tanker robotTanker;
+    public static Pulley robotClimbPulley;
 
     public static UsbCamera robotLineCamera;
     public static LineDetector robotLineDetector;
@@ -65,6 +66,7 @@ public class Robot extends TimedRobot {
         robotBaller = new Baller();
         robotHatcher = new Hatcher();
         robotMecDriver = new MecDriver();
+
 
         // Instantiate the OI singleton AFTER all the subsystems
         robotOI = new OI();
