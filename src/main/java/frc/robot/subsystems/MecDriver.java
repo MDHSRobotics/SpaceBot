@@ -81,14 +81,14 @@ public class MecDriver extends Subsystem {
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation) {
         Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);
 
-        Devices.mecDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+        Devices.mecDrive.driveCartesian(xSpeed, ySpeed, zRotation);
     }
 
     // Drive using the cartesian method, using field orientation
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation, double gyroAngle) {
         Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
 
-        Devices.mecDrive.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
+        Devices.mecDrive.driveCartesian(xSpeed, ySpeed, -zRotation, gyroAngle);
     }
 
     // Drive using the polar method
