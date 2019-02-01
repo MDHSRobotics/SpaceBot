@@ -48,6 +48,7 @@ public class Devices {
     public static WPI_TalonSRX talonSrxClimbPulley = new WPI_TalonSRX(7); //4 motors attached 
     public static WPI_TalonSRX talonSrxClimbTank = new WPI_TalonSRX(8); //1 motor attached
     public static WPI_TalonSRX talonSrxClimbArm = new WPI_TalonSRX(9);  //1 motor attached 
+    public static WPI_TalonSRX talonSrxLiftWheel = new WPI_TalonSRX(10); // 1 motor attached
                                                                         //1 talonsrx for each micro-subsystem
 
     public static DigitalInput limitSwitchHatchGrabbed  = new DigitalInput(1);
