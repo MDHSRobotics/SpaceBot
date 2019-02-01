@@ -42,7 +42,7 @@ public class Pulley extends Subsystem {
 }
 
 // Pushes in/out Foot based on a given speed
-public void move(double speed) {
+public void lift(double speed) {
     Devices.talonSrxClimbPulley.set(speed);
     }
     
