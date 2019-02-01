@@ -29,7 +29,7 @@ public class AutoLighterOn extends Command {
     @Override
     protected void execute() {
 
-        Robot.robotLighter.isOn();
+        Robot.robotLighter.turnOn();
     }
 
     protected boolean isFinished() {
@@ -41,7 +41,7 @@ public class AutoLighterOn extends Command {
     protected void end() {
         Logger.debug("Ending AutoLighterOn...");
 
-        Robot.robotLighter.stop();
+        Robot.robotLighter.turnOff();
     }
 
 
@@ -51,7 +51,7 @@ public class AutoLighterOn extends Command {
     protected void interrupted() {
         Logger.debug("Interrupted AutoLighterOff...");
 
-        Robot.robotLighter.stop();
+        Robot.robotLighter.turnOff();
     }
 
 }

@@ -10,10 +10,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.helpers.Logger;
 import frc.robot.commands.AutoLighterOff;
-
+import edu.wpi.first.wpilibj.Relay;
+import frc.robot.Devices;
 // Lighter Subsystem
 public class Lighter extends Subsystem {
-
+    
     public Lighter() {
         Logger.debug("Constructing Lighter...");
 
@@ -26,13 +27,11 @@ public class Lighter extends Subsystem {
         setDefaultCommand(new AutoLighterOff());
     }
 
-
-    public boolean isOn() {
-    return true;
+    public void turnOn() {
+        Devices.lighterRelay.set(Relay.Value.kOn);
     }
 
-    public boolean isOff() {
-    return false;
+    public void turnOff() {
+        Devices.lighterRelay.set(Relay.Value.kOff);
     }
-
 }
