@@ -16,6 +16,8 @@ import frc.robot.Robot;
 
 // This command is activated by a button and lowers the arm until interrupted
 public class AutoClimbArmLower extends Command {
+    //Default Power
+    private double m_defaultPower = 0.2;
     // Power setting for drive: 0.0 to +1.0
     private double m_power;
     //This is a temporary code that uses the timer until we  have the encoder working
@@ -25,11 +27,13 @@ public class AutoClimbArmLower extends Command {
     private int m_target;
     
 
-    public AutoClimbArmLower(double power) {
+    public AutoClimbArmLower() {
         Logger.debug("Constructing AutoClimbArmLower...");
 
-        m_power = power;
+        m_power = m_defaultPower;
         m_timer = new Timer();
+
+        requires(Robot.robotClimbArm);
         
     }
 

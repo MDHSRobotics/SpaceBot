@@ -27,7 +27,7 @@ public class OI {
         Devices.jstickBtn4.whenPressed(new AutoHatchRelease());
         Devices.jstickBtn5.whenPressed(new AutoBallDeploy());
         Devices.jstickBtn6.whenPressed(new AutoBallBlock());
-        Devices.jstickBtn7.whenPressed(new AutoClimbArmLower(.1));
+        Devices.jstickBtn7.whenPressed(new AutoClimbArmLower());
         Devices.jstickBtn8.whileHeld(new JoystickPulleyUp());
         Devices.jstickBtn9.whileHeld(new JoystickPulleyDown());
 
