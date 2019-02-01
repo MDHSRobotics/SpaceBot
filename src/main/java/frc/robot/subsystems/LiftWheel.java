@@ -8,40 +8,36 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.IdleLiftWheel;
 import frc.robot.commands.IdleTanker;
 import frc.robot.helpers.Logger;
 // Don't import OI; Subsystems control robot devices, they don't access HIDs -- commands do that
 import frc.robot.Devices;
-// Cargo ball subsystem
-public class Tanker extends Subsystem {
 
+/**
+ * Add your docs here.
+ */
+public class LiftWheel extends Subsystem {
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
-
-    public Tanker() {
-        Logger.debug("Constructing ClimbTank...");
-
-        Devices.talonSrxClimbTank.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+    public LiftWheel(){
+        Logger.debug("Contructring LiftWheel");
+        Devices.talonSrxLiftWheel.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
-    @Override
-    public void initDefaultCommand() {
-        Logger.debug("Initializing ClimbTank default command...");
 
-        IdleTanker defaultCmd = new IdleTanker();
+  @Override
+  public void initDefaultCommand() {
+        Logger.debug("Initializing LiftWheel default command");
+        IdleLiftWheel defaultCmd = new IdleLiftWheel();
         setDefaultCommand(defaultCmd);
     }
-
-    // Stop all the drive motors
     public void stop() {
-        Devices.talonSrxClimbTank.stopMotor();
+        Devices.talonSrxLiftWheel.stopMotor();
     }
 
     // Opens or closes the ClimbTank gate based on speed
-    public void move(double power) {
-        Devices.talonSrxClimbArm.set(power);
-
+    public void roll(double speed) {
+        Devices.talonSrxLiftWheel.set(speed);
     }
-        
-
 }

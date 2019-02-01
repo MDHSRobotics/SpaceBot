@@ -12,10 +12,10 @@ import frc.robot.helpers.Logger;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-public class JoystickTankerSpin extends Command {
+public class AutoTankSpeed extends Command {
 
-    public JoystickTankerSpin() {
-        Logger.debug("Constructing JoystickTankerSpin...");
+    public AutoTankSpeed() {
+        Logger.debug("Constructing AutoTankerSpin...");
 
         // Declare subsystem dependencies
         requires(Robot.robotTanker);
@@ -24,7 +24,7 @@ public class JoystickTankerSpin extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing JoystickTankerSpin...");
+        Logger.debug("Initializing AutoTankerSpin...");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -32,7 +32,7 @@ public class JoystickTankerSpin extends Command {
     protected void execute() {
         // TODO: add a constructor to take a speed
 
-        Robot.robotTanker.gate(.3);
+        Robot.robotTanker.move(.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -46,7 +46,7 @@ public class JoystickTankerSpin extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending JoystickTankerSpin...");
+        Logger.debug("Ending AutoTankerSpin...");
 
         Robot.robotTanker.stop();
     }
@@ -55,7 +55,7 @@ public class JoystickTankerSpin extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted JoystickTankerSpin...");
+        Logger.debug("Interrupted AutoTankerSpin...");
 
         Robot.robotTanker.stop();
     }
