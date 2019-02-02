@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Relay;
 
 
 // This class contains singleton human interface devices, robot components, and mappings
@@ -36,6 +37,9 @@ public class Devices {
     // Xbox Controller singletons
     public static XboxController xbox = new XboxController(1);
 
+    //relay singletons 
+    public static Relay lighterRelay = new Relay(1);
+
     //Speed Controller singletons
     public static WPI_TalonSRX talonSrxWheelFrontRight = new WPI_TalonSRX(1);
     public static WPI_TalonSRX talonSrxWheelFrontLeft = new WPI_TalonSRX(2);
@@ -58,5 +62,6 @@ public class Devices {
 
     //Drive singletons
     public static MecanumDrive mecDrive = new MecanumDrive(talonSrxWheelFrontLeft, talonSrxWheelRearLeft, talonSrxWheelFrontRight, talonSrxWheelRearRight);
+
 
 }

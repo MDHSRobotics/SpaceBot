@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
     public static Tanker robotTanker;
     public static LiftWheel robotLiftWheel;
     public static Pulley robotClimbPulley;
-
+    public static Lighter robotLighter;
     public static UsbCamera robotLineCamera;
     public static LineDetector robotLineDetector;
 
