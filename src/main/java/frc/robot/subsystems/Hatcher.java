@@ -4,7 +4,12 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.HatcherStop;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+// import com.ctre.phoenix.motorcontrol.ControlMode;
 import frc.robot.helpers.Logger;
+import frc.robot.helpers.Constants;
 import frc.robot.Devices;
 
 
@@ -21,6 +26,28 @@ public class Hatcher extends Subsystem {
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxHatcher);
         Devices.talonSrxHatcher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        Devices.talonSrxHatch.configFactoryDefault();
+
+        Devices.talonSrxHatch.configPeakCurrentDuration(40, 20);
+        Devices.talonSrxHatch.configPeakCurrentLimit(11, 20);
+        Devices.talonSrxHatch.configContinuousCurrentLimit(10, 20);
+
+        Devices.talonSrxHatch.configNominalOutputForward(0);
+        Devices.talonSrxHatch.configNominalOutputReverse(0);
+        Devices.talonSrxHatch.configPeakOutputForward(0.3);
+        Devices.talonSrxHatch.configPeakOutputReverse(0.3);
+
+        //Config TalonSRX Redline encoder     
+        //Devices.talonSrxHatch.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
+        Devices.talonSrxHatch.setSensorPhase(false);
+        Devices.talonSrxHatch.setInverted(false);
+        //Devices.talonSrxHatch.configAllowableClosedloopError(Constants.kPIDLoopPrimary, 0, Constants.kTimeoutMs);
+
+        // Devices.talonSrxHatch.config_kF(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
+        // Devices.talonSrxHatch.config_kP(Constants.kPIDLoopPrimary, 0.2, Constants.kTimeoutMs);
+        // Devices.talonSrxHatch.config_kI(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
+        // Devices.talonSrxHatch.config_kD(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);	
+
     }
 
     @Override
@@ -37,29 +64,31 @@ public class Hatcher extends Subsystem {
         }
     }
 
-    // Opens the Hatcher claw to grab a hatch
-    public void grab() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.set(m_speed);
-        }
+    // Opens or closes the Hatcher claw based on speed
+    public void clawOpen() {
+
+       // Devices.talonSrxHatch.set(ControlMode.Position, 27); //temporary tick
+        Devices.talonSrxHatch.set(ControlMode.Position, 1024); //temporary tick
     }
 
-    // Closes the Hatcher claw to release a hatch
-    public void release() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.set(-m_speed);
-        }
+    public int getPosition(){
+        return Devices.talonSrxHatch.getSelectedSensorPosition(); 
     }
 
-    // TODO: Need to change these to use encoders
-    public boolean isGrabbed() {
-        boolean hitLimit = Devices.limitSwitchHatchGrabbed.get();
-        return hitLimit;
+    public int getVelocity(){
+        return Devices.talonSrxHatch.getSelectedSensorVelocity();
     }
 
-    public boolean isReleased() {
-        boolean hitLimit = Devices.limitSwitchHatchReleased.get();
-        return hitLimit;
+    public void resetEncoderPosition(){
+        Devices.talonSrxHatch.setSelectedSensorPosition(0, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
     }
 
+    public void joystickMove(double joystickValue){
+        Devices.talonSrxHatch.set(ControlMode.PercentOutput, joystickValue);
+        
+    }
+
+    public void driveStatic(){
+        Devices.talonSrxHatch.set(0.2);
+    }
 }

@@ -38,5 +38,11 @@ public class Constants {
         this does not affect motor invert. */
     public static boolean kMotorInvert = false;
 
+    // the amount of native ticks per revolution (Tpr) in the CTRE MagEncoder
+    public static final int kMagEncoderTpr = 4096;
+
+    // the amount of native ticks per revolution (Tpr) in the Redline Encoder
+    public static final int kRedlineEncoderTpr = 1024;
+
 }
 

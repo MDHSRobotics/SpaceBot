@@ -9,63 +9,61 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
-import frc.robot.subsystems.EncoderDrive;
+import frc.robot.Devices;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-// This command uses the joystick input to drive using the polar method
-public class AutoEncoderDrive extends Command {
+// This command opens or closes the Hatch claw
+public class AutoHatchClaw extends Command {
 
-    // Constructor
-    public AutoEncoderDrive() {
-        Logger.debug("Constructing AutoEncoderDrive...");
+    double joystickValue;
 
-        // Declare subsystem dependencies
-        requires(Robot.robotEncoderDrive);
+    public AutoHatchClaw() {
+        Logger.debug("Constructing AutoHatchClaw...");
+
+         // Declare subsystem dependencies
+         requires(Robot.robotHatcher);
     }
 
-    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoEncoderDrive...");
-        Robot.robotEncoderDrive.resetEncoderPosition();
+        Logger.debug("Constructing AutoHatchClaw...");
+        //Robot.robotHatcher.resetEncoderPosition();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.robotEncoderDrive.driveRotations(4096);
-        Logger.debug("Position: " + Robot.robotEncoderDrive.getPosition());
-        Logger.debug("Velocity: " + Robot.robotEncoderDrive.getVelocity());
+        // TODO: add a constructor to take a speed
+        
+        Robot.robotHatcher.driveStatic();
+        Logger.debug("Position: " + Robot.robotHatcher.getPosition());
+        Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
     }
 
-    // This command isn't finished until it is interrupted
+    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        //boolean isPositionMet = EncoderDrive.isPositionMet();
-        // if(isPositionMet){
-        //     return true;
-        // }
-        // else{
-            return false;
-        //}
+        // TODO: need a limit switch to determine when this is done
+
+        return false;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoEncoderDrive...");
+        Logger.debug("Ending AutoHatchClaw...");
 
-        Robot.robotEncoderDrive.stop();
+        Robot.robotHatcher.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoEncoderDrive...");
+        Logger.debug("Interrupted AutoHatchClaw...");
 
-        Robot.robotEncoderDrive.stop();
+        Robot.robotHatcher.stop();
     }
 
 }

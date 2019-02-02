@@ -33,22 +33,22 @@ public class EncoderDrive extends Subsystem{
         Logger.debug("Constructing EncoderDrive...");
 
         //Config TalonSRX encoder     
-        Devices.talonSrxWheelFrontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.setSensorPhase(false);
-        Devices.talonSrxWheelFrontRight.setInverted(false);
-        Devices.talonSrxWheelFrontRight.configNominalOutputForward(0, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.configNominalOutputReverse(0, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.configPeakOutputForward(1, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.configAllowableClosedloopError(Constants.kPIDLoopPrimary, 0, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.setSensorPhase(false);
+        Devices.talonSrxWheelRearRight.setInverted(false);
+        Devices.talonSrxWheelRearRight.configNominalOutputForward(0, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.configNominalOutputReverse(0, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.configPeakOutputForward(1, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.configAllowableClosedloopError(Constants.kPIDLoopPrimary, 0, Constants.kTimeoutMs);
 
-        Devices.talonSrxWheelFrontRight.config_kF(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.config_kP(Constants.kPIDLoopPrimary, 0.15, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.config_kI(Constants.kPIDLoopPrimary, 0.001, Constants.kTimeoutMs);
-        Devices.talonSrxWheelFrontRight.config_kD(Constants.kPIDLoopPrimary, 1.5, Constants.kTimeoutMs);	
+        Devices.talonSrxWheelRearRight.config_kF(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.config_kP(Constants.kPIDLoopPrimary, 0.15, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.config_kI(Constants.kPIDLoopPrimary, 0.001, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.config_kD(Constants.kPIDLoopPrimary, 1.5, Constants.kTimeoutMs);	
 
         
-        Devices.talonSrxWheelFrontRight.setSelectedSensorPosition(absolutePosition, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
+        Devices.talonSrxWheelRearRight.setSelectedSensorPosition(absolutePosition, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
     }
 
     @Override
@@ -66,8 +66,9 @@ public class EncoderDrive extends Subsystem{
 
     // Rotates the motor for a certain amount of raw encoder units
     // One rotations equals 4096 raw units
-    public void positionDrive(double rawUnits) {
-        Devices.talonSrxWheelRearRight.set(ControlMode.Position, rawUnits);
+    public void driveRotations(double rotations) {
+        double tickCount = rotations*Constants.kRedlineEncoderTpr;
+        Devices.talonSrxWheelRearRight.set(ControlMode.Position, tickCount);
     }
 
     public int getPosition(){
