@@ -35,18 +35,18 @@ public class Hatcher extends Subsystem {
         Devices.talonSrxHatch.configNominalOutputForward(0);
         Devices.talonSrxHatch.configNominalOutputReverse(0);
         Devices.talonSrxHatch.configPeakOutputForward(0.3);
-        Devices.talonSrxHatch.configPeakOutputReverse(0.3);
+        Devices.talonSrxHatch.configPeakOutputReverse(-0.3);
 
         //Config TalonSRX Redline encoder     
-        //Devices.talonSrxHatch.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
-        Devices.talonSrxHatch.setSensorPhase(false);
-        Devices.talonSrxHatch.setInverted(false);
-        //Devices.talonSrxHatch.configAllowableClosedloopError(Constants.kPIDLoopPrimary, 0, Constants.kTimeoutMs);
+        Devices.talonSrxHatch.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopPrimary, Constants.kTimeoutMs);
+        Devices.talonSrxHatch.setSensorPhase(true);
+        Devices.talonSrxHatch.setInverted(true);
+        Devices.talonSrxHatch.configAllowableClosedloopError(Constants.kPIDLoopPrimary, 0, Constants.kTimeoutMs);
 
-        // Devices.talonSrxHatch.config_kF(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
-        // Devices.talonSrxHatch.config_kP(Constants.kPIDLoopPrimary, 0.2, Constants.kTimeoutMs);
-        // Devices.talonSrxHatch.config_kI(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
-        // Devices.talonSrxHatch.config_kD(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);	
+        Devices.talonSrxHatch.config_kF(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
+        Devices.talonSrxHatch.config_kP(Constants.kPIDLoopPrimary, 0.2, Constants.kTimeoutMs);
+        Devices.talonSrxHatch.config_kI(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);
+        Devices.talonSrxHatch.config_kD(Constants.kPIDLoopPrimary, 0.0, Constants.kTimeoutMs);	
 
     }
 
@@ -89,6 +89,6 @@ public class Hatcher extends Subsystem {
     }
 
     public void driveStatic(){
-        Devices.talonSrxHatch.set(0.2);
+        Devices.talonSrxHatch.set(-0.2);
     }
 }

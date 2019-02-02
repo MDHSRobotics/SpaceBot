@@ -12,6 +12,7 @@ import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // This command opens or closes the Hatch claw
 public class AutoHatchClaw extends Command {
@@ -28,7 +29,7 @@ public class AutoHatchClaw extends Command {
     @Override
     protected void initialize() {
         Logger.debug("Constructing AutoHatchClaw...");
-        //Robot.robotHatcher.resetEncoderPosition();
+        Robot.robotHatcher.resetEncoderPosition();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,9 +37,14 @@ public class AutoHatchClaw extends Command {
     protected void execute() {
         // TODO: add a constructor to take a speed
         
-        Robot.robotHatcher.driveStatic();
+        Robot.robotHatcher.clawOpen();
         Logger.debug("Position: " + Robot.robotHatcher.getPosition());
         Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
+        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxHatch.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxHatch.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Out %",  Devices.talonSrxHatch.getMotorOutputPercent());
+        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
