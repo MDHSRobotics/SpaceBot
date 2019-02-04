@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
@@ -13,11 +7,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command grabs the hatch
+// This command opens the Hatcher claw to grab the hatch
 public class AutoHatchGrab extends Command {
 
     public AutoHatchGrab() {
-        Logger.debug("Constructing AutoBallerGate...");
+        Logger.debug("Constructing AutoHatchGrab...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -25,37 +19,31 @@ public class AutoHatchGrab extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing AutoBallerGate...");
+        Logger.debug("Constructing AutoHatchGrab...");
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
         Robot.robotHatcher.grab();
     }
 
-    // The command is finished when the Hatch is grabbed
+    // This command is finished when the hatch is grabbed
     @Override
     protected boolean isFinished() {
         boolean isGrabbed = Robot.robotHatcher.isGrabbed();
         return isGrabbed;
     }
 
-
-    // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoHatchClaw...");
+        Logger.debug("Ending AutoHatchGrab...");
 
         Robot.robotHatcher.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoHatchClaw...");
+        Logger.debug("Interrupted AutoHatchGrab...");
 
         Robot.robotHatcher.stop();
     }

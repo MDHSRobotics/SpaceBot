@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -39,23 +33,14 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.stopMotor();
     }
 
-    // Deploys the ball
-    public void deploy() {
-        Devices.talonSrxBaller.set(m_speed);
-    }
-
     // Blocks the ball
-    public void block() {
+    public void blockBall() {
         Devices.talonSrxBaller.set(-m_speed);    
     }
 
-    // Determines if the Ball Deployed limit switch is active
-    public boolean isDeployed() {
-        boolean hitLimit = Devices.limitSwitchBallDeployed.get();
-        if (hitLimit) {
-            Logger.debug("Ball has been deployed!");
-        }
-        return hitLimit;
+    // Tosses the ball
+    public void tossBall() {
+        Devices.talonSrxBaller.set(m_speed);
     }
 
     // Determines if the Ball Blocked limit switch is active
@@ -63,6 +48,15 @@ public class Baller extends Subsystem {
         boolean hitLimit = Devices.limitSwitchBallBlocked.get();
         if (hitLimit) {
             Logger.debug("Ball is now blocked!");
+        }
+        return hitLimit;
+    }
+
+    // Determines if the Ball Tossed limit switch is active
+    public boolean isTossed() {
+        boolean hitLimit = Devices.limitSwitchBallTossed.get();
+        if (hitLimit) {
+            Logger.debug("Ball has been tossed!");
         }
         return hitLimit;
     }

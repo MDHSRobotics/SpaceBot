@@ -1,15 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.JoystickDriveCartesian;
+import frc.robot.commands.JoystickMecDriveCartesian;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
@@ -38,20 +32,20 @@ public class MecDriver extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing MecDriver default command -> JoystickDrivePolar...");
 
-        setDefaultCommand(new JoystickDriveCartesian());
+        setDefaultCommand(new JoystickMecDriveCartesian());
     }
 
-    // Flip the control direction of the joystick
-    public Boolean flip() {
-        Logger.debug("Toggling MecDriver control flipping...");
+    // Flip the control direction of the joystick in Y
+    public Boolean flipControlOrientation() {
+        Logger.debug("Toggling MecDriver control orientation...");
 
         isFlipped = !isFlipped;
 
         if (isFlipped) {
-            Logger.debug("MecDriver control is now flipped.");
+            Logger.debug("MecDriver control orientation is now flipped.");
         }
         else {
-            Logger.debug("MecDriver control is now standard (not flipped).");
+            Logger.debug("MecDriver control orientation is now standard (not flipped).");
         }
 
         return isFlipped;

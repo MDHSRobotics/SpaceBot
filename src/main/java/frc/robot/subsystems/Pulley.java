@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -13,37 +7,38 @@ import frc.robot.commands.IdlePulley;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
-/**
- * Add your docs here.
- */
+
+// Pulley subsystem for lifting the robot onto the platform
 public class Pulley extends Subsystem {
-    
+
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
-    
 
     public Pulley() {
         Logger.debug("Constructing Pulley...");
-    
-        Devices.talonSrxClimbPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-    
+
+        Devices.talonSrxLiftPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
-  @Override
-  public void initDefaultCommand() {
-    Logger.debug("Initializing Pulley default command...");
+    @Override
+    public void initDefaultCommand() {
+        Logger.debug("Initializing Pulley default command...");
 
         setDefaultCommand(new IdlePulley());
-  }
-
-// Stop the Footer motor
-  public void stop() {
-    Devices.talonSrxClimbPulley.stopMotor();
-}
-
-// Pushes in/out Foot based on a given speed
-public void lift(double speed) {
-    Devices.talonSrxClimbPulley.set(speed);
     }
-    
+
+    // Stop the Pulley motor
+    public void stop() {
+        Devices.talonSrxLiftPulley.stopMotor();
+    }
+
+    // Run the motor to lift the pulley
+    public void lift(double speed) {
+        // TODO: define a private member variable for the speed in this class,
+        // and use that instead of an argument for this method.
+        // Then add another method called: lower()
+
+        Devices.talonSrxLiftPulley.set(speed);
+    }
+
 }

@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -16,10 +10,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 
 
-// This class contains singleton human interface devices, robot components, and mappings
+// This class contains singletons for human interface devices and robot components, and mappings for each
 public class Devices {
 
-    // Joystick singletons
+    // Joysticks
     public static Joystick jstick = new Joystick(0);
     public static JoystickButton jstickBtn1 = new JoystickButton(jstick, 1);
     public static JoystickButton jstickBtn2 = new JoystickButton(jstick, 2);
@@ -32,36 +26,35 @@ public class Devices {
     public static JoystickButton jstickBtn9 = new JoystickButton(jstick, 9);
     public static JoystickButton jstickBtn10 = new JoystickButton(jstick, 10);
     public static JoystickButton jstickBtn11 = new JoystickButton(jstick, 11);
-    public static JoystickButton jstickBtn12 = new JoystickButton(jstick, 11);
+    public static JoystickButton jstickBtn12 = new JoystickButton(jstick, 12);
 
-    // Xbox Controller singletons
+    // Xbox Controllers
     public static XboxController xbox = new XboxController(1);
 
-    //relay singletons 
+    // Relays
     public static Relay lighterRelay = new Relay(1);
 
-    //Speed Controller singletons
-    public static WPI_TalonSRX talonSrxWheelFrontRight = new WPI_TalonSRX(1);
-    public static WPI_TalonSRX talonSrxWheelFrontLeft = new WPI_TalonSRX(2);
-    public static WPI_TalonSRX talonSrxWheelRearRight = new WPI_TalonSRX(3);
-    public static WPI_TalonSRX talonSrxWheelRearLeft = new WPI_TalonSRX(4);
+    // Speed Controllers
+    public static WPI_TalonSRX talonSrxWheelFrontRight = new WPI_TalonSRX(1); // 1 motor
+    public static WPI_TalonSRX talonSrxWheelFrontLeft = new WPI_TalonSRX(2); // 1 motor
+    public static WPI_TalonSRX talonSrxWheelRearRight = new WPI_TalonSRX(3); // 1 motor
+    public static WPI_TalonSRX talonSrxWheelRearLeft = new WPI_TalonSRX(4); // 1 motor
 
-    public static WPI_TalonSRX talonSrxHatch = new WPI_TalonSRX(5);
-    public static WPI_TalonSRX talonSrxBaller = new WPI_TalonSRX(6);
+    public static WPI_TalonSRX talonSrxHatcher = new WPI_TalonSRX(5); // 1 motor
+    public static WPI_TalonSRX talonSrxBaller = new WPI_TalonSRX(6); // 1 motor
 
-    public static WPI_TalonSRX talonSrxClimbPulley = new WPI_TalonSRX(7); //4 motors attached 
-    public static WPI_TalonSRX talonSrxClimbTank = new WPI_TalonSRX(8); //1 motor attached
-    public static WPI_TalonSRX talonSrxClimbArm = new WPI_TalonSRX(9);  //1 motor attached 
-    public static WPI_TalonSRX talonSrxLiftWheel = new WPI_TalonSRX(10); // 1 motor attached
-                                                                        //1 talonsrx for each micro-subsystem
+    public static WPI_TalonSRX talonSrxClimbArm = new WPI_TalonSRX(7); // 1 motor
+    public static WPI_TalonSRX talonSrxClimbTank = new WPI_TalonSRX(8); // 1 motor
+    public static WPI_TalonSRX talonSrxLiftPulley = new WPI_TalonSRX(9); // 4 motors
+    public static WPI_TalonSRX talonSrxLiftWheel = new WPI_TalonSRX(10); // 1 motor
 
-    public static DigitalInput limitSwitchHatchGrabbed  = new DigitalInput(1);
-    public static DigitalInput limitSwitchHatchReleased = new DigitalInput(2);
+    // Limit Switches
+    public static DigitalInput limitSwitchHatchGrabbed  = new DigitalInput(1); // TODO: Replace this with encoders
+    public static DigitalInput limitSwitchHatchReleased = new DigitalInput(2); // TODO: Replace this with encoders
     public static DigitalInput limitSwitchBallBlocked = new DigitalInput(3);
-    public static DigitalInput limitSwitchBallDeployed = new DigitalInput(4);
+    public static DigitalInput limitSwitchBallTossed = new DigitalInput(4);
 
-    //Drive singletons
+    // Drives
     public static MecanumDrive mecDrive = new MecanumDrive(talonSrxWheelFrontLeft, talonSrxWheelRearLeft, talonSrxWheelFrontRight, talonSrxWheelRearRight);
-
 
 }

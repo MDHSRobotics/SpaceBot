@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
@@ -14,16 +8,17 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-public class AutoDriveTurn extends Command {
+// This command rotates the MecDrive clockwise until is reaches its target
+public class AutoMecDriveRightTurn extends Command {
 
     // Angular velocity (degrees/second) at full power - THIS IS A GUESS - CHECK IT!!
     private static double angularVelocityAtFullPower = 48.0;
-    // Default target angle to rotate in degrees (positive is clock-wise)
+    // Default target angle to rotate in degrees (positive is clockwise)
     private static double m_defaultTargetAngle = 15;
     // Default power setting for drive: 0.0 to +1.0
     private static double m_defaultPower = .1;
 
-    // Target angle to rotate in degrees (positive is clock-wise)
+    // Target angle to rotate in degrees (positive is clockwise)
     private double m_targetAngle;
     // Power setting for drive: 0.0 to +1.0
     private double m_power;
@@ -40,13 +35,13 @@ public class AutoDriveTurn extends Command {
 	// Counter for the timer
     private int m_counter;
 
-    // Constructor
-    public AutoDriveTurn() {
+    // Constructors
+    public AutoMecDriveRightTurn() {
         this(m_defaultTargetAngle, m_defaultPower);
     }
 
-    public AutoDriveTurn(double targetAngle, double power) {
-        Logger.debug("Constructing AutoDriveTurn...");
+    public AutoMecDriveRightTurn(double targetAngle, double power) {
+        Logger.debug("Constructing AutoMecDriveRightTurn...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -66,10 +61,9 @@ public class AutoDriveTurn extends Command {
         }
     }
 
-    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoDriveTurn...");
+        Logger.debug("Initializing AutoMecDriveRightTurn...");
 
 		m_timer.reset();
 		m_timer.start();
@@ -78,7 +72,6 @@ public class AutoDriveTurn extends Command {
 		Logger.debug("Target = " + m_targetAngle + " degrees" + "; Power = " + m_power);
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
 		// Keep robot moving in the requested direction
@@ -94,12 +87,12 @@ public class AutoDriveTurn extends Command {
         // Degrees turned (degrees) = elapsed time (seconds) * angular velocity (degrees per second)
 		m_currentAngle = m_elapsedTime * m_angularVelocity;
 		if (++m_counter >= 50) {
-			Logger.debug("Executing AutoDriveTurn: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
+			Logger.debug("Executing AutoMecDriveRightTurn: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
 			m_counter = 0;
 		}
     }
 
-    // The command is finished when the target angle is estimated to have been reached
+    // This command is finished when the target angle is estimated to have been reached
     // TODO: This should be determined by an encoder
     @Override
     protected boolean isFinished() {
@@ -113,10 +106,9 @@ public class AutoDriveTurn extends Command {
 		}
     }
 
-    // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoDriveTurn...");
+        Logger.debug("Ending AutoMecDriveRightTurn...");
 
         Robot.robotMecDriver.stop();
 
@@ -124,11 +116,9 @@ public class AutoDriveTurn extends Command {
         Logger.debug("Target = " + m_targetAngle + " degrees; Actual = " + m_currentAngle + " desgrees; Elapsed time = " + m_elapsedTime + " seconds");
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoDriveTurn...");
+        Logger.debug("Interrupting AutoMecDriveRightTurn...");
 
         Robot.robotMecDriver.stop();
 

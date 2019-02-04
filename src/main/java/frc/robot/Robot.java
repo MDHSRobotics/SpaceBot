@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -16,10 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.concurrent.TimeUnit;
 
-import frc.robot.commands.AutoDriveDistance;
-import frc.robot.commands.AutoDriveLine;
-import frc.robot.commands.AutoDriveTurn;
-import frc.robot.commands.IdleDrive;
+import frc.robot.commands.AutoMecDriveForward;
+import frc.robot.commands.AutoMecDriveLine;
+import frc.robot.commands.AutoMecDriveRightTurn;
+import frc.robot.commands.IdleMecDriver;
 import frc.robot.helpers.Logger;
 import frc.robot.subsystems.*;
 import frc.robot.vision.LineDetector;
@@ -34,22 +28,26 @@ import frc.robot.vision.LineDetector;
  */
 public class Robot extends TimedRobot {
 
-    public static ClimbArm robotClimbArm;
-    public static Baller robotBaller;
-    public static Hatcher robotHatcher;
+    // Subsystems
     public static MecDriver robotMecDriver;
-    public static Tanker robotTanker;
-    public static LiftWheel robotLiftWheel;
-    public static Pulley robotClimbPulley;
     public static Lighter robotLighter;
+
+    public static Hatcher robotHatcher;
+    public static Baller robotBaller;
+
+    public static ClimbArm robotClimbArm;
+    public static Tanker robotTanker;
+    public static Pulley robotPulley;
+    public static LiftDriver robotLiftDriver;
+
+    // Vision
     public static UsbCamera robotLineCamera;
     public static LineDetector robotLineDetector;
-
-    public static OI robotOI;
-    
-
     public static final int lineCamResolutionWidth = 320;
 	public static final int lineCamResolutionHeight = 240;
+
+    // OI
+    public static OI robotOI;
 
     private SendableChooser<Command> m_autoModeChooser;
     private Command m_autoCmd;
@@ -63,12 +61,15 @@ public class Robot extends TimedRobot {
         Logger.debug("Initializing Robot...");
 
         // Instantiate subsystem singletons FIRST
-        robotClimbArm = new ClimbArm();
-        robotBaller = new Baller();
-        robotHatcher = new Hatcher();
         robotMecDriver = new MecDriver();
-        robotLiftWheel = new LiftWheel();
+        robotLighter = new Lighter();
 
+        robotHatcher = new Hatcher();
+        robotBaller = new Baller();
+
+        robotClimbArm = new ClimbArm();
+        robotTanker = new Tanker();
+        robotLiftDriver = new LiftDriver();
 
         // Instantiate the OI singleton AFTER all the subsystems
         robotOI = new OI();
@@ -77,10 +78,10 @@ public class Robot extends TimedRobot {
         Logger.debug("Adding Auto modes to SmartDashboard...");
         m_autoModeChooser = new SendableChooser<>();
 
-        m_autoModeChooser.setDefaultOption("Idle Drive", new IdleDrive());
-        m_autoModeChooser.addOption("Drive Distance", new AutoDriveDistance());
-        m_autoModeChooser.addOption("Drive Turn", new AutoDriveTurn());
-        m_autoModeChooser.addOption("Drive Line Detect", new AutoDriveLine());
+        m_autoModeChooser.setDefaultOption("Mec Drive - Idle", new IdleMecDriver());
+        m_autoModeChooser.addOption("Mec Drive - Forward", new AutoMecDriveForward());
+        m_autoModeChooser.addOption("Mec Drive - Right Turn", new AutoMecDriveRightTurn());
+        m_autoModeChooser.addOption("Mec Drive - Line Detect", new AutoMecDriveLine());
 
         SmartDashboard.putData("Auto mode", m_autoModeChooser);
 

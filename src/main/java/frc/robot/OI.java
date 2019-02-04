@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -21,17 +15,19 @@ public class OI {
     public OI() {
         Logger.debug("Constructing OI...");
 
+        // TODO: Need to establish a dead zone for the joystick
+
         // Bind the joystick buttons to specific commands
-        Devices.jstickBtn1.whenPressed(new AutoDriveLine());
+        Devices.jstickBtn1.whenPressed(new AutoMecDriveLine());
         Devices.jstickBtn3.whenPressed(new AutoHatchGrab());
         Devices.jstickBtn4.whenPressed(new AutoHatchRelease());
-        Devices.jstickBtn5.whenPressed(new AutoBallDeploy());
-        Devices.jstickBtn6.whenPressed(new AutoBallBlock());
+        Devices.jstickBtn5.whenPressed(new AutoBallBlock());
+        Devices.jstickBtn6.whenPressed(new AutoBallToss());
+
+        // TODO: The lift and climb commands should be activated via the xbox controller
         Devices.jstickBtn7.whenPressed(new AutoClimbArmLower());
         Devices.jstickBtn8.whileHeld(new JoystickPulleyUp());
         Devices.jstickBtn9.whileHeld(new JoystickPulleyDown());
-
-        // TODO: Need to establish a dead zone for the joystick
     }
 
     // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position

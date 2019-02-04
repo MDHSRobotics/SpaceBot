@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
@@ -13,47 +7,44 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
+// This command idles the Pulley motor
 public class IdlePulley extends Command {
-  public IdlePulley() {
-    Logger.debug("Constucting IdlePulley...");
 
-        //Declare subsysted dependencies
-        requires(Robot.robotClimbPulley);
-  }
+    public IdlePulley() {
+        Logger.debug("Constucting IdlePulley...");
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    Logger.debug("Initializing IdlePulley...");
-  }
+        // Declare subsystem dependencies
+        requires(Robot.robotPulley);
+    }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    Robot.robotClimbPulley.stop();
-  }
+    @Override
+    protected void initialize() {
+        Logger.debug("Initializing IdlePulley...");
+    }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    @Override
+    protected void execute() {
+        Robot.robotPulley.stop();
+    }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    Logger.debug("Ending IdlePulley...");
+    // This command continues until interrupted
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-    Robot.robotClimbPulley.stop();
-  }
+    @Override
+    protected void end() {
+        Logger.debug("Ending IdlePulley...");
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    Logger.debug("Interrupting IdlePulley...");
+        Robot.robotPulley.stop();
+    }
 
-    Robot.robotClimbPulley.stop();
+    @Override
+    protected void interrupted() {
+        Logger.debug("Interrupting IdlePulley...");
+
+        Robot.robotPulley.stop();
+    }
+
 }
-  }
-

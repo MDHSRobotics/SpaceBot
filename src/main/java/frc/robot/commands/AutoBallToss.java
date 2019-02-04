@@ -7,11 +7,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command idles the Baller motor
-public class IdleBaller extends Command {
+// This command tosses to cargo ball into the scoring area
+public class AutoBallToss extends Command {
 
-    public IdleBaller() {
-        Logger.debug("Constructing IdleBaller...");
+    public AutoBallToss() {
+        Logger.debug("Constructing AutoBallToss...");
 
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
@@ -19,30 +19,31 @@ public class IdleBaller extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleBaller...");
+        Logger.debug("Initializing AutoBallToss...");
     }
 
     @Override
     protected void execute() {
-        Robot.robotBaller.stop();
+        Robot.robotBaller.tossBall();
     }
 
-    // This command continues until interrupted
+    // This command is finished when the ball has been fully tossed
     @Override
     protected boolean isFinished() {
-        return false;
+        boolean isTossed = Robot.robotBaller.isTossed();
+        return isTossed;
     }
 
     @Override
     protected void end() {
-        Logger.debug("Ending IdleBaller...");
+        Logger.debug("Ending AutoBallToss...");
 
         Robot.robotBaller.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleBaller...");
+        Logger.debug("Interrupted AutoBallToss...");
 
         Robot.robotBaller.stop();
     }

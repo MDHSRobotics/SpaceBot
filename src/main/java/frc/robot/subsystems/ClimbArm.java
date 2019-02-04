@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -14,7 +8,8 @@ import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
 
-// Subsystem to move the Arm
+// Subsystem to move the Arm down into two different set positions,
+// plus a little extra controlled by the user.
 public class ClimbArm extends Subsystem {
 
     private double m_secondsFromNeutralToFull = 1.0;
@@ -41,6 +36,11 @@ public class ClimbArm extends Subsystem {
 
     // Raises or Lowers the Arm based on given speed
     public void move(double speed) {
+        // TODO: this method actually needs to be split into three methods.
+        // Method 1: lowerHalf() - hard coded position
+        // Method 2: lowerFull() - hard coded position
+        // Method 3: lowerMore() - user controlled, but with a max position limit
+
         Devices.talonSrxClimbArm.set(speed);
     }
 

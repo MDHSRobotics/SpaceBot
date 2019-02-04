@@ -7,24 +7,24 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command idles the ClimbArm motor
-public class IdleClimbArm extends Command {
+// This command idles the LiftDriver motor
+public class IdleLiftDriver extends Command {
 
-    public IdleClimbArm() {
-        Logger.debug("Constucting IdleClimbArm...");
+    public IdleLiftDriver() {
+        Logger.debug("Constructing IdleLiftDriver...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotClimbArm);
+        requires(Robot.robotLiftDriver);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleClimbArm...");
+        Logger.debug("Initializing IdleLiftDriver...");
     }
 
     @Override
     protected void execute() {
-        Robot.robotClimbArm.stop();
+        Robot.robotLiftDriver.stop();
     }
 
     // This command continues until interrupted
@@ -35,16 +35,16 @@ public class IdleClimbArm extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending IdleClimbArm...");
+        Logger.debug("Ending IdleLiftDriver...");
 
-        Robot.robotClimbArm.stop();
+        Robot.robotLiftDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleClimbArm...");
+        Logger.debug("Interrupting IdleLiftDriver...");
 
-        Robot.robotClimbArm.stop();
+        Robot.robotLiftDriver.stop();
     }
 
 }

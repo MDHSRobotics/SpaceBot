@@ -13,7 +13,7 @@ import frc.robot.helpers.Logger;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-public class AutoDriveDistance extends Command {
+public class AutoMecDriveForward extends Command {
 
 	// Velocity (feet/second) at full power - THIS IS A GUESS - CHECK IT!!
     private static double m_velocityAtFullPower = 11.5;
@@ -40,11 +40,11 @@ public class AutoDriveDistance extends Command {
     private int m_counter;
 
     // Constructors
-    public AutoDriveDistance() {
+    public AutoMecDriveForward() {
         this(m_defaultTargetDistanceInFeet, m_defaultPower);
     }
 
-    public AutoDriveDistance(double targetDistanceInFeet, double power) {
+    public AutoMecDriveForward(double targetDistanceInFeet, double power) {
         Logger.debug("Constructing AutoDriveDistance...");
 
         // Declare subsystem dependencies

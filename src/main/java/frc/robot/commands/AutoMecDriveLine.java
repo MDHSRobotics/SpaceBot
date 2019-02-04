@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
@@ -13,26 +7,24 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// Automatically drive to line up on the line seen by the vision system.
-public class AutoDriveLine extends Command {
+// Automatically control the MecDrive to align with a line seen by the vision system.
+public class AutoMecDriveLine extends Command {
 
     private double m_zSpeed = .3;
     private double m_xSpeed = .3;
 
-    public AutoDriveLine() {
-        Logger.debug("Constructing AutoDriveLine...");
+    public AutoMecDriveLine() {
+        Logger.debug("Constructing AutoMecDriveLine...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
     }
 
-    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoDriveLine...");
+        Logger.debug("Initializing AutoMecDriveLine...");
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
         boolean detected = Robot.robotLineDetector.lineDetected();
@@ -83,19 +75,16 @@ public class AutoDriveLine extends Command {
         return true;
     }
 
-    // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoDriveLine...");
+        Logger.debug("Ending AutoMecDriveLine...");
 
         Robot.robotMecDriver.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoDriveLine...");
+        Logger.debug("Interrupting AutoMecDriveLine...");
 
         Robot.robotMecDriver.stop();
     }
