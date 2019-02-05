@@ -27,9 +27,11 @@ public class OI {
         Devices.jstickBtn4.whenPressed(new AutoHatchRelease());
         Devices.jstickBtn5.whenPressed(new AutoBallDeploy());
         Devices.jstickBtn6.whenPressed(new AutoBallBlock());
-        Devices.jstickBtn7.whenPressed(new AutoClimbArmLower());
-        Devices.jstickBtn8.whileHeld(new JoystickPulleyUp());
-        Devices.jstickBtn9.whileHeld(new JoystickPulleyDown());
+        Devices.jstickBtn7.whenPressed(new LowerClimbArm());
+        Devices.jstickBtn8.whileHeld(new RaiseRobot());
+        Devices.jstickBtn9.whileHeld(new LowerRobot());
+        Devices.jstickBtn10.whenPressed(new TankPull());
+        Devices.jstickBtn11.whenPressed(new TankRaise());
 
         // TODO: Need to establish a dead zone for the joystick
     }

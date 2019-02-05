@@ -12,11 +12,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-public class JoystickPulleyUp extends Command {
-  private double m_speed = 0.5;
+public class LowerRobot extends Command {
+  private double m_speed = -0.5;
   
-    public JoystickPulleyUp() {
-        Logger.debug("Constructing JoystickPulleyUp...");
+    public LowerRobot() {
+        Logger.debug("Constructing LowerRobot...");
 
         // Declare subsystem dependencies
         requires(Robot.robotClimbPulley);
@@ -25,7 +25,7 @@ public class JoystickPulleyUp extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-      Logger.debug("Initializing JoystickPulleyUp");
+      Logger.debug("Initializing LowerRobot");
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -43,7 +43,7 @@ public class JoystickPulleyUp extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Logger.debug("Ending JoystickPulleyUp...");
+    Logger.debug("Ending LowerRobot...");
 
     Robot.robotClimbPulley.stop();
   }
@@ -52,7 +52,7 @@ public class JoystickPulleyUp extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Logger.debug("Interrupted JoystickPulleUp...");
+    Logger.debug("Interrupted JoystickPulleDown...");
 
     Robot.robotClimbPulley.stop();
   }
