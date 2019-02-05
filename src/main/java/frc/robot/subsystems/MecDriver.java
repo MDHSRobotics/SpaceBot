@@ -11,7 +11,12 @@ import frc.robot.Devices;
 // Mecanum driver subsystem
 public class MecDriver extends Subsystem {
 
-    public boolean isFlipped = false;
+    public enum DeliveryMode {
+        HATCH, BALL
+    }
+
+    public DeliveryMode currentMode = DeliveryMode.HATCH;
+    public boolean isControlOrientationFlipped = false;
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
@@ -39,16 +44,16 @@ public class MecDriver extends Subsystem {
     public Boolean flipControlOrientation() {
         Logger.debug("Toggling MecDriver control orientation...");
 
-        isFlipped = !isFlipped;
+        isControlOrientationFlipped = !isControlOrientationFlipped;
 
-        if (isFlipped) {
+        if (isControlOrientationFlipped) {
             Logger.debug("MecDriver control orientation is now flipped.");
         }
         else {
             Logger.debug("MecDriver control orientation is now standard (not flipped).");
         }
 
-        return isFlipped;
+        return isControlOrientationFlipped;
     }
 
     // Stop all the drive motors

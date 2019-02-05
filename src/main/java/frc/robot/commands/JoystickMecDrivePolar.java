@@ -26,7 +26,7 @@ public class JoystickMecDrivePolar extends Command {
 
     @Override
     protected void execute() {
-        PolarMovement move = OI.getPolarMovementFromJoystick(Robot.robotMecDriver.isFlipped);
+        PolarMovement move = OI.getPolarMovementFromJoystick(Robot.robotMecDriver.isControlOrientationFlipped);
         Robot.robotMecDriver.drivePolar(move.magnitude, move.angle, move.rotation);
     }
 
