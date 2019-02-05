@@ -1,6 +1,7 @@
 
 package frc.robot.vision;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.vision.VisionThread;
 import java.util.ArrayList;
 import org.opencv.core.*;
@@ -12,13 +13,17 @@ import frc.robot.helpers.Logger;
 
 public class LineDetector {
 
-    private double m_minimumArea = (Robot.lineCamResolutionHeight / 3) ^ 2;
+    private enum Quadrant {
+        UPPERLEFT, UPPERRIGHT, LOWERLEFT, LOWERRIGHT;
+    }
+
+    private double m_minimumArea = (Robot.camResolutionHeight / 3) ^ 2;
 
     private double m_targetAngle = 0;
-    private double m_targetCenterX = Robot.lineCamResolutionWidth / 2;
+    private double m_targetCenterX = Robot.camResolutionWidth / 2;
 
     private double m_angleThreshold = 10;
-    private double m_centerXThreshold = Robot.lineCamResolutionWidth / 64;
+    private double m_centerXThreshold = Robot.camResolutionWidth / 64;
 
     private double m_area = 0;
     private double m_angle = 0;
@@ -28,24 +33,20 @@ public class LineDetector {
     private VisionThread m_visionThread;
     private final Object m_imgLock = new Object();
 
-    private enum Quadrant {
-        UPPERLEFT, UPPERRIGHT, LOWERLEFT, LOWERRIGHT;
-    }
-
     // Constructor
-    public LineDetector(boolean cameraIsConnected) {
+    public LineDetector(UsbCamera lineCam) {
         Logger.debug("Constructing Line Detector...");
 
-        if (cameraIsConnected) {
-            intitialize();
+        if (lineCam != null) {
+            intitialize(lineCam);
         }
     }
 
-    public void intitialize() {
+    public void intitialize(UsbCamera lineCam) {
         Logger.debug("Intitializing Line Detector...");
 
         LinePipeline linePipe = new LinePipeline();
-        m_visionThread = new VisionThread(Robot.robotLineCamera, linePipe, pipeline -> {
+        m_visionThread = new VisionThread(lineCam, linePipe, pipeline -> {
             ArrayList<MatOfPoint> output = pipeline.filterContoursOutput();
             int outputSize = output.size();
             // We can only work with one contour
@@ -106,8 +107,8 @@ public class LineDetector {
     }
 
     private Quadrant getQuadrant(double x, double y) {
-        boolean isUpper = (y <= Robot.lineCamResolutionHeight / 2);
-        boolean isLeft = (x <= Robot.lineCamResolutionWidth / 2);
+        boolean isUpper = (y <= Robot.camResolutionHeight / 2);
+        boolean isLeft = (x <= Robot.camResolutionWidth / 2);
         if (isUpper) {
             if (isLeft) {
                 return Quadrant.UPPERLEFT;
