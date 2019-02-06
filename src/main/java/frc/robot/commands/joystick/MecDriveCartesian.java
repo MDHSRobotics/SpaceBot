@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.joystick;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,10 +10,10 @@ import frc.robot.Robot;
 
 
 // This command uses the joystick input to mecanum drive using the cartesian method
-public class JoystickMecDriveCartesian extends Command {
+public class MecDriveCartesian extends Command {
 
-    public JoystickMecDriveCartesian() {
-        Logger.debug("Constructing JoystickDriveCartesian...");
+    public MecDriveCartesian() {
+        Logger.debug("Constructing MecDriveCartesian...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -21,7 +21,7 @@ public class JoystickMecDriveCartesian extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing JoystickDriveCartesian...");
+        Logger.debug("Initializing MecDriveCartesian...");
     }
 
     @Override
@@ -38,14 +38,14 @@ public class JoystickMecDriveCartesian extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending JoystickDriveCartesian...");
+        Logger.debug("Ending MecDriveCartesian...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting JoystickDriveCartesian...");
+        Logger.debug("Interrupting MecDriveCartesian...");
 
         Robot.robotMecDriver.stop();
     }

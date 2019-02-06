@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.IdlePulley;
+import frc.robot.commands.idle.PulleyStop;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
@@ -17,19 +17,19 @@ public class Pulley extends Subsystem {
     public Pulley() {
         Logger.debug("Constructing Pulley...");
 
-        Devices.talonSrxLiftPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        Devices.talonSrxPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
         Logger.debug("Initializing Pulley default command...");
 
-        setDefaultCommand(new IdlePulley());
+        setDefaultCommand(new PulleyStop());
     }
 
     // Stop the Pulley motor
     public void stop() {
-        Devices.talonSrxLiftPulley.stopMotor();
+        Devices.talonSrxPulley.stopMotor();
     }
 
     // Run the motor to lift the pulley
@@ -38,7 +38,7 @@ public class Pulley extends Subsystem {
         // and use that instead of an argument for this method.
         // Then add another method called: lower()
 
-        Devices.talonSrxLiftPulley.set(speed);
+        Devices.talonSrxPulley.set(speed);
     }
 
 }

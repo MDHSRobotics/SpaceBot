@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,11 +7,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command opens the Hatcher claw to release the hatch
-public class AutoHatchRelease extends Command {
+// This command closes the Hatcher claw to release the hatch
+public class HatchRelease extends Command {
 
-    public AutoHatchRelease() {
-        Logger.debug("Constructing AutoHatchRelease...");
+    public HatchRelease() {
+        Logger.debug("Constructing HatchRelease...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -19,7 +19,7 @@ public class AutoHatchRelease extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing AutoHatchRelease...");
+        Logger.debug("Constructing HatchRelease...");
     }
 
     @Override
@@ -36,14 +36,14 @@ public class AutoHatchRelease extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoHatchRelease...");
+        Logger.debug("Ending HatchRelease...");
 
         Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoHatchRelease...");
+        Logger.debug("Interrupted HatchRelease...");
 
         Robot.robotHatcher.stop();
     }

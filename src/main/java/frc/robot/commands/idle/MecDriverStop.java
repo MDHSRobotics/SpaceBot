@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,11 +7,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command idles the MecDriver
-public class IdleMecDriver extends Command {
+// This command stops the MecDriver
+public class MecDriverStop extends Command {
 
-    public IdleMecDriver() {
-        Logger.debug("Constructing IdleMecDriver...");
+    public MecDriverStop() {
+        Logger.debug("Constructing MecDriverStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -19,7 +19,7 @@ public class IdleMecDriver extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleMecDriver...");
+        Logger.debug("Initializing MecDriverStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class IdleMecDriver extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending IdleMecDriver...");
+        Logger.debug("Ending MecDriverStop...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleMecDriver...");
+        Logger.debug("Interrupting MecDriverStop...");
 
         Robot.robotMecDriver.stop();
     }

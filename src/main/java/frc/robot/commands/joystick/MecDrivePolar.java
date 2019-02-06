@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.joystick;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,10 +10,10 @@ import frc.robot.Robot;
 
 
 // This command uses the joystick input to mecanum drive using the polar method
-public class JoystickMecDrivePolar extends Command {
+public class MecDrivePolar extends Command {
 
-    public JoystickMecDrivePolar() {
-        Logger.debug("Constructing JoystickMecDrivePolar...");
+    public MecDrivePolar() {
+        Logger.debug("Constructing MecDrivePolar...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -21,7 +21,7 @@ public class JoystickMecDrivePolar extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing JoystickMecDrivePolar...");
+        Logger.debug("Initializing MecDrivePolar...");
     }
 
     @Override
@@ -38,14 +38,14 @@ public class JoystickMecDrivePolar extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending JoystickMecDrivePolar...");
+        Logger.debug("Ending MecDrivePolar...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting JoystickMecDrivePolar...");
+        Logger.debug("Interrupting MecDrivePolar...");
 
         Robot.robotMecDriver.stop();
     }

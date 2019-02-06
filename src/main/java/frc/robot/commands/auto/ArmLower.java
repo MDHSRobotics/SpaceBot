@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
@@ -9,11 +9,11 @@ import frc.robot.Robot;
 
 
 // This command is activated by a button and lowers the arm until interrupted
-// TODO: rename this AutoClimbArmLowerHalf() and create two more commands:
-// 1. AutoClimbArmLowerFull()
-// 2. AutoClimbArmLowerMore()
-// See todo in the ClimbArm subsystem for more details.
-public class AutoClimbArmLower extends Command {
+// TODO: rename this ArmLowerHalf() and create two more commands:
+// 1. ArmLowerFull()
+// 2. ArmLowerMore()
+// See todo in the Arm subsystem for more details.
+public class ArmLower extends Command {
     // Default Power
     private double m_defaultPower = 0.2;
     // Power setting for drive: 0.0 to +1.0
@@ -26,18 +26,18 @@ public class AutoClimbArmLower extends Command {
     // TODO: give this a more explicit variable name. Target for what?
     private int m_target;
     
-    public AutoClimbArmLower() {
-        Logger.debug("Constructing AutoClimbArmLower...");
+    public ArmLower() {
+        Logger.debug("Constructing ArmLower...");
 
         m_power = m_defaultPower;
         m_timer = new Timer();
 
-        requires(Robot.robotClimbArm);
+        requires(Robot.robotArm);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoClimbArmLower...");
+        Logger.debug("Initializing ArmLower...");
 
         // TODO: just assign this value when the m_target variable is declared above.
         m_target = 2; //seconds
@@ -47,7 +47,7 @@ public class AutoClimbArmLower extends Command {
 
     @Override
     protected void execute() {
-        Robot.robotClimbArm.move(m_power);
+        Robot.robotArm.move(m_power);
     }
 
     // This command continues until it is interrupted
@@ -59,16 +59,16 @@ public class AutoClimbArmLower extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoClimbArmLower...");
+        Logger.debug("Ending ArmLower...");
 
-        Robot.robotClimbArm.stop();
+        Robot.robotArm.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoClimbArmLower...");
+        Logger.debug("Interrupting ArmLower...");
 
-        Robot.robotClimbArm.stop();
+        Robot.robotArm.stop();
     }
 
 }

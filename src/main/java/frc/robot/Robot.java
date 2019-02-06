@@ -10,10 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.concurrent.TimeUnit;
 
-import frc.robot.commands.AutoMecDriveForward;
-import frc.robot.commands.AutoMecDriveLine;
-import frc.robot.commands.AutoMecDriveRightTurn;
-import frc.robot.commands.IdleMecDriver;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.idle.*;
 import frc.robot.helpers.Logger;
 import frc.robot.subsystems.*;
 import frc.robot.vision.LineDetector;
@@ -35,10 +33,10 @@ public class Robot extends TimedRobot {
     public static Hatcher robotHatcher;
     public static Baller robotBaller;
 
-    public static ClimbArm robotClimbArm;
-    public static Tanker robotTanker;
+    public static Arm robotArm;
+    public static Tank robotTank;
     public static Pulley robotPulley;
-    public static LiftDriver robotLiftDriver;
+    public static Pusher robotPusher;
 
     // Vision
     public static UsbCamera robotLineCamera;
@@ -67,9 +65,10 @@ public class Robot extends TimedRobot {
         robotHatcher = new Hatcher();
         robotBaller = new Baller();
 
-        robotClimbArm = new ClimbArm();
-        robotTanker = new Tanker();
-        robotLiftDriver = new LiftDriver();
+        robotArm = new Arm();
+        robotTank = new Tank();
+        robotPulley = new Pulley();
+        robotPusher = new Pusher();
 
         // Instantiate the OI singleton AFTER all the subsystems
         robotOI = new OI();
@@ -78,10 +77,10 @@ public class Robot extends TimedRobot {
         Logger.debug("Adding Auto modes to SmartDashboard...");
         m_autoModeChooser = new SendableChooser<>();
 
-        m_autoModeChooser.setDefaultOption("Mec Drive - Idle", new IdleMecDriver());
-        m_autoModeChooser.addOption("Mec Drive - Forward", new AutoMecDriveForward());
-        m_autoModeChooser.addOption("Mec Drive - Right Turn", new AutoMecDriveRightTurn());
-        m_autoModeChooser.addOption("Mec Drive - Line Detect", new AutoMecDriveLine());
+        m_autoModeChooser.setDefaultOption("Mec Drive - Idle", new MecDriverStop());
+        m_autoModeChooser.addOption("Mec Drive - Forward", new MecDriveForward());
+        m_autoModeChooser.addOption("Mec Drive - Right Turn", new MecDriveTurnRight());
+        m_autoModeChooser.addOption("Mec Drive - Line Detect", new MecDriveLine());
 
         SmartDashboard.putData("Auto mode", m_autoModeChooser);
 

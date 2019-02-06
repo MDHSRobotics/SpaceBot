@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.xbox;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,14 +7,13 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command is called repeatedly while the joystick button is held
-// to lower the lift pulley
-public class JoystickPulleyDown extends Command {
+// This command is called repeatedly while the joystick button is held to lower the pulley
+public class PulleyDown extends Command {
 
     private double m_speed = -0.5;
     
-    public JoystickPulleyDown() {
-        Logger.debug("Constructing JoystickPulleyDown...");
+    public PulleyDown() {
+        Logger.debug("Constructing PulleyDown...");
 
         // Declare subsystem dependencies
         requires(Robot.robotPulley);
@@ -22,7 +21,7 @@ public class JoystickPulleyDown extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing JoystickPulleyDown");
+        Logger.debug("Initializing PulleyDown");
     }
 
     @Override
@@ -38,14 +37,14 @@ public class JoystickPulleyDown extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending JoystickPulleyDown...");
+        Logger.debug("Ending PulleyDown...");
 
         Robot.robotPulley.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted JoystickPulleDown...");
+        Logger.debug("Interrupted PulleyDown...");
 
         Robot.robotPulley.stop();
     }

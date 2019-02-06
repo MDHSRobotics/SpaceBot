@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.IdleBaller;
+import frc.robot.commands.idle.BallerStop;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
@@ -25,7 +25,7 @@ public class Baller extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing Baller default command...");
 
-        setDefaultCommand(new IdleBaller());
+        setDefaultCommand(new BallerStop());
     }
 
     // Stop all the drive motors
@@ -33,8 +33,8 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.stopMotor();
     }
 
-    // Blocks the ball
-    public void blockBall() {
+    // Holds the ball
+    public void holdBall() {
         Devices.talonSrxBaller.set(-m_speed);    
     }
 
@@ -43,11 +43,11 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.set(m_speed);
     }
 
-    // Determines if the Ball Blocked limit switch is active
-    public boolean isBlocked() {
-        boolean hitLimit = Devices.limitSwitchBallBlocked.get();
+    // Determines if the Ball Held limit switch is active
+    public boolean isHeld() {
+        boolean hitLimit = Devices.limitSwitchBallHeld.get();
         if (hitLimit) {
-            Logger.debug("Ball is now blocked!");
+            Logger.debug("Ball is now held!");
         }
         return hitLimit;
     }

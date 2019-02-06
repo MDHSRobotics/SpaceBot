@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,25 +7,25 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command spins the Tanker
-public class AutoTankSpin extends Command {
+// This command spins the Tank
+public class TankSpin extends Command {
 
-    public AutoTankSpin() {
-        Logger.debug("Constructing AutoTankSpin...");
+    public TankSpin() {
+        Logger.debug("Constructing TankSpin...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotTanker);
+        requires(Robot.robotTank);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoTankSpin...");
+        Logger.debug("Initializing TankSpin...");
     }
 
     @Override
     protected void execute() {
         // TODO: declare this value as a private member variable
-        Robot.robotTanker.climb(.5);
+        Robot.robotTank.spin(.5);
     }
 
     @Override
@@ -38,16 +38,16 @@ public class AutoTankSpin extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoTankSpin...");
+        Logger.debug("Ending TankSpin...");
 
-        Robot.robotTanker.stop();
+        Robot.robotTank.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoTankSpin...");
+        Logger.debug("Interrupted TankSpin...");
 
-        Robot.robotTanker.stop();
+        Robot.robotTank.stop();
     }
 
 }

@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,11 +7,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command blocks to cargo ball until it is ready to be tossed
-public class AutoBallBlock extends Command {
+// This command holds to cargo ball until it is ready to be tossed
+public class BallHold extends Command {
 
-    public AutoBallBlock() {
-        Logger.debug("Constructing AutoBallBlock...");
+    public BallHold() {
+        Logger.debug("Constructing BallHold...");
 
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
@@ -19,31 +19,31 @@ public class AutoBallBlock extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoBallBlock...");
+        Logger.debug("Initializing BallHold...");
     }
 
     @Override
     protected void execute() {
-        Robot.robotBaller.blockBall();
+        Robot.robotBaller.holdBall();
     }
 
     // This command is finished when the ball has been fully blocked
     @Override
     protected boolean isFinished() {
-        boolean isBlocked = Robot.robotBaller.isBlocked();
-        return isBlocked;
+        boolean isHeld = Robot.robotBaller.isHeld();
+        return isHeld;
     }
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoBallBlock...");
+        Logger.debug("Ending BallHold...");
 
         Robot.robotBaller.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoBallBlock...");
+        Logger.debug("Interrupted BallHold...");
 
         Robot.robotBaller.stop();
     }

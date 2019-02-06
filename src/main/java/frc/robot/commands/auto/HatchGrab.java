@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,10 +8,10 @@ import frc.robot.Robot;
 
 
 // This command opens the Hatcher claw to grab the hatch
-public class AutoHatchGrab extends Command {
+public class HatchGrab extends Command {
 
-    public AutoHatchGrab() {
-        Logger.debug("Constructing AutoHatchGrab...");
+    public HatchGrab() {
+        Logger.debug("Constructing HatchGrab...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -19,7 +19,7 @@ public class AutoHatchGrab extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing AutoHatchGrab...");
+        Logger.debug("Constructing HatchGrab...");
     }
 
     @Override
@@ -36,14 +36,14 @@ public class AutoHatchGrab extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoHatchGrab...");
+        Logger.debug("Ending HatchGrab...");
 
         Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoHatchGrab...");
+        Logger.debug("Interrupted HatchGrab...");
 
         Robot.robotHatcher.stop();
     }

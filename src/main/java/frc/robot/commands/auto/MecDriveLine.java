@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,13 +8,13 @@ import frc.robot.Robot;
 
 
 // Automatically control the MecDrive to align with a line seen by the vision system.
-public class AutoMecDriveLine extends Command {
+public class MecDriveLine extends Command {
 
     private double m_zSpeed = .3;
     private double m_xSpeed = .3;
 
-    public AutoMecDriveLine() {
-        Logger.debug("Constructing AutoMecDriveLine...");
+    public MecDriveLine() {
+        Logger.debug("Constructing MecDriveLine...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -22,7 +22,7 @@ public class AutoMecDriveLine extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoMecDriveLine...");
+        Logger.debug("Initializing MecDriveLine...");
     }
 
     @Override
@@ -77,14 +77,14 @@ public class AutoMecDriveLine extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoMecDriveLine...");
+        Logger.debug("Ending MecDriveLine...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoMecDriveLine...");
+        Logger.debug("Interrupting MecDriveLine...");
 
         Robot.robotMecDriver.stop();
     }

@@ -1,19 +1,15 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
+
 import frc.robot.helpers.Logger;
-// Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 
-public class AutoMecDriveForward extends Command {
+
+// This command drives the MecDrive forward until is reaches its target
+public class MecDriveForward extends Command {
 
 	// Velocity (feet/second) at full power - THIS IS A GUESS - CHECK IT!!
     private static double m_velocityAtFullPower = 11.5;
@@ -40,12 +36,12 @@ public class AutoMecDriveForward extends Command {
     private int m_counter;
 
     // Constructors
-    public AutoMecDriveForward() {
+    public MecDriveForward() {
         this(m_defaultTargetDistanceInFeet, m_defaultPower);
     }
 
-    public AutoMecDriveForward(double targetDistanceInFeet, double power) {
-        Logger.debug("Constructing AutoDriveDistance...");
+    public MecDriveForward(double targetDistanceInFeet, double power) {
+        Logger.debug("Constructing MecDriveForward...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -64,7 +60,7 @@ public class AutoMecDriveForward extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoDriveDistance...");
+        Logger.debug("Initializing MecDriveForward...");
 
 		m_counter = 0;
 		m_distanceTraveled = 0;
@@ -105,7 +101,7 @@ public class AutoMecDriveForward extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoDriveDistance...");
+        Logger.debug("Ending MecDriveForward...");
 
         Robot.robotMecDriver.stop();
 
@@ -117,7 +113,7 @@ public class AutoMecDriveForward extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoDriveDistance...");
+        Logger.debug("Interrupted MecDriveForward...");
 
         Robot.robotMecDriver.stop();
 

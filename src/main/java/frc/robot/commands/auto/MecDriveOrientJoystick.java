@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,11 +7,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command idles the mecanum drive, and flips the joystick Y orientation
-public class IdleMecDriveOrientJoystick extends Command {
+// This command stops the mecanum drive, and flips the joystick Y orientation
+public class MecDriveOrientJoystick extends Command {
 
-    public IdleMecDriveOrientJoystick() {
-        Logger.debug("Constructing IdleMecDriveOrientJoystick...");
+    public MecDriveOrientJoystick() {
+        Logger.debug("Constructing MecDriveOrientJoystick...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -19,7 +19,7 @@ public class IdleMecDriveOrientJoystick extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleMecDriveOrientJoystick...");
+        Logger.debug("Initializing MecDriveOrientJoystick...");
 
         Robot.robotMecDriver.stop();
     }
@@ -37,14 +37,14 @@ public class IdleMecDriveOrientJoystick extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending IdleMecDriveOrientJoystick...");
+        Logger.debug("Ending MecDriveOrientJoystick...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleMecDriveOrientJoystick...");
+        Logger.debug("Interrupting MecDriveOrientJoystick...");
 
         Robot.robotMecDriver.stop();
     }

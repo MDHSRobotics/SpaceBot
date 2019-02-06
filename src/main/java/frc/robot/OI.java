@@ -1,7 +1,8 @@
 
 package frc.robot;
 
-import frc.robot.commands.*;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.xbox.*;
 import frc.robot.helpers.*;
 
 
@@ -16,18 +17,19 @@ public class OI {
         Logger.debug("Constructing OI...");
 
         // TODO: Need to establish a dead zone for the joystick
+        // TODO: Also consider adding a "debouncer" for the buttons
 
         // Bind the joystick buttons to specific commands
-        Devices.jstickBtn1.whenPressed(new AutoMecDriveLine());
-        Devices.jstickBtn3.whenPressed(new AutoHatchGrab());
-        Devices.jstickBtn4.whenPressed(new AutoHatchRelease());
-        Devices.jstickBtn5.whenPressed(new AutoBallBlock());
-        Devices.jstickBtn6.whenPressed(new AutoBallToss());
+        Devices.jstickBtn1.whenPressed(new MecDriveLine());
+        Devices.jstickBtn3.whenPressed(new HatchGrab());
+        Devices.jstickBtn4.whenPressed(new HatchRelease());
+        Devices.jstickBtn5.whenPressed(new BallHold());
+        Devices.jstickBtn6.whenPressed(new BallToss());
 
-        // TODO: The lift and climb commands should be activated via the xbox controller
-        Devices.jstickBtn7.whenPressed(new AutoClimbArmLower());
-        Devices.jstickBtn8.whileHeld(new JoystickPulleyUp());
-        Devices.jstickBtn9.whileHeld(new JoystickPulleyDown());
+        // Bind the xbox buttons to specific commands
+        Devices.xboxBtn1.whenPressed(new ArmLower());
+        Devices.xboxBtn2.whileHeld(new PulleyUp());
+        Devices.xboxBtn3.whileHeld(new PulleyDown());
     }
 
     // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position

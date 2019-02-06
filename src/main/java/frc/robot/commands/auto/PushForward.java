@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,25 +7,25 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command pushes the LiftDrive forward
-public class AutoLiftDrivePush extends Command {
+// This command drives the Pusher forward
+public class PushForward extends Command {
 
-    public AutoLiftDrivePush() {
-        Logger.debug("Constructing AutoLiftDrivePush");
+    public PushForward() {
+        Logger.debug("Constructing PushForward");
 
-        requires(Robot.robotLiftDriver);
+        requires(Robot.robotPusher);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoLiftDrivePush...");
+        Logger.debug("Initializing PushForward...");
     }
 
     @Override
     protected void execute() {
         // TODO: This speed value needs to be in a private member variable,
         // possibly in the subsystem class if it never changes per command.
-        Robot.robotLiftDriver.push(.3);
+        Robot.robotPusher.push(.3);
     }
 
     // TODO: Is this command continually started by holding a joystick or xbox controller button?
@@ -37,9 +37,9 @@ public class AutoLiftDrivePush extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoLiftDrivePush");
+        Logger.debug("Ending PushForward");
 
-        Robot.robotLiftDriver.stop();
+        Robot.robotPusher.stop();
     }
 
     @Override

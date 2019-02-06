@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,10 +8,10 @@ import frc.robot.Robot;
 
 
 // This command tosses to cargo ball into the scoring area
-public class AutoBallToss extends Command {
+public class BallToss extends Command {
 
-    public AutoBallToss() {
-        Logger.debug("Constructing AutoBallToss...");
+    public BallToss() {
+        Logger.debug("Constructing BallToss...");
 
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
@@ -19,7 +19,7 @@ public class AutoBallToss extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoBallToss...");
+        Logger.debug("Initializing BallToss...");
     }
 
     @Override
@@ -36,14 +36,14 @@ public class AutoBallToss extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoBallToss...");
+        Logger.debug("Ending BallToss...");
 
         Robot.robotBaller.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoBallToss...");
+        Logger.debug("Interrupted BallToss...");
 
         Robot.robotBaller.stop();
     }

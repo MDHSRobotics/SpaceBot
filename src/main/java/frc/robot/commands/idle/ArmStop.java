@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,24 +7,24 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command idles the Hatcher motor
-public class IdleHatcher extends Command {
+// This command stops the Arm motor
+public class ArmStop extends Command {
 
-    public IdleHatcher() {
-        Logger.debug("Constructing IdleHatcher...");
+    public ArmStop() {
+        Logger.debug("Constucting ArmStop...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotHatcher);
+        requires(Robot.robotArm);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleHatcher...");
+        Logger.debug("Initializing ArmStop...");
     }
 
     @Override
     protected void execute() {
-        Robot.robotHatcher.stop();
+        Robot.robotArm.stop();
     }
 
     // This command continues until interrupted
@@ -35,16 +35,16 @@ public class IdleHatcher extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending IdleHatcher...");
+        Logger.debug("Ending ArmStop...");
 
-        Robot.robotHatcher.stop();
+        Robot.robotArm.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleHatcher...");
+        Logger.debug("Interrupting ArmStop...");
 
-        Robot.robotHatcher.stop();
+        Robot.robotArm.stop();
     }
 
 }

@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.IdleHatcher;
+import frc.robot.commands.idle.HatcherStop;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
@@ -25,7 +25,7 @@ public class Hatcher extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing Hatcher default command...");
 
-        setDefaultCommand(new IdleHatcher());
+        setDefaultCommand(new HatcherStop());
     }
 
     // Stop all the drive motors

@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,24 +7,24 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command idles the Baller motor
-public class IdleBaller extends Command {
+// This command stops the Pusher motor
+public class PusherStop extends Command {
 
-    public IdleBaller() {
-        Logger.debug("Constructing IdleBaller...");
+    public PusherStop() {
+        Logger.debug("Constructing PusherStop...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotBaller);
+        requires(Robot.robotPusher);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleBaller...");
+        Logger.debug("Initializing PusherStop...");
     }
 
     @Override
     protected void execute() {
-        Robot.robotBaller.stop();
+        Robot.robotPusher.stop();
     }
 
     // This command continues until interrupted
@@ -35,16 +35,16 @@ public class IdleBaller extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending IdleBaller...");
+        Logger.debug("Ending PusherStop...");
 
-        Robot.robotBaller.stop();
+        Robot.robotPusher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleBaller...");
+        Logger.debug("Interrupting PusherStop...");
 
-        Robot.robotBaller.stop();
+        Robot.robotPusher.stop();
     }
 
 }

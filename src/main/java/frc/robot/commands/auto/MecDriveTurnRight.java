@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
@@ -9,7 +9,7 @@ import frc.robot.Robot;
 
 
 // This command rotates the MecDrive clockwise until is reaches its target
-public class AutoMecDriveRightTurn extends Command {
+public class MecDriveTurnRight extends Command {
 
     // Angular velocity (degrees/second) at full power - THIS IS A GUESS - CHECK IT!!
     private static double angularVelocityAtFullPower = 48.0;
@@ -36,12 +36,12 @@ public class AutoMecDriveRightTurn extends Command {
     private int m_counter;
 
     // Constructors
-    public AutoMecDriveRightTurn() {
+    public MecDriveTurnRight() {
         this(m_defaultTargetAngle, m_defaultPower);
     }
 
-    public AutoMecDriveRightTurn(double targetAngle, double power) {
-        Logger.debug("Constructing AutoMecDriveRightTurn...");
+    public MecDriveTurnRight(double targetAngle, double power) {
+        Logger.debug("Constructing MecDriveTurnRight...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -63,7 +63,7 @@ public class AutoMecDriveRightTurn extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoMecDriveRightTurn...");
+        Logger.debug("Initializing MecDriveTurnRight...");
 
 		m_timer.reset();
 		m_timer.start();
@@ -87,7 +87,7 @@ public class AutoMecDriveRightTurn extends Command {
         // Degrees turned (degrees) = elapsed time (seconds) * angular velocity (degrees per second)
 		m_currentAngle = m_elapsedTime * m_angularVelocity;
 		if (++m_counter >= 50) {
-			Logger.debug("Executing AutoMecDriveRightTurn: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
+			Logger.debug("Executing MecDriveTurnRight: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
 			m_counter = 0;
 		}
     }
@@ -108,7 +108,7 @@ public class AutoMecDriveRightTurn extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoMecDriveRightTurn...");
+        Logger.debug("Ending MecDriveTurnRight...");
 
         Robot.robotMecDriver.stop();
 
@@ -118,7 +118,7 @@ public class AutoMecDriveRightTurn extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoMecDriveRightTurn...");
+        Logger.debug("Interrupting MecDriveTurnRight...");
 
         Robot.robotMecDriver.stop();
 

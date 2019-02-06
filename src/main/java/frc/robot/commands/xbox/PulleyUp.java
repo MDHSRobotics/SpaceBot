@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.xbox;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,11 +7,13 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command idles the Pulley motor
-public class IdlePulley extends Command {
+// This command is called repeatedly while the joystick button is held to raise the pulley
+public class PulleyUp extends Command {
 
-    public IdlePulley() {
-        Logger.debug("Constucting IdlePulley...");
+    private double m_speed = 0.5;
+    
+    public PulleyUp() {
+        Logger.debug("Constructing PulleyUp...");
 
         // Declare subsystem dependencies
         requires(Robot.robotPulley);
@@ -19,32 +21,31 @@ public class IdlePulley extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdlePulley...");
+        Logger.debug("Initializing PulleyUp");
     }
 
     @Override
     protected void execute() {
-        Robot.robotPulley.stop();
+        Robot.robotPulley.lift(m_speed);
     }
 
-    // This command continues until interrupted
+    // This command finishes immediately
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override
     protected void end() {
-        Logger.debug("Ending IdlePulley...");
+        Logger.debug("Ending PulleyUp...");
 
         Robot.robotPulley.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdlePulley...");
+        Logger.debug("Interrupted PulleyUp...");
 
         Robot.robotPulley.stop();
     }
-
 }

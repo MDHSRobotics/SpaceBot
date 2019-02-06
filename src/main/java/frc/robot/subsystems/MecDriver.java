@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.JoystickMecDriveCartesian;
+import frc.robot.commands.joystick.MecDriveCartesian;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
@@ -26,10 +26,10 @@ public class MecDriver extends Subsystem {
         Logger.debug("Constructing MecDriver...");
 
         // Configure wheel speed controllers
-        Devices.talonSrxWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        Devices.talonSrxMecWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     // Initialize Default Command
@@ -37,7 +37,7 @@ public class MecDriver extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing MecDriver default command -> JoystickDrivePolar...");
 
-        setDefaultCommand(new JoystickMecDriveCartesian());
+        setDefaultCommand(new MecDriveCartesian());
     }
 
     // Flip the control direction of the joystick in Y

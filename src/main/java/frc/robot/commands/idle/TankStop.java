@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,24 +7,24 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command idles the ClimbArm motor
-public class IdleClimbArm extends Command {
+// This command stops the Tank motor
+public class TankStop extends Command {
 
-    public IdleClimbArm() {
-        Logger.debug("Constucting IdleClimbArm...");
+    public TankStop() {
+        Logger.debug("Constructing TankStop...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotClimbArm);
+        requires(Robot.robotTank);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing IdleClimbArm...");
+        Logger.debug("Initializing TankStop...");
     }
 
     @Override
     protected void execute() {
-        Robot.robotClimbArm.stop();
+        Robot.robotTank.stop();
     }
 
     // This command continues until interrupted
@@ -35,16 +35,16 @@ public class IdleClimbArm extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending IdleClimbArm...");
+        Logger.debug("Ending TankStop...");
 
-        Robot.robotClimbArm.stop();
+        Robot.robotTank.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting IdleClimbArm...");
+        Logger.debug("Interrupting TankStop...");
 
-        Robot.robotClimbArm.stop();
+        Robot.robotTank.stop();
     }
 
 }

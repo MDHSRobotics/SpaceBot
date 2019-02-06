@@ -4,7 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Relay;
 
-import frc.robot.commands.AutoLightOff;
+import frc.robot.commands.auto.LightOn;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
@@ -20,7 +20,7 @@ public class Lighter extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing Lighter default command...");
 
-        setDefaultCommand(new AutoLightOff());
+        setDefaultCommand(new LightOn());
     }
 
     public void turnOn() {
