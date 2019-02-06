@@ -23,7 +23,7 @@ public class MecDriver extends Subsystem {
 
     // Constructor
     public MecDriver() {
-        Logger.debug("Constructing MecDriver...");
+        Logger.debug("Constructing Subsystem: MecDriver...");
 
         // Configure wheel speed controllers
         Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
@@ -35,7 +35,7 @@ public class MecDriver extends Subsystem {
     // Initialize Default Command
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing MecDriver default command -> JoystickDrivePolar...");
+        Logger.debug("Initializing MecDriver DefaultCommand -> JoystickDrivePolar...");
 
         setDefaultCommand(new MecDriveCartesian());
     }

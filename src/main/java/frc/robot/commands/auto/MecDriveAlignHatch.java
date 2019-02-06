@@ -14,7 +14,7 @@ public class MecDriveAlignHatch extends Command {
     private double m_xSpeed = .3;
 
     public MecDriveAlignHatch() {
-        Logger.debug("Constructing MecDriveAlignHatch...");
+        Logger.debug("Constructing Command: MecDriveAlignHatch...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -22,7 +22,7 @@ public class MecDriveAlignHatch extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing MecDriveAlignHatch...");
+        Logger.debug("Initializing Command: MecDriveAlignHatch...");
     }
 
     @Override
@@ -77,14 +77,14 @@ public class MecDriveAlignHatch extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending MecDriveAlignHatch...");
+        Logger.debug("Ending Command: MecDriveAlignHatch...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting MecDriveAlignHatch...");
+        Logger.debug("Interrupting Command: MecDriveAlignHatch...");
 
         Robot.robotMecDriver.stop();
     }

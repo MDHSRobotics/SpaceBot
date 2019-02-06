@@ -31,7 +31,7 @@ public class CameraTester {
         Logger.debug("Checking for USB Camera Connection... Device: " + deviceNumber);
 
         boolean cameraIsConnected = false;
-        UsbCamera testCam = new UsbCamera("Test Camera " + deviceNumber, deviceNumber);
+        UsbCamera testCam = new UsbCamera("USB Camera " + deviceNumber + " <missing>", deviceNumber);
         try {
             Logger.debug("Waiting for the Camera " + deviceNumber + " to connect...");
             try {

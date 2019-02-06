@@ -15,14 +15,14 @@ public class Pusher extends Subsystem {
     private int m_timeoutMS = 10;
 
     public Pusher() {
-        Logger.debug("Constructing Pusher");
+        Logger.debug("Constructing Subsystem: Pusher");
 
         Devices.talonSrxPusher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Pusher default command");
+        Logger.debug("Initializing Pusher DefaultCommand -> PusherStop...");
 
         PusherStop defaultCmd = new PusherStop();
         setDefaultCommand(defaultCmd);

@@ -13,12 +13,12 @@ import frc.robot.Devices;
 public class Lighter extends Subsystem {
     
     public Lighter() {
-        Logger.debug("Constructing Lighter...");
+        Logger.debug("Constructing Subsystem: Lighter...");
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Lighter default command...");
+        Logger.debug("Initializing Lighter DefaultCommand -> LightOn...");
 
         setDefaultCommand(new LightOn());
     }

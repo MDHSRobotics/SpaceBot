@@ -41,7 +41,7 @@ public class MecDriveForward extends Command {
     }
 
     public MecDriveForward(double targetDistanceInFeet, double power) {
-        Logger.debug("Constructing MecDriveForward...");
+        Logger.debug("Constructing Command: MecDriveForward...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -60,7 +60,7 @@ public class MecDriveForward extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing MecDriveForward...");
+        Logger.debug("Initializing Command: MecDriveForward...");
 
 		m_counter = 0;
 		m_distanceTraveled = 0;
@@ -101,7 +101,7 @@ public class MecDriveForward extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending MecDriveForward...");
+        Logger.debug("Ending Command: MecDriveForward...");
 
         Robot.robotMecDriver.stop();
 
@@ -113,7 +113,7 @@ public class MecDriveForward extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted MecDriveForward...");
+        Logger.debug("Interrupted Command: MecDriveForward...");
 
         Robot.robotMecDriver.stop();
 

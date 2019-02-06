@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class BallerStop extends Command {
 
     public BallerStop() {
-        Logger.debug("Constructing BallerStop...");
+        Logger.debug("Constructing Command: BallerStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
@@ -19,7 +19,7 @@ public class BallerStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing BallerStop...");
+        Logger.debug("Initializing Command: BallerStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class BallerStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending BallerStop...");
+        Logger.debug("Ending Command: BallerStop...");
 
         Robot.robotBaller.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting BallerStop...");
+        Logger.debug("Interrupting Command: BallerStop...");
 
         Robot.robotBaller.stop();
     }

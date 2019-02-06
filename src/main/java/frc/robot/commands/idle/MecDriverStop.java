@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class MecDriverStop extends Command {
 
     public MecDriverStop() {
-        Logger.debug("Constructing MecDriverStop...");
+        Logger.debug("Constructing Command: MecDriverStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -19,7 +19,7 @@ public class MecDriverStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing MecDriverStop...");
+        Logger.debug("Initializing Command: MecDriverStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class MecDriverStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending MecDriverStop...");
+        Logger.debug("Ending Command: MecDriverStop...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting MecDriverStop...");
+        Logger.debug("Interrupting Command: MecDriverStop...");
 
         Robot.robotMecDriver.stop();
     }

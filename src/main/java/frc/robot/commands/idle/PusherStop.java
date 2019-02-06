@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class PusherStop extends Command {
 
     public PusherStop() {
-        Logger.debug("Constructing PusherStop...");
+        Logger.debug("Constructing Command: PusherStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotPusher);
@@ -19,7 +19,7 @@ public class PusherStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing PusherStop...");
+        Logger.debug("Initializing Command: PusherStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class PusherStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending PusherStop...");
+        Logger.debug("Ending Command: PusherStop...");
 
         Robot.robotPusher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting PusherStop...");
+        Logger.debug("Interrupting Command: PusherStop...");
 
         Robot.robotPusher.stop();
     }

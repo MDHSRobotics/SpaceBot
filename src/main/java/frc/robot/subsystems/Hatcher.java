@@ -16,14 +16,14 @@ public class Hatcher extends Subsystem {
     private double m_speed = 0.2; 
 
     public Hatcher() {
-        Logger.debug("Constructing Hatcher...");
+        Logger.debug("Constructing Subsystem: Hatcher...");
 
         Devices.talonSrxHatcher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Hatcher default command...");
+        Logger.debug("Initializing Hatcher DefaultCommand -> HatcherStop...");
 
         setDefaultCommand(new HatcherStop());
     }

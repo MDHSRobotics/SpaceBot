@@ -13,7 +13,7 @@ public class PulleyDown extends Command {
     private double m_speed = -0.5;
     
     public PulleyDown() {
-        Logger.debug("Constructing PulleyDown...");
+        Logger.debug("Constructing Command: PulleyDown...");
 
         // Declare subsystem dependencies
         requires(Robot.robotPulley);
@@ -21,7 +21,7 @@ public class PulleyDown extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing PulleyDown");
+        Logger.debug("Initializing Command: PulleyDown");
     }
 
     @Override
@@ -37,14 +37,14 @@ public class PulleyDown extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending PulleyDown...");
+        Logger.debug("Ending Command: PulleyDown...");
 
         Robot.robotPulley.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted PulleyDown...");
+        Logger.debug("Interrupted Command: PulleyDown...");
 
         Robot.robotPulley.stop();
     }

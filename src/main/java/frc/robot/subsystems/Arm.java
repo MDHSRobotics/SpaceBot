@@ -17,14 +17,14 @@ public class Arm extends Subsystem {
 
     // Constructor
     public Arm() {
-        Logger.debug("Contructing Arm...");
+        Logger.debug("Contructing Subsystem: Arm...");
 
         Devices.talonSrxArm.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Arm default command...");
+        Logger.debug("Initializing Arm DefaultCommand -> ArmStop...");
 
         setDefaultCommand(new ArmStop());
     }

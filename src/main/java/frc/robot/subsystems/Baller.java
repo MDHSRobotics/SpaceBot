@@ -16,14 +16,14 @@ public class Baller extends Subsystem {
     private double m_speed = 0.2; 
 
     public Baller() {
-        Logger.debug("Constructing Baller...");
+        Logger.debug("Constructing Subsystem: Baller...");
 
         Devices.talonSrxBaller.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Baller default command...");
+        Logger.debug("Initializing Baller DefaultCommand -> BallerStop...");
 
         setDefaultCommand(new BallerStop());
     }

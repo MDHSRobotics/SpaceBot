@@ -35,7 +35,7 @@ public class LineDetector {
 
     // Constructor
     public LineDetector(UsbCamera lineCam) {
-        Logger.debug("Constructing Line Detector...");
+        Logger.debug("Constructing Vision: LineDetector...");
 
         if (lineCam != null) {
             intitialize(lineCam);
@@ -43,7 +43,7 @@ public class LineDetector {
     }
 
     public void intitialize(UsbCamera lineCam) {
-        Logger.debug("Intitializing Line Detector...");
+        Logger.debug("Intitializing Vision: LineDetector...");
 
         LinePipeline linePipe = new LinePipeline();
         m_visionThread = new VisionThread(lineCam, linePipe, pipeline -> {
@@ -102,7 +102,7 @@ public class LineDetector {
                 }
             }
         });
-        Logger.debug("Starting Line Detector Thread...");
+        Logger.debug("Starting LineDetector Thread...");
         m_visionThread.start();
     }
 
