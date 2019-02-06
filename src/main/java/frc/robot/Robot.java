@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
         m_autoModeChooser.setDefaultOption("Mec Drive - Idle", new MecDriverStop());
         m_autoModeChooser.addOption("Mec Drive - Forward", new MecDriveForward());
         m_autoModeChooser.addOption("Mec Drive - Right Turn", new MecDriveTurnRight());
-        m_autoModeChooser.addOption("Mec Drive - Line Detect", new MecDriveLine());
+        m_autoModeChooser.addOption("Mec Drive - Align Hatch", new MecDriveAlignHatch());
 
         SmartDashboard.putData("Auto mode", m_autoModeChooser);
 

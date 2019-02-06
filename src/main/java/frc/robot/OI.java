@@ -20,7 +20,7 @@ public class OI {
         // TODO: Also consider adding a "debouncer" for the buttons
 
         // Bind the joystick buttons to specific commands
-        Devices.jstickBtn1.whenPressed(new MecDriveLine());
+        Devices.jstickBtn1.whenPressed(new MecDriveAlignHatch());
         Devices.jstickBtn3.whenPressed(new HatchGrab());
         Devices.jstickBtn4.whenPressed(new HatchRelease());
         Devices.jstickBtn5.whenPressed(new BallHold());

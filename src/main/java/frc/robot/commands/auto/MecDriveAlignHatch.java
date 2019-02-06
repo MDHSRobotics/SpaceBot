@@ -1,5 +1,5 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,14 +7,14 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// Automatically control the MecDrive to align with a line seen by the vision system.
-public class AutoMecDriveLineHatch extends Command {
+// Automatically control the MecDrive to align the Hatcher with a line seen by the vision system.
+public class MecDriveAlignHatch extends Command {
 
     private double m_zSpeed = .3;
     private double m_xSpeed = .3;
 
-    public AutoMecDriveLineHatch() {
-        Logger.debug("Constructing AutoMecDriveLineHatch...");
+    public MecDriveAlignHatch() {
+        Logger.debug("Constructing MecDriveAlignHatch...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -22,7 +22,7 @@ public class AutoMecDriveLineHatch extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoMecDriveLineHatch...");
+        Logger.debug("Initializing MecDriveAlignHatch...");
     }
 
     @Override
@@ -77,14 +77,14 @@ public class AutoMecDriveLineHatch extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoMecDriveLineHatch...");
+        Logger.debug("Ending MecDriveAlignHatch...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoMecDriveLineHatch...");
+        Logger.debug("Interrupting MecDriveAlignHatch...");
 
         Robot.robotMecDriver.stop();
     }
