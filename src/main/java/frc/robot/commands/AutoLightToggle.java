@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,10 +8,10 @@ import frc.robot.Robot;
 
 
 // This command turns on the LineDetector "Lighter" light
-public class LightOn extends Command {
+public class AutoLightToggle extends Command {
 
-    public LightOn() {
-        Logger.debug("Constructing Command: LightOn...");
+    public AutoLightToggle() {
+        Logger.debug("Constructing AutoLightToggle...");
 
          // Declare subsystem dependencies
          requires(Robot.robotLighter);
@@ -19,12 +19,19 @@ public class LightOn extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing Command: LightOn...");
+        Logger.debug("Constructing AutoLightToggle...");
     }
 
     @Override
     protected void execute() {
-        Robot.robotLighter.turnOn();
+        boolean lineDetected = Robot.robotLineDetector.lineDetected();
+        if(lineDetected){
+            Robot.robotLighter.turnOnForward();
+
+        }
+        else{
+            Robot.robotLighter.turnOff();
+        }
     }
 
     @Override
@@ -34,14 +41,14 @@ public class LightOn extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: LightOn...");
+        Logger.debug("Ending AutoLightToggle...");
 
         Robot.robotLighter.turnOff();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: LightOn...");
+        Logger.debug("Interrupted AutoLightToggle...");
 
         Robot.robotLighter.turnOff();
     }

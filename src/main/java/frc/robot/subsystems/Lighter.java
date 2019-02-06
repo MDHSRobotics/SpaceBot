@@ -4,7 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Relay;
 
-import frc.robot.commands.auto.LightOn;
+import frc.robot.commands.AutoLightToggle;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
@@ -20,13 +20,15 @@ public class Lighter extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing Lighter DefaultCommand -> LightOn...");
 
-        setDefaultCommand(new LightOn());
+        setDefaultCommand(new AutoLightToggle());
     }
-
-    public void turnOn() {
-        Devices.lighterRelay.set(Relay.Value.kOn);
+    //TODO:change Forward and Reverse to White and Red once we know which is which 
+    public void turnOnForward() {
+        Devices.lighterRelay.set(Relay.Value.kForward);
     }
-
+    public void turnOnReverse() {
+        Devices.lighterRelay.set(Relay.Value.kReverse);
+    }
     public void turnOff() {
         Devices.lighterRelay.set(Relay.Value.kOff);
     }
