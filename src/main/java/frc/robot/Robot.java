@@ -85,15 +85,15 @@ public class Robot extends TimedRobot {
         robotOI = new OI();
 
         // Instantiate auto commands and add them to the SmartDashboard
-        Logger.debug("Adding Auto modes to SmartDashboard...");
+        Logger.debug("Adding AutoModes to SmartDashboard...");
         m_autoModeChooser = new SendableChooser<>();
 
-        m_autoModeChooser.setDefaultOption("Mec Drive - Idle", new MecDriverStop());
-        m_autoModeChooser.addOption("Mec Drive - Forward", new MecDriveForward());
-        m_autoModeChooser.addOption("Mec Drive - Right Turn", new MecDriveTurnRight());
-        m_autoModeChooser.addOption("Mec Drive - Align Hatch", new MecDriveAlignHatch());
+        m_autoModeChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
+        m_autoModeChooser.addOption("MecDrive - Forward", new MecDriveForward());
+        m_autoModeChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
+        m_autoModeChooser.addOption("MecDrive - Align Hatch", new MecDriveAlignHatch());
 
-        SmartDashboard.putData("Auto mode", m_autoModeChooser);
+        SmartDashboard.putData("AutoMode", m_autoModeChooser);
 
         // Initialize cameras, if connected
         robotCameraBlind = CameraTester.initCamera(camBlindDeviceNumber, camResolutionWidth, camResolutionHeight);
