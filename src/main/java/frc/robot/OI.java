@@ -2,7 +2,7 @@
 package frc.robot;
 
 import frc.robot.commands.auto.*;
-import frc.robot.commands.xbox.*;
+//import frc.robot.commands.xbox.*;
 import frc.robot.helpers.*;
 
 
@@ -20,16 +20,16 @@ public class OI {
         // TODO: Also consider adding a "debouncer" for the buttons
 
         // Bind the joystick buttons to specific commands
-        Devices.jstickBtn1.whenPressed(new MecDriveLine());
+        Devices.jstickBtn1.whenPressed(new MecDriveAlignHatch());
         Devices.jstickBtn3.whenPressed(new HatchGrab());
         Devices.jstickBtn4.whenPressed(new HatchRelease());
         Devices.jstickBtn5.whenPressed(new BallHold());
         Devices.jstickBtn6.whenPressed(new BallToss());
 
         // Bind the xbox buttons to specific commands
-        Devices.xboxBtn1.whenPressed(new ArmLower());
-        Devices.xboxBtn2.whileHeld(new PulleyUp());
-        Devices.xboxBtn3.whileHeld(new PulleyDown());
+        // Devices.xboxBtn1.whenPressed(new ArmLower());
+        // Devices.xboxBtn2.whileHeld(new PulleyUp());
+        // Devices.xboxBtn3.whileHeld(new PulleyDown());
     }
 
     // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position

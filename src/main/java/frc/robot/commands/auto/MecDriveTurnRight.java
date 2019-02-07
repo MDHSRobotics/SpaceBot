@@ -41,7 +41,7 @@ public class MecDriveTurnRight extends Command {
     }
 
     public MecDriveTurnRight(double targetAngle, double power) {
-        Logger.debug("Constructing MecDriveTurnRight...");
+        Logger.debug("Constructing Command: MecDriveTurnRight...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -63,7 +63,7 @@ public class MecDriveTurnRight extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing MecDriveTurnRight...");
+        Logger.debug("Initializing Command: MecDriveTurnRight...");
 
 		m_timer.reset();
 		m_timer.start();
@@ -87,7 +87,7 @@ public class MecDriveTurnRight extends Command {
         // Degrees turned (degrees) = elapsed time (seconds) * angular velocity (degrees per second)
 		m_currentAngle = m_elapsedTime * m_angularVelocity;
 		if (++m_counter >= 50) {
-			Logger.debug("Executing MecDriveTurnRight: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
+			Logger.debug("Executing Command: MecDriveTurnRight: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
 			m_counter = 0;
 		}
     }
@@ -108,7 +108,7 @@ public class MecDriveTurnRight extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending MecDriveTurnRight...");
+        Logger.debug("Ending Command: MecDriveTurnRight...");
 
         Robot.robotMecDriver.stop();
 
@@ -118,7 +118,7 @@ public class MecDriveTurnRight extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting MecDriveTurnRight...");
+        Logger.debug("Interrupting Command: MecDriveTurnRight...");
 
         Robot.robotMecDriver.stop();
 

@@ -11,14 +11,14 @@ import frc.robot.Robot;
 public class PushForward extends Command {
 
     public PushForward() {
-        Logger.debug("Constructing PushForward");
+        Logger.debug("Constructing Command: PushForward");
 
         requires(Robot.robotPusher);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing PushForward...");
+        Logger.debug("Initializing Command: PushForward...");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PushForward extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending PushForward");
+        Logger.debug("Ending Command: PushForward");
 
         Robot.robotPusher.stop();
     }

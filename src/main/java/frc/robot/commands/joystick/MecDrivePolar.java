@@ -13,7 +13,7 @@ import frc.robot.Robot;
 public class MecDrivePolar extends Command {
 
     public MecDrivePolar() {
-        Logger.debug("Constructing MecDrivePolar...");
+        Logger.debug("Constructing Command: MecDrivePolar...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -21,7 +21,7 @@ public class MecDrivePolar extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing MecDrivePolar...");
+        Logger.debug("Initializing Command: MecDrivePolar...");
     }
 
     @Override
@@ -38,14 +38,14 @@ public class MecDrivePolar extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending MecDrivePolar...");
+        Logger.debug("Ending Command: MecDrivePolar...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting MecDrivePolar...");
+        Logger.debug("Interrupting Command: MecDrivePolar...");
 
         Robot.robotMecDriver.stop();
     }

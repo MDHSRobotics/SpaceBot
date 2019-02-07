@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class ArmStop extends Command {
 
     public ArmStop() {
-        Logger.debug("Constucting ArmStop...");
+        Logger.debug("Constucting Command: ArmStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotArm);
@@ -19,7 +19,7 @@ public class ArmStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing ArmStop...");
+        Logger.debug("Initializing Command: ArmStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class ArmStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending ArmStop...");
+        Logger.debug("Ending Command: ArmStop...");
 
         Robot.robotArm.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting ArmStop...");
+        Logger.debug("Interrupting Command: ArmStop...");
 
         Robot.robotArm.stop();
     }

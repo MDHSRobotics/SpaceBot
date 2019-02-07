@@ -15,14 +15,14 @@ public class Pulley extends Subsystem {
     private int m_timeoutMS = 10;
 
     public Pulley() {
-        Logger.debug("Constructing Pulley...");
+        Logger.debug("Constructing Subsystem: Pulley...");
 
         Devices.talonSrxPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Pulley default command...");
+        Logger.debug("Initializing Pulley DefaultCommand -> PulleyStop...");
 
         setDefaultCommand(new PulleyStop());
     }

@@ -15,14 +15,14 @@ public class Tank extends Subsystem {
     private int m_timeoutMS = 10;
 
     public Tank() {
-        Logger.debug("Constructing Tank...");
+        Logger.debug("Constructing Subsystem: Tank...");
 
         Devices.talonSrxTank.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Tank default command...");
+        Logger.debug("Initializing Tank DefaultCommand -> TankStop...");
 
         TankStop defaultCmd = new TankStop();
         setDefaultCommand(defaultCmd);

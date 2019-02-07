@@ -13,7 +13,7 @@ import frc.robot.Robot;
 public class MecDriveCartesian extends Command {
 
     public MecDriveCartesian() {
-        Logger.debug("Constructing MecDriveCartesian...");
+        Logger.debug("Constructing Command: MecDriveCartesian...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -21,7 +21,7 @@ public class MecDriveCartesian extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing MecDriveCartesian...");
+        Logger.debug("Initializing Command: MecDriveCartesian...");
     }
 
     @Override
@@ -38,14 +38,14 @@ public class MecDriveCartesian extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending MecDriveCartesian...");
+        Logger.debug("Ending Command: MecDriveCartesian...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting MecDriveCartesian...");
+        Logger.debug("Interrupting Command: MecDriveCartesian...");
 
         Robot.robotMecDriver.stop();
     }

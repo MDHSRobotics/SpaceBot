@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class LightOn extends Command {
 
     public LightOn() {
-        Logger.debug("Constructing LightOn...");
+        Logger.debug("Constructing Command: LightOn...");
 
          // Declare subsystem dependencies
          requires(Robot.robotLighter);
@@ -19,7 +19,7 @@ public class LightOn extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing LightOn...");
+        Logger.debug("Constructing Command: LightOn...");
     }
 
     @Override
@@ -34,14 +34,14 @@ public class LightOn extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending LightOn...");
+        Logger.debug("Ending Command: LightOn...");
 
         Robot.robotLighter.turnOff();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted LightOn...");
+        Logger.debug("Interrupted Command: LightOn...");
 
         Robot.robotLighter.turnOff();
     }

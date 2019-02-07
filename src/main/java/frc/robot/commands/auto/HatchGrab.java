@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class HatchGrab extends Command {
 
     public HatchGrab() {
-        Logger.debug("Constructing HatchGrab...");
+        Logger.debug("Constructing Command: HatchGrab...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -19,7 +19,7 @@ public class HatchGrab extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing HatchGrab...");
+        Logger.debug("Constructing Command: HatchGrab...");
     }
 
     @Override
@@ -36,14 +36,14 @@ public class HatchGrab extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending HatchGrab...");
+        Logger.debug("Ending Command: HatchGrab...");
 
         Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted HatchGrab...");
+        Logger.debug("Interrupted Command: HatchGrab...");
 
         Robot.robotHatcher.stop();
     }

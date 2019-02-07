@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class MecDriveOrientJoystick extends Command {
 
     public MecDriveOrientJoystick() {
-        Logger.debug("Constructing MecDriveOrientJoystick...");
+        Logger.debug("Constructing Command: MecDriveOrientJoystick...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -19,7 +19,7 @@ public class MecDriveOrientJoystick extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing MecDriveOrientJoystick...");
+        Logger.debug("Initializing Command: MecDriveOrientJoystick...");
 
         Robot.robotMecDriver.stop();
     }
@@ -37,14 +37,14 @@ public class MecDriveOrientJoystick extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending MecDriveOrientJoystick...");
+        Logger.debug("Ending Command: MecDriveOrientJoystick...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting MecDriveOrientJoystick...");
+        Logger.debug("Interrupting Command: MecDriveOrientJoystick...");
 
         Robot.robotMecDriver.stop();
     }

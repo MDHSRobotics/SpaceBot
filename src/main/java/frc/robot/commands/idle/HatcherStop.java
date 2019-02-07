@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class HatcherStop extends Command {
 
     public HatcherStop() {
-        Logger.debug("Constructing HatcherStop...");
+        Logger.debug("Constructing Command: HatcherStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotHatcher);
@@ -19,7 +19,7 @@ public class HatcherStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing HatcherStop...");
+        Logger.debug("Initializing Command: HatcherStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class HatcherStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending HatcherStop...");
+        Logger.debug("Ending Command: HatcherStop...");
 
         Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting HatcherStop...");
+        Logger.debug("Interrupting Command: HatcherStop...");
 
         Robot.robotHatcher.stop();
     }

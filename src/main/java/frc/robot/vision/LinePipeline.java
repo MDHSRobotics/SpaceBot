@@ -69,7 +69,6 @@ public class LinePipeline implements VisionPipeline {
                        filterContoursMinRatio,
                        filterContoursMaxRatio,
                        filterContoursOutput);
-
 	}
 
 	/**

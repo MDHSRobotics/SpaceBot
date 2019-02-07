@@ -27,7 +27,7 @@ public class ArmLower extends Command {
     private int m_target;
     
     public ArmLower() {
-        Logger.debug("Constructing ArmLower...");
+        Logger.debug("Constructing Command: ArmLower...");
 
         m_power = m_defaultPower;
         m_timer = new Timer();
@@ -37,7 +37,7 @@ public class ArmLower extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing ArmLower...");
+        Logger.debug("Initializing Command: ArmLower...");
 
         // TODO: just assign this value when the m_target variable is declared above.
         m_target = 2; //seconds
@@ -59,14 +59,14 @@ public class ArmLower extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending ArmLower...");
+        Logger.debug("Ending Command: ArmLower...");
 
         Robot.robotArm.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting ArmLower...");
+        Logger.debug("Interrupting Command: ArmLower...");
 
         Robot.robotArm.stop();
     }

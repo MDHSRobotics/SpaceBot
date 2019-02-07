@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class TankSpin extends Command {
 
     public TankSpin() {
-        Logger.debug("Constructing TankSpin...");
+        Logger.debug("Constructing Command: TankSpin...");
 
         // Declare subsystem dependencies
         requires(Robot.robotTank);
@@ -19,7 +19,7 @@ public class TankSpin extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing TankSpin...");
+        Logger.debug("Initializing Command: TankSpin...");
     }
 
     @Override
@@ -38,14 +38,14 @@ public class TankSpin extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending TankSpin...");
+        Logger.debug("Ending Command: TankSpin...");
 
         Robot.robotTank.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted TankSpin...");
+        Logger.debug("Interrupted Command: TankSpin...");
 
         Robot.robotTank.stop();
     }
