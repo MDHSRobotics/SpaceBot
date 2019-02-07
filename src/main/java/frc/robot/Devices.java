@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Relay;
+import com.analog.adis16448.frc.ADIS16448_IMU;
 
 
 // This class contains singleton constants, for human interface devices and robot components, and mappings for each
@@ -63,6 +66,9 @@ public class Devices {
     public static final DigitalInput limitSwitchHatchReleased = new DigitalInput(2); // TODO: Replace this with encoders
     public static final DigitalInput limitSwitchBallHeld = new DigitalInput(3);
     public static final DigitalInput limitSwitchBallTossed = new DigitalInput(4);
+
+    //gyro
+    public static final ADIS16448_IMU imu = new ADIS16448_IMU();
 
     // Drives
     public static final MecanumDrive mecDrive = new MecanumDrive(talonSrxMecWheelFrontLeft,

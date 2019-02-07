@@ -2,7 +2,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import com.analog.adis16448.frc.ADIS16448_IMU;
 import frc.robot.commands.joystick.MecDriveCartesian;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
@@ -86,7 +86,8 @@ public class MecDriver extends Subsystem {
     // Drive using the cartesian method, using field orientation
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation, double gyroAngle) {
         Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
-
+        gyroAngle = Devices.imu.getAngleZ();
+        
         Devices.mecDrive.driveCartesian(xSpeed, ySpeed, -zRotation, gyroAngle);
     }
 
