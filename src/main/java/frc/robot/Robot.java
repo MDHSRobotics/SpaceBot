@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
     public static Pusher robotPusher;
 
     // Vision
-    public static UsbCamera robotCameraBlind;
+    public static UsbCamera robotCameraSight;
     public static UsbCamera robotCameraLineHatch;
     public static UsbCamera robotCameraLineBall;
     public static UsbCamera robotCameraLineLeft;
@@ -47,11 +47,6 @@ public class Robot extends TimedRobot {
     public static LineDetector robotLineDetectorBall;
     public static LineDetector robotLineDetectorLeft;
     public static LineDetector robotLineDetectorRight;
-    public static final int camBlindDeviceNumber = 0;
-    public static final int camLineHatchDeviceNumber = 1;
-    public static final int camLineBallDeviceNumber = 2;
-    public static final int camLineLeftDeviceNumber = 3;
-    public static final int camLineRightDeviceNumber = 4;
     public static final int camResolutionWidth = 320;
 	public static final int camResolutionHeight = 240;
 
@@ -95,16 +90,23 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData("AutoMode", m_autoModeChooser);
 
-        // Initialize cameras, if connected
-        robotCameraBlind = CameraTester.initCamera(camBlindDeviceNumber, camResolutionWidth, camResolutionHeight);
-        robotCameraLineHatch = CameraTester.initCamera(camLineHatchDeviceNumber, camResolutionWidth, camResolutionHeight);
-        robotCameraLineBall = CameraTester.initCamera(camLineBallDeviceNumber, camResolutionWidth, camResolutionHeight);
-        robotCameraLineLeft = CameraTester.initCamera(camLineLeftDeviceNumber, camResolutionWidth, camResolutionHeight);
-        robotCameraLineRight = CameraTester.initCamera(camLineRightDeviceNumber, camResolutionWidth, camResolutionHeight);
+        // Test camera connections
+        boolean cam0connected = CameraTester.testConnection(0);
+        boolean cam1connected = CameraTester.testConnection(1);
+        boolean cam2connected = CameraTester.testConnection(2);
+        boolean cam3connected = CameraTester.testConnection(3);
+        boolean cam4connected = CameraTester.testConnection(4);
+
+        // Capture connected cameras
+        if (cam0connected) robotCameraSight = CameraTester.captureCamera(0, camResolutionWidth, camResolutionHeight);
+        if (cam1connected) robotCameraLineHatch = CameraTester.captureCamera(1, camResolutionWidth, camResolutionHeight);
+        if (cam2connected) robotCameraLineBall = CameraTester.captureCamera(2, camResolutionWidth, camResolutionHeight);
+        if (cam3connected) robotCameraLineLeft = CameraTester.captureCamera(3, camResolutionWidth, camResolutionHeight);
+        if (cam4connected) robotCameraLineRight = CameraTester.captureCamera(4, camResolutionWidth, camResolutionHeight);
 
         // Instantiate Line Detector singletons
         robotLineDetectorHatch = new LineDetector(robotCameraLineHatch);
-        robotLineDetectorBall = new LineDetector(robotCameraLineRight);
+        robotLineDetectorBall = new LineDetector(robotCameraLineBall);
         robotLineDetectorLeft = new LineDetector(robotCameraLineLeft);
         robotLineDetectorRight = new LineDetector(robotCameraLineRight);
     }

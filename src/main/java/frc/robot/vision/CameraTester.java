@@ -12,28 +12,23 @@ public class CameraTester {
 
     private static final long m_sleepSeconds = 1;
 
-    public static UsbCamera initCamera(int deviceNumber, int camResolutionHeight, int camResolutionWidth) {
-        UsbCamera cam = null;
-        boolean isConnected = CameraTester.testCameraConnection(deviceNumber);
-        if (!isConnected) {
-            Logger.debug("No USB Camera Found, Disabling Camera: " + deviceNumber);
-        }
-        else {
-            Logger.debug("Starting Camera Capture... Device: " + deviceNumber);
-            CameraServer camServer = CameraServer.getInstance();
-            cam = camServer.startAutomaticCapture();
-            cam.setResolution(camResolutionWidth, camResolutionHeight);
-        }
+    public static UsbCamera captureCamera(int deviceNumber, int camResolutionHeight, int camResolutionWidth) {
+        Logger.debug("Starting Camera Capture... Device: " + deviceNumber);
+
+        CameraServer camServer = CameraServer.getInstance();
+        UsbCamera cam = camServer.startAutomaticCapture(deviceNumber);
+        cam.setResolution(camResolutionWidth, camResolutionHeight);
+
         return cam;
     }
 
-    public static boolean testCameraConnection(int deviceNumber) {
-        Logger.debug("Checking for USB Camera Connection... Device: " + deviceNumber);
+    public static boolean testConnection(int deviceNumber) {
+        Logger.debug("Checking for USB Camera Connection... Devivce: " + deviceNumber);
 
         boolean cameraIsConnected = false;
-        UsbCamera testCam = new UsbCamera("USB Camera " + deviceNumber + " <missing>", deviceNumber);
+        UsbCamera testCam = new UsbCamera("Test USB Camera " + deviceNumber, deviceNumber);
         try {
-            Logger.debug("Waiting for the Camera " + deviceNumber + " to connect...");
+            Logger.debug("Waiting for Test USB Camera " + deviceNumber + " to connect...");
             try {
                 TimeUnit.SECONDS.sleep(m_sleepSeconds);
             }
@@ -44,6 +39,9 @@ public class CameraTester {
         }
         finally {
             testCam.close();
+        }
+        if (!cameraIsConnected) {
+            Logger.debug("USB Camera " + deviceNumber + " not found, disabled!");
         }
         return cameraIsConnected;
     }
