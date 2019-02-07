@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.commands.auto.*;
 import frc.robot.commands.idle.*;
+import frc.robot.consoles.*;
 import frc.robot.helpers.Logger;
 import frc.robot.subsystems.*;
 import frc.robot.vision.CameraTester;
@@ -47,13 +48,15 @@ public class Robot extends TimedRobot {
     public static LineDetector robotLineDetectorBall;
     public static LineDetector robotLineDetectorLeft;
     public static LineDetector robotLineDetectorRight;
-    public static final int camResolutionWidth = 320;
-	public static final int camResolutionHeight = 240;
+    public static int camResolutionWidth = 320;
+	public static int camResolutionHeight = 240;
 
     // OI
     public static OI robotOI;
 
-    private SendableChooser<Command> m_autoModeChooser;
+    // Consoles
+    public static Shuffler shuffler = new Shuffler();
+    public static SendableChooser<Command> autoCommandChooser;
     private Command m_autoCmd;
 
     /**
@@ -79,16 +82,19 @@ public class Robot extends TimedRobot {
         // Instantiate the OI singleton AFTER all the subsystems
         robotOI = new OI();
 
-        // Instantiate auto commands and add them to the SmartDashboard
+        // Instantiate auto commands
         Logger.debug("Adding AutoModes to SmartDashboard...");
-        m_autoModeChooser = new SendableChooser<>();
+        autoCommandChooser = new SendableChooser<>();
 
-        m_autoModeChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
-        m_autoModeChooser.addOption("MecDrive - Forward", new MecDriveForward());
-        m_autoModeChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
-        m_autoModeChooser.addOption("MecDrive - Align Hatch", new MecDriveAlignHatch());
+        autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
+        autoCommandChooser.addOption("MecDrive - Forward", new MecDriveForward());
+        autoCommandChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
+        autoCommandChooser.addOption("MecDrive - Align Hatch", new MecDriveAlignHatch());
 
-        SmartDashboard.putData("AutoMode", m_autoModeChooser);
+        // Add the commands to the SmartDashboard
+        SmartDashboard.putData("AutoMode", autoCommandChooser);
+        // Intialize the shuffler
+        shuffler.initialize();
 
         // Test camera connections
         boolean cam0connected = CameraTester.testConnection(0);
@@ -121,6 +127,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        shuffler.update();
     }
 
     /**
@@ -153,16 +160,22 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         Logger.debug("Initializing Autonomous...");
 
-        m_autoCmd = m_autoModeChooser.getSelected();
+        m_autoCmd = autoCommandChooser.getSelected();
 
         /*
-        * String autoSelected = SmartDashboard.getString("Auto Selector",
-        * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-        * = new MyAutoCommand(); break; case "Default Auto": default:
-        * autonomousCommand = new ExampleCommand(); break; }
+        String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+        switch(autoSelected) {
+            case "My Auto":
+                autonomousCommand = new MyAutoCommand();
+                break;
+            case "Default Auto":
+            default:
+                autonomousCommand = new ExampleCommand();
+                break;
+        }
         */
 
-        // schedule the autonomous command (example)
+        // Schedule the autonomous command
         if (m_autoCmd != null) {
             m_autoCmd.start();
         }
