@@ -13,6 +13,7 @@ public class Pulley extends Subsystem {
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
+    private double m_pulleySpeed = .5;
 
     public Pulley() {
         Logger.debug("Constructing Subsystem: Pulley...");
@@ -33,12 +34,14 @@ public class Pulley extends Subsystem {
     }
 
     // Run the motor to lift the pulley
-    public void lift(double speed) {
-        // TODO: define a private member variable for the speed in this class,
-        // and use that instead of an argument for this method.
-        // Then add another method called: lower()
-
-        Devices.talonSrxPulley.set(speed);
+    public void lift() {
+        Devices.talonSrxPulley.set(m_pulleySpeed);
     }
+
+     // Run the motor to lower the pulley
+     public void lower() {
+        Devices.talonSrxPulley.set(-m_pulleySpeed);
+    }
+    
 
 }

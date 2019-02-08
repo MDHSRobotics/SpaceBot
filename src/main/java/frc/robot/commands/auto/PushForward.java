@@ -44,7 +44,9 @@ public class PushForward extends Command {
 
     @Override
     protected void interrupted() {
-        // TODO: Implement this. You need to be able to interrupt this command.
+        Logger.debug("Interrupted Command: Pusher...");
+
+        Robot.robotPusher.stop();
     }
 
 }
