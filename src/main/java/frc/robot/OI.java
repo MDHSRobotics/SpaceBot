@@ -14,9 +14,13 @@ public class OI {
 
     // TODO: Also consider adding a "debouncer" for the buttons
 
-    private static double m_deadzoneY = .05;
-    private static double m_deadzoneX = .05;
-    private static double m_deadzoneZ = .05;
+    private static double m_deadzoneY = .1;
+    private static double m_deadzoneX = .1;
+    private static double m_deadzoneZ = .1;
+
+    private static double m_sensitivityY = .5;
+    private static double m_sensitivityX = .5;
+    private static double m_sensitivityZ = .5;
 
     // Constructor
     public OI() {
@@ -39,44 +43,50 @@ public class OI {
 
     // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed) from the current joystick position
     public static CartesianMovement getCartesianMovementFromJoystick(boolean isFlipped) {
-        double ySpeed = -Devices.jstick.getY(); // Forward & backward, flipped
-        double xSpeed = Devices.jstick.getX(); // Side to side
-        double zRotation = Devices.jstick.getZ(); // Rotate
+        JoystickPosition pos = getJoystickPosition(isFlipped);
 
-        // User-determined flipping of forward/backward orientation
-        if (isFlipped) {
-            ySpeed = -ySpeed;
-        }
-
-        // Deadzones
-        if (Math.abs(ySpeed) < m_deadzoneY) ySpeed = 0;
-        if (Math.abs(xSpeed) < m_deadzoneX) xSpeed = 0;
-        if (Math.abs(zRotation) < m_deadzoneZ) zRotation = 0;
-
-        CartesianMovement move = new CartesianMovement();
-        move.ySpeed = ySpeed;
-        move.xSpeed = xSpeed;
-        move.zRotation = zRotation;
-
+        CartesianMovement move = new CartesianMovement(pos.xPosition, pos.yPosition, pos.zPosition);
         return move;
     }
 
     // Determines the polar movement (magnitude, angle, rotation) from the current joystick position
     public static PolarMovement getPolarMovementFromJoystick(Boolean isFlipped) {
-        double xSpeed = Devices.jstick.getX();
-        double ySpeed = -Devices.jstick.getY();
-        double zRotation = Devices.jstick.getZ();
+        JoystickPosition pos = getJoystickPosition(isFlipped);
 
+        PolarMovement move = new PolarMovement(pos.xPosition, pos.yPosition, pos.zPosition);
+        return move;
+    }
+
+    // Gets the joystick position and applies user-determined orientation, deadzones, and sensitivity
+    private static JoystickPosition getJoystickPosition(boolean isFlipped) {
+        double y = -Devices.jstick.getY(); // Forward & backward, flipped
+        double x = Devices.jstick.getX(); // Side to side
+        double z = Devices.jstick.getZ(); // Rotate
+
+        // User-determined flipping of forward/backward orientation
         if (isFlipped) {
-            ySpeed = -ySpeed;
+            y = -y;
         }
 
-        PolarMovement move = new PolarMovement();
-        move.magnitude = PolarMovement.calculateMagnitude(xSpeed, ySpeed);
-        move.angle = PolarMovement.calculateAngle(xSpeed, ySpeed);
-        move.rotation = zRotation;
+        // Deadzones
+        if (Math.abs(y) <= m_deadzoneY) y = 0;
+        if (Math.abs(x) <= m_deadzoneX) x = 0;
+        if (Math.abs(z) <= m_deadzoneZ) z = 0;
 
-        return move;
+        if (y > 0) y = y - m_deadzoneY;
+        if (y < 0) y = y + m_deadzoneY;
+        if (x > 0) x = x - m_deadzoneX;
+        if (x < 0) x = x + m_deadzoneX;
+        if (z > 0) z = z - m_deadzoneZ;
+        if (z < 0) z = z + m_deadzoneZ;
+
+        // Sensitivity
+        y = y * m_sensitivityY;
+        x = x * m_sensitivityX;
+        z = z * m_sensitivityZ;
+
+        JoystickPosition pos = new JoystickPosition(y, x, z);
+        return pos;
     }
 
 }
