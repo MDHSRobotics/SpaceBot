@@ -39,9 +39,6 @@ public class MainTab {
         boolean detected = Robot.robotLineDetectorHatch.lineDetected();
         SimpleWidget lineDetectWidget = mainTab.add("Line Detected", detected);
         lineDetectWidget.withPosition(3,0);
-
-
-
     }
 
     public void update() {

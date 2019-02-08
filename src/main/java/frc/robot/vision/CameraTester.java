@@ -23,7 +23,7 @@ public class CameraTester {
     }
 
     public static boolean testConnection(int deviceNumber) {
-        Logger.debug("Checking for USB Camera Connection... Devivce: " + deviceNumber);
+        Logger.debug("Checking for USB Camera Connection... Device: " + deviceNumber);
 
         boolean cameraIsConnected = false;
         UsbCamera testCam = new UsbCamera("Test USB Camera " + deviceNumber, deviceNumber);
