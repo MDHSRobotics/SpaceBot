@@ -7,11 +7,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command is called repeatedly while the joystick button is held to lower the pulley
-public class PulleyDown extends Command {
+// This command is called repeatedly while the joystick button is held to lift the robot with the pulley
+public class PulleyLift extends Command {
     
-    public PulleyDown() {
-        Logger.debug("Constructing Command: PulleyDown...");
+    public PulleyLift() {
+        Logger.debug("Constructing Command: PulleyLift...");
 
         // Declare subsystem dependencies
         requires(Robot.robotPulley);
@@ -19,7 +19,7 @@ public class PulleyDown extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: PulleyDown");
+        Logger.debug("Initializing Command: PulleyLift");
     }
 
     @Override
@@ -27,7 +27,7 @@ public class PulleyDown extends Command {
         Robot.robotPulley.lift();
     }
 
-    // This command finishes immediately
+    // This command finishes immediately, because it is repeatedly scheduled by the button hold
     @Override
     protected boolean isFinished() {
         return true;
@@ -35,14 +35,14 @@ public class PulleyDown extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: PulleyDown...");
+        Logger.debug("Ending Command: PulleyLift...");
 
         Robot.robotPulley.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: PulleyDown...");
+        Logger.debug("Interrupted Command: PulleyLift...");
 
         Robot.robotPulley.stop();
     }

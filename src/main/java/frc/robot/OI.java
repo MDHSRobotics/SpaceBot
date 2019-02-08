@@ -12,12 +12,15 @@ import frc.robot.helpers.*;
  */
 public class OI {
 
+    // TODO: Also consider adding a "debouncer" for the buttons
+
+    private static double m_deadzoneY = .05;
+    private static double m_deadzoneX = .05;
+    private static double m_deadzoneZ = .05;
+
     // Constructor
     public OI() {
         Logger.debug("Constructing OI...");
-
-        // TODO: Need to establish a dead zone for the joystick
-        // TODO: Also consider adding a "debouncer" for the buttons
 
         // Bind the joystick buttons to specific commands
         Devices.jstickBtn1.whenPressed(new MecDriveAlignHatch());
@@ -34,32 +37,26 @@ public class OI {
         // Devices.xboxBtn5.whileHeld(new PulleyDown());
     }
 
-    // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position
-    public static CartesianMovement getCartesianMovementFromJoystick(Boolean isFlipped) {
-        double xSpeed = Devices.jstick.getX();
-        double ySpeed = -Devices.jstick.getY();
-        double zRotation = Devices.jstick.getZ();
-        double gyroAngle = 0.0;
+    // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed) from the current joystick position
+    public static CartesianMovement getCartesianMovementFromJoystick(boolean isFlipped) {
+        double ySpeed = -Devices.jstick.getY(); // Forward & backward, flipped
+        double xSpeed = Devices.jstick.getX(); // Side to side
+        double zRotation = Devices.jstick.getZ(); // Rotate
 
+        // User-determined flipping of forward/backward orientation
         if (isFlipped) {
             ySpeed = -ySpeed;
         }
 
-        if (Math.abs(xSpeed) < .05) {
-            xSpeed = 0;
-        }
-        if (Math.abs(ySpeed) < .05) {
-            ySpeed = 0;
-        }
-        if (Math.abs(zRotation) < .05) {
-            zRotation = 0;
-        }
+        // Deadzones
+        if (Math.abs(ySpeed) < m_deadzoneY) ySpeed = 0;
+        if (Math.abs(xSpeed) < m_deadzoneX) xSpeed = 0;
+        if (Math.abs(zRotation) < m_deadzoneZ) zRotation = 0;
 
         CartesianMovement move = new CartesianMovement();
-        move.xSpeed = xSpeed;
         move.ySpeed = ySpeed;
+        move.xSpeed = xSpeed;
         move.zRotation = zRotation;
-        move.gyroAngle = gyroAngle;
 
         return move;
     }

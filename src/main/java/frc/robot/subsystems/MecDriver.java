@@ -2,7 +2,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import com.analog.adis16448.frc.ADIS16448_IMU;
 import frc.robot.commands.joystick.MecDriveCartesian;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
@@ -11,12 +10,17 @@ import frc.robot.Devices;
 // Mecanum driver subsystem
 public class MecDriver extends Subsystem {
 
+    public enum ControlOrientation {
+        ROBOT, FIELD
+    }
+
     public enum DeliveryMode {
         HATCH, BALL
     }
 
-    public DeliveryMode currentMode = DeliveryMode.HATCH;
-    public boolean isControlOrientationFlipped = false;
+    public boolean joystickOrientationFlipped = false;
+    public ControlOrientation controlOrientation = ControlOrientation.FIELD;
+    public DeliveryMode deliveryMode = DeliveryMode.HATCH;
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
@@ -35,25 +39,40 @@ public class MecDriver extends Subsystem {
     // Initialize Default Command
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing MecDriver DefaultCommand -> JoystickDrivePolar...");
+        Logger.debug("Initializing MecDriver DefaultCommand -> MecDriveCartesian...");
 
         setDefaultCommand(new MecDriveCartesian());
     }
 
     // Flip the control direction of the joystick in Y
-    public Boolean flipControlOrientation() {
-        Logger.debug("Toggling MecDriver control orientation...");
+    public Boolean flipJoystickOrientation() {
+        Logger.debug("Toggling MecDriver joystick orientation...");
 
-        isControlOrientationFlipped = !isControlOrientationFlipped;
+        joystickOrientationFlipped = !joystickOrientationFlipped;
 
-        if (isControlOrientationFlipped) {
-            Logger.debug("MecDriver control orientation is now flipped.");
+        if (joystickOrientationFlipped) {
+            Logger.debug("MecDriver joystick orientation is now flipped.");
         }
         else {
-            Logger.debug("MecDriver control orientation is now standard (not flipped).");
+            Logger.debug("MecDriver joystick orientation is now standard (not flipped).");
         }
 
-        return isControlOrientationFlipped;
+        return joystickOrientationFlipped;
+    }
+
+    // Toggle the control orientation for the mecanum drive
+    public ControlOrientation toggleControlOrientation() {
+        Logger.debug("Toggling MecDriver control orientation...");
+
+        if (controlOrientation == ControlOrientation.FIELD) {
+            controlOrientation = ControlOrientation.ROBOT;
+            Logger.debug("MecDriver control orientation is now ROBOT.");
+        } else if (controlOrientation == ControlOrientation.ROBOT) {
+            controlOrientation = ControlOrientation.FIELD;
+            Logger.debug("MecDriver control orientation is now FIELD.");
+        }
+
+        return controlOrientation;
     }
 
     // Stop all the drive motors
@@ -77,23 +96,21 @@ public class MecDriver extends Subsystem {
     }
 
     // Drive using the cartesian method, using field orientation
-    public void driveCartesian(double ySpeed, double xSpeed, double zRotation, boolean fieldOrientation) {
- 
-        if(fieldOrientation) {
-            double gyroAngle = Devices.imu.getAngleZ();
-            Devices.mecDrive.driveCartesian(xSpeed, ySpeed, -zRotation, gyroAngle);
-            Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
-        } 
-        else {
-            Devices.mecDrive.driveCartesian(xSpeed, ySpeed, -zRotation);
+    public void driveCartesian(double ySpeed, double xSpeed, double zRotation, ControlOrientation orientation) {
+        if (orientation == ControlOrientation.ROBOT) {
             Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);
+            Devices.mecDrive.driveCartesian(ySpeed, xSpeed, -zRotation);
+        }
+        else if (orientation == ControlOrientation.FIELD) {
+            double gyroAngle = Devices.imuMecDrive.getAngleZ();
+            Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
+            Devices.mecDrive.driveCartesian(ySpeed, xSpeed, -zRotation, gyroAngle);
         }
     }
 
     // Drive using the polar method
     public void drivePolar(double magnitude, double angle, double rotation) {
         Logger.debug("Polar Movement: " + magnitude + ", " + angle + ", " + rotation);
-
         Devices.mecDrive.drivePolar(magnitude, angle, rotation);
     }
 

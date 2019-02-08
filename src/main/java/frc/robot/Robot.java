@@ -82,18 +82,6 @@ public class Robot extends TimedRobot {
         // Instantiate the OI singleton AFTER all the subsystems
         robotOI = new OI();
 
-        // Instantiate auto commands
-        Logger.debug("Adding AutoModes to SmartDashboard...");
-        autoCommandChooser = new SendableChooser<>();
-
-        autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
-        autoCommandChooser.addOption("MecDrive - Forward", new MecDriveForward());
-        autoCommandChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
-        autoCommandChooser.addOption("MecDrive - Align Hatch", new MecDriveAlignHatch());
-
-        // Add the commands to the SmartDashboard
-        SmartDashboard.putData("AutoMode", autoCommandChooser);
-
         // Test camera connections
         boolean cam0connected = CameraTester.testConnection(0);
         boolean cam1connected = CameraTester.testConnection(1);
@@ -114,7 +102,20 @@ public class Robot extends TimedRobot {
         robotLineDetectorLeft = new LineDetector(robotCameraLineLeft);
         robotLineDetectorRight = new LineDetector(robotCameraLineRight);
 
-        // Intialize the shuffler
+        // Instantiate auto commands
+        Logger.debug("Adding AutoModes to SmartDashboard...");
+        autoCommandChooser = new SendableChooser<>();
+
+        autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
+        autoCommandChooser.addOption("MecDrive - Toggle Control Orientation", new MecDriveOrientControl());
+        autoCommandChooser.addOption("MecDrive - Toggle Joystick Orientation", new MecDriveOrientJoystick());
+        autoCommandChooser.addOption("MecDrive - Forward", new MecDriveForward());
+        autoCommandChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
+
+        // Add the commands to the SmartDashboard
+        SmartDashboard.putData("AutoMode", autoCommandChooser);
+
+        // Intialize the shuffler LAST
         shuffler.initialize();
     }
 

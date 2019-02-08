@@ -1,6 +1,7 @@
 
 package frc.robot;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -8,9 +9,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Relay;
-import com.analog.adis16448.frc.ADIS16448_IMU;
 
 
 // This class contains singleton constants, for human interface devices and robot components, and mappings for each
@@ -61,19 +59,19 @@ public class Devices {
     public static final WPI_TalonSRX talonSrxPulley = new WPI_TalonSRX(9); // 4 motors
     public static final WPI_TalonSRX talonSrxPusher = new WPI_TalonSRX(10); // 1 motor
 
-    // Limit Switches
-    public static final DigitalInput limitSwitchHatchGrabbed  = new DigitalInput(1); // TODO: Replace this with encoders
-    public static final DigitalInput limitSwitchHatchReleased = new DigitalInput(2); // TODO: Replace this with encoders
-    public static final DigitalInput limitSwitchBallHeld = new DigitalInput(3);
-    public static final DigitalInput limitSwitchBallTossed = new DigitalInput(4);
-
-    //gyro
-    public static final ADIS16448_IMU imu = new ADIS16448_IMU();
-
     // Drives
     public static final MecanumDrive mecDrive = new MecanumDrive(talonSrxMecWheelFrontLeft,
                                                                  talonSrxMecWheelRearLeft,
                                                                  talonSrxMecWheelFrontRight,
                                                                  talonSrxMecWheelRearRight);
+                                               
+    // Gyros
+    public static final ADIS16448_IMU imuMecDrive = new ADIS16448_IMU();
+    
+    // Limit Switches
+    public static final DigitalInput limitSwitchHatchGrabbed  = new DigitalInput(1); // TODO: Replace this with encoders
+    public static final DigitalInput limitSwitchHatchReleased = new DigitalInput(2); // TODO: Replace this with encoders
+    public static final DigitalInput limitSwitchBallHeld = new DigitalInput(3);
+    public static final DigitalInput limitSwitchBallTossed = new DigitalInput(4);
 
 }

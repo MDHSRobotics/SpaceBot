@@ -4,7 +4,7 @@ package frc.robot.consoles;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
 
-import frc.robot.commands.xbox.PulleyUp;
+import frc.robot.commands.xbox.PulleyLift;
 import frc.robot.Robot;
 
 
@@ -24,7 +24,7 @@ public class SubsystemsTab {
         pulleyLayout.withProperties(Map.of("Label position", "HIDDEN")); // hide labels for elements within layout
         pulleyLayout.add(Robot.robotPulley);
 
-        pulleyLayout.add(new PulleyUp());
+        pulleyLayout.add(new PulleyLift());
     }
 
     public void update() {
