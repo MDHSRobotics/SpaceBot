@@ -36,10 +36,11 @@ public class Arm extends Subsystem {
 
     // Raises or lowers the Arm based on given speed
     public void move(double speed) {
-        // TODO: this method actually needs to be split into three methods.
+        // TODO: this method actually needs to be split into three methods
         // Method 1: lowerHalf() - hard coded position
         // Method 2: lowerFull() - hard coded position
         // Method 3: lowerMore() - user controlled, but with a max position limit
+        // TODO: after this is done, I think the ArmLower commands might be better combined
 
         Devices.talonSrxArm.set(speed);
     }
