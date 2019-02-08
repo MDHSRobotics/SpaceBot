@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
@@ -9,11 +9,8 @@ import frc.robot.Robot;
 
 
 // This command is activated by a button and lowers the arm until interrupted
-// TODO: rename this ArmLowerHalf() and create two more commands:
-// 1. ArmLowerFull()
-// 2. ArmLowerMore()
-// See todo in the Arm subsystem for more details.
-public class ArmLower extends Command {
+// See todo in the ClimbArm subsystem for more details.
+public class AutoClimbArmLowerFull extends Command {
     // Default Power
     private double m_defaultPower = 0.2;
     // Power setting for drive: 0.0 to +1.0
@@ -22,32 +19,29 @@ public class ArmLower extends Command {
     // The following is a temporary code that uses the timer until we have the encoder working:
     // Timer for this command
     private Timer m_timer;
-    // Target duration for the timer
-    // TODO: give this a more explicit variable name. Target for what?
-    private int m_target;
+    // Target duration for the motor to run in second
+    private int m_target = 2;
     
-    public ArmLower() {
-        Logger.debug("Constructing Command: ArmLower...");
+    public AutoClimbArmLowerFull() {
+        Logger.debug("Constructing AutoClimbArmLowerFull...");
 
         m_power = m_defaultPower;
         m_timer = new Timer();
 
-        requires(Robot.robotArm);
+        requires(Robot.robotClimbArm);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: ArmLower...");
+        Logger.debug("Initializing AutoClimbArmLowerFull...");
 
-        // TODO: just assign this value when the m_target variable is declared above.
-        m_target = 2; //seconds
         m_timer.reset();
         m_timer.start();
     }
 
     @Override
     protected void execute() {
-        Robot.robotArm.move(m_power);
+        Robot.robotClimbArm.move(m_power);
     }
 
     // This command continues until it is interrupted
@@ -59,16 +53,16 @@ public class ArmLower extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: ArmLower...");
+        Logger.debug("Ending AutoClimbArmLowerFull...");
 
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: ArmLower...");
+        Logger.debug("Interrupting AutoClimbArmLowerFull...");
 
-        Robot.robotArm.stop();
+        Robot.robotClimbArm.stop();
     }
 
 }
