@@ -19,7 +19,7 @@ public class LineDetector {
 
     private double m_minimumArea = (Robot.camResolutionHeight / 3) ^ 2;
 
-    private double m_targetAngle = 0;
+    private double m_targetAngle = 90;
     private double m_targetCenterX = Robot.camResolutionWidth / 2;
 
     private double m_angleThreshold = 10;
@@ -177,7 +177,8 @@ public class LineDetector {
     }
 
     public boolean isStraight(double angle) {
-        boolean straight = (m_targetAngle - m_angleThreshold <= angle && angle <= m_targetAngle + m_angleThreshold);
+        //boolean straight = (m_targetAngle - m_angleThreshold <= angle && angle <= m_targetAngle + m_angleThreshold);
+        boolean straight = (m_targetAngle - m_angleThreshold <= angle || angle <= -m_targetAngle + m_angleThreshold); 
         return straight;
     }
 
