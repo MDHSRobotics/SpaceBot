@@ -9,8 +9,6 @@ import frc.robot.Robot;
 
 // This command is called repeatedly while the joystick button is held to lower the pulley
 public class PulleyDown extends Command {
-
-    private double m_speed = -0.5;
     
     public PulleyDown() {
         Logger.debug("Constructing Command: PulleyDown...");
@@ -26,7 +24,7 @@ public class PulleyDown extends Command {
 
     @Override
     protected void execute() {
-        Robot.robotPulley.lift(m_speed);
+        Robot.robotPulley.lift();
     }
 
     // This command finishes immediately

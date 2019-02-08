@@ -26,7 +26,7 @@ public class PulleyUp extends Command {
 
     @Override
     protected void execute() {
-        Robot.robotPulley.lift(m_speed);
+        Robot.robotPulley.lift();
     }
 
     // This command finishes immediately
