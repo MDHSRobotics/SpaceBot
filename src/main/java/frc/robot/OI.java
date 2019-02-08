@@ -43,6 +43,16 @@ public class OI {
             ySpeed = -ySpeed;
         }
 
+        if (Math.abs(xSpeed) < .05) {
+            xSpeed = 0;
+        }
+        if (Math.abs(ySpeed) < .05) {
+            ySpeed = 0;
+        }
+        if (Math.abs(zRotation) < .05) {
+            zRotation = 0;
+        }
+
         CartesianMovement move = new CartesianMovement();
         move.xSpeed = xSpeed;
         move.ySpeed = ySpeed;
