@@ -8,7 +8,7 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command is activated by a button and lowers the arm until interrupted
+// This command is activated by a button hold, and lowers the arm beyond the full position
 public class ArmLowerMore extends Command {
     // Default Speed
     private double m_defaultSpeed = 0.2;
