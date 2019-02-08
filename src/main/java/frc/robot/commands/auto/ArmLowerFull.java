@@ -19,6 +19,7 @@ public class ArmLowerFull extends Command {
     // Timer for this command
     private Timer m_timer;
     // Target duration for the motor to run in second
+    // TODO: give this a more explicit variable name. Target for what? Instead of m_target, call it something like m_targetSeconds.
     private int m_target = 2;
 
     public ArmLowerFull() {
