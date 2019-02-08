@@ -34,6 +34,14 @@ public class MainTab {
         ComplexWidget autoCmdWidget = mainTab.add("Auto Command", Robot.autoCommandChooser);
         autoCmdWidget.withSize(2, 1);
         autoCmdWidget.withPosition(0, 0);
+
+        //Line Detector
+        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
+        SimpleWidget lineDetectWidget = mainTab.add("Line Detected", detected);
+        lineDetectWidget.withPosition(3,0);
+
+
+
     }
 
     public void update() {

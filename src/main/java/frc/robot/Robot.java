@@ -93,8 +93,6 @@ public class Robot extends TimedRobot {
 
         // Add the commands to the SmartDashboard
         SmartDashboard.putData("AutoMode", autoCommandChooser);
-        // Intialize the shuffler
-        shuffler.initialize();
 
         // Test camera connections
         boolean cam0connected = CameraTester.testConnection(0);
@@ -115,6 +113,9 @@ public class Robot extends TimedRobot {
         robotLineDetectorBall = new LineDetector(robotCameraLineBall);
         robotLineDetectorLeft = new LineDetector(robotCameraLineLeft);
         robotLineDetectorRight = new LineDetector(robotCameraLineRight);
+
+        // Intialize the shuffler
+        shuffler.initialize();
     }
 
     /**
