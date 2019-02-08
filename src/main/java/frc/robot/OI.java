@@ -27,9 +27,11 @@ public class OI {
         Devices.jstickBtn6.whenPressed(new BallToss());
 
         // Bind the xbox buttons to specific commands
-        // Devices.xboxBtn1.whenPressed(new ArmLower());
-        // Devices.xboxBtn2.whileHeld(new PulleyUp());
-        // Devices.xboxBtn3.whileHeld(new PulleyDown());
+        // Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
+        // Devices.xboxBtn2.whenPressed(new ArmLowerFull());
+        // Devices.xboxBtn3.whenPressed(new ArmLowerMore());
+        // Devices.xboxBtn4.whileHeld(new PulleyUp());
+        // Devices.xboxBtn5.whileHeld(new PulleyDown());
     }
 
     // Determines the cartesian movement (magnitude, angle, rotation) from the current joystick position
