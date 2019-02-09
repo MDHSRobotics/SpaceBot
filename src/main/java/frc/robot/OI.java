@@ -4,6 +4,7 @@ package frc.robot;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.xbox.*;
 import frc.robot.helpers.*;
+import frc.robot.Brain;
 
 
 /**
@@ -13,14 +14,6 @@ import frc.robot.helpers.*;
 public class OI {
 
     // TODO: Also consider adding a "debouncer" for the buttons
-
-    private static double m_deadzoneY = .1;
-    private static double m_deadzoneX = .1;
-    private static double m_deadzoneZ = .5;
-
-    private static double m_sensitivityY = .5;
-    private static double m_sensitivityX = .5;
-    private static double m_sensitivityZ = .5;
 
     // Constructor
     public OI() {
@@ -47,7 +40,7 @@ public class OI {
     public static CartesianMovement getCartesianMovementFromJoystick(boolean isFlipped) {
         JoystickPosition pos = getJoystickPosition(isFlipped);
 
-        CartesianMovement move = new CartesianMovement(pos.xPosition, pos.yPosition, pos.zPosition);
+        CartesianMovement move = new CartesianMovement(pos.yPosition, pos.xPosition, pos.zPosition);
         return move;
     }
 
@@ -71,21 +64,29 @@ public class OI {
         }
 
         // Deadzones
-        if (Math.abs(y) <= m_deadzoneY) y = 0;
-        if (Math.abs(x) <= m_deadzoneX) x = 0;
-        if (Math.abs(z) <= m_deadzoneZ) z = 0;
+        double yDeadZone = Brain.getYdeadZone();
+        double xDeadZone = Brain.getXdeadZone();
+        double zDeadZone = Brain.getZdeadZone();
 
-        if (y > 0) y = y - m_deadzoneY;
-        if (y < 0) y = y + m_deadzoneY;
-        if (x > 0) x = x - m_deadzoneX;
-        if (x < 0) x = x + m_deadzoneX;
-        if (z > 0) z = z - m_deadzoneZ;
-        if (z < 0) z = z + m_deadzoneZ;
+        if (Math.abs(y) <= yDeadZone) y = 0;
+        if (Math.abs(x) <= xDeadZone) x = 0;
+        if (Math.abs(z) <= zDeadZone) z = 0;
+
+        if (y > 0) y = y - yDeadZone;
+        if (y < 0) y = y + yDeadZone;
+        if (x > 0) x = x - xDeadZone;
+        if (x < 0) x = x + xDeadZone;
+        if (z > 0) z = z - zDeadZone;
+        if (z < 0) z = z + zDeadZone;
 
         // Sensitivity
-        y = y * m_sensitivityY;
-        x = x * m_sensitivityX;
-        z = z * m_sensitivityZ;
+        double ySensitivity = Brain.getYsensitivity();
+        double xSensitivity = Brain.getXsensitivity();
+        double zSensitivity = Brain.getZsensitivity();
+
+        y = y * ySensitivity;
+        x = x * xSensitivity;
+        z = z * zSensitivity;
 
         JoystickPosition pos = new JoystickPosition(y, x, z);
         return pos;

@@ -1,12 +1,11 @@
 
 package frc.robot.consoles.tabs;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import java.util.Map;
 
+import frc.robot.Brain;
 import frc.robot.Robot;
 
 
@@ -15,12 +14,9 @@ public class MainTab {
 
     // Tab, layout, and widget objects
     private ShuffleboardTab m_tab;
-    private SimpleWidget m_matchTimeWidget;
     private ComplexWidget m_autoCmdWidget;
-    private SimpleWidget m_lineDetectWidget;
-
-    // Updatable entries, either by user or under program control
-    private NetworkTableEntry nt_driverMatchTime;
+    private SimpleWidget m_matchTimeWidget;
+    private SimpleWidget m_lineDetectedWidget;
 
     // Constructor
     public MainTab() {
@@ -32,23 +28,29 @@ public class MainTab {
         m_autoCmdWidget.withPosition(0, 0);
         m_autoCmdWidget.withSize(2, 1);
 
-        // Match time
-        m_matchTimeWidget = m_tab.add("Match Time", 0.0);
+        // Match Time
+        m_matchTimeWidget = m_tab.add("Match Time", Brain.matchTimeDefault);
         m_matchTimeWidget.withPosition(2, 0);
-        m_matchTimeWidget.withProperties(Map.of("min", -1, "max", 135)); // this property setting isn't working
         m_matchTimeWidget.withWidget(BuiltInWidgets.kDial);
-        nt_driverMatchTime = m_matchTimeWidget.getEntry();
+        m_matchTimeWidget.withProperties(Map.of("min", -1, "max", 135)); // this property setting isn't working
+        Brain.matchTimeEntry = m_matchTimeWidget.getEntry();
 
-        //Line Detector
-        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
-        m_lineDetectWidget = m_tab.add("Line Detected", detected);
-        m_lineDetectWidget.withPosition(3,0);
+        // Line Detected
+        m_lineDetectedWidget = m_tab.add("Line Detected", Brain.lineDetectedDefault);
+        m_lineDetectedWidget.withPosition(3, 0);
+        Brain.lineDetectedEntry = m_lineDetectedWidget.getEntry();
     }
 
     // This will be called in the robotPeriodic
     public void update() {
-        double matchTime = DriverStation.getInstance().getMatchTime();
-        nt_driverMatchTime.setDouble(matchTime);
+        // Match time
+        DriverStation ds = DriverStation.getInstance();
+        double matchTime = ds.getMatchTime();
+        Brain.matchTimeEntry.setDouble(matchTime);
+
+        // Line Detector
+        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
+        Brain.lineDetectedEntry.setBoolean(detected);
     }
 
 }

@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
 import frc.robot.commands.auto.MecDriveForward;
+import frc.robot.Brain;
 import frc.robot.Devices;
 import frc.robot.Robot;
 
@@ -19,9 +20,6 @@ public class DriveTab {
     private ComplexWidget m_driveForwardCmdWidget;
     private ComplexWidget m_mecDriveWidget;
 
-    // Updatable entries, either by user or under program control
-    private NetworkTableEntry m_driveTargetDistance;
-
     // Constructor
     public DriveTab() {
         m_tab = Shuffleboard.getTab("Drive");
@@ -31,10 +29,10 @@ public class DriveTab {
         m_mecDriverWidget.withSize(2, 1);
 
         // Target Distance for Drive Distance command
-        m_targetDistanceWidget = m_tab.add("Target Distance", 2.0);
+        m_targetDistanceWidget = m_tab.add("Target Distance", Brain.driveTargetDistanceDefault);
         m_targetDistanceWidget.withPosition(0, 1);
         m_targetDistanceWidget.withWidget(BuiltInWidgets.kTextView);
-        m_driveTargetDistance = m_targetDistanceWidget.getEntry();
+        Brain.driveTargetDistanceEntry = m_targetDistanceWidget.getEntry();
 
         m_driveForwardCmdWidget = m_tab.add("Drive Forward", new MecDriveForward());
         m_driveForwardCmdWidget.withPosition(0, 2);
@@ -47,14 +45,9 @@ public class DriveTab {
 
     // This will be called in the robotPeriodic
     public void update() {
-        m_driveTargetDistance = m_targetDistanceWidget.getEntry();
-    }
-
-    // -------------------
-    // Access Methods
-    // -------------------
-    public double getTargetDriveDistance() {
-        return m_driveTargetDistance.getDouble(1.0);
+        NetworkTableEntry targetDistanceEntry = m_targetDistanceWidget.getEntry();
+        double targetDistance = targetDistanceEntry.getDouble(Brain.driveTargetDistanceDefault);
+        Brain.driveTargetDistanceEntry.setDouble(targetDistance);
     }
 
 }
