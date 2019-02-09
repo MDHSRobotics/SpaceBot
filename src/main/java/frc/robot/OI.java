@@ -2,7 +2,7 @@
 package frc.robot;
 
 import frc.robot.commands.auto.*;
-//import frc.robot.commands.xbox.*;
+import frc.robot.commands.xbox.*;
 import frc.robot.helpers.*;
 
 
@@ -16,7 +16,7 @@ public class OI {
 
     private static double m_deadzoneY = .1;
     private static double m_deadzoneX = .1;
-    private static double m_deadzoneZ = .1;
+    private static double m_deadzoneZ = .5;
 
     private static double m_sensitivityY = .5;
     private static double m_sensitivityX = .5;
@@ -34,11 +34,13 @@ public class OI {
         Devices.jstickBtn6.whenPressed(new BallToss());
 
         // Bind the xbox buttons to specific commands
-        // Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
-        // Devices.xboxBtn2.whenPressed(new ArmLowerFull());
-        // Devices.xboxBtn3.whenPressed(new ArmLowerMore());
-        // Devices.xboxBtn4.whileHeld(new PulleyUp());
-        // Devices.xboxBtn5.whileHeld(new PulleyDown());
+        Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
+        Devices.xboxBtn2.whenPressed(new ArmLowerFull());
+        Devices.xboxBtn3.whenPressed(new ArmLowerMore());
+        Devices.xboxBtn4.whileHeld(new PulleyLift());
+        Devices.xboxBtn5.whileHeld(new PulleyLower());
+        // TODO: Bind the Tank appropriate commands
+        // TODO: Bind the Pusher appropriate commands
     }
 
     // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed) from the current joystick position
@@ -50,7 +52,7 @@ public class OI {
     }
 
     // Determines the polar movement (magnitude, angle, rotation) from the current joystick position
-    public static PolarMovement getPolarMovementFromJoystick(Boolean isFlipped) {
+    public static PolarMovement getPolarMovementFromJoystick(boolean isFlipped) {
         JoystickPosition pos = getJoystickPosition(isFlipped);
 
         PolarMovement move = new PolarMovement(pos.xPosition, pos.yPosition, pos.zPosition);
