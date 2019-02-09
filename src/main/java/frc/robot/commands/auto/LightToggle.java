@@ -24,10 +24,13 @@ public class LightToggle extends Command {
 
     @Override
     protected void execute() {
+        // TODO: this needs to handle three different states:
+        // 1. white=lineDetectedInMecDriveMode
+        // 2. red=robotPerformingCommandNotUnderActiveUserControl
+        // 3. off=robotInUserControlledModeWithNoLineDetected
         boolean lineDetected = Robot.robotLineDetectorHatch.lineDetected();
         if (lineDetected) {
             Robot.robotLighter.turnOnForward();
-
         }
         else {
             Robot.robotLighter.turnOff();

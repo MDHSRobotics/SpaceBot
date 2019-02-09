@@ -2,8 +2,9 @@
 package frc.robot;
 
 import frc.robot.commands.auto.*;
-//import frc.robot.commands.xbox.*;
+import frc.robot.commands.xbox.*;
 import frc.robot.helpers.*;
+import frc.robot.Brain;
 
 
 /**
@@ -13,10 +14,6 @@ import frc.robot.helpers.*;
 public class OI {
 
     // TODO: Also consider adding a "debouncer" for the buttons
-
-    private static double m_deadzoneY = .05;
-    private static double m_deadzoneX = .05;
-    private static double m_deadzoneZ = .05;
 
     // Constructor
     public OI() {
@@ -30,53 +27,69 @@ public class OI {
         Devices.jstickBtn6.whenPressed(new BallToss());
 
         // Bind the xbox buttons to specific commands
-        // Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
-        // Devices.xboxBtn2.whenPressed(new ArmLowerFull());
-        // Devices.xboxBtn3.whenPressed(new ArmLowerMore());
-        // Devices.xboxBtn4.whileHeld(new PulleyUp());
-        // Devices.xboxBtn5.whileHeld(new PulleyDown());
+        Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
+        Devices.xboxBtn2.whenPressed(new ArmLowerFull());
+        Devices.xboxBtn3.whenPressed(new ArmLowerMore());
+        Devices.xboxBtn4.whileHeld(new PulleyLift());
+        Devices.xboxBtn5.whileHeld(new PulleyLower());
+        // TODO: Bind the Tank appropriate commands
+        // TODO: Bind the Pusher appropriate commands
     }
 
     // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed) from the current joystick position
     public static CartesianMovement getCartesianMovementFromJoystick(boolean isFlipped) {
-        double ySpeed = -Devices.jstick.getY(); // Forward & backward, flipped
-        double xSpeed = Devices.jstick.getX(); // Side to side
-        double zRotation = Devices.jstick.getZ(); // Rotate
+        JoystickPosition pos = getJoystickPosition(isFlipped);
 
-        // User-determined flipping of forward/backward orientation
-        if (isFlipped) {
-            ySpeed = -ySpeed;
-        }
-
-        // Deadzones
-        if (Math.abs(ySpeed) < m_deadzoneY) ySpeed = 0;
-        if (Math.abs(xSpeed) < m_deadzoneX) xSpeed = 0;
-        if (Math.abs(zRotation) < m_deadzoneZ) zRotation = 0;
-
-        CartesianMovement move = new CartesianMovement();
-        move.ySpeed = ySpeed;
-        move.xSpeed = xSpeed;
-        move.zRotation = zRotation;
-
+        CartesianMovement move = new CartesianMovement(pos.yPosition, pos.xPosition, pos.zPosition);
         return move;
     }
 
     // Determines the polar movement (magnitude, angle, rotation) from the current joystick position
-    public static PolarMovement getPolarMovementFromJoystick(Boolean isFlipped) {
-        double xSpeed = Devices.jstick.getX();
-        double ySpeed = -Devices.jstick.getY();
-        double zRotation = Devices.jstick.getZ();
+    public static PolarMovement getPolarMovementFromJoystick(boolean isFlipped) {
+        JoystickPosition pos = getJoystickPosition(isFlipped);
 
+        PolarMovement move = new PolarMovement(pos.xPosition, pos.yPosition, pos.zPosition);
+        return move;
+    }
+
+    // Gets the joystick position and applies user-determined orientation, deadzones, and sensitivity
+    private static JoystickPosition getJoystickPosition(boolean isFlipped) {
+        double y = -Devices.jstick.getY(); // Forward & backward, flipped
+        double x = Devices.jstick.getX(); // Side to side
+        double z = Devices.jstick.getZ(); // Rotate
+
+        // User-determined flipping of forward/backward orientation
         if (isFlipped) {
-            ySpeed = -ySpeed;
+            y = -y;
         }
 
-        PolarMovement move = new PolarMovement();
-        move.magnitude = PolarMovement.calculateMagnitude(xSpeed, ySpeed);
-        move.angle = PolarMovement.calculateAngle(xSpeed, ySpeed);
-        move.rotation = zRotation;
+        // Deadzones
+        double yDeadZone = Brain.getYdeadZone();
+        double xDeadZone = Brain.getXdeadZone();
+        double zDeadZone = Brain.getZdeadZone();
 
-        return move;
+        if (Math.abs(y) <= yDeadZone) y = 0;
+        if (Math.abs(x) <= xDeadZone) x = 0;
+        if (Math.abs(z) <= zDeadZone) z = 0;
+
+        if (y > 0) y = y - yDeadZone;
+        if (y < 0) y = y + yDeadZone;
+        if (x > 0) x = x - xDeadZone;
+        if (x < 0) x = x + xDeadZone;
+        if (z > 0) z = z - zDeadZone;
+        if (z < 0) z = z + zDeadZone;
+
+        // Sensitivity
+        double ySensitivity = Brain.getYsensitivity();
+        double xSensitivity = Brain.getXsensitivity();
+        double zSensitivity = Brain.getZsensitivity();
+
+        y = y * ySensitivity;
+        x = x * xSensitivity;
+        z = z * zSensitivity;
+
+        JoystickPosition pos = new JoystickPosition(y, x, z);
+        return pos;
     }
 
 }

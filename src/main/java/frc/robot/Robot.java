@@ -51,13 +51,13 @@ public class Robot extends TimedRobot {
     public static int camResolutionWidth = 320;
 	public static int camResolutionHeight = 240;
 
-    // OI
-    public static OI robotOI;
-
     // Consoles
-    public static Shuffler shuffler = new Shuffler();
     public static SendableChooser<Command> autoCommandChooser;
     private Command m_autoCmd;
+    public static Shuffler shuffler = new Shuffler();
+
+    // OI
+    public static OI robotOI;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -79,9 +79,6 @@ public class Robot extends TimedRobot {
         robotPulley = new Pulley();
         robotPusher = new Pusher();
 
-        // Instantiate the OI singleton AFTER all the subsystems
-        robotOI = new OI();
-
         // Test camera connections
         boolean cam0connected = CameraTester.testConnection(0);
         boolean cam1connected = CameraTester.testConnection(1);
@@ -102,21 +99,19 @@ public class Robot extends TimedRobot {
         robotLineDetectorLeft = new LineDetector(robotCameraLineLeft);
         robotLineDetectorRight = new LineDetector(robotCameraLineRight);
 
-        // Instantiate auto commands
+        // Add the commands to the SmartDashboard
         Logger.debug("Adding AutoModes to SmartDashboard...");
         autoCommandChooser = new SendableChooser<>();
 
         autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
-        autoCommandChooser.addOption("MecDrive - Toggle Control Orientation", new MecDriveOrientControl());
-        autoCommandChooser.addOption("MecDrive - Toggle Joystick Orientation", new MecDriveOrientJoystick());
         autoCommandChooser.addOption("MecDrive - Forward", new MecDriveForward());
         autoCommandChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
 
-        // Add the commands to the SmartDashboard
         SmartDashboard.putData("AutoMode", autoCommandChooser);
 
-        // Intialize the shuffler LAST
+        // Intialize the shuffler and instantiate OI, in that order, LAST
         shuffler.initialize();
+        robotOI = new OI();
     }
 
     /**

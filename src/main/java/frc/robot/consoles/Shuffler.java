@@ -1,6 +1,8 @@
 
 package frc.robot.consoles;
 
+import frc.robot.consoles.tabs.*;
+
 
 // Class that wraps all of the interaction with the Shuffleboard
 
@@ -13,6 +15,7 @@ public class Shuffler {
 
     // Tabs
     private MainTab m_mainTab;
+    private InputsTab m_inputsTab;
     private DriveTab m_driveTab;
     private SubsystemsTab m_subsystemsTab;
     private DebugTab m_debugTab;
@@ -26,6 +29,7 @@ public class Shuffler {
         setupSmartdashboard();
 
         m_mainTab = new MainTab();
+        m_inputsTab = new InputsTab();
         m_driveTab = new DriveTab();
         m_subsystemsTab = new SubsystemsTab();
         m_debugTab = new DebugTab();
@@ -33,6 +37,7 @@ public class Shuffler {
 
     public void update() {
         m_mainTab.update();
+        m_inputsTab.update();
         m_driveTab.update();
         m_subsystemsTab.update();
         m_debugTab.update();
