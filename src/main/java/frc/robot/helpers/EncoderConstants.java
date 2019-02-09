@@ -10,7 +10,7 @@ package frc.robot.helpers;
 /**
  * Add your docs here.
  */
-public class Constants {
+public class EncoderConstants {
 
     /**
      * Which PID slot to pull gains from. Starting 2018, you can choose from
@@ -29,20 +29,14 @@ public class Constants {
      * set to zero to skip waiting for confirmation, set to nonzero to wait and
      * report to DS if action fails.
      */
-    public static final int kTimeoutMs = 30;
+    public static final int kTimeoutMs = 20;
     
-    /* choose so that Talon does not report sensor out of phase */
-    public static boolean kSensorPhase = false;
-
-    /* choose based on what direction you want to be positive,
-        this does not affect motor invert. */
-    public static boolean kMotorInvert = false;
 
     // the amount of native ticks per revolution (Tpr) in the CTRE MagEncoder
     public static final int kMagEncoderTpr = 4096;
 
     // the amount of native ticks per revolution (Tpr) in the Redline Encoder
-    public static final int kRedlineEncoderTpr = 1024;
+    public static final int kRedlineEncoderTpr = 4096;
 
 }
 
