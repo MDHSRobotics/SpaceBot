@@ -1,6 +1,8 @@
 
 package frc.robot.consoles;
 
+import frc.robot.consoles.tabs.*;
+
 
 // Class that wraps all of the interaction with the Shuffleboard
 
