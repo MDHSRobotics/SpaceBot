@@ -51,6 +51,7 @@ public class LineDetector {
             int outputSize = output.size();
             // We can only work with one contour
             if (outputSize == 1) {
+                Logger.debug("One contour identified, checking minimum size...");
                 MatOfPoint contour = output.get(0);
 
                 // Get the rotated rectangle
@@ -93,6 +94,7 @@ public class LineDetector {
                         m_centerX = centerX;
                         m_centerY = centerY;
                     }
+                    Logger.debug("Line Detected! Pull joystick trigger to align robot!");
                 }
             }
             else {
@@ -100,6 +102,8 @@ public class LineDetector {
                 synchronized (m_imgLock) {
                     m_area = 0;
                 }
+                Logger.debug("Multiple contours identified, can't isolate just one...");
+                // TODO: consider checking all the contours, and if only one meets the minimum area requirements, use that
             }
         });
         Logger.debug("Starting LineDetector Thread...");
