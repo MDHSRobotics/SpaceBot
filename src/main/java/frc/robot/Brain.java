@@ -3,6 +3,8 @@ package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 
+import frc.robot.subsystems.MecDriver.ControlOrientation;;
+
 
 // This class contains all the shared NetworkTableEntries for the Robot,
 // their default values, and methods for retrieving their current values
@@ -27,6 +29,9 @@ public class Brain {
     public static double xSensitivityDefault = .5;
     public static double zSensitivityDefault = .5;
 
+    // Subsystem - MecDriver
+    public static ControlOrientation controlOrientationDefault = ControlOrientation.FIELD;
+
     //---------------------//
     // NetworkTableEntries //
     //---------------------//
@@ -45,6 +50,9 @@ public class Brain {
     public static NetworkTableEntry ySensitivityEntry;
     public static NetworkTableEntry xSensitivityEntry;
     public static NetworkTableEntry zSensitivityEntry;
+
+    // Subsystem - MecDriver
+    public static NetworkTableEntry controlOrientationEntry;
 
     //-------------------//
     // Retrieval Methods //
@@ -87,6 +95,13 @@ public class Brain {
 
     public static double getZsensitivity() {
         return zSensitivityEntry.getDouble(zSensitivityDefault);
+    }
+
+    // Subsystems - MecDriver
+    public static ControlOrientation getControlOrientation() {
+        String controlOrientationDefaultString = controlOrientationDefault.toString();
+        String controlOrientationString = controlOrientationEntry.getString(controlOrientationDefaultString);
+        return ControlOrientation.valueOf(controlOrientationString);
     }
 
 }

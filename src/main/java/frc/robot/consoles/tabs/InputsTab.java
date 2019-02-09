@@ -22,42 +22,58 @@ public class InputsTab {
     // Constructor
     public InputsTab() {
         m_tab = Shuffleboard.getTab("Inputs");
+    }
 
+    // Create Brain Widgets
+    public void preInitialize() {
         // Y Dead Zone for the Joystick
         m_yDeadZoneWidget = m_tab.add("Y Dead Zone", Brain.yDeadZoneDefault);
-        m_yDeadZoneWidget.withPosition(0, 0);
-        m_yDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
         Brain.yDeadZoneEntry = m_yDeadZoneWidget.getEntry();
 
         // X Dead Zone for the Joystick
         m_xDeadZoneWidget = m_tab.add("X Dead Zone", Brain.xDeadZoneDefault);
-        m_xDeadZoneWidget.withPosition(0, 1);
-        m_xDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
         Brain.xDeadZoneEntry = m_xDeadZoneWidget.getEntry();
 
         // Z Dead Zone for the Joystick
         m_zDeadZoneWidget = m_tab.add("Z Dead Zone", Brain.zDeadZoneDefault);
-        m_zDeadZoneWidget.withPosition(0, 2);
-        m_zDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
         Brain.zDeadZoneEntry = m_zDeadZoneWidget.getEntry();
 
         // Y Sensitivity for the Joystick
         m_ySensitivityWidget = m_tab.add("Y Sensitivity", Brain.ySensitivityDefault);
-        m_ySensitivityWidget.withPosition(1, 0);
-        m_ySensitivityWidget.withWidget(BuiltInWidgets.kTextView);
         Brain.ySensitivityEntry = m_ySensitivityWidget.getEntry();
 
         // X Sensitivity for the Joystick
         m_xSensitivityWidget = m_tab.add("X Sensitivity", Brain.xSensitivityDefault);
-        m_xSensitivityWidget.withPosition(1, 1);
-        m_xSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
         Brain.xSensitivityEntry = m_xSensitivityWidget.getEntry();
 
         // Z Sensitivity for the Joystick
         m_zSensitivityWidget = m_tab.add("Z Sensitivity", Brain.zSensitivityDefault);
+        Brain.zSensitivityEntry = m_zSensitivityWidget.getEntry();
+    }
+
+    // Create all other Widgets
+    public void initialize() {
+    }
+
+    // Configure all Widgets
+    public void configure() {
+        m_yDeadZoneWidget.withPosition(0, 0);
+        m_yDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_xDeadZoneWidget.withPosition(0, 1);
+        m_xDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_zDeadZoneWidget.withPosition(0, 2);
+        m_zDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_ySensitivityWidget.withPosition(1, 0);
+        m_ySensitivityWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_xSensitivityWidget.withPosition(1, 1);
+        m_xSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
+
         m_zSensitivityWidget.withPosition(1, 2);
         m_zSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
-        Brain.zSensitivityEntry = m_zSensitivityWidget.getEntry();
     }
 
     // This will be called in the robotPeriodic

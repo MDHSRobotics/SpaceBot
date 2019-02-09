@@ -20,25 +20,36 @@ public class MainTab {
 
     // Constructor
     public MainTab() {
-
         m_tab = Shuffleboard.getTab("Main");
+    }
 
-        // Autonomous Command
-        m_autoCmdWidget = m_tab.add("Auto Command", Robot.autoCommandChooser);
-        m_autoCmdWidget.withPosition(0, 0);
-        m_autoCmdWidget.withSize(2, 1);
-
+    // Create Brain Widgets
+    public void preInitialize() {
         // Match Time
         m_matchTimeWidget = m_tab.add("Match Time", Brain.matchTimeDefault);
-        m_matchTimeWidget.withPosition(2, 0);
-        m_matchTimeWidget.withWidget(BuiltInWidgets.kDial);
-        m_matchTimeWidget.withProperties(Map.of("min", -1, "max", 135)); // this property setting isn't working
         Brain.matchTimeEntry = m_matchTimeWidget.getEntry();
 
         // Line Detected
         m_lineDetectedWidget = m_tab.add("Line Detected", Brain.lineDetectedDefault);
-        m_lineDetectedWidget.withPosition(3, 0);
         Brain.lineDetectedEntry = m_lineDetectedWidget.getEntry();
+    }
+
+    // Create all other Widgets
+    public void initialize() {
+        // Autonomous Command
+        m_autoCmdWidget = m_tab.add("Auto Command", Robot.autoCommandChooser);
+    }
+
+    // Configure all Widgets
+    public void configure() {
+        m_autoCmdWidget.withPosition(0, 0);
+        m_autoCmdWidget.withSize(2, 1);
+
+        m_matchTimeWidget.withPosition(2, 0);
+        m_matchTimeWidget.withWidget(BuiltInWidgets.kDial);
+        m_matchTimeWidget.withProperties(Map.of("min", -1, "max", 135)); // this property setting isn't working
+
+        m_lineDetectedWidget.withPosition(3, 0);
     }
 
     // This will be called in the robotPeriodic

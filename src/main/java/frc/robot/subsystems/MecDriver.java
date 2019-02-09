@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.joystick.MecDriveCartesian;
 import frc.robot.helpers.Logger;
+import frc.robot.Brain;
 import frc.robot.Devices;
 
 
@@ -14,13 +15,8 @@ public class MecDriver extends Subsystem {
         ROBOT, FIELD
     }
 
-    public enum DeliveryMode {
-        HATCH, BALL
-    }
-
     public boolean joystickOrientationFlipped = false;
-    public ControlOrientation controlOrientation = ControlOrientation.FIELD;
-    public DeliveryMode deliveryMode = DeliveryMode.HATCH;
+    public ControlOrientation controlOrientation = Brain.getControlOrientation();
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
@@ -95,7 +91,12 @@ public class MecDriver extends Subsystem {
         Devices.mecDrive.driveCartesian(0, 0, speed);
     }
 
-    // Drive using the cartesian method, using field orientation
+    // Drive using the cartesian method, using the current control orientation
+    public void driveCartesian(double ySpeed, double xSpeed, double zRotation) {
+        driveCartesian(ySpeed, xSpeed, zRotation, controlOrientation);
+    }
+
+    // Drive using the cartesian method, using the given control orientation
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation, ControlOrientation orientation) {
         if (orientation == ControlOrientation.ROBOT) {
             Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);

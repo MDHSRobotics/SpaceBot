@@ -26,6 +26,13 @@ import frc.robot.vision.LineDetector;
  */
 public class Robot extends TimedRobot {
 
+    // States
+    public enum DeliveryMode {
+        HATCH, BALL
+    }
+
+    public DeliveryMode deliveryMode = DeliveryMode.HATCH;
+
     // Subsystems
     public static MecDriver robotMecDriver;
     public static Lighter robotLighter;
@@ -67,7 +74,10 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         Logger.debug("Initializing Robot...");
 
-        // Instantiate subsystem singletons FIRST
+        // Pre-intialize the Shuffler FIRST
+        shuffler.preInitialize();
+
+        // Instantiate subsystem singletons SECOND
         robotMecDriver = new MecDriver();
         robotLighter = new Lighter();
 
@@ -109,8 +119,9 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData("AutoMode", autoCommandChooser);
 
-        // Intialize the shuffler and instantiate OI, in that order, LAST
+        // Intialize and configure the shuffler, and instantiate OI, in that order, LAST
         shuffler.initialize();
+        shuffler.configure();
         robotOI = new OI();
     }
 

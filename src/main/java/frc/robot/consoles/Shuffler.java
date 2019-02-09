@@ -21,18 +21,45 @@ public class Shuffler {
     private DebugTab m_debugTab;
 
     public Shuffler() {
-    }
-
-    public void initialize() {
-        Logging.logTrivial("Initializing Shuffler...");
-
-        setupSmartdashboard();
+        Logging.logTrivial("Constructing Shuffler...");
 
         m_mainTab = new MainTab();
         m_inputsTab = new InputsTab();
         m_driveTab = new DriveTab();
         m_subsystemsTab = new SubsystemsTab();
         m_debugTab = new DebugTab();
+    }
+
+    public void preInitialize() {
+        Logging.logTrivial("Pre-Initializing Shuffler...");
+
+        m_mainTab.preInitialize();
+        m_inputsTab.preInitialize();
+        m_driveTab.preInitialize();
+        m_subsystemsTab.preInitialize();
+        m_debugTab.preInitialize();
+    }
+
+    public void initialize() {
+        Logging.logTrivial("Initializing Shuffler...");
+
+        m_mainTab.initialize();
+        m_inputsTab.initialize();
+        m_driveTab.initialize();
+        m_subsystemsTab.initialize();
+        m_debugTab.initialize();
+    }
+
+    public void configure() {
+        Logging.logTrivial("Configuring Shuffler...");
+
+        m_mainTab.configure();
+        m_inputsTab.configure();
+        m_driveTab.configure();
+        m_subsystemsTab.configure();
+        m_debugTab.configure();
+
+        setupSmartdashboard();
     }
 
     public void update() {
