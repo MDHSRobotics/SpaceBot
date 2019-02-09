@@ -107,7 +107,7 @@ public class LineDetector {
             }
         });
         Logger.debug("Starting LineDetector Thread...");
-        m_visionThread.start();
+        // m_visionThread.start();
     }
 
     private Quadrant getQuadrant(double x, double y) {

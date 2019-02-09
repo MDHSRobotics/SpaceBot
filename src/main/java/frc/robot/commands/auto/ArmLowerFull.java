@@ -18,9 +18,9 @@ public class ArmLowerFull extends Command {
     // The following is a temporary code that uses the timer until we have the encoder working:
     // Timer for this command
     private Timer m_timer;
+    
     // Target duration for the motor to run in second
-    // TODO: give this a more explicit variable name. Target for what? Instead of m_target, call it something like m_targetSeconds.
-    private int m_target = 2;
+    private int m_targetSeconds = 2;
 
     public ArmLowerFull() {
         Logger.debug("Constructing Command: ArmLowerFull...");
@@ -49,7 +49,7 @@ public class ArmLowerFull extends Command {
     @Override
     protected boolean isFinished() {
         double elapsedTime = m_timer.get();
-        return (elapsedTime >= m_target);
+        return (elapsedTime >= m_targetSeconds);
     }
 
     @Override
