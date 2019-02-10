@@ -28,10 +28,10 @@ public class Robot extends TimedRobot {
 
     // States
     public enum DeliveryMode {
-        HATCH, BALL
+        GET_HATCH, ATTACH_HATCH, GET_BALL, TOSS_BALL
     }
 
-    public DeliveryMode deliveryMode = DeliveryMode.HATCH;
+    public DeliveryMode deliveryMode = DeliveryMode.GET_HATCH;
 
     // Subsystems
     public static MecDriver robotMecDriver;
@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
     // Consoles
     public static SendableChooser<Command> autoCommandChooser;
     private Command m_autoCmd;
-    public static Shuffler shuffler = new Shuffler();
+    public static Shuffler robotShuffler = new Shuffler();
 
     // OI
     public static OI robotOI;
@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
         Logger.debug("Initializing Robot...");
 
         // Pre-intialize the Shuffler FIRST
-        shuffler.preInitialize();
+        robotShuffler.preInitialize();
 
         // Instantiate subsystem singletons SECOND
         robotMecDriver = new MecDriver();
@@ -120,8 +120,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("AutoMode", autoCommandChooser);
 
         // Intialize and configure the shuffler, and instantiate OI, in that order, LAST
-        shuffler.initialize();
-        shuffler.configure();
+        robotShuffler.initialize();
+        robotShuffler.configure();
         robotOI = new OI();
     }
 
@@ -135,7 +135,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        shuffler.update();
+        robotShuffler.update();
     }
 
     /**
