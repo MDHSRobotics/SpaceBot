@@ -10,6 +10,8 @@ import frc.robot.Robot;
 // This command spins the Tank
 public class TankSpin extends Command {
 
+    private double m_spin = .5;
+
     public TankSpin() {
         Logger.debug("Constructing Command: TankSpin...");
 
@@ -24,8 +26,7 @@ public class TankSpin extends Command {
 
     @Override
     protected void execute() {
-        // TODO: declare this value as a private member variable
-        Robot.robotTank.spin(.5);
+        Robot.robotTank.spin(m_spin);
     }
 
     @Override

@@ -10,6 +10,8 @@ import frc.robot.Robot;
 // This command drives the Pusher forward
 public class PushForward extends Command {
 
+    private double m_speed = .3;
+
     public PushForward() {
         Logger.debug("Constructing Command: PushForward");
 
@@ -25,7 +27,7 @@ public class PushForward extends Command {
     protected void execute() {
         // TODO: This speed value needs to be in a private member variable,
         // possibly in the subsystem class if it never changes per command.
-        Robot.robotPusher.push(.3);
+        Robot.robotPusher.push(m_speed);
     }
 
     // TODO: Is this command continually started by holding a joystick or xbox controller button?
