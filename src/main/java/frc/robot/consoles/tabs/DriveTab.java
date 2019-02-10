@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
 import frc.robot.commands.auto.MecDriveForward;
+import frc.robot.consoles.Logging;
 import frc.robot.Brain;
 import frc.robot.Devices;
 import frc.robot.Robot;
@@ -22,6 +23,8 @@ public class DriveTab {
 
     // Create Brain Widgets
     public DriveTab() {
+        Logging.logTrivial("Constructing DriveTab...");
+
         m_tab = Shuffleboard.getTab("Drive");
     }
 

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import java.util.Map;
 
+import frc.robot.consoles.Logging;
 import frc.robot.Brain;
 import frc.robot.Robot;
 
@@ -20,6 +21,8 @@ public class MainTab {
 
     // Constructor
     public MainTab() {
+        Logging.logTrivial("Constructing MainTab...");
+
         m_tab = Shuffleboard.getTab("Main");
     }
 

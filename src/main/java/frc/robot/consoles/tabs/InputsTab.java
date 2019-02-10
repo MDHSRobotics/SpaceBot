@@ -4,6 +4,7 @@ package frc.robot.consoles.tabs;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
+import frc.robot.consoles.Logging;
 import frc.robot.Brain;
 
 
@@ -21,6 +22,8 @@ public class InputsTab {
 
     // Constructor
     public InputsTab() {
+        Logging.logTrivial("Constructing InputsTab...");
+
         m_tab = Shuffleboard.getTab("Inputs");
     }
 
