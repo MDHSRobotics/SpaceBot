@@ -60,17 +60,18 @@ public class MecDriver extends Subsystem {
     public ControlOrientation toggleControlOrientation() {
         Logger.debug("Toggling MecDriver control orientation...");
 
-        ControlOrientation orient = Brain.getControlOrientation();
-        if (orient == ControlOrientation.FIELD) {
-            orient = ControlOrientation.ROBOT;
+        ControlOrientation orientation = Brain.getControlOrientation();
+        if (orientation == ControlOrientation.FIELD) {
+            orientation = ControlOrientation.ROBOT;
             Logger.debug("MecDriver control orientation is now ROBOT.");
-        } else if (orient == ControlOrientation.ROBOT) {
-            orient = ControlOrientation.FIELD;
+        }
+        else if (orientation == ControlOrientation.ROBOT) {
+            orientation = ControlOrientation.FIELD;
             Logger.debug("MecDriver control orientation is now FIELD.");
         }
-        Brain.setControlOrientation(orient);
+        Brain.setControlOrientation(orientation);
 
-        return orient;
+        return orientation;
     }
 
     // Stop all the drive motors
