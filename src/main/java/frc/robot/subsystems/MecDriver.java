@@ -2,6 +2,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.commands.joystick.MecDriveCartesian;
 import frc.robot.helpers.Logger;
 import frc.robot.Brain;
@@ -60,15 +61,17 @@ public class MecDriver extends Subsystem {
     public ControlOrientation toggleControlOrientation() {
         Logger.debug("Toggling MecDriver control orientation...");
 
-        if (controlOrientation == ControlOrientation.FIELD) {
-            controlOrientation = ControlOrientation.ROBOT;
+        ControlOrientation orient = Brain.getControlOrientation();
+        if (orient == ControlOrientation.FIELD) {
+            orient = ControlOrientation.ROBOT;
             Logger.debug("MecDriver control orientation is now ROBOT.");
-        } else if (controlOrientation == ControlOrientation.ROBOT) {
-            controlOrientation = ControlOrientation.FIELD;
+        } else if (orient == ControlOrientation.ROBOT) {
+            orient = ControlOrientation.FIELD;
             Logger.debug("MecDriver control orientation is now FIELD.");
         }
+        Brain.setControlOrientation(orient);
 
-        return controlOrientation;
+        return orient;
     }
 
     // Stop all the drive motors

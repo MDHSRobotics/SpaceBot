@@ -60,8 +60,7 @@ public class DriveTab {
     // This will be called in the robotPeriodic
     public void update() {
         NetworkTableEntry targetDistanceEntry = m_targetDistanceWidget.getEntry();
-        double targetDistance = targetDistanceEntry.getDouble(Brain.driveTargetDistanceDefault);
-        Brain.driveTargetDistanceEntry.setDouble(targetDistance);
+        Brain.setTargetDriveDistance(targetDistanceEntry);
     }
 
 }

@@ -2,8 +2,9 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 
-import frc.robot.subsystems.MecDriver.ControlOrientation;;
+import frc.robot.subsystems.MecDriver.ControlOrientation;
 
 
 // This class contains all the shared NetworkTableEntries for the Robot,
@@ -54,9 +55,74 @@ public class Brain {
     // Subsystem - MecDriver
     public static NetworkTableEntry controlOrientationEntry;
 
-    //-------------------//
-    // Retrieval Methods //
-    //-------------------//
+    //---------//
+    // Setters //
+    //---------//
+
+    // Shuffler - Main Tab
+    public static void setMatchTime() {
+        DriverStation ds = DriverStation.getInstance();
+        double matchTime = ds.getMatchTime();
+        matchTimeEntry.setDouble(matchTime);
+    }
+
+    public static void setLineDetected() {
+        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
+        lineDetectedEntry.setBoolean(detected);
+    }
+
+    // Shuffler - Drive Tab
+    public static void setTargetDriveDistance(NetworkTableEntry entry) {
+        double value = entry.getDouble(driveTargetDistanceDefault);
+        driveTargetDistanceEntry.setDouble(value);
+    }
+
+    // OI
+    public static void setYdeadZone(NetworkTableEntry entry) {
+        double value = entry.getDouble(yDeadZoneDefault);
+        yDeadZoneEntry.setDouble(value);
+    }
+
+    public static void setXdeadZone(NetworkTableEntry entry) {
+        double value = entry.getDouble(xDeadZoneDefault);
+        xDeadZoneEntry.setDouble(value);
+    }
+
+    public static void setZdeadZone(NetworkTableEntry entry) {
+        double value = entry.getDouble(zDeadZoneDefault);
+        zDeadZoneEntry.setDouble(value);
+    }
+
+    public static void setYsensitivity(NetworkTableEntry entry) {
+        double value = entry.getDouble(ySensitivityDefault);
+        ySensitivityEntry.setDouble(value);
+    }
+
+    public static void setXsensitivity(NetworkTableEntry entry) {
+        double value = entry.getDouble(xSensitivityDefault);
+        xSensitivityEntry.setDouble(value);
+    }
+
+    public static void setZsensitivity(NetworkTableEntry entry) {
+        double value = entry.getDouble(zSensitivityDefault);
+        zSensitivityEntry.setDouble(value);
+    }
+
+    // Subsystems - MecDriver
+    public static void setControlOrientation(NetworkTableEntry entry) {
+        String controlOrientationDefaultString = Brain.controlOrientationDefault.toString();
+        String value = entry.getString(controlOrientationDefaultString);
+        controlOrientationEntry.setValue(value);
+    }
+
+    public static void setControlOrientation(ControlOrientation orientation) {
+        String value = orientation.toString();
+        controlOrientationEntry.setValue(value);
+    }
+
+    //---------//
+    // Getters //
+    //---------//
 
     // Shuffler - Main Tab
     public static double getMatchTime() {

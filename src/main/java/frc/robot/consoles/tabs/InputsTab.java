@@ -19,6 +19,7 @@ public class InputsTab {
     private SimpleWidget m_ySensitivityWidget;
     private SimpleWidget m_xSensitivityWidget;
     private SimpleWidget m_zSensitivityWidget;
+    private SimpleWidget m_controlOrientationWidget;
 
     // Constructor
     public InputsTab() {
@@ -52,6 +53,10 @@ public class InputsTab {
         // Z Sensitivity for the Joystick
         m_zSensitivityWidget = m_tab.add("Z Sensitivity", Brain.zSensitivityDefault);
         Brain.zSensitivityEntry = m_zSensitivityWidget.getEntry();
+
+        // Control Orientation for the Joystick
+        m_controlOrientationWidget = m_tab.add("Control Orientation", Brain.controlOrientationDefault.toString());
+        Brain.controlOrientationEntry = m_controlOrientationWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -77,33 +82,33 @@ public class InputsTab {
 
         m_zSensitivityWidget.withPosition(1, 2);
         m_zSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_controlOrientationWidget.withPosition(2, 0);
+        //m_controlOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
     }
 
     // This will be called in the robotPeriodic
     public void update() {
         NetworkTableEntry yDeadZoneEntry = m_yDeadZoneWidget.getEntry();
-        double yDeadZone = yDeadZoneEntry.getDouble(Brain.yDeadZoneDefault);
-        Brain.yDeadZoneEntry.setDouble(yDeadZone);
+        Brain.setYdeadZone(yDeadZoneEntry);
 
         NetworkTableEntry xDeadZoneEntry = m_xDeadZoneWidget.getEntry();
-        double xDeadZone = xDeadZoneEntry.getDouble(Brain.xDeadZoneDefault);
-        Brain.xDeadZoneEntry.setDouble(xDeadZone);
+        Brain.setXdeadZone(xDeadZoneEntry);
 
         NetworkTableEntry zDeadZoneEntry = m_zDeadZoneWidget.getEntry();
-        double zDeadZone = zDeadZoneEntry.getDouble(Brain.zDeadZoneDefault);
-        Brain.zDeadZoneEntry.setDouble(zDeadZone);
+        Brain.setZdeadZone(zDeadZoneEntry);
 
         NetworkTableEntry ySensitivityEntry = m_ySensitivityWidget.getEntry();
-        double ySensitivity = ySensitivityEntry.getDouble(Brain.ySensitivityDefault);
-        Brain.ySensitivityEntry.setDouble(ySensitivity);
+        Brain.setYsensitivity(ySensitivityEntry);
 
         NetworkTableEntry xSensitivityEntry = m_xSensitivityWidget.getEntry();
-        double xSensitivity = xSensitivityEntry.getDouble(Brain.xSensitivityDefault);
-        Brain.xSensitivityEntry.setDouble(xSensitivity);
+        Brain.setXsensitivity(xSensitivityEntry);
 
         NetworkTableEntry zSensitivityEntry = m_zSensitivityWidget.getEntry();
-        double zSensitivity = zSensitivityEntry.getDouble(Brain.zSensitivityDefault);
-        Brain.zSensitivityEntry.setDouble(zSensitivity);
+        Brain.setZsensitivity(zSensitivityEntry);
+
+        NetworkTableEntry controlOrientationEntry = m_controlOrientationWidget.getEntry();
+        Brain.setControlOrientation(controlOrientationEntry);
     }
 
 }
