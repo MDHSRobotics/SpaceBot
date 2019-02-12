@@ -18,7 +18,9 @@ public class Pulley extends Subsystem {
     public Pulley() {
         Logger.debug("Constructing Subsystem: Pulley...");
 
-        Devices.talonSrxPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (Devices.isConnected(Devices.talonSrxPulley)) {
+            Devices.talonSrxPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     @Override

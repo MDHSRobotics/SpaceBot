@@ -17,7 +17,9 @@ public class Tank extends Subsystem {
     public Tank() {
         Logger.debug("Constructing Subsystem: Tank...");
 
-        Devices.talonSrxTank.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (Devices.isConnected(Devices.talonSrxTank)) {
+            Devices.talonSrxTank.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     @Override

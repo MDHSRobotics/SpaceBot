@@ -18,7 +18,9 @@ public class Baller extends Subsystem {
     public Baller() {
         Logger.debug("Constructing Subsystem: Baller...");
 
-        Devices.talonSrxBaller.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (Devices.isConnected(Devices.talonSrxBaller)) {
+            Devices.talonSrxBaller.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     @Override

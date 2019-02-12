@@ -18,7 +18,9 @@ public class Hatcher extends Subsystem {
     public Hatcher() {
         Logger.debug("Constructing Subsystem: Hatcher...");
 
-        Devices.talonSrxHatcher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (Devices.isConnected(Devices.talonSrxHatcher)) {
+            Devices.talonSrxHatcher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     @Override

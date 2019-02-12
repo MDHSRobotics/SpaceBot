@@ -17,7 +17,9 @@ public class Pusher extends Subsystem {
     public Pusher() {
         Logger.debug("Constructing Subsystem: Pusher");
 
-        Devices.talonSrxPusher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (Devices.isConnected(Devices.talonSrxPusher)) {
+            Devices.talonSrxPusher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     @Override

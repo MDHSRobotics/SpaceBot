@@ -26,10 +26,18 @@ public class MecDriver extends Subsystem {
         Logger.debug("Constructing Subsystem: MecDriver...");
 
         // Configure wheel speed controllers
-        Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (Devices.isConnected(Devices.talonSrxMecWheelFrontLeft)) {
+            Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
+        if (Devices.isConnected(Devices.talonSrxMecWheelRearLeft)) {
+            Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
+        if (Devices.isConnected(Devices.talonSrxMecWheelFrontRight)) {
+            Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
+        if (Devices.isConnected(Devices.talonSrxMecWheelRearRight)) {
+            Devices.talonSrxMecWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     // Initialize Default Command

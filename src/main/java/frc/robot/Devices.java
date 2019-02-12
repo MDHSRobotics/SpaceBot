@@ -74,4 +74,14 @@ public class Devices {
     public static final DigitalInput limitSwitchBallHeld = new DigitalInput(3);
     public static final DigitalInput limitSwitchBallTossed = new DigitalInput(4);
 
+
+    public static boolean isConnected(WPI_TalonSRX talon) {
+        int firmVer = talon.getFirmwareVersion();
+        boolean connected = (firmVer != -1);
+        if (!connected) {
+            talon.disable();
+        }
+        return connected;
+    }
+
 }

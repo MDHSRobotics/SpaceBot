@@ -19,7 +19,9 @@ public class Arm extends Subsystem {
     public Arm() {
         Logger.debug("Contructing Subsystem: Arm...");
 
-        Devices.talonSrxArm.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (Devices.isConnected(Devices.talonSrxArm)) {
+            Devices.talonSrxArm.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     @Override
