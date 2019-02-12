@@ -103,12 +103,12 @@ public class MecDriver extends Subsystem {
     // Drive using the cartesian method, using the given control orientation
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation, ControlOrientation orientation) {
         if (orientation == ControlOrientation.ROBOT) {
-            Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);
+            // Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);
             Devices.mecDrive.driveCartesian(ySpeed, xSpeed, -zRotation);
         }
         else if (orientation == ControlOrientation.FIELD) {
             double gyroAngle = Devices.imuMecDrive.getAngleZ();
-            Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
+            // Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
             Devices.mecDrive.driveCartesian(ySpeed, xSpeed, -zRotation, gyroAngle);
         }
     }

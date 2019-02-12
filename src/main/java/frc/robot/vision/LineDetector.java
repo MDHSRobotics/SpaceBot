@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
+import frc.robot.Brain;
 import frc.robot.Robot;
 import frc.robot.helpers.Logger;
 
@@ -25,13 +26,7 @@ public class LineDetector {
     private double m_angleThreshold = 10;
     private double m_centerXThreshold = Robot.camResolutionWidth / 64;
 
-    private double m_area = 0;
-    private double m_angle = 0;
-    private double m_centerX = 0;
-    private double m_centerY = 0;
-
     private VisionThread m_visionThread;
-    private final Object m_imgLock = new Object();
 
     // Constructor
     public LineDetector(UsbCamera lineCam) {
@@ -87,27 +82,27 @@ public class LineDetector {
                             break;
                     }
 
-                    // Set the thread-safe variables for use by outside commands
-                    synchronized (m_imgLock) {
-                        m_area = area;
-                        m_angle = angle;
-                        m_centerX = centerX;
-                        m_centerY = centerY;
-                    }
+                    // Add the values to NetworkTables via the Brain
+                    Brain.setHatchLineArea(area);
+                    Brain.setHatchLineAngle(angle);
+                    Brain.setHatchLineXcenter(centerX);
+                    Brain.setHatchLineYcenter(centerY);
+
                     Logger.debug("Line Detected! Pull joystick trigger to align robot!");
                 }
             }
             else {
-                // We can't work with these contours, so set the area to zero
-                synchronized (m_imgLock) {
-                    m_area = 0;
-                }
-                Logger.debug("Multiple contours identified, can't isolate just one...");
+                // We can't work with these contours, so set everything to default
+                Brain.setHatchLineArea(Brain.hatchLineAreaDefault);
+                Brain.setHatchLineAngle(Brain.hatchLineAngleDefault);
+                Brain.setHatchLineXcenter(Brain.hatchLineXcenterDefault);
+                Brain.setHatchLineYcenter(Brain.hatchLineYcenterDefault);
+
                 // TODO: consider checking all the contours, and if only one meets the minimum area requirements, use that
             }
         });
         Logger.debug("Starting LineDetector Thread...");
-        // m_visionThread.start();
+        m_visionThread.start();
     }
 
     private Quadrant getQuadrant(double x, double y) {
@@ -131,40 +126,8 @@ public class LineDetector {
         }
     }
 
-    public double getCurrentArea() {
-        double area;
-        synchronized (m_imgLock) {
-            area = m_area;
-        }
-        return area;
-    }
-
-    public double getCurrentAngle() {
-        double angle;
-        synchronized (m_imgLock) {
-            angle = m_angle;
-        }
-        return angle;
-    }
-
-    public double getCurrentCenterX() {
-        double centerX;
-        synchronized (m_imgLock) {
-            centerX = m_centerX;
-        }
-        return centerX;
-    }
-
-    public double getCurrentCenterY() {
-        double centerY;
-        synchronized (m_imgLock) {
-            centerY = m_centerY;
-        }
-        return centerY;
-    }
-
     public boolean lineDetected() {
-        double area = getCurrentArea();
+        double area = Brain.getHatchLineArea();
         boolean detected = lineDetected(area);
         return detected;
     }
@@ -175,7 +138,7 @@ public class LineDetector {
     }
 
     public boolean isStraight() {
-        double angle = getCurrentAngle();
+        double angle = Brain.getHatchLineAngle();
         boolean straight = isStraight(angle);
         return straight;
     }
@@ -187,7 +150,7 @@ public class LineDetector {
     }
 
     public boolean isCentered() {
-        double centerX = getCurrentCenterX();
+        double centerX = Brain.getHatchLineXcenter();
         boolean centered = isCentered(centerX);
         return centered;
     }
@@ -198,12 +161,12 @@ public class LineDetector {
     }
 
     public double getCorrectedZ() {
-        double angle = getCurrentAngle();
+        double angle = Brain.getHatchLineAngle();
         return m_targetAngle - angle;
     }
 
     public double getCorrectedX() {
-        double centerX = getCurrentCenterX();
+        double centerX = Brain.getHatchLineXcenter();
         return m_targetCenterX - centerX;
     }
 

@@ -15,6 +15,7 @@ public class Shuffler {
 
     // Tabs
     private MainTab m_mainTab;
+    private VisionTab m_visionTab;
     private InputsTab m_inputsTab;
     private DriveTab m_driveTab;
     private SubsystemsTab m_subsystemsTab;
@@ -24,6 +25,7 @@ public class Shuffler {
         Logging.logTrivial("Constructing Shuffler...");
 
         m_mainTab = new MainTab();
+        m_visionTab = new VisionTab();
         m_inputsTab = new InputsTab();
         m_driveTab = new DriveTab();
         m_subsystemsTab = new SubsystemsTab();
@@ -34,6 +36,7 @@ public class Shuffler {
         Logging.logTrivial("Pre-Initializing Shuffler...");
 
         m_mainTab.preInitialize();
+        m_visionTab.preInitialize();
         m_inputsTab.preInitialize();
         m_driveTab.preInitialize();
         m_subsystemsTab.preInitialize();
@@ -44,6 +47,7 @@ public class Shuffler {
         Logging.logTrivial("Initializing Shuffler...");
 
         m_mainTab.initialize();
+        m_visionTab.initialize();
         m_inputsTab.initialize();
         m_driveTab.initialize();
         m_subsystemsTab.initialize();
@@ -54,6 +58,7 @@ public class Shuffler {
         Logging.logTrivial("Configuring Shuffler...");
 
         m_mainTab.configure();
+        m_visionTab.configure();
         m_inputsTab.configure();
         m_driveTab.configure();
         m_subsystemsTab.configure();
@@ -64,6 +69,7 @@ public class Shuffler {
 
     public void update() {
         m_mainTab.update();
+        m_visionTab.update();
         m_inputsTab.update();
         m_driveTab.update();
         m_subsystemsTab.update();

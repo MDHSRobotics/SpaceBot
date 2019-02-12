@@ -17,7 +17,7 @@ public class Brain {
 
     // Shuffler - Main Tab
     public static double matchTimeDefault = 0;
-    public static boolean lineDetectedDefault = false;
+    public static boolean hatchLineDetectedDefault = false;
 
     // Shuffler - Drive Tab
     public static double driveTargetDistanceDefault = 2.0;
@@ -30,6 +30,12 @@ public class Brain {
     public static double xSensitivityDefault = .5;
     public static double zSensitivityDefault = .5;
 
+    // Vision - LineDetector
+    public static double hatchLineAreaDefault = 0;
+    public static double hatchLineAngleDefault = 0;
+    public static double hatchLineXcenterDefault = 0;
+    public static double hatchLineYcenterDefault = 0;
+
     // Subsystem - MecDriver
     public static ControlOrientation controlOrientationDefault = ControlOrientation.FIELD;
 
@@ -39,7 +45,7 @@ public class Brain {
 
     // Shuffler - Main Tab
     public static NetworkTableEntry matchTimeEntry;
-    public static NetworkTableEntry lineDetectedEntry;
+    public static NetworkTableEntry hatchLineDetectedEntry;
 
     // Shuffler - Drive Tab
     public static NetworkTableEntry driveTargetDistanceEntry;
@@ -51,6 +57,12 @@ public class Brain {
     public static NetworkTableEntry ySensitivityEntry;
     public static NetworkTableEntry xSensitivityEntry;
     public static NetworkTableEntry zSensitivityEntry;
+
+    // Vision - LineDetector
+    public static NetworkTableEntry hatchLineAreaEntry;
+    public static NetworkTableEntry hatchLineAngleEntry;
+    public static NetworkTableEntry hatchLineXcenterEntry;
+    public static NetworkTableEntry hatchLineYcenterEntry;
 
     // Subsystem - MecDriver
     public static NetworkTableEntry controlOrientationEntry;
@@ -66,9 +78,9 @@ public class Brain {
         matchTimeEntry.setDouble(matchTime);
     }
 
-    public static void setLineDetected() {
+    public static void setHatchLineDetected() {
         boolean detected = Robot.robotLineDetectorHatch.lineDetected();
-        lineDetectedEntry.setBoolean(detected);
+        hatchLineDetectedEntry.setBoolean(detected);
     }
 
     // Shuffler - Drive Tab
@@ -108,6 +120,43 @@ public class Brain {
         zSensitivityEntry.setDouble(value);
     }
 
+    // Vision - LineDetector
+    public static void setHatchLineArea(NetworkTableEntry entry) {
+        double value = entry.getDouble(hatchLineAreaDefault);
+        hatchLineAreaEntry.setDouble(value);
+    }
+
+    public static void setHatchLineArea(double value) {
+        hatchLineAreaEntry.setDouble(value);
+    }
+
+    public static void setHatchLineAngle(NetworkTableEntry entry) {
+        double value = entry.getDouble(hatchLineAngleDefault);
+        hatchLineAngleEntry.setDouble(value);
+    }
+
+    public static void setHatchLineAngle(double value) {
+        hatchLineAngleEntry.setDouble(value);
+    }
+
+    public static void setHatchLineXcenter(NetworkTableEntry entry) {
+        double value = entry.getDouble(hatchLineXcenterDefault);
+        hatchLineXcenterEntry.setDouble(value);
+    }
+
+    public static void setHatchLineXcenter(double value) {
+        hatchLineXcenterEntry.setDouble(value);
+    }
+
+    public static void setHatchLineYcenter(NetworkTableEntry entry) {
+        double value = entry.getDouble(hatchLineYcenterDefault);
+        hatchLineYcenterEntry.setDouble(value);
+    }
+
+    public static void setHatchLineYcenter(double value) {
+        hatchLineYcenterEntry.setDouble(value);
+    }
+
     // Subsystems - MecDriver
     public static void setControlOrientation(NetworkTableEntry entry) {
         String controlOrientationDefaultString = Brain.controlOrientationDefault.toString();
@@ -130,7 +179,7 @@ public class Brain {
     }
 
     public static boolean getLineDetected() {
-        return lineDetectedEntry.getBoolean(lineDetectedDefault);
+        return hatchLineDetectedEntry.getBoolean(hatchLineDetectedDefault);
     }
 
     // Shuffler - Drive Tab
@@ -161,6 +210,23 @@ public class Brain {
 
     public static double getZsensitivity() {
         return zSensitivityEntry.getDouble(zSensitivityDefault);
+    }
+
+    // Vision - LineDetector
+    public static double getHatchLineArea() {
+        return hatchLineAreaEntry.getDouble(hatchLineAreaDefault);
+    }
+
+    public static double getHatchLineAngle() {
+        return hatchLineAngleEntry.getDouble(hatchLineAngleDefault);
+    }
+
+    public static double getHatchLineXcenter() {
+        return hatchLineXcenterEntry.getDouble(hatchLineXcenterDefault);
+    }
+
+    public static double getHatchLineYcenter() {
+        return hatchLineYcenterEntry.getDouble(hatchLineYcenterDefault);
     }
 
     // Subsystems - MecDriver
