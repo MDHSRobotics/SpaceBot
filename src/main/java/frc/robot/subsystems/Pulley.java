@@ -42,6 +42,5 @@ public class Pulley extends Subsystem {
      public void lower() {
         Devices.talonSrxPulley.set(-m_pulleySpeed);
     }
-    
 
 }

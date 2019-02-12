@@ -19,7 +19,7 @@ public class LightToggle extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing Command: LightToggle...");
+        Logger.debug("Initializing Command: LightToggle...");
     }
 
     @Override
@@ -51,7 +51,7 @@ public class LightToggle extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: LightToggle...");
+        Logger.debug("Interrupting Command: LightToggle...");
 
         Robot.robotLighter.turnOff();
     }

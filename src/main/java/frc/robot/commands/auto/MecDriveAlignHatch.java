@@ -33,8 +33,7 @@ public class MecDriveAlignHatch extends Command {
             return;
         }
 
-        double angle = Robot.robotLineDetectorHatch.getCurrentAngle();
-        boolean straight = Robot.robotLineDetectorHatch.isStraight(angle);
+        boolean straight = Robot.robotLineDetectorHatch.isStraight();
         if (!straight) {
             double z = Robot.robotLineDetectorHatch.getCorrectedZ();
             Logger.debug("Pivot angle to correct: " + z);
@@ -46,8 +45,7 @@ public class MecDriveAlignHatch extends Command {
             return;
         }
 
-        double centerX = Robot.robotLineDetectorHatch.getCurrentCenterX();
-        boolean centered = Robot.robotLineDetectorHatch.isCentered(centerX);
+        boolean centered = Robot.robotLineDetectorHatch.isCentered();
         if (!centered) {
             double x = Robot.robotLineDetectorHatch.getCorrectedX();
             Logger.debug("Strafe pixels to correct: " + x);

@@ -27,7 +27,7 @@ public class MecDriveCartesian extends Command {
     @Override
     protected void execute() {
         CartesianMovement move = OI.getCartesianMovementFromJoystick(Robot.robotMecDriver.joystickOrientationFlipped);
-        Robot.robotMecDriver.driveCartesian(move.ySpeed, move.xSpeed, move.zRotation, Robot.robotMecDriver.controlOrientation);
+        Robot.robotMecDriver.driveCartesian(move.ySpeed, move.xSpeed, move.zRotation);
     }
 
     // This command continues until interrupted

@@ -2,8 +2,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.commands.joystick.MecDriveCartesian;
 import frc.robot.helpers.Logger;
+import frc.robot.Brain;
 import frc.robot.Devices;
 
 
@@ -14,13 +16,7 @@ public class MecDriver extends Subsystem {
         ROBOT, FIELD
     }
 
-    public enum DeliveryMode {
-        HATCH, BALL
-    }
-
     public boolean joystickOrientationFlipped = false;
-    public ControlOrientation controlOrientation = ControlOrientation.FIELD;
-    public DeliveryMode deliveryMode = DeliveryMode.HATCH;
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
@@ -64,15 +60,18 @@ public class MecDriver extends Subsystem {
     public ControlOrientation toggleControlOrientation() {
         Logger.debug("Toggling MecDriver control orientation...");
 
-        if (controlOrientation == ControlOrientation.FIELD) {
-            controlOrientation = ControlOrientation.ROBOT;
+        ControlOrientation orientation = Brain.getControlOrientation();
+        if (orientation == ControlOrientation.FIELD) {
+            orientation = ControlOrientation.ROBOT;
             Logger.debug("MecDriver control orientation is now ROBOT.");
-        } else if (controlOrientation == ControlOrientation.ROBOT) {
-            controlOrientation = ControlOrientation.FIELD;
+        }
+        else if (orientation == ControlOrientation.ROBOT) {
+            orientation = ControlOrientation.FIELD;
             Logger.debug("MecDriver control orientation is now FIELD.");
         }
+        Brain.setControlOrientation(orientation);
 
-        return controlOrientation;
+        return orientation;
     }
 
     // Stop all the drive motors
@@ -95,15 +94,21 @@ public class MecDriver extends Subsystem {
         Devices.mecDrive.driveCartesian(0, 0, speed);
     }
 
-    // Drive using the cartesian method, using field orientation
+    // Drive using the cartesian method, using the current control orientation
+    public void driveCartesian(double ySpeed, double xSpeed, double zRotation) {
+        ControlOrientation orientation = Brain.getControlOrientation();
+        driveCartesian(ySpeed, xSpeed, zRotation, orientation);
+    }
+
+    // Drive using the cartesian method, using the given control orientation
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation, ControlOrientation orientation) {
         if (orientation == ControlOrientation.ROBOT) {
-            Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);
+            // Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);
             Devices.mecDrive.driveCartesian(ySpeed, xSpeed, -zRotation);
         }
         else if (orientation == ControlOrientation.FIELD) {
             double gyroAngle = Devices.imuMecDrive.getAngleZ();
-            Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
+            // Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
             Devices.mecDrive.driveCartesian(ySpeed, xSpeed, -zRotation, gyroAngle);
         }
     }

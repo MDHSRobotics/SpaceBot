@@ -26,6 +26,13 @@ import frc.robot.vision.LineDetector;
  */
 public class Robot extends TimedRobot {
 
+    // States
+    public enum DeliveryMode {
+        GET_HATCH, ATTACH_HATCH, GET_BALL, TOSS_BALL
+    }
+
+    public DeliveryMode deliveryMode = DeliveryMode.GET_HATCH;
+
     // Subsystems
     public static MecDriver robotMecDriver;
     public static Lighter robotLighter;
@@ -54,7 +61,7 @@ public class Robot extends TimedRobot {
     // Consoles
     public static SendableChooser<Command> autoCommandChooser;
     private Command m_autoCmd;
-    public static Shuffler shuffler = new Shuffler();
+    public static Shuffler robotShuffler = new Shuffler();
 
     // OI
     public static OI robotOI;
@@ -67,7 +74,10 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         Logger.debug("Initializing Robot...");
 
-        // Instantiate subsystem singletons FIRST
+        // Pre-intialize the Shuffler FIRST
+        robotShuffler.preInitialize();
+
+        // Instantiate subsystem singletons SECOND
         robotMecDriver = new MecDriver();
         robotLighter = new Lighter();
 
@@ -106,11 +116,13 @@ public class Robot extends TimedRobot {
         autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
         autoCommandChooser.addOption("MecDrive - Forward", new MecDriveForward());
         autoCommandChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
+        autoCommandChooser.addOption("MecDrive - Orient Control", new MecDriveOrientControl());
 
         SmartDashboard.putData("AutoMode", autoCommandChooser);
 
-        // Intialize the shuffler and instantiate OI, in that order, LAST
-        shuffler.initialize();
+        // Intialize and configure the shuffler, and instantiate OI, in that order, LAST
+        robotShuffler.initialize();
+        robotShuffler.configure();
         robotOI = new OI();
     }
 
@@ -124,7 +136,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        shuffler.update();
+        robotShuffler.update();
     }
 
     /**
