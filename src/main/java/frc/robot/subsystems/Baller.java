@@ -14,11 +14,9 @@ import frc.robot.helpers.EncoderConstants;
 // Cargo ball subsystem
 public class Baller extends Subsystem {
     double targetRotations = 0.5;
-    double unitsPerRevolution = 4096;
     double targetPositionUnits;	
-    double yAxisValue = Devices.jstick.getY();
-	double motorOutput = Devices.talonSrxBaller.getMotorOutputPercent();
-    boolean button1Pressed = Devices.jstick.getRawButton(1);
+    private static final double k_stopThreshold = 10;
+
 
     private boolean m_talonsAreConnected = false;
     private double m_secondsFromNeutralToFull = 1.0;
@@ -113,7 +111,7 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
 
         // Scale target based on max joystick value - express in sensor units
-        targetPositionUnits = targetRotations * unitsPerRevolution;
+        targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
         Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
         Logger.debug("Target Position: " + targetPositionUnits);
 
@@ -126,5 +124,11 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.set(ControlMode.Position, 0);
         Logger.debug("Target Position: " + targetPositionUnits);
 
+    }
+
+    public boolean isStopped(){
+        double currentVelocity = Devices.talonSrxHatch.getSelectedSensorVelocity();
+         Logger.debug("Position: " + currentVelocity);
+        return (Math.abs(currentVelocity) < k_stopThreshold);
     }
 }
