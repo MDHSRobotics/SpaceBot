@@ -17,7 +17,6 @@ public class MecDriver extends Subsystem {
     }
 
     public boolean joystickOrientationFlipped = false;
-    public ControlOrientation controlOrientation = Brain.getControlOrientation();
 
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
@@ -96,7 +95,8 @@ public class MecDriver extends Subsystem {
 
     // Drive using the cartesian method, using the current control orientation
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation) {
-        driveCartesian(ySpeed, xSpeed, zRotation, controlOrientation);
+        ControlOrientation orientation = Brain.getControlOrientation();
+        driveCartesian(ySpeed, xSpeed, zRotation, orientation);
     }
 
     // Drive using the cartesian method, using the given control orientation
