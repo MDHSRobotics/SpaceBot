@@ -118,6 +118,10 @@ public class InputsTab {
         m_zSensitivityWidget.withPosition(1, 2);
         m_zSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
 
+        // Mecanum Drive
+        m_driveOrientationWidget.withPosition(2, 0);
+        //m_driveOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
+
         // Thumbsticks
         m_yLeftDeadZoneWidget.withPosition(3, 0);
         m_yLeftDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
@@ -131,21 +135,17 @@ public class InputsTab {
         m_xRightDeadZoneWidget.withPosition(3, 3);
         m_xRightDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_ySensitivityWidget.withPosition(4, 0);
-        m_ySensitivityWidget.withWidget(BuiltInWidgets.kTextView);
+        m_yLeftSensitivityWidget.withPosition(4, 0);
+        m_yLeftSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_xSensitivityWidget.withPosition(4, 1);
-        m_xSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
+        m_xLeftSensitivityWidget.withPosition(4, 1);
+        m_xLeftSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
 
         m_yRightSensitivityWidget.withPosition(4, 2);
         m_yRightSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
 
         m_xRightSensitivityWidget.withPosition(4, 3);
         m_xRightSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
-
-        // Mecanum Drive
-        m_driveOrientationWidget.withPosition(2, 0);
-        //m_driveOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
     }
 
     // This will be called in the robotPeriodic
