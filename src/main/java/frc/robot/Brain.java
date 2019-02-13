@@ -23,12 +23,12 @@ public class Brain {
     public static double driveTargetDistanceDefault = 2.0;
 
     // OI
-    public static double yDeadZoneDefault = .1;
-    public static double xDeadZoneDefault = .1;
-    public static double zDeadZoneDefault = .5;
-    public static double ySensitivityDefault = .5;
-    public static double xSensitivityDefault = .5;
-    public static double zSensitivityDefault = .5;
+    public static double yDeadZoneDefault = 0;
+    public static double xDeadZoneDefault = 0;
+    public static double zDeadZoneDefault = 0;
+    public static double ySensitivityDefault = 1;
+    public static double xSensitivityDefault = 1;
+    public static double zSensitivityDefault = 1;
 
     // Vision - LineDetector
     public static double hatchLineAreaDefault = 0;

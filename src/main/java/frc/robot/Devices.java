@@ -30,7 +30,7 @@ public class Devices {
     public static final JoystickButton jstickBtn12 = new JoystickButton(jstick, 12);
 
     // Xbox Controllers
-    public static final XboxController xbox = new XboxController(1);
+    public static final XboxController xbox = new XboxController(0);
     public static final JoystickButton xboxBtn1 = new JoystickButton(xbox, 1); // A
     public static final JoystickButton xboxBtn2 = new JoystickButton(xbox, 2); // B
     public static final JoystickButton xboxBtn3 = new JoystickButton(xbox, 3); // X

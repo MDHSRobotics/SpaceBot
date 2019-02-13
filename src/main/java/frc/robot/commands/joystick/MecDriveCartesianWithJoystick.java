@@ -10,10 +10,10 @@ import frc.robot.Robot;
 
 
 // This command uses the joystick input to mecanum drive using the cartesian method
-public class MecDriveCartesian extends Command {
+public class MecDriveCartesianWithJoystick extends Command {
 
-    public MecDriveCartesian() {
-        Logger.debug("Constructing Command: MecDriveCartesian...");
+    public MecDriveCartesianWithJoystick() {
+        Logger.debug("Constructing Command: MecDriveCartesianJoystick...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -21,12 +21,12 @@ public class MecDriveCartesian extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveCartesian...");
+        Logger.debug("Initializing Command: MecDriveCartesianJoystick...");
     }
 
     @Override
     protected void execute() {
-        CartesianMovement move = OI.getCartesianMovementFromJoystick(Robot.robotMecDriver.joystickOrientationFlipped);
+        CartesianMovement move = OI.getCartesianMovementFromXbox();
         Robot.robotMecDriver.driveCartesian(move.ySpeed, move.xSpeed, move.zRotation);
     }
 
@@ -38,14 +38,14 @@ public class MecDriveCartesian extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveCartesian...");
+        Logger.debug("Ending Command: MecDriveCartesianJoystick...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveCartesian...");
+        Logger.debug("Interrupting Command: MecDriveCartesianJoystick...");
 
         Robot.robotMecDriver.stop();
     }

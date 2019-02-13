@@ -1,6 +1,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+
 import frc.robot.commands.auto.*;
 import frc.robot.commands.xbox.*;
 import frc.robot.helpers.*;
@@ -52,6 +54,8 @@ public class OI {
         return move;
     }
 
+    
+
     // Gets the joystick position and applies user-determined orientation, deadzones, and sensitivity
     private static JoystickPosition getJoystickPosition(boolean isFlipped) {
         double y = -Devices.jstick.getY(); // Forward & backward, flipped
@@ -82,14 +86,60 @@ public class OI {
         // Sensitivity
         double ySensitivity = Brain.getYsensitivity();
         double xSensitivity = Brain.getXsensitivity();
-        double zSensitivity = Brain.getZsensitivity();
+        double zSensitivity = Brain.getXsensitivity();
 
         y = y * ySensitivity;
         x = x * xSensitivity;
         z = z * zSensitivity;
 
         JoystickPosition pos = new JoystickPosition(y, x, z);
+
         return pos;
     }
+
+
+    public static CartesianMovement getCartesianMovementFromXbox() {
+        XboxThumbStickPosition pos = getXboxThumbstickPosition();
+
+        CartesianMovement move = new CartesianMovement(pos.yLeftPosition, pos.xLeftPosition, pos.xRightPosition);
+        return move;
+    }
+
+    private static XboxThumbStickPosition getXboxThumbstickPosition() {
+        double yLeft = -Devices.xbox.getY(Hand.kLeft); // Forward & backward
+        double xLeft = Devices.xbox.getX(Hand.kLeft); // Strafe left stick
+        double xRight = Devices.xbox.getX(Hand.kRight); // Rotate, right stick
+
+
+        // Deadzones
+        double yDeadZone = Brain.getYdeadZone();
+        double xDeadZone = Brain.getXdeadZone();
+        double zDeadZone = Brain.getZdeadZone();
+
+        if (Math.abs(yLeft) <= yDeadZone) yLeft = 0;
+        if (Math.abs(xLeft) <= xDeadZone) xLeft = 0;
+        if (Math.abs(xRight) <= zDeadZone) xRight = 0;
+
+        if (yLeft > 0) yLeft = yLeft - yDeadZone;
+        if (yLeft < 0) yLeft = yLeft + yDeadZone;
+        if (xLeft > 0) xLeft = xLeft - xDeadZone;
+        if (xLeft < 0) xLeft = xLeft + xDeadZone;
+        if (xRight > 0) xRight = xRight - zDeadZone;
+        if (xRight < 0) xRight = xRight + zDeadZone;
+
+        // Sensitivity
+        double yLeftSensitivity = Brain.getYsensitivity();
+        double xLeftSensitivity = Brain.getXsensitivity();
+        double xRightSensitivity = Brain.getXsensitivity();
+
+        yLeft = yLeft * yLeftSensitivity;
+        xLeft = xLeft * xLeftSensitivity;
+        xRight = xRight * xRightSensitivity;
+
+        XboxThumbStickPosition pos = new XboxThumbStickPosition(yLeft, xLeft, xRight);
+
+        return pos;
+    }
+
 
 }
