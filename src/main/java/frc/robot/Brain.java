@@ -4,7 +4,7 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 
-import frc.robot.subsystems.MecDriver.ControlOrientation;
+import frc.robot.subsystems.MecDriver.DriveOrientation;
 
 
 // This class contains all the shared NetworkTableEntries for the Robot,
@@ -22,13 +22,23 @@ public class Brain {
     // Shuffler - Drive Tab
     public static double driveTargetDistanceDefault = 2.0;
 
-    // OI
+    // OI - Joystick
     public static double yDeadZoneDefault = .1;
     public static double xDeadZoneDefault = .1;
     public static double zDeadZoneDefault = .5;
     public static double ySensitivityDefault = .5;
     public static double xSensitivityDefault = .5;
     public static double zSensitivityDefault = .5;
+
+    // OI - Xbox Thumbsticks
+    public static double yLeftDeadZoneDefault = 0;
+    public static double xLeftDeadZoneDefault = 0;
+    public static double yRightDeadZoneDefault = 0;
+    public static double xRightDeadZoneDefault = 0;
+    public static double yLeftSensitivityDefault = 1;
+    public static double xLeftSensitivityDefault = 1;
+    public static double yRightSensitivityDefault = 1;
+    public static double xRightSensitivityDefault = 1;
 
     // Vision - LineDetector
     public static double hatchLineAreaDefault = 0;
@@ -37,7 +47,7 @@ public class Brain {
     public static double hatchLineYcenterDefault = 0;
 
     // Subsystem - MecDriver
-    public static ControlOrientation controlOrientationDefault = ControlOrientation.FIELD;
+    public static DriveOrientation driveOrientationDefault = DriveOrientation.FIELD;
 
     //---------------------//
     // NetworkTableEntries //
@@ -50,13 +60,23 @@ public class Brain {
     // Shuffler - Drive Tab
     public static NetworkTableEntry driveTargetDistanceEntry;
 
-    // OI
+    // OI - Joystick
     public static NetworkTableEntry yDeadZoneEntry;
     public static NetworkTableEntry xDeadZoneEntry;
     public static NetworkTableEntry zDeadZoneEntry;
     public static NetworkTableEntry ySensitivityEntry;
     public static NetworkTableEntry xSensitivityEntry;
     public static NetworkTableEntry zSensitivityEntry;
+
+    // OI - Xbox Thumbsticks
+    public static NetworkTableEntry yLeftDeadZoneEntry;
+    public static NetworkTableEntry xLeftDeadZoneEntry;
+    public static NetworkTableEntry yRightDeadZoneEntry;
+    public static NetworkTableEntry xRightDeadZoneEntry;
+    public static NetworkTableEntry yLeftSensitivityEntry;
+    public static NetworkTableEntry xLeftSensitivityEntry;
+    public static NetworkTableEntry yRightSensitivityEntry;
+    public static NetworkTableEntry xRightSensitivityEntry;
 
     // Vision - LineDetector
     public static NetworkTableEntry hatchLineAreaEntry;
@@ -65,7 +85,7 @@ public class Brain {
     public static NetworkTableEntry hatchLineYcenterEntry;
 
     // Subsystem - MecDriver
-    public static NetworkTableEntry controlOrientationEntry;
+    public static NetworkTableEntry driveOrientationEntry;
 
     //---------//
     // Setters //
@@ -89,7 +109,7 @@ public class Brain {
         driveTargetDistanceEntry.setDouble(value);
     }
 
-    // OI
+    // OI - Joystick
     public static void setYdeadZone(NetworkTableEntry entry) {
         double value = entry.getDouble(yDeadZoneDefault);
         yDeadZoneEntry.setDouble(value);
@@ -118,6 +138,47 @@ public class Brain {
     public static void setZsensitivity(NetworkTableEntry entry) {
         double value = entry.getDouble(zSensitivityDefault);
         zSensitivityEntry.setDouble(value);
+    }
+
+    // OI - Xbox Thumbsticks
+    public static void setYleftDeadZone(NetworkTableEntry entry) {
+        double value = entry.getDouble(yLeftDeadZoneDefault);
+        yLeftDeadZoneEntry.setDouble(value);
+    }
+
+    public static void setXleftDeadZone(NetworkTableEntry entry) {
+        double value = entry.getDouble(xLeftDeadZoneDefault);
+        xLeftDeadZoneEntry.setDouble(value);
+    }
+
+    public static void setYrightDeadZone(NetworkTableEntry entry) {
+        double value = entry.getDouble(yRightDeadZoneDefault);
+        yRightDeadZoneEntry.setDouble(value);
+    }
+
+    public static void setXrightDeadZone(NetworkTableEntry entry) {
+        double value = entry.getDouble(xRightDeadZoneDefault);
+        xRightDeadZoneEntry.setDouble(value);
+    }
+
+    public static void setYleftSensitivity(NetworkTableEntry entry) {
+        double value = entry.getDouble(yLeftSensitivityDefault);
+        yLeftSensitivityEntry.setDouble(value);
+    }
+
+    public static void setXleftSensitivity(NetworkTableEntry entry) {
+        double value = entry.getDouble(xLeftSensitivityDefault);
+        xLeftSensitivityEntry.setDouble(value);
+    }
+
+    public static void setYrightSensitivity(NetworkTableEntry entry) {
+        double value = entry.getDouble(yRightSensitivityDefault);
+        yRightSensitivityEntry.setDouble(value);
+    }
+
+    public static void setXrightSensitivity(NetworkTableEntry entry) {
+        double value = entry.getDouble(xRightSensitivityDefault);
+        xRightSensitivityEntry.setDouble(value);
     }
 
     // Vision - LineDetector
@@ -158,15 +219,15 @@ public class Brain {
     }
 
     // Subsystems - MecDriver
-    public static void setControlOrientation(NetworkTableEntry entry) {
-        String controlOrientationDefaultString = Brain.controlOrientationDefault.toString();
-        String value = entry.getString(controlOrientationDefaultString);
-        controlOrientationEntry.setValue(value);
+    public static void setDriveOrientation(NetworkTableEntry entry) {
+        String defaultString = Brain.driveOrientationDefault.toString();
+        String value = entry.getString(defaultString);
+        driveOrientationEntry.setValue(value);
     }
 
-    public static void setControlOrientation(ControlOrientation orientation) {
+    public static void setDriveOrientation(DriveOrientation orientation) {
         String value = orientation.toString();
-        controlOrientationEntry.setValue(value);
+        driveOrientationEntry.setValue(value);
     }
 
     //---------//
@@ -187,7 +248,7 @@ public class Brain {
         return driveTargetDistanceEntry.getDouble(driveTargetDistanceDefault);
     }
 
-    // OI
+    // OI - Joystick
     public static double getYdeadZone() {
         return yDeadZoneEntry.getDouble(yDeadZoneDefault);
     }
@@ -212,6 +273,39 @@ public class Brain {
         return zSensitivityEntry.getDouble(zSensitivityDefault);
     }
 
+    // OI - Xbox Thumbsticks
+    public static double getYleftDeadZone() {
+        return yLeftDeadZoneEntry.getDouble(yLeftDeadZoneDefault);
+    }
+
+    public static double getXleftDeadZone() {
+        return xLeftDeadZoneEntry.getDouble(xLeftDeadZoneDefault);
+    }
+
+    public static double getYrightDeadZone() {
+        return yRightDeadZoneEntry.getDouble(yRightDeadZoneDefault);
+    }
+
+    public static double getXrightDeadZone() {
+        return xRightDeadZoneEntry.getDouble(xRightDeadZoneDefault);
+    }
+
+    public static double getYleftSensitivity() {
+        return yLeftSensitivityEntry.getDouble(yLeftSensitivityDefault);
+    }
+
+    public static double getXleftSensitivity() {
+        return xLeftSensitivityEntry.getDouble(xLeftSensitivityDefault);
+    }
+
+    public static double getYrightSensitivity() {
+        return yRightSensitivityEntry.getDouble(yRightSensitivityDefault);
+    }
+
+    public static double getXrightSensitivity() {
+        return xRightSensitivityEntry.getDouble(xRightSensitivityDefault);
+    }
+
     // Vision - LineDetector
     public static double getHatchLineArea() {
         return hatchLineAreaEntry.getDouble(hatchLineAreaDefault);
@@ -230,10 +324,10 @@ public class Brain {
     }
 
     // Subsystems - MecDriver
-    public static ControlOrientation getControlOrientation() {
-        String controlOrientationDefaultString = controlOrientationDefault.toString();
-        String controlOrientationString = controlOrientationEntry.getString(controlOrientationDefaultString);
-        return ControlOrientation.valueOf(controlOrientationString);
+    public static DriveOrientation getDriveOrientation() {
+        String defaultString = driveOrientationDefault.toString();
+        String orientationString = driveOrientationEntry.getString(defaultString);
+        return DriveOrientation.valueOf(orientationString);
     }
 
 }

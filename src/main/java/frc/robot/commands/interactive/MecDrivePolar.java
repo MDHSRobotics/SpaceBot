@@ -1,5 +1,5 @@
 
-package frc.robot.commands.joystick;
+package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,7 +26,7 @@ public class MecDrivePolar extends Command {
 
     @Override
     protected void execute() {
-        PolarMovement move = OI.getPolarMovementFromJoystick(Robot.robotMecDriver.joystickOrientationFlipped);
+        PolarMovement move = OI.getPolarMovementFromJoystick(Robot.robotMecDriver.controlStickDirectionFlipped);
         Robot.robotMecDriver.drivePolar(move.magnitude, move.angle, move.rotation);
     }
 

@@ -1,5 +1,5 @@
 
-package frc.robot.commands.joystick;
+package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,7 +26,7 @@ public class MecDriveCartesian extends Command {
 
     @Override
     protected void execute() {
-        CartesianMovement move = OI.getCartesianMovementFromJoystick(Robot.robotMecDriver.joystickOrientationFlipped);
+        CartesianMovement move = OI.getCartesianMovement(Robot.robotMecDriver.controlStickDirectionFlipped);
         Robot.robotMecDriver.driveCartesian(move.ySpeed, move.xSpeed, move.zRotation);
     }
 

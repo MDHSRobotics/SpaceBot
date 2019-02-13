@@ -4,7 +4,7 @@ package frc.robot.consoles.tabs;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
 
-import frc.robot.commands.xbox.PulleyLift;
+import frc.robot.commands.interactive.PulleyLift;
 import frc.robot.consoles.Logging;
 import frc.robot.Robot;
 

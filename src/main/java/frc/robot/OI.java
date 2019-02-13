@@ -1,8 +1,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+
 import frc.robot.commands.auto.*;
-import frc.robot.commands.xbox.*;
+import frc.robot.commands.interactive.*;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
 
@@ -13,7 +15,11 @@ import frc.robot.Brain;
  */
 public class OI {
 
-    // TODO: Also consider adding a "debouncer" for the buttons
+    public enum ControlStick {
+        JOYSTICK, XBOX
+    }
+
+    public static ControlStick activeControlStick = ControlStick.JOYSTICK;
 
     // Constructor
     public OI() {
@@ -36,30 +42,64 @@ public class OI {
         // TODO: Bind the Pusher appropriate commands
     }
 
-    // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed) from the current joystick position
-    public static CartesianMovement getCartesianMovementFromJoystick(boolean isFlipped) {
-        JoystickPosition pos = getJoystickPosition(isFlipped);
+    //----------------------//
+    // Active Control Stick //
+    //----------------------//
 
+    // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed)
+    // from the active control stick position(s)
+    public static CartesianMovement getCartesianMovement(boolean isYflipped) {
+        switch (activeControlStick) {
+            case JOYSTICK:
+                return getCartesianMovementFromJoystick(isYflipped);
+            case XBOX:
+                return getCartesianMovementFromThumbsticks(isYflipped);
+            default:
+                return null;
+        }
+    }
+
+    // Determines the polar movement (magnitude, angle, rotation)
+    // from the active control stick position(s)
+    public static PolarMovement getPolarMovement(boolean isYflipped) {
+        switch (activeControlStick) {
+            case JOYSTICK:
+                return getPolarMovementFromJoystick(isYflipped);
+            case XBOX:
+                return getPolarMovementFromThumbsticks(isYflipped);
+            default:
+                return null;
+        }
+    }
+
+    //----------//
+    // Joystick //
+    //----------//
+
+    // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed)
+    // from the current joystick position
+    public static CartesianMovement getCartesianMovementFromJoystick(boolean isYflipped) {
+        JoystickPosition pos = getJoystickPosition(isYflipped);
         CartesianMovement move = new CartesianMovement(pos.yPosition, pos.xPosition, pos.zPosition);
         return move;
     }
 
-    // Determines the polar movement (magnitude, angle, rotation) from the current joystick position
-    public static PolarMovement getPolarMovementFromJoystick(boolean isFlipped) {
-        JoystickPosition pos = getJoystickPosition(isFlipped);
-
+    // Determines the polar movement (magnitude, angle, rotation)
+    // from the current joystick position
+    public static PolarMovement getPolarMovementFromJoystick(boolean isYflipped) {
+        JoystickPosition pos = getJoystickPosition(isYflipped);
         PolarMovement move = new PolarMovement(pos.xPosition, pos.yPosition, pos.zPosition);
         return move;
     }
 
     // Gets the joystick position and applies user-determined orientation, deadzones, and sensitivity
-    private static JoystickPosition getJoystickPosition(boolean isFlipped) {
+    private static JoystickPosition getJoystickPosition(boolean isYflipped) {
         double y = -Devices.jstick.getY(); // Forward & backward, flipped
         double x = Devices.jstick.getX(); // Side to side
         double z = Devices.jstick.getZ(); // Rotate
 
         // User-determined flipping of forward/backward orientation
-        if (isFlipped) {
+        if (isYflipped) {
             y = -y;
         }
 
@@ -82,7 +122,7 @@ public class OI {
         // Sensitivity
         double ySensitivity = Brain.getYsensitivity();
         double xSensitivity = Brain.getXsensitivity();
-        double zSensitivity = Brain.getZsensitivity();
+        double zSensitivity = Brain.getXsensitivity();
 
         y = y * ySensitivity;
         x = x * xSensitivity;
@@ -91,5 +131,67 @@ public class OI {
         JoystickPosition pos = new JoystickPosition(y, x, z);
         return pos;
     }
+
+    //------------------//
+    // Xbox Thumbsticks //
+    //------------------//
+
+    // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed)
+    // from the current xbox thumbstick positions
+    public static CartesianMovement getCartesianMovementFromThumbsticks(boolean isYleftFlipped) {
+        ThumbStickPosition pos = getThumbstickPosition(isYleftFlipped);
+        CartesianMovement move = new CartesianMovement(pos.yLeftPosition, pos.xLeftPosition, pos.xRightPosition);
+        return move;
+    }
+
+    // Determines the polar movement (magnitude, angle, rotation)
+    // from the current xbox thumbstick positions
+    public static PolarMovement getPolarMovementFromThumbsticks(boolean isYleftFlipped) {
+        ThumbStickPosition pos = getThumbstickPosition(isYleftFlipped);
+        PolarMovement move = new PolarMovement(pos.xLeftPosition, pos.yLeftPosition, pos.xRightPosition);
+        return move;
+    }
+
+    // Gets the xbox thumbstick positions and applies user-determined orientation, deadzones, and sensitivity
+    private static ThumbStickPosition getThumbstickPosition(boolean isYleftFlipped) {
+        double yLeft = -Devices.xbox.getY(Hand.kLeft); // Forward & backward, flipped
+        double xLeft = Devices.xbox.getX(Hand.kLeft); // Strafe
+        double xRight = Devices.xbox.getX(Hand.kRight); // Rotate
+
+        // User-determined flipping of forward/backward orientation
+        if (isYleftFlipped) {
+            yLeft = -yLeft;
+        }
+
+        // Deadzones
+        double yLeftDeadZone = Brain.getYleftDeadZone();
+        double xLeftDeadZone = Brain.getXleftDeadZone();
+        double xRightDeadZone = Brain.getXrightDeadZone();
+
+        if (Math.abs(yLeft) <= yLeftDeadZone) yLeft = 0;
+        if (Math.abs(xLeft) <= xLeftDeadZone) xLeft = 0;
+        if (Math.abs(xRight) <= xRightDeadZone) xRight = 0;
+
+        if (yLeft > 0) yLeft = yLeft - yLeftDeadZone;
+        if (yLeft < 0) yLeft = yLeft + yLeftDeadZone;
+        if (xLeft > 0) xLeft = xLeft - xLeftDeadZone;
+        if (xLeft < 0) xLeft = xLeft + xLeftDeadZone;
+        if (xRight > 0) xRight = xRight - xRightDeadZone;
+        if (xRight < 0) xRight = xRight + xRightDeadZone;
+
+        // Sensitivity
+        double yLeftSensitivity = Brain.getYleftSensitivity();
+        double xLeftSensitivity = Brain.getXleftSensitivity();
+        double xRightSensitivity = Brain.getXrightSensitivity();
+
+        yLeft = yLeft * yLeftSensitivity;
+        xLeft = xLeft * xLeftSensitivity;
+        xRight = xRight * xRightSensitivity;
+
+        ThumbStickPosition pos = new ThumbStickPosition(yLeft, xLeft, xRight);
+        return pos;
+    }
+
+    // TODO: Also consider adding a "debouncer" for the buttons
 
 }
