@@ -4,7 +4,7 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 
-import frc.robot.subsystems.MecDriver.ControlOrientation;
+import frc.robot.subsystems.MecDriver.DriveOrientation;
 
 
 // This class contains all the shared NetworkTableEntries for the Robot,
@@ -47,7 +47,7 @@ public class Brain {
     public static double hatchLineYcenterDefault = 0;
 
     // Subsystem - MecDriver
-    public static ControlOrientation controlOrientationDefault = ControlOrientation.FIELD;
+    public static DriveOrientation driveOrientationDefault = DriveOrientation.FIELD;
 
     //---------------------//
     // NetworkTableEntries //
@@ -85,7 +85,7 @@ public class Brain {
     public static NetworkTableEntry hatchLineYcenterEntry;
 
     // Subsystem - MecDriver
-    public static NetworkTableEntry controlOrientationEntry;
+    public static NetworkTableEntry driveOrientationEntry;
 
     //---------//
     // Setters //
@@ -219,15 +219,15 @@ public class Brain {
     }
 
     // Subsystems - MecDriver
-    public static void setControlOrientation(NetworkTableEntry entry) {
-        String controlOrientationDefaultString = Brain.controlOrientationDefault.toString();
-        String value = entry.getString(controlOrientationDefaultString);
-        controlOrientationEntry.setValue(value);
+    public static void setDriveOrientation(NetworkTableEntry entry) {
+        String defaultString = Brain.driveOrientationDefault.toString();
+        String value = entry.getString(defaultString);
+        driveOrientationEntry.setValue(value);
     }
 
-    public static void setControlOrientation(ControlOrientation orientation) {
+    public static void setDriveOrientation(DriveOrientation orientation) {
         String value = orientation.toString();
-        controlOrientationEntry.setValue(value);
+        driveOrientationEntry.setValue(value);
     }
 
     //---------//
@@ -324,10 +324,10 @@ public class Brain {
     }
 
     // Subsystems - MecDriver
-    public static ControlOrientation getControlOrientation() {
-        String controlOrientationDefaultString = controlOrientationDefault.toString();
-        String controlOrientationString = controlOrientationEntry.getString(controlOrientationDefaultString);
-        return ControlOrientation.valueOf(controlOrientationString);
+    public static DriveOrientation getDriveOrientation() {
+        String defaultString = driveOrientationDefault.toString();
+        String orientationString = driveOrientationEntry.getString(defaultString);
+        return DriveOrientation.valueOf(orientationString);
     }
 
 }

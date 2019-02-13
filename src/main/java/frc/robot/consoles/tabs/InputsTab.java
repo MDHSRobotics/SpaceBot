@@ -19,7 +19,7 @@ public class InputsTab {
     private SimpleWidget m_ySensitivityWidget;
     private SimpleWidget m_xSensitivityWidget;
     private SimpleWidget m_zSensitivityWidget;
-    private SimpleWidget m_controlOrientationWidget;
+    private SimpleWidget m_driveOrientationWidget;
 
     // Constructor
     public InputsTab() {
@@ -55,8 +55,8 @@ public class InputsTab {
         Brain.zSensitivityEntry = m_zSensitivityWidget.getEntry();
 
         // Control Orientation for the Joystick
-        m_controlOrientationWidget = m_tab.add("Control Orientation", Brain.controlOrientationDefault.toString());
-        Brain.controlOrientationEntry = m_controlOrientationWidget.getEntry();
+        m_driveOrientationWidget = m_tab.add("Drive Orientation", Brain.driveOrientationDefault.toString());
+        Brain.driveOrientationEntry = m_driveOrientationWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -83,8 +83,8 @@ public class InputsTab {
         m_zSensitivityWidget.withPosition(1, 2);
         m_zSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_controlOrientationWidget.withPosition(2, 0);
-        //m_controlOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
+        m_driveOrientationWidget.withPosition(2, 0);
+        //m_driveOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
     }
 
     // This will be called in the robotPeriodic
@@ -107,8 +107,8 @@ public class InputsTab {
         NetworkTableEntry zSensitivityEntry = m_zSensitivityWidget.getEntry();
         Brain.setZsensitivity(zSensitivityEntry);
 
-        NetworkTableEntry controlOrientationEntry = m_controlOrientationWidget.getEntry();
-        Brain.setControlOrientation(controlOrientationEntry);
+        NetworkTableEntry driveOrientationEntry = m_driveOrientationWidget.getEntry();
+        Brain.setDriveOrientation(driveOrientationEntry);
     }
 
 }
