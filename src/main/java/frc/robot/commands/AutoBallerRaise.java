@@ -20,7 +20,7 @@ import frc.robot.Devices;
 public class AutoBallerRaise extends Command {
 
     public AutoBallerRaise() {
-        Logger.debug("Constructing AutoBallerGate...");
+        Logger.debug("Constructing AutoBallerRaise...");
 
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
@@ -29,7 +29,7 @@ public class AutoBallerRaise extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoBallerGate...");
+        Logger.debug("Initializing AutoBallerRaise...");
         Robot.robotBaller.ballRaise();
 
     }
@@ -48,7 +48,6 @@ public class AutoBallerRaise extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        // TODO: need a limit switch to determine when this is done
 
         return false;
     }
@@ -56,7 +55,7 @@ public class AutoBallerRaise extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoBallerGate...");
+        Logger.debug("Ending AutoBallerRaise...");
 
         Robot.robotBaller.stop();
     }
@@ -65,7 +64,7 @@ public class AutoBallerRaise extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoBallerGate...");
+        Logger.debug("Interrupted AutoBallerRaise...");
 
         Robot.robotBaller.stop();
     }

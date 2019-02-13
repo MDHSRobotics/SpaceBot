@@ -74,7 +74,7 @@ public class EncoderDrive extends Subsystem{
     // One rotations equals 4096 raw units
     public void driveRotations(double rotations) {
         double tickCount = rotations*EncoderConstants.kRedlineEncoderTpr;
-        Devices.talonSrxWheelRearRight.set(ControlMode.Position, tickCount);
+        Devices.talonSrxWheelRearRight.set(ControlMode.MotionMagic, tickCount);
     }
 
     public int getPosition(){

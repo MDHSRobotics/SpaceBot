@@ -20,7 +20,7 @@ public class AutoHatchClose extends Command {
     double joystickValue;
 
     public AutoHatchClose() {
-        Logger.debug("Constructing AutoHatchClaw...");
+        Logger.debug("Constructing AutoHatchClose...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -28,7 +28,7 @@ public class AutoHatchClose extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing AutoHatchClaw...");
+        Logger.debug("Constructing AutoHatchClose...");
         Robot.robotHatcher.clawClose();
     }
 
@@ -54,7 +54,7 @@ public class AutoHatchClose extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoHatchClaw...");
+        Logger.debug("Ending AutoHatchClose...");
         Robot.robotHatcher.stop();
     }
 
@@ -62,7 +62,7 @@ public class AutoHatchClose extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoHatchClaw...");
+        Logger.debug("Interrupted AutoHatchClose...");
 
         Robot.robotHatcher.stop();
     }

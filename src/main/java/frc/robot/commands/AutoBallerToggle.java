@@ -9,38 +9,44 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
+import frc.robot.subsystems.Hatcher;
 import frc.robot.Devices;
 // Don't import Devices; Commands use OI and control Robot subsystems, but they don't access any raw devices directly
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // This command opens or closes the Hatch claw
-public class AutoHatchOpen extends Command {
+public class AutoBallerToggle extends Command {
 
     double joystickValue;
 
-    public AutoHatchOpen() {
-        Logger.debug("Constructing AutoHatchOpen...");
+    public AutoBallerToggle() {
+        Logger.debug("Constructing AutoHatchToggle...");
 
          // Declare subsystem dependencies
-         requires(Robot.robotHatcher);
+         requires(Robot.robotBaller);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing AutoHatchOpen...");
-        Robot.robotHatcher.clawOpen();
+        Logger.debug("Constructing AutoHatchToggle...");
+        if(Robot.robotBaller.getBallToggle() == false){
+            Robot.robotBaller.ballRaise();
+        }
+        else{
+            Robot.robotBaller.ballClose();
+        }
 
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Logger.debug("Position: " + Robot.robotHatcher.getPosition());
-        Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
-        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxHatch.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxHatch.getSelectedSensorPosition());
-        SmartDashboard.putNumber("Out %",  Devices.talonSrxHatch.getMotorOutputPercent());
+        Logger.debug("Position: " + Robot.robotBaller.getPosition());
+        Logger.debug("Velocity: " +  Robot.robotBaller.getVelocity());
+        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxBaller.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxBaller.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Out %",  Devices.talonSrxBaller.getMotorOutputPercent());
         //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
         
     }
@@ -48,23 +54,24 @@ public class AutoHatchOpen extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished(){
-       // return Robot.robotHatcher.isStopped();
+       // return Robot.robotBaller.isStopped();
         return false;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Logger.debug("Ending AutoHatchOpen...");
-        Robot.robotHatcher.stop();
+        Logger.debug("Ending AutoHatchToggle...");
+        Robot.robotBaller.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted AutoHatchOpen...");
-        Robot.robotHatcher.stop();
+        Logger.debug("Interrupted AutoHatchToggle...");
+        Robot.robotBaller.stop();
+        Robot.robotBaller.setBallToggle();
     }
 
 }

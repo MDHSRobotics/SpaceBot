@@ -18,18 +18,20 @@ import frc.robot.Robot;
 public class Hatcher extends Subsystem {
 
     private boolean m_talonsAreConnected = false;
-    double targetRotations = 0.5;
+    double targetRotations = 10;
     double targetPositionUnits;	
     static final double k_stopThreshold = 10;
 
       /* choose so that Talon does not report sensor out of phase */
-      public static boolean kSensorPhase = false;
+      public static boolean kSensorPhase = true;
       
 
       /* choose based on what direction you want to be positive,
           this does not affect motor invert. */
       public static boolean kMotorInvert = false;
     
+      public boolean hatchToggle = false;
+
     public Hatcher() {
         Logger.debug("Constructing Subsystem: Hatcher...");
 
@@ -43,19 +45,20 @@ public class Hatcher extends Subsystem {
 
         Devices.talonSrxHatch.configNominalOutputForward(0);
         Devices.talonSrxHatch.configNominalOutputReverse(0);
-        Devices.talonSrxHatch.configPeakOutputForward(0.1);
-        Devices.talonSrxHatch.configPeakOutputReverse(-0.1);
-        //Devices.talonSrxHatch.configMotion
+        Devices.talonSrxHatch.configPeakOutputForward(0.5);
+        Devices.talonSrxHatch.configPeakOutputReverse(-0.5);
+
+        Devices.talonSrxHatch.configMotionAcceleration(6000, 20);
+        Devices.talonSrxHatch.configMotionCruiseVelocity(15000, 20);
 
         //Config TalonSRX Redline encoder     
-        
         Devices.talonSrxHatch.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
         Devices.talonSrxHatch.setSensorPhase(kSensorPhase);
         Devices.talonSrxHatch.setInverted(kMotorInvert);
         Devices.talonSrxHatch.configAllowableClosedloopError(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
 
         Devices.talonSrxHatch.config_kF(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxHatch.config_kP(EncoderConstants.kPIDLoopPrimary, 0.065, EncoderConstants.kTimeoutMs);
+        Devices.talonSrxHatch.config_kP(EncoderConstants.kPIDLoopPrimary, 0.06, EncoderConstants.kTimeoutMs);
         Devices.talonSrxHatch.config_kI(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
         Devices.talonSrxHatch.config_kD(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);	
 
@@ -67,8 +70,6 @@ public class Hatcher extends Subsystem {
         if (kMotorInvert)	absolutePosition *= -1;
         // Set the quadrature (relative) sensor to match absolute
 		Devices.talonSrxHatch.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-
-
     }
 
     @Override
@@ -98,35 +99,33 @@ public class Hatcher extends Subsystem {
         Devices.talonSrxHatch.setSelectedSensorPosition(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
     }
 
-    public void joystickMove(double joystickValue){
-        Devices.talonSrxHatch.set(ControlMode.PercentOutput, joystickValue);
-        
-    }
-
     public void driveStatic(){
-         Devices.talonSrxHatch.set(-0.2);
+         Devices.talonSrxHatch.set(0.2);
     }  
 
-    		// On button1 press, enter closed-loop mode on target position (but ignore sequential presses)
     public void clawOpen(){
-
-        //while(Devices.talonSrxHatch.getSelectedSensorPosition() != targetPositionUnits){
 		Devices.talonSrxHatch.setSelectedSensorPosition(0, 0, 20);
-
         targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
-        Devices.talonSrxHatch.set(ControlMode.Position, targetPositionUnits);
-        Logger.debug("Target Open Position: " + targetPositionUnits);
-        }
-			   
-       // }
 
-        public void clawClose(){
+        Devices.talonSrxHatch.set(ControlMode.MotionMagic, targetPositionUnits);
+        Logger.debug("Target Open Position: " + targetPositionUnits);
+    }
+			   
+    public void clawClose(){
         Devices.talonSrxHatch.setSelectedSensorPosition(0, 0, 20);    
         targetPositionUnits = -(targetRotations * EncoderConstants.kRedlineEncoderTpr);
 
-        Devices.talonSrxHatch.set(ControlMode.Position, targetPositionUnits);
+        Devices.talonSrxHatch.set(ControlMode.MotionMagic, targetPositionUnits);
         Logger.debug("Target Close Position: " + targetPositionUnits);
-        }
+    }
+
+    public void setHatchToggle(){
+        hatchToggle = !hatchToggle;
+    }
+
+    public boolean getHatchToggle(){
+        return hatchToggle;
+    }
 
         public boolean isStopped(){
             double currentVelocity = Devices.talonSrxHatch.getSelectedSensorVelocity();

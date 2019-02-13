@@ -16,6 +16,7 @@ public class Baller extends Subsystem {
     double targetRotations = 0.5;
     double targetPositionUnits;	
     private static final double k_stopThreshold = 10;
+    boolean ballToggle = false;
 
 
     private boolean m_talonsAreConnected = false;
@@ -47,8 +48,8 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.configPeakOutputReverse(-0.5);
 
         Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxBaller.setSensorPhase(true);
-        Devices.talonSrxBaller.setInverted(false);
+        Devices.talonSrxBaller.setSensorPhase(kSensorPhase);
+        Devices.talonSrxBaller.setInverted(kMotorInvert);
         Devices.talonSrxBaller.configAllowableClosedloopError(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
 
         Devices.talonSrxBaller.config_kF(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
@@ -64,8 +65,6 @@ public class Baller extends Subsystem {
         if (kMotorInvert)	absolutePosition *= -1;
         // Set the quadrature (relative) sensor to match absolute
 		Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-
-        //Devices.talonSrxBaller.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
@@ -101,29 +100,28 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.setSelectedSensorPosition(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
     }
 
-    public void joystickMove(double joystickValue){
-        Devices.talonSrxBaller.set(ControlMode.PercentOutput, joystickValue);
-        
-    }
-
     public void ballRaise(){
-        
         Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-
-        // Scale target based on max joystick value - express in sensor units
         targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
+
         Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
         Logger.debug("Target Position: " + targetPositionUnits);
-
-    
     }
 
     public void ballClose(){
+        Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
+        targetPositionUnits = -(targetRotations * EncoderConstants.kRedlineEncoderTpr);
 
-        // Scale target based on max joystick value - express in sensor units
-        Devices.talonSrxBaller.set(ControlMode.Position, 0);
+        Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
         Logger.debug("Target Position: " + targetPositionUnits);
+    }
 
+    public void setBallToggle(){
+        ballToggle = !ballToggle;
+    }
+
+    public boolean getBallToggle(){
+        return ballToggle;
     }
 
     public boolean isStopped(){
