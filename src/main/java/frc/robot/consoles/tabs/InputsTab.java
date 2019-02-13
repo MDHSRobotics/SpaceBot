@@ -67,25 +67,25 @@ public class InputsTab {
         m_yLeftDeadZoneWidget = m_tab.add("Y Left Dead Zone", Brain.yLeftDeadZoneDefault);
         Brain.yLeftDeadZoneEntry = m_yLeftDeadZoneWidget.getEntry();
 
-        m_xDeadZoneWidget = m_tab.add("X Left Dead Zone", Brain.xLeftDeadZoneDefault);
+        m_xLeftDeadZoneWidget = m_tab.add("X Left Dead Zone", Brain.xLeftDeadZoneDefault);
         Brain.xLeftDeadZoneEntry = m_xLeftDeadZoneWidget.getEntry();
 
-        m_yDeadZoneWidget = m_tab.add("Y Right Dead Zone", Brain.yRightDeadZoneDefault);
+        m_yRightDeadZoneWidget = m_tab.add("Y Right Dead Zone", Brain.yRightDeadZoneDefault);
         Brain.yRightDeadZoneEntry = m_yRightDeadZoneWidget.getEntry();
 
-        m_xDeadZoneWidget = m_tab.add("X Right Dead Zone", Brain.xRightDeadZoneDefault);
+        m_xRightDeadZoneWidget = m_tab.add("X Right Dead Zone", Brain.xRightDeadZoneDefault);
         Brain.xRightDeadZoneEntry = m_xRightDeadZoneWidget.getEntry();
 
-        m_ySensitivityWidget = m_tab.add("Y Left Sensitivity", Brain.yLeftSensitivityDefault);
+        m_yLeftSensitivityWidget = m_tab.add("Y Left Sensitivity", Brain.yLeftSensitivityDefault);
         Brain.yLeftSensitivityEntry = m_yLeftSensitivityWidget.getEntry();
 
-        m_xSensitivityWidget = m_tab.add("X Left Sensitivity", Brain.xLeftSensitivityDefault);
+        m_xLeftSensitivityWidget = m_tab.add("X Left Sensitivity", Brain.xLeftSensitivityDefault);
         Brain.xLeftSensitivityEntry = m_xLeftSensitivityWidget.getEntry();
 
-        m_ySensitivityWidget = m_tab.add("Y Right Sensitivity", Brain.yRightSensitivityDefault);
+        m_yRightSensitivityWidget = m_tab.add("Y Right Sensitivity", Brain.yRightSensitivityDefault);
         Brain.yRightSensitivityEntry = m_yRightSensitivityWidget.getEntry();
 
-        m_xSensitivityWidget = m_tab.add("X Right Sensitivity", Brain.xRightSensitivityDefault);
+        m_xRightSensitivityWidget = m_tab.add("X Right Sensitivity", Brain.xRightSensitivityDefault);
         Brain.xRightSensitivityEntry = m_xRightSensitivityWidget.getEntry();
 
         // Mecanum Drive
