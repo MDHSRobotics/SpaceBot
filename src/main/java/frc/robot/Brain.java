@@ -151,12 +151,12 @@ public class Brain {
         xLeftDeadZoneEntry.setDouble(value);
     }
 
-    public static void setYrightdeadZone(NetworkTableEntry entry) {
+    public static void setYrightDeadZone(NetworkTableEntry entry) {
         double value = entry.getDouble(yRightDeadZoneDefault);
         yRightDeadZoneEntry.setDouble(value);
     }
 
-    public static void setXrightdeadZone(NetworkTableEntry entry) {
+    public static void setXrightDeadZone(NetworkTableEntry entry) {
         double value = entry.getDouble(xRightDeadZoneDefault);
         xRightDeadZoneEntry.setDouble(value);
     }
