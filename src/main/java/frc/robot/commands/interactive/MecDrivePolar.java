@@ -1,5 +1,5 @@
 
-package frc.robot.commands.joystick;
+package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 

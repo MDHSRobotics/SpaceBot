@@ -2,17 +2,17 @@
 package frc.robot.helpers;
 
 
-// The position values obtained from the Xbox Controller
-public class XboxThumbStickPosition {
+// The position values obtained from Xbox Thumbsticks
+public class ThumbStickPosition {
 
     public double yLeftPosition = 0;
     public double xLeftPosition = 0;
     public double xRightPosition = 0;
 
-    public XboxThumbStickPosition() {
+    public ThumbStickPosition() {
     }
 
-    public XboxThumbStickPosition(double yLeft, double xLeft, double xRight) {
+    public ThumbStickPosition(double yLeft, double xLeft, double xRight) {
         yLeftPosition = yLeft;
         xLeftPosition = xLeft;
         xRightPosition = xRight;

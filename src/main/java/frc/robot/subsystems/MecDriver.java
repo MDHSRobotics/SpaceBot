@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.joystick.MecDriveCartesianWithJoystick;
+import frc.robot.commands.interactive.MecDriveCartesian;
 import frc.robot.helpers.Logger;
 import frc.robot.Brain;
 import frc.robot.Devices;
@@ -37,7 +37,7 @@ public class MecDriver extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing MecDriver DefaultCommand -> MecDriveCartesian...");
 
-        setDefaultCommand(new MecDriveCartesianWithJoystick());
+        setDefaultCommand(new MecDriveCartesian());
     }
 
     // Flip the control direction of the joystick in Y
