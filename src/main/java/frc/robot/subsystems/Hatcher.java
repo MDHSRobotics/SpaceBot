@@ -11,6 +11,7 @@ import frc.robot.Devices;
 // Hatcher subsystem, for grabbing and releasing hatches
 public class Hatcher extends Subsystem {
 
+    private boolean m_talonsAreConnected = false;
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
     private double m_speed = 0.2; 
@@ -18,9 +19,8 @@ public class Hatcher extends Subsystem {
     public Hatcher() {
         Logger.debug("Constructing Subsystem: Hatcher...");
 
-        if (Devices.isConnected(Devices.talonSrxHatcher)) {
-            Devices.talonSrxHatcher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        }
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxHatcher);
+        Devices.talonSrxHatcher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
     @Override
@@ -32,17 +32,23 @@ public class Hatcher extends Subsystem {
 
     // Stop all the drive motors
     public void stop() {
-        Devices.talonSrxHatcher.stopMotor();
+        if (m_talonsAreConnected) {
+            Devices.talonSrxHatcher.stopMotor();
+        }
     }
 
     // Opens the Hatcher claw to grab a hatch
     public void grab() {
-        Devices.talonSrxHatcher.set(m_speed);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxHatcher.set(m_speed);
+        }
     }
 
     // Closes the Hatcher claw to release a hatch
     public void release() {
-        Devices.talonSrxHatcher.set(-m_speed);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxHatcher.set(-m_speed);
+        }
     }
 
     // TODO: Need to change these to use encoders
