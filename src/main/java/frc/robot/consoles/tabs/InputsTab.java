@@ -14,6 +14,9 @@ public class InputsTab {
     // Tab, layout, and widget objects
     private ShuffleboardTab m_tab;
 
+    // OI
+    private SimpleWidget m_controlStickWidget;
+
     // Joystick
     private SimpleWidget m_yDeadZoneWidget;
     private SimpleWidget m_xDeadZoneWidget;
@@ -44,6 +47,10 @@ public class InputsTab {
 
     // Create Brain Widgets
     public void preInitialize() {
+        // OI
+        m_controlStickWidget = m_tab.add("Control Stick", Brain.controlStickDefault.toString());
+        Brain.controlStickEntry = m_controlStickWidget.getEntry();
+
         // Joystick
         m_yDeadZoneWidget = m_tab.add("Y Dead Zone", Brain.yDeadZoneDefault);
         Brain.yDeadZoneEntry = m_yDeadZoneWidget.getEntry();
@@ -118,9 +125,13 @@ public class InputsTab {
         m_zSensitivityWidget.withPosition(1, 2);
         m_zSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
 
+        // OI
+        m_controlStickWidget.withPosition(2, 0);
+        // m_driveOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
+
         // Mecanum Drive
-        m_driveOrientationWidget.withPosition(2, 0);
-        //m_driveOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
+        m_driveOrientationWidget.withPosition(2, 1);
+        // m_driveOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
 
         // Thumbsticks
         m_yLeftDeadZoneWidget.withPosition(3, 0);
@@ -150,6 +161,10 @@ public class InputsTab {
 
     // This will be called in the robotPeriodic
     public void update() {
+        // OI
+        NetworkTableEntry controlStickEntry = m_controlStickWidget.getEntry();
+        Brain.setControlStick(controlStickEntry);
+
         // Joystick
         NetworkTableEntry yDeadZoneEntry = m_yDeadZoneWidget.getEntry();
         Brain.setYdeadZone(yDeadZoneEntry);
