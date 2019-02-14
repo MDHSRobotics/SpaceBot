@@ -19,8 +19,6 @@ public class OI {
         JOYSTICK, XBOX
     }
 
-    public static ControlStick activeControlStick = ControlStick.JOYSTICK;
-
     // Constructor
     public OI() {
         Logger.debug("Constructing OI...");
@@ -49,7 +47,8 @@ public class OI {
     // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed)
     // from the active control stick position(s)
     public static CartesianMovement getCartesianMovement(boolean isYflipped) {
-        switch (activeControlStick) {
+        ControlStick cStick = Brain.getControlStick();
+        switch (cStick) {
             case JOYSTICK:
                 return getCartesianMovementFromJoystick(isYflipped);
             case XBOX:
@@ -62,7 +61,8 @@ public class OI {
     // Determines the polar movement (magnitude, angle, rotation)
     // from the active control stick position(s)
     public static PolarMovement getPolarMovement(boolean isYflipped) {
-        switch (activeControlStick) {
+        ControlStick cStick = Brain.getControlStick();
+        switch (cStick) {
             case JOYSTICK:
                 return getPolarMovementFromJoystick(isYflipped);
             case XBOX:
@@ -81,6 +81,7 @@ public class OI {
     public static CartesianMovement getCartesianMovementFromJoystick(boolean isYflipped) {
         JoystickPosition pos = getJoystickPosition(isYflipped);
         CartesianMovement move = new CartesianMovement(pos.yPosition, pos.xPosition, pos.zPosition);
+        // Logger.debug("Joystick Cartesian Movement: " + pos.yPosition + ", " + pos.xPosition + ", " + pos.zPosition);
         return move;
     }
 
@@ -96,7 +97,7 @@ public class OI {
     private static JoystickPosition getJoystickPosition(boolean isYflipped) {
         double y = -Devices.jstick.getY(); // Forward & backward, flipped
         double x = Devices.jstick.getX(); // Side to side
-        double z = Devices.jstick.getZ(); // Rotate
+        double z = -Devices.jstick.getZ(); // Rotate
 
         // User-determined flipping of forward/backward orientation
         if (isYflipped) {
@@ -141,6 +142,7 @@ public class OI {
     public static CartesianMovement getCartesianMovementFromThumbsticks(boolean isYleftFlipped) {
         ThumbStickPosition pos = getThumbstickPosition(isYleftFlipped);
         CartesianMovement move = new CartesianMovement(pos.yLeftPosition, pos.xLeftPosition, pos.xRightPosition);
+        // Logger.debug("Xbox Cartesian Movement: " + pos.yLeftPosition + ", " + pos.xLeftPosition + ", " + pos.xRightPosition);
         return move;
     }
 

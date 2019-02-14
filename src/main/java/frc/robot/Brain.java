@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.robot.subsystems.MecDriver.DriveOrientation;
+import frc.robot.OI.ControlStick;
 
 
 // This class contains all the shared NetworkTableEntries for the Robot,
@@ -17,10 +18,12 @@ public class Brain {
 
     // Shuffler - Main Tab
     public static double matchTimeDefault = 0;
-    public static boolean hatchLineDetectedDefault = false;
 
     // Shuffler - Drive Tab
     public static double driveTargetDistanceDefault = 2.0;
+
+    // OI
+    public static ControlStick controlStickDefault = ControlStick.JOYSTICK;
 
     // OI - Joystick
     public static double yDeadZoneDefault = .1;
@@ -45,6 +48,7 @@ public class Brain {
     public static double hatchLineAngleDefault = 0;
     public static double hatchLineXcenterDefault = 0;
     public static double hatchLineYcenterDefault = 0;
+    public static boolean hatchLineDetectedDefault = false;
 
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.FIELD;
@@ -55,10 +59,12 @@ public class Brain {
 
     // Shuffler - Main Tab
     public static NetworkTableEntry matchTimeEntry;
-    public static NetworkTableEntry hatchLineDetectedEntry;
 
     // Shuffler - Drive Tab
     public static NetworkTableEntry driveTargetDistanceEntry;
+
+    // OI
+    public static NetworkTableEntry controlStickEntry;
 
     // OI - Joystick
     public static NetworkTableEntry yDeadZoneEntry;
@@ -83,6 +89,7 @@ public class Brain {
     public static NetworkTableEntry hatchLineAngleEntry;
     public static NetworkTableEntry hatchLineXcenterEntry;
     public static NetworkTableEntry hatchLineYcenterEntry;
+    public static NetworkTableEntry hatchLineDetectedEntry;
 
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
@@ -98,15 +105,22 @@ public class Brain {
         matchTimeEntry.setDouble(matchTime);
     }
 
-    public static void setHatchLineDetected() {
-        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
-        hatchLineDetectedEntry.setBoolean(detected);
-    }
-
     // Shuffler - Drive Tab
     public static void setTargetDriveDistance(NetworkTableEntry entry) {
         double value = entry.getDouble(driveTargetDistanceDefault);
         driveTargetDistanceEntry.setDouble(value);
+    }
+
+    // OI
+    public static void setControlStick(NetworkTableEntry entry) {
+        String defaultString = Brain.controlStickDefault.toString();
+        String value = entry.getString(defaultString);
+        controlStickEntry.setValue(value);
+    }
+
+    public static void setControlStick(ControlStick stick) {
+        String value = stick.toString();
+        controlStickEntry.setValue(value);
     }
 
     // OI - Joystick
@@ -218,6 +232,11 @@ public class Brain {
         hatchLineYcenterEntry.setDouble(value);
     }
 
+    public static void setHatchLineDetected() {
+        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
+        hatchLineDetectedEntry.setBoolean(detected);
+    }
+
     // Subsystems - MecDriver
     public static void setDriveOrientation(NetworkTableEntry entry) {
         String defaultString = Brain.driveOrientationDefault.toString();
@@ -239,13 +258,16 @@ public class Brain {
         return matchTimeEntry.getDouble(matchTimeDefault);
     }
 
-    public static boolean getLineDetected() {
-        return hatchLineDetectedEntry.getBoolean(hatchLineDetectedDefault);
-    }
-
     // Shuffler - Drive Tab
     public static double getTargetDriveDistance() {
         return driveTargetDistanceEntry.getDouble(driveTargetDistanceDefault);
+    }
+
+    // OI
+    public static ControlStick getControlStick() {
+        String defaultString = controlStickDefault.toString();
+        String stickString = controlStickEntry.getString(defaultString);
+        return ControlStick.valueOf(stickString);
     }
 
     // OI - Joystick
@@ -321,6 +343,10 @@ public class Brain {
 
     public static double getHatchLineYcenter() {
         return hatchLineYcenterEntry.getDouble(hatchLineYcenterDefault);
+    }
+
+    public static boolean getLineDetected() {
+        return hatchLineDetectedEntry.getBoolean(hatchLineDetectedDefault);
     }
 
     // Subsystems - MecDriver
