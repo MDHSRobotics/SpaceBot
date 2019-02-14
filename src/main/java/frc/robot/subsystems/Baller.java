@@ -11,6 +11,7 @@ import frc.robot.Devices;
 // Cargo ball subsystem
 public class Baller extends Subsystem {
 
+    private boolean m_talonsAreConnected = false;
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
     private double m_speed = 0.2; 
@@ -18,6 +19,7 @@ public class Baller extends Subsystem {
     public Baller() {
         Logger.debug("Constructing Subsystem: Baller...");
 
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxBaller);
         Devices.talonSrxBaller.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
@@ -30,17 +32,23 @@ public class Baller extends Subsystem {
 
     // Stop all the drive motors
     public void stop() {
-        Devices.talonSrxBaller.stopMotor();
+        if (m_talonsAreConnected) {
+            Devices.talonSrxBaller.stopMotor();
+        }
     }
 
     // Holds the ball
     public void holdBall() {
-        Devices.talonSrxBaller.set(-m_speed);    
+        if (m_talonsAreConnected) {
+            Devices.talonSrxBaller.set(-m_speed);
+        }
     }
 
     // Tosses the ball
     public void tossBall() {
-        Devices.talonSrxBaller.set(m_speed);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxBaller.set(m_speed);
+        }
     }
 
     // Determines if the Ball Held limit switch is active

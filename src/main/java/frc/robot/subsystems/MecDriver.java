@@ -18,6 +18,7 @@ public class MecDriver extends Subsystem {
 
     public boolean controlStickDirectionFlipped = false;
 
+    private boolean m_talonsAreConnected = false;
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
 
@@ -26,6 +27,15 @@ public class MecDriver extends Subsystem {
         Logger.debug("Constructing Subsystem: MecDriver...");
 
         // Configure wheel speed controllers
+        boolean talonFrontLeftIsConnected = Devices.isConnected(Devices.talonSrxMecWheelFrontLeft);
+        boolean talonRearLeftIsConnected = Devices.isConnected(Devices.talonSrxMecWheelRearLeft);
+        boolean talonFrontRightIsConnected = Devices.isConnected(Devices.talonSrxMecWheelFrontRight);
+        boolean talonRearRightIsConnected = Devices.isConnected(Devices.talonSrxMecWheelRearRight);
+        m_talonsAreConnected = (talonFrontLeftIsConnected &&
+                                talonRearLeftIsConnected && 
+                                talonFrontRightIsConnected && 
+                                talonRearRightIsConnected);
+
         Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
         Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
         Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
@@ -76,22 +86,42 @@ public class MecDriver extends Subsystem {
 
     // Stop all the drive motors
     public void stop() {
-        Devices.mecDrive.stopMotor();
+        if (m_talonsAreConnected) {
+            Devices.mecDrive.stopMotor();
+        }
+        else {
+            Devices.mecDrive.feed();
+        }
     }
 
     // Drive straight at the given speed
     public void driveStraight(double speed) {
-        Devices.mecDrive.driveCartesian(speed, 0, 0);
+        if (m_talonsAreConnected) {
+            Devices.mecDrive.driveCartesian(speed, 0, 0);
+        }
+        else {
+            Devices.mecDrive.feed();
+        }
     }
 
     // Pivot at the given speed
     public void pivot(double speed) {
-        Devices.mecDrive.driveCartesian(0, speed, 0);
+        if (m_talonsAreConnected) {
+            Devices.mecDrive.driveCartesian(0, speed, 0);
+        }
+        else {
+            Devices.mecDrive.feed();
+        }
     }
 
     // Strafe at the given speed
     public void strafe(double speed) {
-        Devices.mecDrive.driveCartesian(0, 0, speed);
+        if (m_talonsAreConnected) {
+            Devices.mecDrive.driveCartesian(0, 0, speed);
+        }
+        else {
+            Devices.mecDrive.feed();
+        }
     }
 
     // Drive using the cartesian method, using the current control orientation
@@ -102,21 +132,31 @@ public class MecDriver extends Subsystem {
 
     // Drive using the cartesian method, using the given control orientation
     public void driveCartesian(double ySpeed, double xSpeed, double zRotation, DriveOrientation orientation) {
-        if (orientation == DriveOrientation.ROBOT) {
-            // Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);
-            Devices.mecDrive.driveCartesian(ySpeed, xSpeed, -zRotation);
+        if (m_talonsAreConnected) {
+            if (orientation == DriveOrientation.ROBOT) {
+                // Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation);
+                Devices.mecDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+            }
+            else if (orientation == DriveOrientation.FIELD) {
+                double gyroAngle = Devices.imuMecDrive.getAngleZ();
+                // Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
+                Devices.mecDrive.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
+            }
         }
-        else if (orientation == DriveOrientation.FIELD) {
-            double gyroAngle = Devices.imuMecDrive.getAngleZ();
-            // Logger.debug("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
-            Devices.mecDrive.driveCartesian(ySpeed, xSpeed, -zRotation, gyroAngle);
+        else {
+            Devices.mecDrive.feed();
         }
     }
 
     // Drive using the polar method
     public void drivePolar(double magnitude, double angle, double rotation) {
-        // Logger.debug("Polar Movement: " + magnitude + ", " + angle + ", " + rotation);
-        Devices.mecDrive.drivePolar(magnitude, angle, rotation);
+        if (m_talonsAreConnected) {
+            // Logger.debug("Polar Movement: " + magnitude + ", " + angle + ", " + rotation);
+            Devices.mecDrive.drivePolar(magnitude, angle, rotation);
+        }
+        else {
+            Devices.mecDrive.feed();
+        }
     }
 
 }

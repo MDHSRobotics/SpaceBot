@@ -12,6 +12,7 @@ import frc.robot.Devices;
 // plus a little extra controlled by the user.
 public class Arm extends Subsystem {
 
+    private boolean m_talonsAreConnected = false;
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
 
@@ -19,6 +20,7 @@ public class Arm extends Subsystem {
     public Arm() {
         Logger.debug("Contructing Subsystem: Arm...");
 
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArm);
         Devices.talonSrxArm.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
@@ -31,7 +33,9 @@ public class Arm extends Subsystem {
 
     // Stop the Arm motor
     public void stop() {
-        Devices.talonSrxArm.stopMotor();
+        if (m_talonsAreConnected) {
+            Devices.talonSrxArm.stopMotor();
+        }
     }
 
     // Raises or lowers the Arm based on given speed
@@ -42,7 +46,9 @@ public class Arm extends Subsystem {
         // Method 3: lowerMore() - user controlled, but with a max position limit
         // TODO: after this is done, I think the ArmLower commands might be better combined
 
-        Devices.talonSrxArm.set(speed);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxArm.set(speed);
+        }
     }
 
 }

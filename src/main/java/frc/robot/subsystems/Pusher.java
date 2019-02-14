@@ -11,12 +11,14 @@ import frc.robot.Devices;
 // Pusher subsystem for pushing the robot onto the platform
 public class Pusher extends Subsystem {
 
+    private boolean m_talonsAreConnected = false;
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
 
     public Pusher() {
         Logger.debug("Constructing Subsystem: Pusher");
 
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxPusher);
         Devices.talonSrxPusher.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
@@ -30,12 +32,16 @@ public class Pusher extends Subsystem {
 
     // Stop the Pusher motor
     public void stop() {
-        Devices.talonSrxPusher.stopMotor();
+        if (m_talonsAreConnected) {
+            Devices.talonSrxPusher.stopMotor();
+        }
     }
 
     // Pushes the robot onto the platform
     public void push(double speed) {
-        Devices.talonSrxPusher.set(speed);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxPusher.set(speed);
+        }
     }
 
 }

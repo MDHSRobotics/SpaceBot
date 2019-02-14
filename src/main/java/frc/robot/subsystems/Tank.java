@@ -11,12 +11,14 @@ import frc.robot.Devices;
 // Tank subsystem for climbing
 public class Tank extends Subsystem {
 
+    private boolean m_talonsAreConnected = false;
     private double m_secondsFromNeutralToFull = 1.0;
     private int m_timeoutMS = 10;
 
     public Tank() {
         Logger.debug("Constructing Subsystem: Tank...");
 
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxTank);
         Devices.talonSrxTank.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
     }
 
@@ -30,12 +32,16 @@ public class Tank extends Subsystem {
 
     // Stop the Tank motor
     public void stop() {
-        Devices.talonSrxTank.stopMotor();
+        if (m_talonsAreConnected) {
+            Devices.talonSrxTank.stopMotor();
+        }
     }
 
     // Spins the Tank motor to climb
     public void spin(double speed) {
-        Devices.talonSrxTank.set(speed);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxTank.set(speed);
+        }
     }
 
 }
