@@ -18,6 +18,10 @@ public class VisionTab {
     private SimpleWidget m_xCenterWidget;
     private SimpleWidget m_yCenterWidget;
 
+    private SimpleWidget m_hsvThresholdHue;
+    private SimpleWidget m_hsvThresholdSaturation;
+    private SimpleWidget m_hsvThresholdValue;
+
     // Constructor
     public VisionTab() {
         Logging.logTrivial("Constructing VisionTab...");
@@ -42,6 +46,18 @@ public class VisionTab {
         // Hatch Camera - Line Center Y
         m_yCenterWidget = m_tab.add("Hatch Line Center Y", Brain.hatchLineYcenterDefault);
         Brain.hatchLineYcenterEntry = m_yCenterWidget.getEntry();
+
+        // Hue Threshold
+        m_hsvThresholdHue = m_tab.add("Hue Threshold", Brain.hsvThresholdHueDefault);
+        Brain.hsvThresholdHueEntry = m_hsvThresholdHue.getEntry();
+
+        // Saturation Threshold
+        m_hsvThresholdSaturation = m_tab.add("Saturation Threshold", Brain.hsvThresholdSaturationDefault);
+        Brain.hsvThresholdSaturationEntry = m_hsvThresholdSaturation.getEntry();
+
+        // Hue Threshold
+        m_hsvThresholdValue = m_tab.add("Value Threshold", Brain.hsvThresholdValueDefault);
+        Brain.hsvThresholdSaturationEntry = m_hsvThresholdSaturation.getEntry();
     }
 
     // Create all other Widgets
@@ -50,17 +66,26 @@ public class VisionTab {
 
     // Configure all Widgets
     public void configure() {
-        m_areaWidget.withPosition(0, 0);
+        m_areaWidget.withPosition(1, 0);
         m_areaWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_angleWidget.withPosition(0, 1);
+        m_angleWidget.withPosition(1, 1);
         m_angleWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_xCenterWidget.withPosition(0, 2);
+        m_xCenterWidget.withPosition(1, 2);
         m_xCenterWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_yCenterWidget.withPosition(0, 3);
+        m_yCenterWidget.withPosition(1, 3);
         m_yCenterWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_hsvThresholdHue.withPosition(0, 0);
+        m_hsvThresholdHue.withWidget(BuiltInWidgets.kTextView);
+
+        m_hsvThresholdSaturation.withPosition(0, 1);
+        m_hsvThresholdSaturation.withWidget(BuiltInWidgets.kTextView);
+
+        m_hsvThresholdValue.withPosition(0, 2);
+        m_hsvThresholdValue.withWidget(BuiltInWidgets.kTextView);
     }
 
     // This will be called in the robotPeriodic
@@ -76,6 +101,15 @@ public class VisionTab {
 
         NetworkTableEntry yCenterEntry = m_yCenterWidget.getEntry();
         Brain.setHatchLineYcenter(yCenterEntry);
+
+        NetworkTableEntry hsvThresholdHue = m_hsvThresholdHue.getEntry();
+        Brain.setHsvThresholdHue(hsvThresholdHue);
+
+        NetworkTableEntry hsvThresholdSaturation = m_hsvThresholdSaturation.getEntry();
+        Brain.setHsvThresholdSaturation(hsvThresholdSaturation);
+
+        NetworkTableEntry hsvThresholdValue = m_hsvThresholdValue.getEntry();
+        Brain.setHsvThresholdValue(hsvThresholdValue);
     }
 
 }

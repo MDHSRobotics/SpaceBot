@@ -2,6 +2,8 @@
 package frc.robot.vision;
 
 import edu.wpi.first.vision.VisionPipeline;
+import frc.robot.Brain;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.opencv.core.*;
@@ -34,9 +36,10 @@ public class LinePipeline implements VisionPipeline {
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = source0;
         // TODO: add these values to Shuffleboard via the Brain, so they can be adjusted on the fly
-		double[] hsvThresholdHue = {0.0, 180.0};
-		double[] hsvThresholdSaturation = {0.0, 169.8544520547945};
-		double[] hsvThresholdValue = {114.65827338129496, 255.0};
+		double[] hsvThresholdHue = Brain.getHsvThresholdHue();
+		double[] hsvThresholdSaturation = Brain.getHsvThresholdSaturation();
+        double[] hsvThresholdValue = Brain.getHsvThresholdValue();
+        
         hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step Find_Contours0:

@@ -49,6 +49,9 @@ public class Brain {
     public static double hatchLineXcenterDefault = 0;
     public static double hatchLineYcenterDefault = 0;
     public static boolean hatchLineDetectedDefault = false;
+    public static double[] hsvThresholdHueDefault = {0.0, 180.0};
+    public static double[] hsvThresholdSaturationDefault = {0.0, 169.8544520547945};
+    public static double[] hsvThresholdValueDefault = {114.65827338129496, 255.0};
 
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.FIELD;
@@ -90,6 +93,10 @@ public class Brain {
     public static NetworkTableEntry hatchLineXcenterEntry;
     public static NetworkTableEntry hatchLineYcenterEntry;
     public static NetworkTableEntry hatchLineDetectedEntry;
+    public static NetworkTableEntry hsvThresholdHueEntry;
+    public static NetworkTableEntry hsvThresholdSaturationEntry;
+    public static NetworkTableEntry hsvThresholdValueEntry;
+
 
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
@@ -237,6 +244,23 @@ public class Brain {
         hatchLineDetectedEntry.setBoolean(detected);
     }
 
+    public static void setHsvThresholdHue(NetworkTableEntry entry) {
+        double[] arr = entry.getDoubleArray(hsvThresholdHueDefault);
+        hsvThresholdHueEntry.setDoubleArray(arr);
+    }
+
+    public static void setHsvThresholdSaturation(NetworkTableEntry entry) {
+        double[] arr = entry.getDoubleArray(hsvThresholdSaturationDefault);
+        hsvThresholdSaturationEntry.setDoubleArray(arr);
+    }
+
+    public static void setHsvThresholdValue(NetworkTableEntry entry) {
+        double[] arr = entry.getDoubleArray(hsvThresholdValueDefault);
+        hsvThresholdSaturationEntry.setDoubleArray(arr);
+    }
+
+
+
     // Subsystems - MecDriver
     public static void setDriveOrientation(NetworkTableEntry entry) {
         String defaultString = Brain.driveOrientationDefault.toString();
@@ -347,6 +371,18 @@ public class Brain {
 
     public static boolean getLineDetected() {
         return hatchLineDetectedEntry.getBoolean(hatchLineDetectedDefault);
+    }
+
+    public static double[] getHsvThresholdHue() {
+        return hsvThresholdHueEntry.getDoubleArray(hsvThresholdHueDefault);
+    }
+
+    public static double[] getHsvThresholdSaturation() {
+        return hsvThresholdSaturationEntry.getDoubleArray(hsvThresholdSaturationDefault);
+    }
+
+    public static double[] getHsvThresholdValue() {
+        return hsvThresholdValueEntry.getDoubleArray(hsvThresholdValueDefault);
     }
 
     // Subsystems - MecDriver
