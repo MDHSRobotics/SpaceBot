@@ -57,7 +57,7 @@ public class VisionTab {
 
         // Hue Threshold
         m_hsvThresholdValue = m_tab.add("Value Threshold", Brain.hsvThresholdValueDefault);
-        Brain.hsvThresholdSaturationEntry = m_hsvThresholdSaturation.getEntry();
+        Brain.hsvThresholdValueEntry = m_hsvThresholdValue.getEntry();
     }
 
     // Create all other Widgets
@@ -66,6 +66,15 @@ public class VisionTab {
 
     // Configure all Widgets
     public void configure() {
+        m_hsvThresholdHue.withPosition(0, 0);
+        m_hsvThresholdHue.withWidget(BuiltInWidgets.kTextView);
+
+        m_hsvThresholdSaturation.withPosition(0, 1);
+        m_hsvThresholdSaturation.withWidget(BuiltInWidgets.kTextView);
+
+        m_hsvThresholdValue.withPosition(0, 2);
+        m_hsvThresholdValue.withWidget(BuiltInWidgets.kTextView);
+        
         m_areaWidget.withPosition(1, 0);
         m_areaWidget.withWidget(BuiltInWidgets.kTextView);
 
@@ -78,14 +87,6 @@ public class VisionTab {
         m_yCenterWidget.withPosition(1, 3);
         m_yCenterWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_hsvThresholdHue.withPosition(0, 0);
-        m_hsvThresholdHue.withWidget(BuiltInWidgets.kTextView);
-
-        m_hsvThresholdSaturation.withPosition(0, 1);
-        m_hsvThresholdSaturation.withWidget(BuiltInWidgets.kTextView);
-
-        m_hsvThresholdValue.withPosition(0, 2);
-        m_hsvThresholdValue.withWidget(BuiltInWidgets.kTextView);
     }
 
     // This will be called in the robotPeriodic

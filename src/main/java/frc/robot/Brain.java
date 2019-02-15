@@ -256,7 +256,7 @@ public class Brain {
 
     public static void setHsvThresholdValue(NetworkTableEntry entry) {
         double[] arr = entry.getDoubleArray(hsvThresholdValueDefault);
-        hsvThresholdSaturationEntry.setDoubleArray(arr);
+        hsvThresholdValueEntry.setDoubleArray(arr);
     }
 
 
