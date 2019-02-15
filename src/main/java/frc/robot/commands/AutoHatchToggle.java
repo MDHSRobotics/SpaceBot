@@ -57,7 +57,8 @@ public class AutoHatchToggle extends Command {
     @Override
     protected boolean isFinished(){
        // return Robot.robotHatcher.isStopped();
-        return false;
+        return Robot.robotHatcher.isPositionMet();
+       //return false;
     }
 
     // Called once after isFinished returns true

@@ -18,17 +18,17 @@ import frc.robot.Robot;
 public class Hatcher extends Subsystem {
 
     private boolean m_talonsAreConnected = false;
-    double targetRotations = 10;
+    double targetRotations = 0.8;
     double targetPositionUnits;	
     static final double k_stopThreshold = 10;
 
       /* choose so that Talon does not report sensor out of phase */
-      public static boolean kSensorPhase = true;
+      public static boolean kSensorPhase = false;
       
 
       /* choose based on what direction you want to be positive,
           this does not affect motor invert. */
-      public static boolean kMotorInvert = false;
+      public static boolean kMotorInvert = true;
     
       public boolean hatchToggle = false;
 
@@ -114,9 +114,9 @@ public class Hatcher extends Subsystem {
     public void clawClose(){
         Devices.talonSrxHatch.setSelectedSensorPosition(0, 0, 20);    
         targetPositionUnits = -(targetRotations * EncoderConstants.kRedlineEncoderTpr);
-
         Devices.talonSrxHatch.set(ControlMode.MotionMagic, targetPositionUnits);
         Logger.debug("Target Close Position: " + targetPositionUnits);
+       // Devices.talonSrxHatch.stopMotor();
     }
 
     public void setHatchToggle(){
@@ -127,9 +127,18 @@ public class Hatcher extends Subsystem {
         return hatchToggle;
     }
 
-        public boolean isStopped(){
+    public boolean isStopped(){
             double currentVelocity = Devices.talonSrxHatch.getSelectedSensorVelocity();
              Logger.debug("Position: " + currentVelocity);
             return (Math.abs(currentVelocity) < k_stopThreshold);
-        }
+    }
+
+    public boolean isPositionMet(){
+        int currentPosition = Devices.talonSrxHatch.getSelectedSensorPosition();
+
+        targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        Logger.debug("Position: " + currentPosition);
+
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600); 
+    }
 }

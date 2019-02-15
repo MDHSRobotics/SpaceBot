@@ -13,7 +13,7 @@ import frc.robot.helpers.EncoderConstants;
 
 // Cargo ball subsystem
 public class Baller extends Subsystem {
-    double targetRotations = 0.5;
+    double targetRotations = 3.73;
     double targetPositionUnits;	
     private static final double k_stopThreshold = 10;
     boolean ballToggle = false;
@@ -44,8 +44,8 @@ public class Baller extends Subsystem {
 
         Devices.talonSrxBaller.configNominalOutputForward(0);
         Devices.talonSrxBaller.configNominalOutputReverse(0);
-        Devices.talonSrxBaller.configPeakOutputForward(0.5);
-        Devices.talonSrxBaller.configPeakOutputReverse(-0.5);
+        Devices.talonSrxBaller.configPeakOutputForward(0.3);
+        Devices.talonSrxBaller.configPeakOutputReverse(-0.3);
 
         Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
         Devices.talonSrxBaller.setSensorPhase(kSensorPhase);
@@ -64,7 +64,10 @@ public class Baller extends Subsystem {
 		if (kSensorPhase)	absolutePosition *= -1;
         if (kMotorInvert)	absolutePosition *= -1;
         // Set the quadrature (relative) sensor to match absolute
-		Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+        Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+        
+        Devices.talonSrxBaller.configMotionAcceleration(1500, 20);
+        Devices.talonSrxBaller.configMotionCruiseVelocity(4000, 20);
     }
 
     @Override
@@ -125,8 +128,17 @@ public class Baller extends Subsystem {
     }
 
     public boolean isStopped(){
-        double currentVelocity = Devices.talonSrxHatch.getSelectedSensorVelocity();
+        double currentVelocity = Devices.talonSrxBaller.getSelectedSensorVelocity();
          Logger.debug("Position: " + currentVelocity);
         return (Math.abs(currentVelocity) < k_stopThreshold);
+    }
+
+    public boolean isPositionMet(){
+        int currentPosition = Devices.talonSrxBaller.getSelectedSensorPosition();
+
+        targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        Logger.debug("Position: " + currentPosition);
+
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600); 
     }
 }

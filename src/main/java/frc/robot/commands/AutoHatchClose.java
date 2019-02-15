@@ -40,15 +40,15 @@ public class AutoHatchClose extends Command {
         SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxHatch.getSelectedSensorVelocity());
         SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxHatch.getSelectedSensorPosition());
         SmartDashboard.putNumber("Out %",  Devices.talonSrxHatch.getMotorOutputPercent());
-        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
         
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-       // return Robot.robotHatcher.isStopped();
-        return false;
+        //return Robot.robotHatcher.isStopped();
+       // return Robot.robotHatcher.isPositionMet();
+       return false;
     }
 
     // Called once after isFinished returns true
