@@ -34,6 +34,7 @@ public class OI {
         Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
         Devices.xboxBtn2.whenPressed(new ArmLowerFull());
         Devices.xboxBtn3.whenPressed(new ArmLowerMore());
+        Devices.xboxBtn6.whenPressed(new MecDriveAlignHatch());
         Devices.xboxBtn4.whileHeld(new PulleyLift());
         Devices.xboxBtn5.whileHeld(new PulleyLower());
         // TODO: Bind the Tank appropriate commands
@@ -158,7 +159,8 @@ public class OI {
     private static ThumbStickPosition getThumbstickPosition(boolean isYleftFlipped) {
         double yLeft = -Devices.xbox.getY(Hand.kLeft); // Forward & backward, flipped
         double xLeft = Devices.xbox.getX(Hand.kLeft); // Strafe
-        double xRight = Devices.xbox.getX(Hand.kRight); // Rotate
+        double xRight = -Devices.xbox.getX(Hand.kRight); // Rotate
+        //TODO: make any flipping more explicit
 
         // User-determined flipping of forward/backward orientation
         if (isYleftFlipped) {

@@ -19,7 +19,7 @@ public class MecDriver extends Subsystem {
     public boolean controlStickDirectionFlipped = false;
 
     private boolean m_talonsAreConnected = false;
-    private double m_secondsFromNeutralToFull = 1.0;
+    private double m_secondsFromNeutralToFull = 0;
     private int m_timeoutMS = 10;
 
     // Constructor
