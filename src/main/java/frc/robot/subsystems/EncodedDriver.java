@@ -6,13 +6,13 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.IdleEncoderDrive;
+import frc.robot.commands.idle.EncodedDriverStop;
 import frc.robot.helpers.EncoderConstants;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
 
-public class EncoderDrive extends Subsystem {
+public class EncodedDriver extends Subsystem {
 
     private boolean m_talonsAreConnected = false;
 
@@ -23,7 +23,7 @@ public class EncoderDrive extends Subsystem {
     public static boolean kMotorInvert = false;
 
     // Constructor
-    public EncoderDrive() {
+    public EncodedDriver() {
         Logger.debug("Constructing Subsystem: EncoderDrive...");
 
         boolean talonFrontLeftIsConnected = Devices.isConnected(Devices.talonSrxMecWheelFrontLeft);
@@ -68,7 +68,7 @@ public class EncoderDrive extends Subsystem {
     public void initDefaultCommand() {
         Logger.debug("Initializing EncoderDrive DefaultCommand -> IdleEncoderDrive...");
 
-        setDefaultCommand(new IdleEncoderDrive());
+        setDefaultCommand(new EncodedDriverStop());
     }
 
     // Stop all the drive motors
