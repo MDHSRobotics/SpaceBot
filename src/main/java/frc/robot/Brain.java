@@ -47,9 +47,9 @@ public class Brain {
     public static double hueMinDefault = 0;
     public static double hueMaxDefault = 180;
     public static double saturationMinDefault = 0;
-    public static double saturationMaxDefault = 170;
-    public static double valueMinDefault = 115;
-    public static double valueMaxDefault = 55;
+    public static double saturationMaxDefault = 146;
+    public static double valueMinDefault = 232;
+    public static double valueMaxDefault = 255;
 
     // Vision - LineDetector
     public static double hatchLineAreaDefault = 0;
