@@ -14,7 +14,7 @@ public class EncodedDriverStop extends Command {
         Logger.debug("Constructing EncodedDriverStop...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotEncoderDrive);
+        requires(Robot.robotEncodedDriver);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class EncodedDriverStop extends Command {
 
     @Override
     protected void execute() {
-        Robot.robotEncoderDrive.stop();
+        Robot.robotEncodedDriver.stop();
     }
 
     // This command continues until interrupted
@@ -37,14 +37,14 @@ public class EncodedDriverStop extends Command {
     protected void end() {
         Logger.debug("Ending EncodedDriverStop...");
 
-        Robot.robotEncoderDrive.stop();
+        Robot.robotEncodedDriver.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.debug("Interrupting EncodedDriverStop...");
 
-        Robot.robotEncoderDrive.stop();
+        Robot.robotEncodedDriver.stop();
     }
 
 }

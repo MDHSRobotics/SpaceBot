@@ -1,16 +1,16 @@
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command auto drives with encoders
-public class AutoEncoderDrive extends Command {
+// This command auto drives with encoders to a set position
+public class EncodedDrivePosition extends Command {
 
-    public AutoEncoderDrive() {
-        Logger.debug("Constructing AutoEncoderDrive...");
+    public EncodedDrivePosition() {
+        Logger.debug("Constructing EncodedDrivePosition...");
 
         // Declare subsystem dependencies
         requires(Robot.robotEncodedDriver);
@@ -18,7 +18,7 @@ public class AutoEncoderDrive extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing AutoEncoderDrive...");
+        Logger.debug("Initializing EncodedDrivePosition...");
 
         Robot.robotEncodedDriver.resetEncoderPosition();
     }
@@ -43,14 +43,14 @@ public class AutoEncoderDrive extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending AutoEncoderDrive...");
+        Logger.debug("Ending EncodedDrivePosition...");
 
         Robot.robotEncodedDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting AutoEncoderDrive...");
+        Logger.debug("Interrupting EncodedDrivePosition...");
 
         Robot.robotEncodedDriver.stop();
     }
