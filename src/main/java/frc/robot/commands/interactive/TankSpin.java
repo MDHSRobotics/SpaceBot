@@ -1,16 +1,16 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.helpers.Logger;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 
 // This command spins the Tank
 public class TankSpin extends Command {
 
-    private double m_spin = .5;
 
     public TankSpin() {
         Logger.debug("Constructing Command: TankSpin...");
@@ -26,15 +26,13 @@ public class TankSpin extends Command {
 
     @Override
     protected void execute() {
-        Robot.robotTank.spin(m_spin);
+        double triggerPostition = OI.getXBoxTriggerPosition();
+        Robot.robotTank.spin(triggerPostition);
     }
 
     @Override
     protected boolean isFinished() {
-        // TODO: should this not continue until something interrupts it?
-        // Or is it controlled by a held joystick or xbox controller button?
-
-        return true;
+        return false;
     }
 
     @Override

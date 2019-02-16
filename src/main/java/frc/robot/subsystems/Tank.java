@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.TankStop;
+import frc.robot.commands.interactive.TankSpin;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
@@ -25,9 +26,7 @@ public class Tank extends Subsystem {
     @Override
     public void initDefaultCommand() {
         Logger.debug("Initializing Tank DefaultCommand -> TankStop...");
-
-        TankStop defaultCmd = new TankStop();
-        setDefaultCommand(defaultCmd);
+        setDefaultCommand(new TankSpin());
     }
 
     // Stop the Tank motor
