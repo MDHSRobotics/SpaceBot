@@ -29,20 +29,29 @@ public class Devices {
     public static final JoystickButton jstickBtn12 = new JoystickButton(jstick, 12);
 
     // Xbox Controllers
-    public static final XboxController xbox = new XboxController(0);
-    public static final JoystickButton xboxBtn1 = new JoystickButton(xbox, 1); // A
-    public static final JoystickButton xboxBtn2 = new JoystickButton(xbox, 2); // B
-    public static final JoystickButton xboxBtn3 = new JoystickButton(xbox, 3); // X
-    public static final JoystickButton xboxBtn4 = new JoystickButton(xbox, 4); // Y
-    public static final JoystickButton xboxBtn5 = new JoystickButton(xbox, 5); // Bumper Left
-    public static final JoystickButton xboxBtn6 = new JoystickButton(xbox, 6); // Bumper Right
-    public static final JoystickButton xboxBtn7 = new JoystickButton(xbox, 7); // Back
-    public static final JoystickButton xboxBtn8 = new JoystickButton(xbox, 8); // Start
-    public static final JoystickButton xboxBtn9 = new JoystickButton(xbox, 9); // Stick Left
-    public static final JoystickButton xboxBtn10 = new JoystickButton(xbox, 10); // Stick Right
+    public static final XboxController driveXbox = new XboxController(0);
+    public static final JoystickButton driveXboxBtn1 = new JoystickButton(driveXbox, 1); // A
+    public static final JoystickButton driveXboxBtn2 = new JoystickButton(driveXbox, 2); // B
+    public static final JoystickButton driveXboxBtn3 = new JoystickButton(driveXbox, 3); // X
+    public static final JoystickButton driveXboxBtn4 = new JoystickButton(driveXbox, 4); // Y
+    public static final JoystickButton driveXboxBtn5 = new JoystickButton(driveXbox, 5); // Bumper Left
+    public static final JoystickButton driveXboxBtn6 = new JoystickButton(driveXbox, 6); // Bumper Right
+    public static final JoystickButton driveXboxBtn7 = new JoystickButton(driveXbox, 7); // Back
+    public static final JoystickButton driveXboxBtn8 = new JoystickButton(driveXbox, 8); // Start
+    public static final JoystickButton driveXboxBtn9 = new JoystickButton(driveXbox, 9); // Stick Left
+    public static final JoystickButton driveXboxBtn10 = new JoystickButton(driveXbox, 10); // Stick Right
 
-
-    // TODO: Add a second Xbox controller for the climb system?
+    public static final XboxController controlXbox = new XboxController(1);
+    public static final JoystickButton controlXboxBtn1 = new JoystickButton(controlXbox, 1); // A
+    public static final JoystickButton controlXboxBtn2 = new JoystickButton(controlXbox, 2); // B
+    public static final JoystickButton controlXboxBtn3 = new JoystickButton(controlXbox, 3); // X
+    public static final JoystickButton controlXboxBtn4 = new JoystickButton(controlXbox, 4); // Y
+    public static final JoystickButton controlXboxBtn5 = new JoystickButton(controlXbox, 5); // Bumper Left
+    public static final JoystickButton controlXboxBtn6 = new JoystickButton(controlXbox, 6); // Bumper Right
+    public static final JoystickButton controlXboxBtn7 = new JoystickButton(controlXbox, 7); // Back
+    public static final JoystickButton controlXboxBtn8 = new JoystickButton(controlXbox, 8); // Start
+    public static final JoystickButton controlXboxBtn9 = new JoystickButton(controlXbox, 9); // Stick Left
+    public static final JoystickButton controlXboxBtn10 = new JoystickButton(controlXbox, 10); // Stick Right
 
     // Relays
     public static final Relay lighterRelay = new Relay(1);

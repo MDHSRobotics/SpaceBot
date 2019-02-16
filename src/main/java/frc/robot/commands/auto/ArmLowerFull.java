@@ -3,8 +3,8 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
-
 import frc.robot.helpers.Logger;
+import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
 
 
@@ -41,15 +41,13 @@ public class ArmLowerFull extends Command {
 
     @Override
     protected void execute() {
-        Robot.robotArm.move(m_speed);
+        Robot.robotArm.lowerFull();
     }
-
-    // This command continues for a certain period of time
-    // Will be replaced be encoder logic
+ 
     @Override
     protected boolean isFinished() {
-        double elapsedTime = m_timer.get();
-        return (elapsedTime >= m_targetSeconds);
+        if(Robot.robotArm.isPositionFullMet()) Robot.robotArm.currentArmPosition = ArmPosition.MORE;
+        return Robot.robotArm.isPositionFullMet();
     }
 
     @Override
