@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.interactive.MecDriveCartesian;
 import frc.robot.helpers.Logger;
 import frc.robot.Brain;
-import frc.robot.helpers.Constants;
 import frc.robot.Devices;
 
 
@@ -37,10 +36,12 @@ public class MecDriver extends Subsystem {
                                 talonFrontRightIsConnected && 
                                 talonRearRightIsConnected);
 
-        Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+            Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+            Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+            Devices.talonSrxMecWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     // Initialize Default Command

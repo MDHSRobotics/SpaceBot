@@ -37,9 +37,9 @@ public class AutoHatchClose extends Command {
     protected void execute() {
         Logger.debug("Position: " + Robot.robotHatcher.getPosition());
         Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
-        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxHatch.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxHatch.getSelectedSensorPosition());
-        SmartDashboard.putNumber("Out %",  Devices.talonSrxHatch.getMotorOutputPercent());
+        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxHatcher.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxHatcher.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Out %",  Devices.talonSrxHatcher.getMotorOutputPercent());
         
     }
 

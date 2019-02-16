@@ -1,101 +1,127 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+import frc.robot.commands.IdleEncoderDrive;
 import frc.robot.helpers.EncoderConstants;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
-//import frc.robot.commands.AutoEncoderDrive;
-import frc.robot.commands.IdleEncoderDrive;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.smartdashboard.*;
 
-/**
- * Add your docs here.
- */
-public class EncoderDrive extends Subsystem{
-      /* choose so that Talon does not report sensor out of phase */
-      public static boolean kSensorPhase = false;
 
-      /* choose based on what direction you want to be positive,
-          this does not affect motor invert. */
-      public static boolean kMotorInvert = false;
+public class EncoderDrive extends Subsystem {
 
-    public EncoderDrive(){
+    private boolean m_talonsAreConnected = false;
 
-        int absolutePosition = Devices.talonSrxWheelFrontRight.getSensorCollection().getPulseWidthPosition();
-        // Mask out overflows, keep bottom 12 bits
-        absolutePosition &= 0xFFF;
-        if (kSensorPhase)	absolutePosition *= -1;
-        if (kMotorInvert)	absolutePosition *= -1;
+    // Choose so that Talon does not report sensor out of phase
+    public static boolean kSensorPhase = false;
 
-        Logger.debug("Constructing EncoderDrive...");
+    // Choose based on what direction you want to be positive, this does not affect motor invert
+    public static boolean kMotorInvert = false;
 
-        //Config TalonSRX encoder     
-        Devices.talonSrxWheelRearRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxWheelRearRight.setSensorPhase(false);
-        Devices.talonSrxWheelRearRight.setInverted(false);
-        Devices.talonSrxWheelRearRight.configNominalOutputForward(0, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxWheelRearRight.configNominalOutputReverse(0, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxWheelRearRight.configPeakOutputForward(1, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxWheelRearRight.configPeakOutputReverse(-1, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxWheelRearRight.configAllowableClosedloopError(EncoderConstants.kPIDLoopPrimary, 0, EncoderConstants.kTimeoutMs);
+    // Constructor
+    public EncoderDrive() {
+        Logger.debug("Constructing Subsystem: EncoderDrive...");
 
-        Devices.talonSrxWheelRearRight.config_kF(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxWheelRearRight.config_kP(EncoderConstants.kPIDLoopPrimary, 0.15, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxWheelRearRight.config_kI(EncoderConstants.kPIDLoopPrimary, 0.001, EncoderConstants.kTimeoutMs);
-        Devices.talonSrxWheelRearRight.config_kD(EncoderConstants.kPIDLoopPrimary, 1.5, EncoderConstants.kTimeoutMs);	
+        boolean talonFrontLeftIsConnected = Devices.isConnected(Devices.talonSrxMecWheelFrontLeft);
+        boolean talonRearLeftIsConnected = Devices.isConnected(Devices.talonSrxMecWheelRearLeft);
+        boolean talonFrontRightIsConnected = Devices.isConnected(Devices.talonSrxMecWheelFrontRight);
+        boolean talonRearRightIsConnected = Devices.isConnected(Devices.talonSrxMecWheelRearRight);
+        m_talonsAreConnected = (talonFrontLeftIsConnected &&
+                                talonRearLeftIsConnected && 
+                                talonFrontRightIsConnected && 
+                                talonRearRightIsConnected);
 
-        
-        Devices.talonSrxWheelRearRight.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+        if (m_talonsAreConnected) {
+            SensorCollection sensorCol = Devices.talonSrxMecWheelFrontRight.getSensorCollection();
+            int absolutePosition = sensorCol.getPulseWidthPosition();
+            // Mask out overflows, keep bottom 12 bits
+            absolutePosition &= 0xFFF;
+            if (kSensorPhase) absolutePosition *= -1;
+            if (kMotorInvert) absolutePosition *= -1;
+
+            //Config TalonSRX encoder     
+            Devices.talonSrxMecWheelRearRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,
+                                                                           EncoderConstants.kPIDLoopPrimary,
+                                                                           EncoderConstants.kTimeoutMs);
+            Devices.talonSrxMecWheelRearRight.setSensorPhase(false);
+            Devices.talonSrxMecWheelRearRight.setInverted(false);
+            Devices.talonSrxMecWheelRearRight.configNominalOutputForward(0, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxMecWheelRearRight.configNominalOutputReverse(0, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxMecWheelRearRight.configPeakOutputForward(1, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxMecWheelRearRight.configPeakOutputReverse(-1, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxMecWheelRearRight.configAllowableClosedloopError(EncoderConstants.kPIDLoopPrimary, 0, EncoderConstants.kTimeoutMs);
+
+            Devices.talonSrxMecWheelRearRight.config_kF(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxMecWheelRearRight.config_kP(EncoderConstants.kPIDLoopPrimary, 0.15, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxMecWheelRearRight.config_kI(EncoderConstants.kPIDLoopPrimary, 0.001, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxMecWheelRearRight.config_kD(EncoderConstants.kPIDLoopPrimary, 1.5, EncoderConstants.kTimeoutMs);
+
+            Devices.talonSrxMecWheelRearRight.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+        }
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing EncoderMovement default command...");
+        Logger.debug("Initializing EncoderDrive DefaultCommand -> IdleEncoderDrive...");
 
-        IdleEncoderDrive defaultCmd = new IdleEncoderDrive();
-        setDefaultCommand(defaultCmd);
+        setDefaultCommand(new IdleEncoderDrive());
     }
 
     // Stop all the drive motors
     public void stop() {
-        Devices.talonSrxWheelRearRight.stopMotor();
+        if (m_talonsAreConnected) {
+            Devices.talonSrxMecWheelRearRight.stopMotor();
+        }
     }
 
     // Rotates the motor for a certain amount of raw encoder units
     // One rotations equals 4096 raw units
     public void driveRotations(double rotations) {
-        double tickCount = rotations*EncoderConstants.kRedlineEncoderTpr;
-        Devices.talonSrxWheelRearRight.set(ControlMode.MotionMagic, tickCount);
+        if (m_talonsAreConnected) {
+            double tickCount = rotations*EncoderConstants.kRedlineEncoderTpr;
+            Devices.talonSrxMecWheelRearRight.set(ControlMode.MotionMagic, tickCount);
+        }
     }
 
-    public int getPosition(){
-        return Devices.talonSrxWheelRearRight.getSelectedSensorPosition(EncoderConstants.kPIDLoopPrimary); 
+    public int getPosition() {
+        if (m_talonsAreConnected) {
+            return Devices.talonSrxMecWheelRearRight.getSelectedSensorPosition(EncoderConstants.kPIDLoopPrimary);
+        }
+        else {
+            // TODO: Is this a good error return value?
+            return -1;
+        }
     }
 
     public int getVelocity(){
-        return Devices.talonSrxWheelRearRight.getSelectedSensorVelocity(EncoderConstants.kPIDLoopPrimary);
+        if (m_talonsAreConnected) {
+            return Devices.talonSrxMecWheelRearRight.getSelectedSensorVelocity(EncoderConstants.kPIDLoopPrimary);
+        }
+        else {
+            // TODO: Is this a good error return value?
+            return -1;
+        }
     }
 
     // Resets the encoder position
-    public void resetEncoderPosition(){
-        Devices.talonSrxWheelRearRight.setSelectedSensorPosition(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+    public void resetEncoderPosition() {
+        if (m_talonsAreConnected) {
+            Devices.talonSrxMecWheelRearRight.setSelectedSensorPosition(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+        }
     }
 
-    public static boolean isPositionMet(){
-        int velocity = Devices.talonSrxWheelRearRight.getSensorCollection().getPulseWidthVelocity();
-        if(velocity == 0){
+    // TODO: Does this need to be static? If not, change it, and check to see if the talons are connected.
+    public static boolean isPositionMet() {
+        SensorCollection sensorCol = Devices.talonSrxMecWheelRearRight.getSensorCollection();
+        int velocity = sensorCol.getPulseWidthVelocity();
+        if (velocity == 0) {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
