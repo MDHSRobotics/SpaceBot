@@ -1,8 +1,6 @@
-
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.helpers.Logger;
 import frc.robot.OI;

@@ -7,6 +7,7 @@ import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
 import frc.robot.commands.interactive.*;
 import frc.robot.commands.groups.*;
+import frc.robot.commands.interactive.*;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
 
@@ -26,23 +27,15 @@ public class OI {
         Logger.debug("Constructing OI...");
 
         // Bind the xbox buttons to specific commands
-        Devices.controlXboxBtn1.whenPressed(new ArmLowerHalf());
-        Devices.controlXboxBtn2.whenPressed(new ArmLowerFull());
-        Devices.controlXboxBtn3.whenPressed(new ArmLowerMore());
-        Devices.controlXboxBtn6.whenPressed(new MecDriveAlignHatch());
-        Devices.controlXboxBtn7.whenPressed(new ArmNextPosition());
-        Devices.controlXboxBtn4.whileHeld(new PulleyLift());
-        Devices.controlXboxBtn5.whileHeld(new PulleyLower());
-        Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
-        Devices.xboxBtn2.whenPressed(new ArmLowerFull());
-        Devices.xboxBtn3.whenPressed(new ArmLowerMore());
-        Devices.xboxBtn4.whileHeld(new PulleyLift());
-        Devices.xboxBtn5.whileHeld(new PulleyLower());
+        Devices.climbXboxBtn1.whenPressed(new ArmLowerHalf());
+        Devices.climbXboxBtn2.whenPressed(new ArmLowerFull());
+        Devices.climbXboxBtn3.whenPressed(new ArmLowerMore());
+        Devices.climbXboxBtn7.whenPressed(new ArmNextPosition());
+        Devices.climbXboxBtn4.whileHeld(new PulleyLift());
+        Devices.climbXboxBtn5.whileHeld(new PulleyLower());
         Devices.xboxBtn6.whenPressed(new MecDriveAlignHatch());
         Devices.xboxBtn7.whenPressed(new BallerTogglePosition());
         Devices.xboxBtn8.whenPressed(new HatcherTogglePosition());
-        
-
         // TODO: Bind the Tank appropriate commands
         // TODO: Bind the Pusher appropriate commands
     }
@@ -213,13 +206,13 @@ public class OI {
     // https://frc-pdr.readthedocs.io/en/latest/user_input/joystick.html
     
     public static double getControlXboxAxisY() {
-        double controlXboxAxisY = Devices.controlXbox.getY(Hand.kRight);
+        double controlXboxAxisY = Devices.climbXbox.getY(Hand.kRight);
         return controlXboxAxisY;
     }
     
 
     public static double getXBoxTriggerPosition() {
-        double triggerAxis = Devices.xbox.getTriggerAxis(Hand.kRight);
+        double triggerAxis = Devices.driveXbox.getTriggerAxis(Hand.kRight);
         return triggerAxis;
     }
 

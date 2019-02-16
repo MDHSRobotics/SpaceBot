@@ -41,17 +41,17 @@ public class Devices {
     public static final JoystickButton driveXboxBtn9 = new JoystickButton(driveXbox, 9); // Stick Left
     public static final JoystickButton driveXboxBtn10 = new JoystickButton(driveXbox, 10); // Stick Right
 
-    public static final XboxController controlXbox = new XboxController(1);
-    public static final JoystickButton controlXboxBtn1 = new JoystickButton(controlXbox, 1); // A
-    public static final JoystickButton controlXboxBtn2 = new JoystickButton(controlXbox, 2); // B
-    public static final JoystickButton controlXboxBtn3 = new JoystickButton(controlXbox, 3); // X
-    public static final JoystickButton controlXboxBtn4 = new JoystickButton(controlXbox, 4); // Y
-    public static final JoystickButton controlXboxBtn5 = new JoystickButton(controlXbox, 5); // Bumper Left
-    public static final JoystickButton controlXboxBtn6 = new JoystickButton(controlXbox, 6); // Bumper Right
-    public static final JoystickButton controlXboxBtn7 = new JoystickButton(controlXbox, 7); // Back
-    public static final JoystickButton controlXboxBtn8 = new JoystickButton(controlXbox, 8); // Start
-    public static final JoystickButton controlXboxBtn9 = new JoystickButton(controlXbox, 9); // Stick Left
-    public static final JoystickButton controlXboxBtn10 = new JoystickButton(controlXbox, 10); // Stick Right
+    public static final XboxController climbXbox = new XboxController(1);
+    public static final JoystickButton climbXboxBtn1 = new JoystickButton(climbXbox, 1); // A
+    public static final JoystickButton climbXboxBtn2 = new JoystickButton(climbXbox, 2); // B
+    public static final JoystickButton climbXboxBtn3 = new JoystickButton(climbXbox, 3); // X
+    public static final JoystickButton climbXboxBtn4 = new JoystickButton(climbXbox, 4); // Y
+    public static final JoystickButton climbXboxBtn5 = new JoystickButton(climbXbox, 5); // Bumper Left
+    public static final JoystickButton climbXboxBtn6 = new JoystickButton(climbXbox, 6); // Bumper Right
+    public static final JoystickButton climbXboxBtn7 = new JoystickButton(climbXbox, 7); // Back
+    public static final JoystickButton climbXboxBtn8 = new JoystickButton(climbXbox, 8); // Start
+    public static final JoystickButton climbXboxBtn9 = new JoystickButton(climbXbox, 9); // Stick Left
+    public static final JoystickButton climbXboxBtn10 = new JoystickButton(climbXbox, 10); // Stick Right
 
     // Relays
     public static final Relay lighterRelay = new Relay(1);

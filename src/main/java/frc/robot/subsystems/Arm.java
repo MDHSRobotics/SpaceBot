@@ -1,14 +1,11 @@
-
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.ArmStop;
-import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 import frc.robot.helpers.EncoderConstants;
+import frc.robot.helpers.Logger;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
@@ -23,29 +20,23 @@ public class Arm extends Subsystem {
     }
 
     //encoder variables
-    double targetRotations = 3.73;
     private double targetPositionUnits;
     private double m_targetRotationHalf = 0.125;	
     private double m_targetRotationFull = 0.25;
+    private boolean m_talonsAreConnected = false;
 
     // Choose so that Talon does not report sensor out of phase
     public static boolean kSensorPhase = false;
-
     // Choose based on what direction you want to be positive, this does not affect motor invert
     public static boolean kMotorInvert = false;
-
-
-
     public ArmPosition currentArmPosition = ArmPosition.START;
-    private boolean m_talonsAreConnected = false;
-    private double m_secondsFromNeutralToFull = 1.0;
+
 
     // Constructor
     public Arm() {
         Logger.debug("Contructing Subsystem: Arm...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArm);
-        Devices.talonSrxArm.configOpenloopRamp(m_secondsFromNeutralToFull);
 
         if (m_talonsAreConnected) {
             Devices.talonSrxArm.configFactoryDefault();
