@@ -46,7 +46,7 @@ public class TankSpin extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: TankSpin...");
+        Logger.debug("Interrupting Command: TankSpin...");
 
         Robot.robotTank.stop();
     }

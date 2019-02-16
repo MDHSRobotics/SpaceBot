@@ -2,12 +2,14 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.helpers.Logger;
+import frc.robot.Devices;
 import frc.robot.Robot;
 
 
-// This command holds to cargo ball until it is ready to be tossed
+// This command moves the Baller to hold the cargo ball until it is ready to be tossed
 public class BallHold extends Command {
 
     public BallHold() {
@@ -20,18 +22,24 @@ public class BallHold extends Command {
     @Override
     protected void initialize() {
         Logger.debug("Initializing Command: BallHold...");
+
+        Robot.robotBaller.holdBall();
     }
 
     @Override
     protected void execute() {
-        Robot.robotBaller.holdBall();
+        // Logger.debug("Position: " + Robot.robotHatcher.getPosition());
+        // Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
+        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxBaller.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxBaller.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Out %",  Devices.talonSrxBaller.getMotorOutputPercent());
+        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
     }
 
     // This command is finished when the ball has been fully blocked
     @Override
     protected boolean isFinished() {
-        boolean isHeld = Robot.robotBaller.isHeld();
-        return isHeld;
+        return Robot.robotBaller.isPositionMet();
     }
 
     @Override
@@ -43,7 +51,7 @@ public class BallHold extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: BallHold...");
+        Logger.debug("Interrupting Command: BallHold...");
 
         Robot.robotBaller.stop();
     }

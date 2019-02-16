@@ -2,8 +2,10 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.helpers.Logger;
+import frc.robot.Devices;
 import frc.robot.Robot;
 
 
@@ -19,19 +21,25 @@ public class HatchGrab extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing Command: HatchGrab...");
+        Logger.debug("Initializing Command: HatchGrab...");
+
+        Robot.robotHatcher.grabHatch();
     }
 
     @Override
     protected void execute() {
-        Robot.robotHatcher.grab();
+        // Logger.debug("Position: " + Robot.robotHatcher.getPosition());
+        // Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
+        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxHatcher.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxHatcher.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Out %",  Devices.talonSrxHatcher.getMotorOutputPercent());
+        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
     }
 
     // This command is finished when the hatch is grabbed
     @Override
     protected boolean isFinished() {
-        boolean isGrabbed = Robot.robotHatcher.isGrabbed();
-        return isGrabbed;
+        return Robot.robotHatcher.isPositionMet();
     }
 
     @Override
@@ -43,7 +51,7 @@ public class HatchGrab extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: HatchGrab...");
+        Logger.debug("Interrupting Command: HatchGrab...");
 
         Robot.robotHatcher.stop();
     }

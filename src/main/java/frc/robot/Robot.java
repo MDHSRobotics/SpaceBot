@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.commands.auto.*;
 import frc.robot.commands.idle.*;
+import frc.robot.commands.instant.*;
 import frc.robot.consoles.*;
 import frc.robot.helpers.Logger;
 import frc.robot.subsystems.*;
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
 
     public static Hatcher robotHatcher;
     public static Baller robotBaller;
+    public static EncodedDriver robotEncodedDriver;
 
     public static Arm robotArm;
     public static Tank robotTank;
@@ -83,6 +85,7 @@ public class Robot extends TimedRobot {
 
         robotHatcher = new Hatcher();
         robotBaller = new Baller();
+        robotEncodedDriver = new EncodedDriver();
 
         robotArm = new Arm();
         robotTank = new Tank();

@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 

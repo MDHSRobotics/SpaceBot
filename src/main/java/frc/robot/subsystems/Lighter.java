@@ -4,7 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Relay;
 
-import frc.robot.commands.auto.LightToggle;
+import frc.robot.commands.interactive.LightToggle;
 import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 

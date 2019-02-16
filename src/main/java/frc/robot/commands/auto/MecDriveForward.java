@@ -113,7 +113,7 @@ public class MecDriveForward extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: MecDriveForward...");
+        Logger.debug("Interrupting Command: MecDriveForward...");
 
         Robot.robotMecDriver.stop();
 

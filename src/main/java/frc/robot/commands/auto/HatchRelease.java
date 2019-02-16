@@ -2,8 +2,10 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.helpers.Logger;
+import frc.robot.Devices;
 import frc.robot.Robot;
 
 
@@ -19,19 +21,25 @@ public class HatchRelease extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Constructing Command: HatchRelease...");
+        Logger.debug("Initializing Command: HatchRelease...");
+
+        Robot.robotHatcher.releaseHatch();
     }
 
     @Override
     protected void execute() {
-        Robot.robotHatcher.release();
+        // Logger.debug("Position: " + Robot.robotHatcher.getPosition());
+        // Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
+        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxHatcher.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxHatcher.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Out %",  Devices.talonSrxHatcher.getMotorOutputPercent());
+        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
     }
 
     // This command is finished when the Hatch is released
     @Override
     protected boolean isFinished() {
-        boolean isReleased = Robot.robotHatcher.isReleased();
-        return isReleased;
+        return Robot.robotHatcher.isPositionMet();
     }
 
     @Override
@@ -43,7 +51,7 @@ public class HatchRelease extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: HatchRelease...");
+        Logger.debug("Interrupting Command: HatchRelease...");
 
         Robot.robotHatcher.stop();
     }

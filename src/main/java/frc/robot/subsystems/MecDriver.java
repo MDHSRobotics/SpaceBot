@@ -36,10 +36,12 @@ public class MecDriver extends Subsystem {
                                 talonFrontRightIsConnected && 
                                 talonRearRightIsConnected);
 
-        Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-        Devices.talonSrxMecWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+            Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+            Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+            Devices.talonSrxMecWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     // Initialize Default Command

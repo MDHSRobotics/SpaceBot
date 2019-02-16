@@ -23,7 +23,7 @@ public class Brain {
     public static double driveTargetDistanceDefault = 2.0;
 
     // OI
-    public static ControlStick controlStickDefault = ControlStick.JOYSTICK;
+    public static ControlStick controlStickDefault = ControlStick.XBOX;
 
     // OI - Joystick
     public static double yDeadZoneDefault = .1;

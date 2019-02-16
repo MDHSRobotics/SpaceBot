@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands.instant;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,11 +7,11 @@ import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
 
-// This command stops the mecanum drive, and toggles the control orientation
-public class MecDriveToggleOrientation extends Command {
+// This command stops the mecanum drive, and flips the joystick or left thumbstick in Y
+public class MecDriveFlipControlStick extends Command {
 
-    public MecDriveToggleOrientation() {
-        Logger.debug("Constructing Command: MecDriveToggleOrientation...");
+    public MecDriveFlipControlStick() {
+        Logger.debug("Constructing Command: MecDriveFlipControlStick...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -19,14 +19,14 @@ public class MecDriveToggleOrientation extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveToggleOrientation...");
+        Logger.debug("Initializing Command: MecDriveFlipControlStick...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void execute() {
-        Robot.robotMecDriver.toggleDriveOrientation();
+        Robot.robotMecDriver.flipControlStickDirection();
     }
 
     // This command finishes immediately
@@ -37,14 +37,14 @@ public class MecDriveToggleOrientation extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveToggleOrientation...");
+        Logger.debug("Ending Command: MecDriveFlipControlStick...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveToggleOrientation...");
+        Logger.debug("Interrupting Command: MecDriveFlipControlStick...");
 
         Robot.robotMecDriver.stop();
     }
