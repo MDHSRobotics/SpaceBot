@@ -162,7 +162,7 @@ public class LineDetector {
 
     public double getCorrectedZ() {
         double angle = Brain.getHatchLineAngle();
-        return m_targetAngle - angle;
+        return m_targetAngle + angle;
     }
 
     public double getCorrectedX() {

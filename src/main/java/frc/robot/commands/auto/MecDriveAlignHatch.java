@@ -33,6 +33,18 @@ public class MecDriveAlignHatch extends Command {
             return;
         }
 
+        boolean centered = Robot.robotLineDetectorHatch.isCentered();
+        if (!centered) {
+            double x = Robot.robotLineDetectorHatch.getCorrectedX();
+            Logger.debug("Strafe pixels to correct: " + x);
+            double xSpeed = m_xSpeed;
+            if (x > 0) {
+                xSpeed = -xSpeed;
+            }
+            Robot.robotMecDriver.strafe(xSpeed);
+            return;
+        }
+
         boolean straight = Robot.robotLineDetectorHatch.isStraight();
         if (!straight) {
             double z = Robot.robotLineDetectorHatch.getCorrectedZ();
@@ -45,17 +57,7 @@ public class MecDriveAlignHatch extends Command {
             return;
         }
 
-        boolean centered = Robot.robotLineDetectorHatch.isCentered();
-        if (!centered) {
-            double x = Robot.robotLineDetectorHatch.getCorrectedX();
-            Logger.debug("Strafe pixels to correct: " + x);
-            double xSpeed = m_xSpeed;
-            if (x > 0) {
-                xSpeed = -xSpeed;
-            }
-            Robot.robotMecDriver.strafe(xSpeed);
-            return;
-        }
+        
     }
 
     // We're finished when the line looks straight and is centered enough (or a line is not detected)

@@ -33,7 +33,7 @@ public class LightToggle extends Command {
             Robot.robotLighter.turnOnForward();
         }
         else {
-            Robot.robotLighter.turnOff();
+            Robot.robotLighter.turnOnReverse();
         }
     }
 
