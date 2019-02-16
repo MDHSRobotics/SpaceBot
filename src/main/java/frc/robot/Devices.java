@@ -5,7 +5,6 @@ import com.analog.adis16448.frc.ADIS16448_IMU;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.XboxController;
@@ -30,7 +29,7 @@ public class Devices {
     public static final JoystickButton jstickBtn12 = new JoystickButton(jstick, 12);
 
     // Xbox Controllers
-    public static final XboxController xbox = new XboxController(1);
+    public static final XboxController xbox = new XboxController(0);
     public static final JoystickButton xboxBtn1 = new JoystickButton(xbox, 1); // A
     public static final JoystickButton xboxBtn2 = new JoystickButton(xbox, 2); // B
     public static final JoystickButton xboxBtn3 = new JoystickButton(xbox, 3); // X
@@ -41,6 +40,8 @@ public class Devices {
     public static final JoystickButton xboxBtn8 = new JoystickButton(xbox, 8); // Start
     public static final JoystickButton xboxBtn9 = new JoystickButton(xbox, 9); // Stick Left
     public static final JoystickButton xboxBtn10 = new JoystickButton(xbox, 10); // Stick Right
+
+    // TODO: Add a second Xbox controller for the climb system?
 
     // Relays
     public static final Relay lighterRelay = new Relay(1);
@@ -67,12 +68,6 @@ public class Devices {
                                                
     // Gyros
     public static final ADIS16448_IMU imuMecDrive = new ADIS16448_IMU();
-    
-    // Limit Switches
-    public static final DigitalInput limitSwitchHatchGrabbed  = new DigitalInput(1); // TODO: Replace this with encoders
-    public static final DigitalInput limitSwitchHatchReleased = new DigitalInput(2); // TODO: Replace this with encoders
-    public static final DigitalInput limitSwitchBallHeld = new DigitalInput(3);
-    public static final DigitalInput limitSwitchBallTossed = new DigitalInput(4);
 
     // Determines if the Talon SRX is connected
     public static boolean isConnected(WPI_TalonSRX talon) {

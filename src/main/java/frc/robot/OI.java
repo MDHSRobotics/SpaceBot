@@ -23,12 +23,17 @@ public class OI {
     public OI() {
         Logger.debug("Constructing OI...");
 
+        // TODO: Since we're committing to the Xbox controllers, get rid of joystick bindings,
+        // and figure out all the appropriate Xbox buttons for all the commands.
+
         // Bind the joystick buttons to specific commands
         Devices.jstickBtn1.whenPressed(new MecDriveAlignHatch());
         Devices.jstickBtn3.whenPressed(new HatchGrab());
         Devices.jstickBtn4.whenPressed(new HatchRelease());
         Devices.jstickBtn5.whenPressed(new BallHold());
         Devices.jstickBtn6.whenPressed(new BallToss());
+
+        // TODO: Are we going to use two Xbox controllers? One for the MecDriver, Hatcher, and Baller, and another for climbing?
 
         // Bind the xbox buttons to specific commands
         Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
@@ -96,9 +101,13 @@ public class OI {
 
     // Gets the joystick position and applies user-determined orientation, deadzones, and sensitivity
     private static JoystickPosition getJoystickPosition(boolean isYflipped) {
-        double y = -Devices.jstick.getY(); // Forward & backward, flipped
+        double y = Devices.jstick.getY(); // Forward & backward
         double x = Devices.jstick.getX(); // Side to side
-        double z = -Devices.jstick.getZ(); // Rotate
+        double z = Devices.jstick.getZ(); // Rotate
+
+        // Forward/backward and rotation directions are both reversed from what is intuitive, so flip them
+        y = -y;
+        z = -z;
 
         // User-determined flipping of forward/backward orientation
         if (isYflipped) {
@@ -157,10 +166,13 @@ public class OI {
 
     // Gets the xbox thumbstick positions and applies user-determined orientation, deadzones, and sensitivity
     private static ThumbStickPosition getThumbstickPosition(boolean isYleftFlipped) {
-        double yLeft = -Devices.xbox.getY(Hand.kLeft); // Forward & backward, flipped
+        double yLeft = Devices.xbox.getY(Hand.kLeft); // Forward & backward, flipped
         double xLeft = Devices.xbox.getX(Hand.kLeft); // Strafe
-        double xRight = -Devices.xbox.getX(Hand.kRight); // Rotate
-        //TODO: make any flipping more explicit
+        double xRight = Devices.xbox.getX(Hand.kRight); // Rotate
+
+        // Forward/backward and rotation directions are both reversed from what is intuitive, so flip them
+        yLeft = -yLeft;
+        xRight = -xRight;
 
         // User-determined flipping of forward/backward orientation
         if (isYleftFlipped) {
@@ -197,5 +209,6 @@ public class OI {
     }
 
     // TODO: Also consider adding a "debouncer" for the buttons
+    // https://frc-pdr.readthedocs.io/en/latest/user_input/joystick.html
 
 }
