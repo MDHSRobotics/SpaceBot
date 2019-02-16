@@ -18,15 +18,14 @@ public class Hatcher extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     // TODO: Be explicit. Are these public or private? Make them private unless they need to be public. Name them accordingly.
-    double targetRotations = 0.8;
-    double targetPositionUnits;	
-    static final double k_stopThreshold = 10;
+    private double targetRotations = 0.572; //Calculation: 0.572
+    private double targetPositionUnits;
 
     // Choose so that Talon does not report sensor out of phase
-    public static boolean kSensorPhase = false;
+    private static boolean kSensorPhase = true; //false
     
     // Choose based on what direction you want to be positive, this does not affect motor invert
-    public static boolean kMotorInvert = true;
+    private static boolean kMotorInvert = true;
 
     public boolean hatchIsGrabbed = false;
 
@@ -57,7 +56,7 @@ public class Hatcher extends Subsystem {
             Devices.talonSrxHatcher.configAllowableClosedloopError(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
 
             Devices.talonSrxHatcher.config_kF(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxHatcher.config_kP(EncoderConstants.kPIDLoopPrimary, 0.06, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxHatcher.config_kP(EncoderConstants.kPIDLoopPrimary, 0.065, EncoderConstants.kTimeoutMs);
             Devices.talonSrxHatcher.config_kI(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
             Devices.talonSrxHatcher.config_kD(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
 
@@ -113,6 +112,7 @@ public class Hatcher extends Subsystem {
         return Devices.talonSrxHatcher.getSelectedSensorVelocity();
     }
 
+
     // Get the current Hatcher claw motor position
     public int getPosition() {
         if (!m_talonsAreConnected) return -1; // TODO: Is there a better return value?
@@ -121,10 +121,10 @@ public class Hatcher extends Subsystem {
 
     // Return whether or not the motor has reached the encoded position
     public boolean isPositionMet() {
+        if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        if (currentPosition == -1) return true;
         targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 700);
     }
 
     // Toggle the hatchIsGrabbed state
@@ -132,26 +132,18 @@ public class Hatcher extends Subsystem {
         hatchIsGrabbed = !hatchIsGrabbed;
     }
 
-    //--------//
-    // Unused //
-    //--------//
+    // public boolean getHatchIsGrabbed(){
+    //     return hatchIsGrabbed;
+    // }
 
-    public void resetEncoderPosition() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-        }
-    }
+    //---------//
+    // Testing //
+    //---------//
 
     public void driveStatic() {
         if (m_talonsAreConnected) {
             Devices.talonSrxHatcher.set(0.2);
         }
-    }
-
-    public boolean isStopped() {
-        if (!m_talonsAreConnected) return true;
-        double currentVelocity = Devices.talonSrxHatcher.getSelectedSensorVelocity();
-        return (Math.abs(currentVelocity) < k_stopThreshold);
     }
 
 }

@@ -28,12 +28,8 @@ public class BallHold extends Command {
 
     @Override
     protected void execute() {
-        // Logger.debug("Position: " + Robot.robotHatcher.getPosition());
-        // Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
-        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxBaller.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxBaller.getSelectedSensorPosition());
-        SmartDashboard.putNumber("Out %",  Devices.talonSrxBaller.getMotorOutputPercent());
-        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
+        Logger.debug("Position: " + Robot.robotBaller.getPosition());
+        Logger.debug("Velocity: " +  Robot.robotBaller.getVelocity());
     }
 
     // This command is finished when the ball has been fully blocked

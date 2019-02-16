@@ -28,18 +28,15 @@ public class HatchRelease extends Command {
 
     @Override
     protected void execute() {
-        // Logger.debug("Position: " + Robot.robotHatcher.getPosition());
-        // Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
-        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxHatcher.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxHatcher.getSelectedSensorPosition());
-        SmartDashboard.putNumber("Out %",  Devices.talonSrxHatcher.getMotorOutputPercent());
-        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
+        Logger.debug("Position: " + Robot.robotHatcher.getPosition());
+        Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
     }
 
     // This command is finished when the Hatch is released
     @Override
     protected boolean isFinished() {
         return Robot.robotHatcher.isPositionMet();
+       // return false;
     }
 
     @Override

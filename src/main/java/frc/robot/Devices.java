@@ -41,6 +41,7 @@ public class Devices {
     public static final JoystickButton xboxBtn9 = new JoystickButton(xbox, 9); // Stick Left
     public static final JoystickButton xboxBtn10 = new JoystickButton(xbox, 10); // Stick Right
 
+
     // TODO: Add a second Xbox controller for the climb system?
 
     // Relays
@@ -52,13 +53,13 @@ public class Devices {
     public static final WPI_TalonSRX talonSrxMecWheelRearRight = new WPI_TalonSRX(3); // 1 motor
     public static final WPI_TalonSRX talonSrxMecWheelRearLeft = new WPI_TalonSRX(4); // 1 motor
 
-    public static final WPI_TalonSRX talonSrxHatcher = new WPI_TalonSRX(5); // 1 motor
-    public static final WPI_TalonSRX talonSrxBaller = new WPI_TalonSRX(6); // 1 motor
+    public static final WPI_TalonSRX talonSrxHatcher = new WPI_TalonSRX(9); // 1 motor
+    public static final WPI_TalonSRX talonSrxBaller = new WPI_TalonSRX(10); // 1 motor
 
     public static final WPI_TalonSRX talonSrxArm = new WPI_TalonSRX(7); // 1 motor
     public static final WPI_TalonSRX talonSrxTank = new WPI_TalonSRX(8); // 1 motor
-    public static final WPI_TalonSRX talonSrxPulley = new WPI_TalonSRX(9); // 4 motors
-    public static final WPI_TalonSRX talonSrxPusher = new WPI_TalonSRX(10); // 1 motor
+    public static final WPI_TalonSRX talonSrxPulley = new WPI_TalonSRX(5); // 4 motors
+    public static final WPI_TalonSRX talonSrxPusher = new WPI_TalonSRX(6); // 1 motor
 
     // Drives
     public static final MecanumDrive mecDrive = new MecanumDrive(talonSrxMecWheelFrontLeft,

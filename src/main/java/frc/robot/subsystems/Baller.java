@@ -18,7 +18,7 @@ public class Baller extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     // TODO: Be explicit. Are these public or private? Make them private unless they need to be public. Name them accordingly.
-    double targetRotations = 3.73;
+    double targetRotations = 3.73; //Calculation: 4.44
     double targetPositionUnits;	
     private static final double k_stopThreshold = 10;
 
