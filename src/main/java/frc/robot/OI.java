@@ -210,5 +210,11 @@ public class OI {
 
     // TODO: Also consider adding a "debouncer" for the buttons
     // https://frc-pdr.readthedocs.io/en/latest/user_input/joystick.html
+    
+
+    public static double getXBoxTriggerPosition() {
+        double triggerAxis = Devices.xbox.getTriggerAxis(Hand.kRight);
+        return triggerAxis;
+    }
 
 }
