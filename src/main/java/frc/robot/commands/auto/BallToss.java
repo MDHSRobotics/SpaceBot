@@ -2,8 +2,10 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.helpers.Logger;
+import frc.robot.Devices;
 import frc.robot.Robot;
 
 
@@ -20,18 +22,24 @@ public class BallToss extends Command {
     @Override
     protected void initialize() {
         Logger.debug("Initializing Command: BallToss...");
+
+        Robot.robotBaller.tossBall();
     }
 
     @Override
     protected void execute() {
-        Robot.robotBaller.tossBall();
+        // Logger.debug("Position: " + Robot.robotHatcher.getPosition());
+        // Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
+        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxBaller.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxBaller.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Out %",  Devices.talonSrxBaller.getMotorOutputPercent());
+        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
     }
 
     // This command is finished when the ball has been fully tossed
     @Override
     protected boolean isFinished() {
-        boolean isTossed = Robot.robotBaller.isTossed();
-        return isTossed;
+        return Robot.robotBaller.isPositionMet();
     }
 
     @Override
@@ -43,7 +51,7 @@ public class BallToss extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupted Command: BallToss...");
+        Logger.debug("Interrupting Command: BallToss...");
 
         Robot.robotBaller.stop();
     }

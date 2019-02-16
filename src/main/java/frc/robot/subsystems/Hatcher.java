@@ -28,7 +28,7 @@ public class Hatcher extends Subsystem {
     // Choose based on what direction you want to be positive, this does not affect motor invert
     public static boolean kMotorInvert = true;
 
-    public boolean hatchToggle = false;
+    public boolean hatchIsGrabbed = false;
 
     // Constructor
     public Hatcher() {
@@ -80,32 +80,61 @@ public class Hatcher extends Subsystem {
         setDefaultCommand(new HatcherStop());
     }
 
-    // Stop all the drive motors
+    // Stop the Hatcher motor
     public void stop() {
         if (m_talonsAreConnected) {
             Devices.talonSrxHatcher.stopMotor();
         }
     }
 
-    public int getPosition() {
+    // Open the Hatcher claw to grab the hatch
+    public void grabHatch() {
         if (m_talonsAreConnected) {
-            return Devices.talonSrxHatcher.getSelectedSensorPosition();
-        }
-        else {
-            // TODO: Is this a good error return value?
-            return -1;
+            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
+            targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
+            Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
+            Logger.debug("Hatcher -> Target Grab Position: " + targetPositionUnits);
         }
     }
 
-    public int getVelocity() {
+    // Close the Hatcher claw to release the hatch
+    public void releaseHatch() {
         if (m_talonsAreConnected) {
-            return Devices.talonSrxHatcher.getSelectedSensorPosition();
-        }
-        else {
-            // TODO: Is this a good error return value?
-            return -1;
+            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
+            targetPositionUnits = -(targetRotations * EncoderConstants.kRedlineEncoderTpr);
+            Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
+            Logger.debug("Hatcher -> Target Release Position: " + targetPositionUnits);
         }
     }
+
+    // Get the current Hatcher claw motor velocity
+    public int getVelocity() {
+        if (!m_talonsAreConnected) return -1; // TODO: Is there a better return value?
+        return Devices.talonSrxHatcher.getSelectedSensorVelocity();
+    }
+
+    // Get the current Hatcher claw motor position
+    public int getPosition() {
+        if (!m_talonsAreConnected) return -1; // TODO: Is there a better return value?
+        return Devices.talonSrxHatcher.getSelectedSensorPosition();
+    }
+
+    // Return whether or not the motor has reached the encoded position
+    public boolean isPositionMet() {
+        int currentPosition = getPosition();
+        if (currentPosition == -1) return true;
+        targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
+    }
+
+    // Toggle the hatchIsGrabbed state
+    public void toggleHatchGrabbed() {
+        hatchIsGrabbed = !hatchIsGrabbed;
+    }
+
+    //--------//
+    // Unused //
+    //--------//
 
     public void resetEncoderPosition() {
         if (m_talonsAreConnected) {
@@ -119,47 +148,10 @@ public class Hatcher extends Subsystem {
         }
     }
 
-    public void clawOpen() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
-            targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
-
-            Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
-            Logger.debug("Target Open Position: " + targetPositionUnits);
-        }
-    }
-
-    public void clawClose() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
-            targetPositionUnits = -(targetRotations * EncoderConstants.kRedlineEncoderTpr);
-            Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
-            Logger.debug("Target Close Position: " + targetPositionUnits);
-        }
-    }
-
-    // TODO: Get and Set methods are a little strange here. The set is actually a toggle, and get just returns a public member variable. Let's discuss.
-    public void setHatchToggle() {
-        hatchToggle = !hatchToggle;
-    }
-
-    public boolean getHatchToggle() {
-        return hatchToggle;
-    }
-
     public boolean isStopped() {
+        if (!m_talonsAreConnected) return true;
         double currentVelocity = Devices.talonSrxHatcher.getSelectedSensorVelocity();
-        Logger.debug("Position: " + currentVelocity);
         return (Math.abs(currentVelocity) < k_stopThreshold);
-    }
-
-    public boolean isPositionMet() {
-        int currentPosition = Devices.talonSrxHatcher.getSelectedSensorPosition();
-
-        targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
-        Logger.debug("Position: " + currentPosition);
-
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
     }
 
 }

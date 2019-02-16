@@ -12,7 +12,7 @@ import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
 
-// Cargo ball subsystem
+// Baller subsystem, for holding and tossing cargo balls
 public class Baller extends Subsystem {
 
     private boolean m_talonsAreConnected = false;
@@ -21,13 +21,14 @@ public class Baller extends Subsystem {
     double targetRotations = 3.73;
     double targetPositionUnits;	
     private static final double k_stopThreshold = 10;
-    boolean ballToggle = false;
 
     // Choose so that Talon does not report sensor out of phase
     public static boolean kSensorPhase = false;
 
     // Choose based on what direction you want to be positive, this does not affect motor invert
     public static boolean kMotorInvert = false;
+
+    public boolean ballIsTossed = false;
 
     // Constructor
     public Baller() {
@@ -78,32 +79,59 @@ public class Baller extends Subsystem {
         setDefaultCommand(new BallerStop());
     }
 
-    // Stop all the drive motors
+    // Stop the Baller motor
     public void stop() {
         if (m_talonsAreConnected) {
             Devices.talonSrxBaller.stopMotor();
         }
     }
 
-    public int getPosition() {
+    // Move the Baller flipper to toss the ball
+    public void tossBall() {
         if (m_talonsAreConnected) {
-            return Devices.talonSrxBaller.getSelectedSensorPosition();
-        }
-        else {
-            // TODO: Is this a good error return value?
-            return -1;
+            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
+            targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
+            Logger.debug("Baller -> Target Toss Position: " + targetPositionUnits);
+            Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
         }
     }
 
-    public int getVelocity() {
+    // Move the Baller flipper back to the hold position
+    public void holdBall() {
         if (m_talonsAreConnected) {
-            return Devices.talonSrxBaller.getSelectedSensorVelocity();
-        }
-        else {
-            // TODO: Is this a good error return value?
-            return -1;
+            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
+            targetPositionUnits = -(targetRotations * EncoderConstants.kRedlineEncoderTpr);
+            Logger.debug("Baller -> Target Hold Position: " + targetPositionUnits);
+            Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
         }
     }
+
+    // Get the current Baller flipper motor velocity
+    public int getVelocity() {
+        if (!m_talonsAreConnected) return -1; // TODO: Is there a better return value?
+        return Devices.talonSrxHatcher.getSelectedSensorVelocity();
+    }
+
+    // Get the current Baller flipper motor position
+    public int getPosition() {
+        if (!m_talonsAreConnected) return -1; // TODO: Is there a better return value?
+        return Devices.talonSrxBaller.getSelectedSensorPosition();
+    }
+
+    public boolean isPositionMet() {
+        int currentPosition = getPosition();
+        if (currentPosition == -1) return true;
+        targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
+    }
+
+    public void toggleBallTossed() {
+        ballIsTossed = !ballIsTossed;
+    }
+
+    //--------//
+    // Unused //
+    //--------//
 
     public void resetEncoderPosition() {
         if (m_talonsAreConnected) {
@@ -111,60 +139,10 @@ public class Baller extends Subsystem {
         }
     }
 
-    public void ballRaise() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-            targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
-
-            Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
-            Logger.debug("Target Position: " + targetPositionUnits);
-        }
-    }
-
-    public void ballClose() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-            targetPositionUnits = -(targetRotations * EncoderConstants.kRedlineEncoderTpr);
-
-            Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
-            Logger.debug("Target Position: " + targetPositionUnits);
-        }
-    }
-
-    // TODO: Get and Set methods are a little strange here. The set is actually a toggle, and get just returns a public member variable. Let's discuss.
-    public void setBallToggle() {
-        ballToggle = !ballToggle;
-    }
-
-    public boolean getBallToggle() {
-        return ballToggle;
-    }
-
     public boolean isStopped() {
-        if (m_talonsAreConnected) {
-            double currentVelocity = Devices.talonSrxBaller.getSelectedSensorVelocity();
-            Logger.debug("Position: " + currentVelocity);
-            return (Math.abs(currentVelocity) < k_stopThreshold);
-        }
-        else {
-            // TODO: Is this a good error return value?
-            return true;
-        }
-    }
-
-    public boolean isPositionMet() {
-        if (m_talonsAreConnected) {
-            int currentPosition = Devices.talonSrxBaller.getSelectedSensorPosition();
-
-            targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
-            Logger.debug("Position: " + currentPosition);
-
-            return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
-        }
-        else {
-            // TODO: Is this a good error return value?
-            return true;
-        }
+        if (!m_talonsAreConnected) return true;
+        double currentVelocity = Devices.talonSrxBaller.getSelectedSensorVelocity();
+        return (Math.abs(currentVelocity) < k_stopThreshold);
     }
 
 }
