@@ -13,14 +13,20 @@ public class VisionTab {
 
     // Tab, layout, and widget objects
     private ShuffleboardTab m_tab;
+
+    // LinePipeline
+    private SimpleWidget m_hueMinWidget;
+    private SimpleWidget m_hueMaxWidget;
+    private SimpleWidget m_saturationMinWidget;
+    private SimpleWidget m_saturationMaxWidget;
+    private SimpleWidget m_valueMinWidget;
+    private SimpleWidget m_valueMaxWidget;
+
+    // LineDetector
     private SimpleWidget m_areaWidget;
     private SimpleWidget m_angleWidget;
     private SimpleWidget m_xCenterWidget;
     private SimpleWidget m_yCenterWidget;
-
-    private SimpleWidget m_hsvThresholdHue;
-    private SimpleWidget m_hsvThresholdSaturation;
-    private SimpleWidget m_hsvThresholdValue;
 
     // Constructor
     public VisionTab() {
@@ -31,6 +37,27 @@ public class VisionTab {
 
     // Create Brain Widgets
     public void preInitialize() {
+        // Hue Thresholds
+        m_hueMinWidget = m_tab.add("Hue Minimum", Brain.hueMinDefault);
+        Brain.hueMinEntry = m_hueMinWidget.getEntry();
+
+        m_hueMaxWidget = m_tab.add("Hue Maximum", Brain.hueMaxDefault);
+        Brain.hueMaxEntry = m_hueMaxWidget.getEntry();
+
+        // Saturation Thresholds
+        m_saturationMinWidget = m_tab.add("Saturation Minimum", Brain.saturationMinDefault);
+        Brain.saturationMinEntry = m_saturationMinWidget.getEntry();
+
+        m_saturationMaxWidget = m_tab.add("Saturation Maximum", Brain.saturationMaxDefault);
+        Brain.saturationMaxEntry = m_saturationMaxWidget.getEntry();
+
+        // Value Thresholds
+        m_valueMinWidget = m_tab.add("Value Minimum", Brain.valueMinDefault);
+        Brain.valueMinEntry = m_valueMinWidget.getEntry();
+
+        m_valueMaxWidget = m_tab.add("Value Maximum", Brain.valueMaxDefault);
+        Brain.valueMaxEntry = m_valueMaxWidget.getEntry();
+
         // Hatch Camera - Line Area
         m_areaWidget = m_tab.add("Hatch Line Area", Brain.hatchLineAreaDefault);
         Brain.hatchLineAreaEntry = m_areaWidget.getEntry();
@@ -46,18 +73,6 @@ public class VisionTab {
         // Hatch Camera - Line Center Y
         m_yCenterWidget = m_tab.add("Hatch Line Center Y", Brain.hatchLineYcenterDefault);
         Brain.hatchLineYcenterEntry = m_yCenterWidget.getEntry();
-
-        // Hue Threshold
-        m_hsvThresholdHue = m_tab.add("Hue Threshold", Brain.hsvThresholdHueDefault);
-        Brain.hsvThresholdHueEntry = m_hsvThresholdHue.getEntry();
-
-        // Saturation Threshold
-        m_hsvThresholdSaturation = m_tab.add("Saturation Threshold", Brain.hsvThresholdSaturationDefault);
-        Brain.hsvThresholdSaturationEntry = m_hsvThresholdSaturation.getEntry();
-
-        // Hue Threshold
-        m_hsvThresholdValue = m_tab.add("Value Threshold", Brain.hsvThresholdValueDefault);
-        Brain.hsvThresholdSaturationEntry = m_hsvThresholdSaturation.getEntry();
     }
 
     // Create all other Widgets
@@ -66,6 +81,24 @@ public class VisionTab {
 
     // Configure all Widgets
     public void configure() {
+        m_hueMinWidget.withPosition(0, 0);
+        m_hueMinWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_hueMaxWidget.withPosition(0, 1);
+        m_hueMaxWidget.withWidget(BuiltInWidgets.kTextView);
+        
+        m_saturationMinWidget.withPosition(0, 2);
+        m_saturationMinWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_saturationMaxWidget.withPosition(0, 3);
+        m_saturationMaxWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_valueMinWidget.withPosition(0, 4);
+        m_valueMinWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_valueMaxWidget.withPosition(0, 5);
+        m_valueMaxWidget.withWidget(BuiltInWidgets.kTextView);
+
         m_areaWidget.withPosition(1, 0);
         m_areaWidget.withWidget(BuiltInWidgets.kTextView);
 
@@ -78,18 +111,28 @@ public class VisionTab {
         m_yCenterWidget.withPosition(1, 3);
         m_yCenterWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_hsvThresholdHue.withPosition(0, 0);
-        m_hsvThresholdHue.withWidget(BuiltInWidgets.kTextView);
-
-        m_hsvThresholdSaturation.withPosition(0, 1);
-        m_hsvThresholdSaturation.withWidget(BuiltInWidgets.kTextView);
-
-        m_hsvThresholdValue.withPosition(0, 2);
-        m_hsvThresholdValue.withWidget(BuiltInWidgets.kTextView);
     }
 
     // This will be called in the robotPeriodic
     public void update() {
+        NetworkTableEntry hueMinEntry = m_hueMinWidget.getEntry();
+        Brain.setHueMin(hueMinEntry);
+
+        NetworkTableEntry hueMaxEntry = m_hueMaxWidget.getEntry();
+        Brain.setHueMax(hueMaxEntry);
+
+        NetworkTableEntry saturationMinEntry = m_saturationMinWidget.getEntry();
+        Brain.setHueMin(saturationMinEntry);
+
+        NetworkTableEntry saturationMaxEntry = m_saturationMaxWidget.getEntry();
+        Brain.setHueMax(saturationMaxEntry);
+
+        NetworkTableEntry valueMinEntry = m_valueMinWidget.getEntry();
+        Brain.setHueMin(valueMinEntry);
+
+        NetworkTableEntry valueMaxEntry = m_valueMaxWidget.getEntry();
+        Brain.setHueMax(valueMaxEntry);
+
         NetworkTableEntry areaEntry = m_areaWidget.getEntry();
         Brain.setHatchLineArea(areaEntry);
 
@@ -101,15 +144,6 @@ public class VisionTab {
 
         NetworkTableEntry yCenterEntry = m_yCenterWidget.getEntry();
         Brain.setHatchLineYcenter(yCenterEntry);
-
-        NetworkTableEntry hsvThresholdHue = m_hsvThresholdHue.getEntry();
-        Brain.setHsvThresholdHue(hsvThresholdHue);
-
-        NetworkTableEntry hsvThresholdSaturation = m_hsvThresholdSaturation.getEntry();
-        Brain.setHsvThresholdSaturation(hsvThresholdSaturation);
-
-        NetworkTableEntry hsvThresholdValue = m_hsvThresholdValue.getEntry();
-        Brain.setHsvThresholdValue(hsvThresholdValue);
     }
 
 }

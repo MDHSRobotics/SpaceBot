@@ -43,15 +43,20 @@ public class Brain {
     public static double yRightSensitivityDefault = 1;
     public static double xRightSensitivityDefault = 1;
 
+    // Vision - LinePipeline
+    public static double hueMinDefault = 0;
+    public static double hueMaxDefault = 180;
+    public static double saturationMinDefault = 0;
+    public static double saturationMaxDefault = 170;
+    public static double valueMinDefault = 115;
+    public static double valueMaxDefault = 55;
+
     // Vision - LineDetector
     public static double hatchLineAreaDefault = 0;
     public static double hatchLineAngleDefault = 0;
     public static double hatchLineXcenterDefault = 0;
     public static double hatchLineYcenterDefault = 0;
     public static boolean hatchLineDetectedDefault = false;
-    public static double[] hsvThresholdHueDefault = {0.0, 180.0};
-    public static double[] hsvThresholdSaturationDefault = {0.0, 169.8544520547945};
-    public static double[] hsvThresholdValueDefault = {114.65827338129496, 255.0};
 
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.FIELD;
@@ -87,15 +92,20 @@ public class Brain {
     public static NetworkTableEntry yRightSensitivityEntry;
     public static NetworkTableEntry xRightSensitivityEntry;
 
+    // Vision - LinePipeline
+    public static NetworkTableEntry hueMinEntry;
+    public static NetworkTableEntry hueMaxEntry;
+    public static NetworkTableEntry saturationMinEntry;
+    public static NetworkTableEntry saturationMaxEntry;
+    public static NetworkTableEntry valueMinEntry;
+    public static NetworkTableEntry valueMaxEntry;
+
     // Vision - LineDetector
     public static NetworkTableEntry hatchLineAreaEntry;
     public static NetworkTableEntry hatchLineAngleEntry;
     public static NetworkTableEntry hatchLineXcenterEntry;
     public static NetworkTableEntry hatchLineYcenterEntry;
     public static NetworkTableEntry hatchLineDetectedEntry;
-    public static NetworkTableEntry hsvThresholdHueEntry;
-    public static NetworkTableEntry hsvThresholdSaturationEntry;
-    public static NetworkTableEntry hsvThresholdValueEntry;
 
 
     // Subsystem - MecDriver
@@ -202,6 +212,37 @@ public class Brain {
         xRightSensitivityEntry.setDouble(value);
     }
 
+    // Vision - LinePipeline
+    public static void setHueMin(NetworkTableEntry entry) {
+        double value = entry.getDouble(hueMinDefault);
+        hueMinEntry.setDouble(value);
+    }
+
+    public static void setHueMax(NetworkTableEntry entry) {
+        double value = entry.getDouble(hueMaxDefault);
+        hueMaxEntry.setDouble(value);
+    }
+
+    public static void setSaturationMin(NetworkTableEntry entry) {
+        double value = entry.getDouble(saturationMinDefault);
+        saturationMinEntry.setDouble(value);
+    }
+
+    public static void setSaturationMax(NetworkTableEntry entry) {
+        double value = entry.getDouble(saturationMaxDefault);
+        saturationMaxEntry.setDouble(value);
+    }
+
+    public static void setValueMin(NetworkTableEntry entry) {
+        double value = entry.getDouble(valueMinDefault);
+        valueMinEntry.setDouble(value);
+    }
+
+    public static void setValueMax(NetworkTableEntry entry) {
+        double value = entry.getDouble(valueMaxDefault);
+        valueMaxEntry.setDouble(value);
+    }
+
     // Vision - LineDetector
     public static void setHatchLineArea(NetworkTableEntry entry) {
         double value = entry.getDouble(hatchLineAreaDefault);
@@ -243,23 +284,6 @@ public class Brain {
         boolean detected = Robot.robotLineDetectorHatch.lineDetected();
         hatchLineDetectedEntry.setBoolean(detected);
     }
-
-    public static void setHsvThresholdHue(NetworkTableEntry entry) {
-        double[] arr = entry.getDoubleArray(hsvThresholdHueDefault);
-        hsvThresholdHueEntry.setDoubleArray(arr);
-    }
-
-    public static void setHsvThresholdSaturation(NetworkTableEntry entry) {
-        double[] arr = entry.getDoubleArray(hsvThresholdSaturationDefault);
-        hsvThresholdSaturationEntry.setDoubleArray(arr);
-    }
-
-    public static void setHsvThresholdValue(NetworkTableEntry entry) {
-        double[] arr = entry.getDoubleArray(hsvThresholdValueDefault);
-        hsvThresholdSaturationEntry.setDoubleArray(arr);
-    }
-
-
 
     // Subsystems - MecDriver
     public static void setDriveOrientation(NetworkTableEntry entry) {
@@ -352,6 +376,31 @@ public class Brain {
         return xRightSensitivityEntry.getDouble(xRightSensitivityDefault);
     }
 
+    // Vision - LinePipeline
+    public static double getHueMin() {
+        return hueMinEntry.getDouble(hueMinDefault);
+    }
+
+    public static double getHueMax() {
+        return hueMaxEntry.getDouble(hueMaxDefault);
+    }
+
+    public static double getSaturationMin() {
+        return saturationMinEntry.getDouble(saturationMinDefault);
+    }
+
+    public static double getSaturationMax() {
+        return saturationMaxEntry.getDouble(saturationMaxDefault);
+    }
+
+    public static double getValueMin() {
+        return valueMinEntry.getDouble(valueMinDefault);
+    }
+
+    public static double getValueMax() {
+        return valueMaxEntry.getDouble(valueMaxDefault);
+    }
+
     // Vision - LineDetector
     public static double getHatchLineArea() {
         return hatchLineAreaEntry.getDouble(hatchLineAreaDefault);
@@ -371,18 +420,6 @@ public class Brain {
 
     public static boolean getLineDetected() {
         return hatchLineDetectedEntry.getBoolean(hatchLineDetectedDefault);
-    }
-
-    public static double[] getHsvThresholdHue() {
-        return hsvThresholdHueEntry.getDoubleArray(hsvThresholdHueDefault);
-    }
-
-    public static double[] getHsvThresholdSaturation() {
-        return hsvThresholdSaturationEntry.getDoubleArray(hsvThresholdSaturationDefault);
-    }
-
-    public static double[] getHsvThresholdValue() {
-        return hsvThresholdValueEntry.getDoubleArray(hsvThresholdValueDefault);
     }
 
     // Subsystems - MecDriver

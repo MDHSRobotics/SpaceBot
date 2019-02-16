@@ -34,11 +34,18 @@ public class LinePipeline implements VisionPipeline {
     @Override
     public void process(Mat source0) {
 		// Step HSV_Threshold0:
-		Mat hsvThresholdInput = source0;
-        // TODO: add these values to Shuffleboard via the Brain, so they can be adjusted on the fly
-		double[] hsvThresholdHue = Brain.getHsvThresholdHue();
-		double[] hsvThresholdSaturation = Brain.getHsvThresholdSaturation();
-        double[] hsvThresholdValue = Brain.getHsvThresholdValue();
+        Mat hsvThresholdInput = source0;
+        
+		double hsvThresholdHueMin = Brain.getHueMin();
+        double hsvThresholdHueMax = Brain.getHueMax();
+		double hsvThresholdSaturationMin = Brain.getSaturationMin();
+        double hsvThresholdSaturationMax = Brain.getSaturationMax();
+        double hsvThresholdValueMin = Brain.getValueMin();
+        double hsvThresholdValueMax = Brain.getValueMax();
+        
+		double[] hsvThresholdHue = {hsvThresholdHueMin, hsvThresholdHueMax};
+        double[] hsvThresholdSaturation = {hsvThresholdSaturationMin, hsvThresholdSaturationMax};
+        double[] hsvThresholdValue = {hsvThresholdValueMin, hsvThresholdValueMax};
         
         hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
