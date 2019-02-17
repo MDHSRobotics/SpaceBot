@@ -2,8 +2,8 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.helpers.Logger;
+import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
 
 
@@ -12,6 +12,7 @@ public class ArmLowerHalf extends Command {
 
     public ArmLowerHalf() {
         Logger.debug("Constructing Command: ArmLowerHalf...");
+
         requires(Robot.robotArm);
     }
 
@@ -25,15 +26,12 @@ public class ArmLowerHalf extends Command {
         Robot.robotArm.lowerHalf();
     }
 
-    // This command continues for a certain period of time
-    // Will be replaced be encoder logic
+    // This command finishes when the "half" position is reached
     @Override
     protected boolean isFinished() {
-        if(Robot.robotArm.isPositionHalfMet()){
-            Robot.robotArm.currentArmPosition = ArmPosition.HALF;
-            return true;
-        } 
-        return false;
+        boolean positionMet = Robot.robotArm.isPositionHalfMet();
+        if (positionMet) Robot.robotArm.currentArmPosition = ArmPosition.HALF;
+        return positionMet;
     }
 
     @Override

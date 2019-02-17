@@ -1,8 +1,9 @@
-package frc.robot.commands.auto;
+package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.helpers.Logger;
+import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -19,7 +20,6 @@ public class ArmLowerMore extends Command {
     @Override
     protected void initialize() {
         Logger.debug("Initializing Command: ArmLowerMore...");
-
     }
 
     @Override
@@ -28,8 +28,7 @@ public class ArmLowerMore extends Command {
         Robot.robotArm.lowerMore(pos);
     }
 
-    // This command continues for a certain period of time
-    // Will be replaced be encoder logic
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;
@@ -47,6 +46,7 @@ public class ArmLowerMore extends Command {
         Logger.debug("Interrupting Command: ArmLowerMore...");
 
         Robot.robotArm.stop();
+        Robot.robotArm.currentArmPosition = ArmPosition.HALF;
     }
 
 }

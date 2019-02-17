@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class Devices {
 
     // Joysticks
-    public static final Joystick jstick = new Joystick(0);
+    public static final Joystick jstick = new Joystick(2);
     public static final JoystickButton jstickBtn1 = new JoystickButton(jstick, 1); // Trigger
     public static final JoystickButton jstickBtn2 = new JoystickButton(jstick, 2);
     public static final JoystickButton jstickBtn3 = new JoystickButton(jstick, 3);

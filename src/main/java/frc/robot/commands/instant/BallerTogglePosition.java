@@ -27,12 +27,13 @@ public class BallerTogglePosition extends InstantCommand {
     protected void initialize() {
         Logger.debug("Initializing InstantCommand: BallerTogglePosition...");
 
-        if (Robot.robotBaller.ballIsTossed) {
+        if (Robot.robotBaller.isBallTossed) {
             m_ballHoldCmd.start();
         }
         else {
             m_ballTossCmd.start();
         }
+        // TODO: Should this happen here, or in the isFinished() methods for each command?
         Robot.robotBaller.toggleBallTossed();
     }
 

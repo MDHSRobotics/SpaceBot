@@ -2,8 +2,8 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.helpers.Logger;
+import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
 
 
@@ -26,13 +26,12 @@ public class ArmLowerFull extends Command {
         Robot.robotArm.lowerFull();
     }
  
+    // This command finishes when the "full" position is reached
     @Override
     protected boolean isFinished() {
-        if(Robot.robotArm.isPositionFullMet()){
-            Robot.robotArm.currentArmPosition = ArmPosition.FULL;
-            return true;
-        } 
-        return false;
+        boolean positionMet = Robot.robotArm.isPositionFullMet();
+        if (positionMet) Robot.robotArm.currentArmPosition = ArmPosition.FULL;
+        return positionMet;
     }
 
     @Override

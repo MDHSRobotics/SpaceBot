@@ -11,16 +11,21 @@ import frc.robot.Devices;
 // Pulley subsystem for lifting the robot onto the platform
 public class Pulley extends Subsystem {
 
-    private boolean m_talonsAreConnected = false;
-    private double m_secondsFromNeutralToFull = 1.0;
+    // Motor variables
+    private double m_secondsFromNeutralToFull = 0;
     private int m_timeoutMS = 10;
     private double m_pulleySpeed = .5;
+
+    // The Talon connection state, to prevent watchdog warnings during testing
+    private boolean m_talonsAreConnected = false;
 
     public Pulley() {
         Logger.debug("Constructing Subsystem: Pulley...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxPulley);
-        Devices.talonSrxPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        if (m_talonsAreConnected) {
+            Devices.talonSrxPulley.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+        }
     }
 
     @Override

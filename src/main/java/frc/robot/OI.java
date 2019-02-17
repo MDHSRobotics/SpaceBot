@@ -3,11 +3,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
-import frc.robot.commands.interactive.*;
-import frc.robot.commands.groups.*;
-import frc.robot.commands.interactive.*;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
 
@@ -26,18 +22,12 @@ public class OI {
     public OI() {
         Logger.debug("Constructing OI...");
 
-        // Bind the xbox buttons to specific commands
-        Devices.climbXboxBtn1.whenPressed(new ArmLowerHalf());
-        Devices.climbXboxBtn2.whenPressed(new ArmLowerFull());
-        Devices.climbXboxBtn3.whenPressed(new ArmLowerMore());
-        Devices.climbXboxBtn7.whenPressed(new ArmNextPosition());
-        Devices.climbXboxBtn4.whileHeld(new PulleyLift());
-        Devices.climbXboxBtn5.whileHeld(new PulleyLower());
-        Devices.xboxBtn6.whenPressed(new MecDriveAlignHatch());
-        Devices.xboxBtn7.whenPressed(new BallerTogglePosition());
-        Devices.xboxBtn8.whenPressed(new HatcherTogglePosition());
-        // TODO: Bind the Tank appropriate commands
-        // TODO: Bind the Pusher appropriate commands
+        // Bind the "drive" xbox buttons to specific commands
+        Devices.driveXboxBtn1.whenPressed(new HatcherTogglePosition()); // A
+        Devices.driveXboxBtn2.whenPressed(new BallerTogglePosition()); // B
+
+        // Bind the "climb" xbox buttons to specific commands
+        Devices.climbXboxBtn1.whenPressed(new ArmNextPosition()); // A
     }
 
     //----------------------//

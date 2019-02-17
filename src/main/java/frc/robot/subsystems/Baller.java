@@ -15,20 +15,19 @@ import frc.robot.Devices;
 // Baller subsystem, for holding and tossing cargo balls
 public class Baller extends Subsystem {
 
-    private boolean m_talonsAreConnected = false;
+    // The public property to determine the Baller state
+    public boolean isBallTossed = false;
 
+    // Encoder variables
     private double m_targetRotations = 3.73; //Calculation: 4.44 -- TODO: Why is this comment out of sink with the value, but not so on Hatcher?
-    private double m_targetPositionUnits;	
-    private double m_stopThreshold = 10;
     // Choose so that Talon does not report sensor out of phase
     private boolean m_sensorPhase = false;
     // Choose based on what direction you want to be positive, this does not affect motor invert
     private boolean m_motorInvert = false;
 
-    // The public property to determine the Baller state
-    public boolean ballIsTossed = false;
+    // The Talon connection state, to prevent watchdog warnings during testing
+    private boolean m_talonsAreConnected = false;
 
-    // Constructor
     public Baller() {
         Logger.debug("Constructing Subsystem: Baller...");
 
@@ -88,9 +87,9 @@ public class Baller extends Subsystem {
     public void tossBall() {
         if (m_talonsAreConnected) {
             Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-            m_targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
-            Logger.debug("Baller -> Target Toss Position: " + m_targetPositionUnits);
-            Devices.talonSrxBaller.set(ControlMode.Position, m_targetPositionUnits);
+            double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+            Logger.debug("Baller -> Target Toss Position: " + targetPositionUnits);
+            Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
         }
     }
 
@@ -98,9 +97,9 @@ public class Baller extends Subsystem {
     public void holdBall() {
         if (m_talonsAreConnected) {
             Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-            m_targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
-            Logger.debug("Baller -> Target Hold Position: " + m_targetPositionUnits);
-            Devices.talonSrxBaller.set(ControlMode.Position, m_targetPositionUnits);
+            double targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
+            Logger.debug("Baller -> Target Hold Position: " + targetPositionUnits);
+            Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
         }
     }
 
@@ -118,13 +117,13 @@ public class Baller extends Subsystem {
     public boolean isPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        m_targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
-        return (Math.abs((Math.abs(currentPosition) - m_targetPositionUnits)) < 600);
+        double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
     }
 
     // Toggle the ballIsTossed state
     public void toggleBallTossed() {
-        ballIsTossed = !ballIsTossed;
+        isBallTossed = !isBallTossed;
     }
 
     //---------//
