@@ -2,10 +2,8 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.helpers.Logger;
-import frc.robot.Devices;
 import frc.robot.Robot;
 
 
@@ -36,7 +34,6 @@ public class HatchGrab extends Command {
     @Override
     protected boolean isFinished() {
         return Robot.robotHatcher.isPositionMet();
-        //return false;
     }
 
     @Override

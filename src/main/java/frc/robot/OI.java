@@ -4,8 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.auto.*;
-import frc.robot.commands.groups.BallerTogglePosition;
-import frc.robot.commands.groups.HatcherTogglePosition;
+import frc.robot.commands.instant.*;
 import frc.robot.commands.interactive.*;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
@@ -24,14 +23,6 @@ public class OI {
     // Constructor
     public OI() {
         Logger.debug("Constructing OI...");
-
-        // TODO: Since we're committing to the Xbox controllers, get rid of joystick bindings,
-        // and figure out all the appropriate Xbox buttons for all the commands.
-
-        // Bind the joystick buttons to specific commands
-        Devices.jstickBtn1.whenPressed(new MecDriveAlignHatch());
-        
-        // TODO: Are we going to use two Xbox controllers? One for the MecDriver, Hatcher, and Baller, and another for climbing?
 
         // Bind the xbox buttons to specific commands
         Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
