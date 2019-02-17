@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.auto.*;
+import frc.robot.commands.instant.*;
 import frc.robot.commands.interactive.*;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
@@ -23,25 +24,17 @@ public class OI {
     public OI() {
         Logger.debug("Constructing OI...");
 
-        // TODO: Since we're committing to the Xbox controllers, get rid of joystick bindings,
-        // and figure out all the appropriate Xbox buttons for all the commands.
-
-        // Bind the joystick buttons to specific commands
-        Devices.jstickBtn1.whenPressed(new MecDriveAlignHatch());
-        Devices.jstickBtn3.whenPressed(new HatchGrab());
-        Devices.jstickBtn4.whenPressed(new HatchRelease());
-        Devices.jstickBtn5.whenPressed(new BallHold());
-        Devices.jstickBtn6.whenPressed(new BallToss());
-
-        // TODO: Are we going to use two Xbox controllers? One for the MecDriver, Hatcher, and Baller, and another for climbing?
-
         // Bind the xbox buttons to specific commands
         Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
         Devices.xboxBtn2.whenPressed(new ArmLowerFull());
         Devices.xboxBtn3.whenPressed(new ArmLowerMore());
-        Devices.xboxBtn6.whenPressed(new MecDriveAlignHatch());
         Devices.xboxBtn4.whileHeld(new PulleyLift());
         Devices.xboxBtn5.whileHeld(new PulleyLower());
+        Devices.xboxBtn6.whenPressed(new MecDriveAlignHatch());
+        Devices.xboxBtn7.whenPressed(new BallerTogglePosition());
+        Devices.xboxBtn8.whenPressed(new HatcherTogglePosition());
+        
+
         // TODO: Bind the Tank appropriate commands
         // TODO: Bind the Pusher appropriate commands
     }

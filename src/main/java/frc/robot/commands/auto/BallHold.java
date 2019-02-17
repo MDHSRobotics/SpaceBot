@@ -2,10 +2,8 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.helpers.Logger;
-import frc.robot.Devices;
 import frc.robot.Robot;
 
 
@@ -28,12 +26,8 @@ public class BallHold extends Command {
 
     @Override
     protected void execute() {
-        // Logger.debug("Position: " + Robot.robotHatcher.getPosition());
-        // Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
-        SmartDashboard.putNumber("Sensor Vel:", Devices.talonSrxBaller.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Sensor Pos:", Devices.talonSrxBaller.getSelectedSensorPosition());
-        SmartDashboard.putNumber("Out %",  Devices.talonSrxBaller.getMotorOutputPercent());
-        //SmartDashboard.putBoolean("Out Of Phase:", _faults.SensorOutOfPhase);
+        Logger.debug("Position: " + Robot.robotBaller.getPosition());
+        Logger.debug("Velocity: " +  Robot.robotBaller.getVelocity());
     }
 
     // This command is finished when the ball has been fully blocked

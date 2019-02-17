@@ -17,17 +17,15 @@ public class Baller extends Subsystem {
 
     private boolean m_talonsAreConnected = false;
 
-    // TODO: Be explicit. Are these public or private? Make them private unless they need to be public. Name them accordingly.
-    double targetRotations = 3.73;
-    double targetPositionUnits;	
-    private static final double k_stopThreshold = 10;
-
+    private double m_targetRotations = 3.73; //Calculation: 4.44 -- TODO: Why is this comment out of sink with the value, but not so on Hatcher?
+    private double m_targetPositionUnits;	
+    private double m_stopThreshold = 10;
     // Choose so that Talon does not report sensor out of phase
-    public static boolean kSensorPhase = false;
-
+    private boolean m_sensorPhase = false;
     // Choose based on what direction you want to be positive, this does not affect motor invert
-    public static boolean kMotorInvert = false;
+    private boolean m_motorInvert = false;
 
+    // The public property to determine the Baller state
     public boolean ballIsTossed = false;
 
     // Constructor
@@ -48,8 +46,8 @@ public class Baller extends Subsystem {
             Devices.talonSrxBaller.configPeakOutputReverse(-0.3);
 
             Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxBaller.setSensorPhase(kSensorPhase);
-            Devices.talonSrxBaller.setInverted(kMotorInvert);
+            Devices.talonSrxBaller.setSensorPhase(m_sensorPhase);
+            Devices.talonSrxBaller.setInverted(m_motorInvert);
             Devices.talonSrxBaller.configAllowableClosedloopError(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
 
             Devices.talonSrxBaller.config_kF(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
@@ -57,13 +55,13 @@ public class Baller extends Subsystem {
             Devices.talonSrxBaller.config_kI(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
             Devices.talonSrxBaller.config_kD(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
 
-            //Reset Encoder Position 
+            // Reset Encoder Position 
             Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
             SensorCollection sensorCol = Devices.talonSrxBaller.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
-            if (kSensorPhase)	absolutePosition *= -1;
-            if (kMotorInvert)	absolutePosition *= -1;
+            if (m_sensorPhase)	absolutePosition *= -1;
+            if (m_motorInvert)	absolutePosition *= -1;
             // Set the quadrature (relative) sensor to match absolute
             Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
             
@@ -90,9 +88,9 @@ public class Baller extends Subsystem {
     public void tossBall() {
         if (m_talonsAreConnected) {
             Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-            targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
-            Logger.debug("Baller -> Target Toss Position: " + targetPositionUnits);
-            Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
+            m_targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+            Logger.debug("Baller -> Target Toss Position: " + m_targetPositionUnits);
+            Devices.talonSrxBaller.set(ControlMode.Position, m_targetPositionUnits);
         }
     }
 
@@ -100,49 +98,43 @@ public class Baller extends Subsystem {
     public void holdBall() {
         if (m_talonsAreConnected) {
             Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-            targetPositionUnits = -(targetRotations * EncoderConstants.kRedlineEncoderTpr);
-            Logger.debug("Baller -> Target Hold Position: " + targetPositionUnits);
-            Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
+            m_targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
+            Logger.debug("Baller -> Target Hold Position: " + m_targetPositionUnits);
+            Devices.talonSrxBaller.set(ControlMode.Position, m_targetPositionUnits);
         }
     }
 
     // Get the current Baller flipper motor velocity
     public int getVelocity() {
-        if (!m_talonsAreConnected) return -1; // TODO: Is there a better return value?
-        return Devices.talonSrxHatcher.getSelectedSensorVelocity();
+        return Devices.talonSrxBaller.getSelectedSensorVelocity();
     }
 
     // Get the current Baller flipper motor position
     public int getPosition() {
-        if (!m_talonsAreConnected) return -1; // TODO: Is there a better return value?
         return Devices.talonSrxBaller.getSelectedSensorPosition();
     }
 
+    // Return whether or not the motor has reached the encoded position
     public boolean isPositionMet() {
+        if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        if (currentPosition == -1) return true;
-        targetPositionUnits = targetRotations * EncoderConstants.kRedlineEncoderTpr;
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
+        m_targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        return (Math.abs((Math.abs(currentPosition) - m_targetPositionUnits)) < 600);
     }
 
+    // Toggle the ballIsTossed state
     public void toggleBallTossed() {
         ballIsTossed = !ballIsTossed;
     }
 
-    //--------//
-    // Unused //
-    //--------//
+    //---------//
+    // Testing //
+    //---------//
 
-    public void resetEncoderPosition() {
+    public void driveStatic() {
         if (m_talonsAreConnected) {
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxBaller.set(0.2);
         }
-    }
-
-    public boolean isStopped() {
-        if (!m_talonsAreConnected) return true;
-        double currentVelocity = Devices.talonSrxBaller.getSelectedSensorVelocity();
-        return (Math.abs(currentVelocity) < k_stopThreshold);
     }
 
 }
