@@ -21,7 +21,7 @@ public class Hatcher extends Subsystem {
     // Encoder constants
     private final double TARGET_ROTATIONS = 0.572; //Calculation: 0.572
     // Choose so that Talon does not report sensor out of phase
-    private final boolean SENSOR_PHASE = true; //false -- TODO: Why is this comment out of sync with the value, but not so on Baller?
+    private final boolean SENSOR_PHASE = false; 
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
@@ -85,7 +85,6 @@ public class Hatcher extends Subsystem {
     // Open the Hatcher claw to grab the hatch
     public void grabHatch() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
         double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
         Logger.debug("Hatcher -> Target Grab Position: " + targetPositionUnits);
@@ -94,10 +93,8 @@ public class Hatcher extends Subsystem {
     // Close the Hatcher claw to release the hatch
     public void releaseHatch() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
-        double targetPositionUnits = -(TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
-        Logger.debug("Hatcher -> Target Release Position: " + targetPositionUnits);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, 0);
+        Logger.debug("Hatcher -> Target Release Position: " + 0);
     }
 
     // Get the current Hatcher claw motor velocity

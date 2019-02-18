@@ -33,7 +33,7 @@ public class BallHold extends Command {
     // This command is finished when the ball has been fully blocked
     @Override
     protected boolean isFinished() {
-        return Robot.robotBaller.isPositionMet();
+        return false;
     }
 
     @Override

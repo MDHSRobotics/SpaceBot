@@ -33,7 +33,7 @@ public class BallToss extends Command {
     // This command is finished when the ball has been fully tossed
     @Override
     protected boolean isFinished() {
-        return Robot.robotBaller.isPositionMet();
+        return false;
     }
 
     @Override
