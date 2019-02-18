@@ -12,26 +12,26 @@ import frc.robot.Robot;
 public class MecDriveTurnRight extends Command {
 
     // Constants
-    private final double ANGULAR_VELOCITY_AT_FULL_POWER = 48.0; // Angular velocity (degrees/second) at full power - THIS IS A GUESS - CHECK IT!!
+    private final double ANGULAR_VELOCITY_AT_FULL_SPEED = 48.0; // Angular velocity (degrees/second) at full speed - THIS IS A GUESS - CHECK IT!!
     private final static double DEFAULT_TARGET_ANGLE = 15; // Default target angle to rotate in degrees (positive is clockwise)
-    private final static double DEFAULT_POWER = .1; // Default power setting for drive: 0.0 to +1.0
+    private final static double DEFAULT_SPEED = .1; // Default speed setting for drive: 0.0 to +1.0
 
     // Private Member Variables
     private double m_targetAngle; // Target angle to rotate in degrees (positive is clockwise)
-    private double m_power; // Power setting for drive: 0.0 to +1.0
+    private double m_speed; // Speed setting for drive: 0.0 to +1.0
     private double m_currentAngle; // The current angle
 	private double m_elapsedTime; // Time (in seconds) that this command has executed
-    private double m_angularVelocity; // Angular velocity (degrees/second) at current power setting
+    private double m_angularVelocity; // Angular velocity (degrees/second) at current speed setting
     private boolean m_turningRight; // True if turning right; False if turning left
 	private Timer m_timer; // Timer for this command
     private int m_counter; // Counter for the timer
 
     // Constructors
     public MecDriveTurnRight() {
-        this(DEFAULT_TARGET_ANGLE, DEFAULT_POWER);
+        this(DEFAULT_TARGET_ANGLE, DEFAULT_SPEED);
     }
 
-    public MecDriveTurnRight(double targetAngle, double power) {
+    public MecDriveTurnRight(double targetAngle, double speed) {
         Logger.debug("Constructing Command: MecDriveTurnRight...");
 
         // Declare subsystem dependencies
@@ -40,12 +40,12 @@ public class MecDriveTurnRight extends Command {
         // Use sign of targetAngle to determine whether turning right or left
 		m_turningRight = (targetAngle > 0);
 		m_targetAngle = targetAngle;
-		m_power = power;
+		m_speed = speed;
 		m_currentAngle = 0;
 		m_elapsedTime = 0;
         m_timer = new Timer();
-        // Scale velocity at full power by the current power (which is between 0 and 1.0)
-		m_angularVelocity = m_power * ANGULAR_VELOCITY_AT_FULL_POWER;
+        // Scale velocity at full speed by the current speed (which is between 0 and 1.0)
+		m_angularVelocity = m_speed * ANGULAR_VELOCITY_AT_FULL_SPEED;
 		if (!m_turningRight) {
             // Negate angular velocity if turning to the left (i.e. negative angle)
             m_angularVelocity *= (-1.0);
@@ -60,17 +60,17 @@ public class MecDriveTurnRight extends Command {
 		m_timer.start();
 		m_elapsedTime = 0;
         m_counter = 0;
-		Logger.debug("Target = " + m_targetAngle + " degrees" + "; Power = " + m_power);
+		Logger.debug("Target = " + m_targetAngle + " degrees" + "; Speed = " + m_speed);
     }
 
     @Override
     protected void execute() {
 		// Keep robot moving in the requested direction
 		if (m_turningRight) {
-			Robot.robotMecDriver.pivot(m_power);
+			Robot.robotMecDriver.rotate(m_speed);
 		}
 		else {
-			Robot.robotMecDriver.pivot(-m_power);
+			Robot.robotMecDriver.rotate(-m_speed);
 		}
 
         // Number of seconds since the timer was started

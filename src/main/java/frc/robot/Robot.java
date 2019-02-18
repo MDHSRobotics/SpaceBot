@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
     public static DeliveryMode robotDeliveryMode = DeliveryMode.GET_HATCH;
     // Climb Mode tells the climb commands which system needs to be activated next
     public static ClimbMode robotClimbMode = ClimbMode.ARM;
+    public static Devices robotDevices;
 
     // Subsystems
     public static MecDriver robotMecDriver;
@@ -55,7 +56,6 @@ public class Robot extends TimedRobot {
 
     public static Hatcher robotHatcher;
     public static Baller robotBaller;
-    public static EncodedDriver robotEncodedDriver;
 
     public static Arm robotArm;
     public static Tank robotTank;
@@ -88,16 +88,18 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         Logger.debug("Initializing Robot...");
 
-        // Pre-intialize the Shuffler FIRST
+        // Instantiate Devices FIRST
+        robotDevices = new Devices();
+
+        // Pre-intialize the Shuffler SECOND
         robotShuffler.preInitialize();
 
-        // Instantiate subsystem singletons SECOND
+        // Instantiate subsystem singletons THIRD
         robotMecDriver = new MecDriver();
         robotLighter = new Lighter();
 
         robotHatcher = new Hatcher();
         robotBaller = new Baller();
-        robotEncodedDriver = new EncodedDriver();
 
         robotArm = new Arm();
         robotTank = new Tank();
