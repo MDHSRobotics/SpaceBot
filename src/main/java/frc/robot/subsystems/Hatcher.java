@@ -53,7 +53,7 @@ public class Hatcher extends Subsystem {
             Devices.talonSrxHatcher.configAllowableClosedloopError(0, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
 
             Devices.talonSrxHatcher.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.065, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.32, EncoderConstants.TIMEOUT_MS);
             Devices.talonSrxHatcher.config_kI(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
             Devices.talonSrxHatcher.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
 
@@ -115,7 +115,7 @@ public class Hatcher extends Subsystem {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 700);
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 0);
     }
 
     // Toggle the hatchIsGrabbed state

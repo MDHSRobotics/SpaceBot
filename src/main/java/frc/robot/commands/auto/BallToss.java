@@ -26,8 +26,8 @@ public class BallToss extends Command {
 
     @Override
     protected void execute() {
-        Logger.debug("Position: " + Robot.robotHatcher.getPosition());
-        Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
+        Logger.debug("Position: " + Robot.robotBaller.getPosition());
+        Logger.debug("Velocity: " +  Robot.robotBaller.getVelocity());
     }
 
     // This command is finished when the ball has been fully tossed
