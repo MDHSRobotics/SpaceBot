@@ -11,6 +11,7 @@ import frc.robot.Robot;
 public class RobotGameModeClimb extends InstantCommand {
 
     public RobotGameModeClimb() {
+        super();
         Logger.debug("Constructing InstantCommand: RobotGameModeClimb...");
     }
 
