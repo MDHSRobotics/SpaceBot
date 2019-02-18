@@ -33,8 +33,10 @@ public class HatchRelease extends Command {
     // This command is finished when the Hatch is released
     @Override
     protected boolean isFinished() {
-       // return Robot.robotHatcher.isPositionMet();
-       return false;
+        // TODO: If this command never finishes, we can never use it in a CommandGroup to automate complex actions
+        // Also, it will spam the log with Position and Velocity long after the action is complete
+        // return Robot.robotHatcher.isPositionMet();
+        return false;
     }
 
     @Override
