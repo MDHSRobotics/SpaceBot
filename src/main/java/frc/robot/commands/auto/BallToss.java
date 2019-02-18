@@ -33,6 +33,8 @@ public class BallToss extends Command {
     // This command is finished when the ball has been fully tossed
     @Override
     protected boolean isFinished() {
+        // TODO: If this command never finishes, we can never use it in a CommandGroup to automate complex actions
+        // Also, it will spam the log with Position and Velocity long after the action is complete
         return false;
     }
 

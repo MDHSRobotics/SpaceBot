@@ -19,7 +19,7 @@ public class Baller extends Subsystem {
     public boolean ballIsTossed = false;
 
     // Encoder constants
-    private final double TARGET_ROTATIONS = 4.44; //Calculation: 4.44 -- TODO: Why is this comment out of sync with the value, but not so on Hatcher?
+    private final double TARGET_ROTATIONS = 4.44;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -91,8 +91,8 @@ public class Baller extends Subsystem {
     // Move the Baller flipper back to the hold position
     public void holdBall() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxBaller.set(ControlMode.Position, 0);
         Logger.debug("Baller -> Target Hold Position: " + 0);
+        Devices.talonSrxBaller.set(ControlMode.Position, 0);
     }
 
     // Get the current Baller flipper motor velocity
