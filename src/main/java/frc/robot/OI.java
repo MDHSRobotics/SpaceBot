@@ -79,7 +79,7 @@ public class OI {
     // from the current joystick position
     public static CartesianMovement getCartesianMovementFromJoystick(boolean isYflipped) {
         JoystickPosition pos = getJoystickPosition(isYflipped);
-        CartesianMovement move = new CartesianMovement(pos.yPosition, pos.xPosition, pos.zPosition);
+        CartesianMovement move = new CartesianMovement(pos.xPosition, pos.yPosition, pos.zPosition);
         // Logger.debug("Joystick Cartesian Movement: " + pos.yPosition + ", " + pos.xPosition + ", " + pos.zPosition);
         return move;
     }
@@ -144,7 +144,7 @@ public class OI {
     // from the current xbox thumbstick positions
     public static CartesianMovement getCartesianMovementFromThumbsticks(boolean isYleftFlipped) {
         ThumbStickPosition pos = getThumbstickPosition(isYleftFlipped);
-        CartesianMovement move = new CartesianMovement(pos.yLeftPosition, pos.xLeftPosition, pos.xRightPosition);
+        CartesianMovement move = new CartesianMovement(pos.xLeftPosition, pos.yLeftPosition, pos.xRightPosition);
         // Logger.debug("Xbox Cartesian Movement: " + pos.yLeftPosition + ", " + pos.xLeftPosition + ", " + pos.xRightPosition);
         return move;
     }
@@ -153,7 +153,7 @@ public class OI {
     // from the current xbox thumbstick positions
     public static PolarMovement getPolarMovementFromThumbsticks(boolean isYleftFlipped) {
         ThumbStickPosition pos = getThumbstickPosition(isYleftFlipped);
-        PolarMovement move = new PolarMovement(pos.xLeftPosition, pos.yLeftPosition, pos.xRightPosition);
+        PolarMovement move = new PolarMovement(pos.yLeftPosition, pos.xLeftPosition, pos.xRightPosition);
         return move;
     }
 

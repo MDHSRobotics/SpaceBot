@@ -105,7 +105,7 @@ public class MecDriver extends Subsystem {
     // Drive straight at the given speed
     public void driveStraight(double speed) {
         if (m_talonsAreConnected) {
-            Devices.mecDrive.driveCartesian(speed, 0, 0);
+            Devices.mecDrive.driveCartesian(0,speed, 0);
         }
         else {
             Devices.mecDrive.feed();
@@ -115,7 +115,7 @@ public class MecDriver extends Subsystem {
     // Pivot at the given speed
     public void pivot(double speed) {
         if (m_talonsAreConnected) {
-            Devices.mecDrive.driveCartesian(0, speed, 0);
+            Devices.mecDrive.driveCartesian(0, 0, speed);
         }
         else {
             Devices.mecDrive.feed();
@@ -125,7 +125,7 @@ public class MecDriver extends Subsystem {
     // Strafe at the given speed
     public void strafe(double speed) {
         if (m_talonsAreConnected) {
-            Devices.mecDrive.driveCartesian(0, 0, speed);
+            Devices.mecDrive.driveCartesian(speed, 0, 0);
         }
         else {
             Devices.mecDrive.feed();
