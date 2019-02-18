@@ -22,13 +22,11 @@ public class Arm extends Subsystem {
     // The public property to determine the Arm state
     public ArmPosition currentArmPosition = ArmPosition.START;
 
-    // Encoder variables
-    private double m_targetRotationHalf = 0.125;	
-    private double m_targetRotationFull = 0.25;
-    // Choose so that Talon does not report sensor out of phase
-    public boolean m_sensorPhase = false;
-    // Choose based on what direction you want to be positive, this does not affect motor invert
-    public boolean m_motorInvert = false;
+    // Encoder constants
+    private final double TARGET_ROTATION_HALF = 0.125;	
+    private final double TARGET_ROTATION_FULL = 0.25;
+    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -49,25 +47,25 @@ public class Arm extends Subsystem {
             Devices.talonSrxArm.configPeakOutputForward(0.3);
             Devices.talonSrxArm.configPeakOutputReverse(-0.3);
 
-            Devices.talonSrxArm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxArm.setSensorPhase(m_sensorPhase);
-            Devices.talonSrxArm.setInverted(m_motorInvert);
-            Devices.talonSrxArm.configAllowableClosedloopError(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxArm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.setSensorPhase(SENSOR_PHASE);
+            Devices.talonSrxArm.setInverted(MOTOR_INVERT);
+            Devices.talonSrxArm.configAllowableClosedloopError(0, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
 
-            Devices.talonSrxArm.config_kF(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxArm.config_kP(EncoderConstants.kPIDLoopPrimary, 0.06, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxArm.config_kI(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxArm.config_kD(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxArm.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.06, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.config_kI(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
             Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
             SensorCollection sensorCol = Devices.talonSrxArm.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
-            if (m_sensorPhase) absolutePosition *= -1;
-            if (m_motorInvert) absolutePosition *= -1;
+            if (SENSOR_PHASE) absolutePosition *= -1;
+            if (MOTOR_INVERT) absolutePosition *= -1;
             // Set the quadrature (relative) sensor to match absolute
-            Devices.talonSrxArm.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxArm.setSelectedSensorPosition(absolutePosition, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
             
             Devices.talonSrxArm.configMotionAcceleration(1500, 20);
             Devices.talonSrxArm.configMotionCruiseVelocity(4000, 20);
@@ -93,7 +91,7 @@ public class Arm extends Subsystem {
     public void lowerHalf() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
-        double targetPositionUnits = m_targetRotationHalf * EncoderConstants.kRedlineEncoderTpr;
+        double targetPositionUnits = TARGET_ROTATION_HALF * EncoderConstants.REDLIN_ENCODER_TPR;
         Logger.debug("Arm -> Target Lower Half Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
@@ -101,7 +99,7 @@ public class Arm extends Subsystem {
     // Lowers the Arm to the encoded "full" position
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = m_targetRotationFull * EncoderConstants.kRedlineEncoderTpr;
+        double targetPositionUnits = TARGET_ROTATION_FULL * EncoderConstants.REDLIN_ENCODER_TPR;
         Logger.debug("Arm -> Target Lower Full Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
@@ -128,7 +126,7 @@ public class Arm extends Subsystem {
     public boolean isPositionHalfMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = m_targetRotationHalf * EncoderConstants.kRedlineEncoderTpr;
+        double targetPositionUnits = TARGET_ROTATION_HALF * EncoderConstants.REDLIN_ENCODER_TPR;
         return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 512);
     }
 
@@ -136,7 +134,7 @@ public class Arm extends Subsystem {
     public boolean isPositionFullMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = m_targetRotationFull * EncoderConstants.kRedlineEncoderTpr;
+        double targetPositionUnits = TARGET_ROTATION_FULL * EncoderConstants.REDLIN_ENCODER_TPR;
         return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 800);
     }
 

@@ -18,12 +18,10 @@ public class Baller extends Subsystem {
     // The public property to determine the Baller state
     public boolean ballIsTossed = false;
 
-    // Encoder variables
-    private double m_targetRotations = 3.73; //Calculation: 4.44 -- TODO: Why is this comment out of sync with the value, but not so on Hatcher?
-    // Choose so that Talon does not report sensor out of phase
-    private boolean m_sensorPhase = false;
-    // Choose based on what direction you want to be positive, this does not affect motor invert
-    private boolean m_motorInvert = false;
+    // Encoder constants
+    private final double TARGET_ROTATIONS = 3.73; //Calculation: 4.44 -- TODO: Why is this comment out of sync with the value, but not so on Hatcher?
+    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -44,25 +42,25 @@ public class Baller extends Subsystem {
             Devices.talonSrxBaller.configPeakOutputForward(0.3);
             Devices.talonSrxBaller.configPeakOutputReverse(-0.3);
 
-            Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxBaller.setSensorPhase(m_sensorPhase);
-            Devices.talonSrxBaller.setInverted(m_motorInvert);
-            Devices.talonSrxBaller.configAllowableClosedloopError(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.setSensorPhase(SENSOR_PHASE);
+            Devices.talonSrxBaller.setInverted(MOTOR_INVERT);
+            Devices.talonSrxBaller.configAllowableClosedloopError(0, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
 
-            Devices.talonSrxBaller.config_kF(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxBaller.config_kP(EncoderConstants.kPIDLoopPrimary, 0.06, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxBaller.config_kI(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
-            Devices.talonSrxBaller.config_kD(EncoderConstants.kPIDLoopPrimary, 0.0, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxBaller.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.06, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.config_kI(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
             Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
             SensorCollection sensorCol = Devices.talonSrxBaller.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
-            if (m_sensorPhase)	absolutePosition *= -1;
-            if (m_motorInvert)	absolutePosition *= -1;
+            if (SENSOR_PHASE) absolutePosition *= -1;
+            if (MOTOR_INVERT) absolutePosition *= -1;
             // Set the quadrature (relative) sensor to match absolute
-            Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
+            Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
             
             Devices.talonSrxBaller.configMotionAcceleration(1500, 20);
             Devices.talonSrxBaller.configMotionCruiseVelocity(4000, 20);
@@ -86,7 +84,7 @@ public class Baller extends Subsystem {
     public void tossBall() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-        double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
         Logger.debug("Baller -> Target Toss Position: " + targetPositionUnits);
         Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
     }
@@ -95,7 +93,7 @@ public class Baller extends Subsystem {
     public void holdBall() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-        double targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
+        double targetPositionUnits = -(TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR);
         Logger.debug("Baller -> Target Hold Position: " + targetPositionUnits);
         Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
     }
@@ -114,7 +112,7 @@ public class Baller extends Subsystem {
     public boolean isPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
         return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
     }
 

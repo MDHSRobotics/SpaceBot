@@ -10,8 +10,8 @@ import frc.robot.Robot;
 // Automatically control the MecDrive to align the Hatcher with a line seen by the vision system.
 public class MecDriveAlignHatch extends Command {
 
-    private double m_zSpeed = .3;
-    private double m_xSpeed = .3;
+    private final double Z_SPEED = .3;
+    private final double X_SPEED = .3;
 
     public MecDriveAlignHatch() {
         Logger.debug("Constructing Command: MecDriveAlignHatch...");
@@ -37,7 +37,7 @@ public class MecDriveAlignHatch extends Command {
         if (!centered) {
             double x = Robot.robotLineDetectorHatch.getCorrectedX();
             Logger.debug("Strafe pixels to correct: " + x);
-            double xSpeed = m_xSpeed;
+            double xSpeed = X_SPEED;
             if (x > 0) {
                 xSpeed = -xSpeed;
             }
@@ -49,7 +49,7 @@ public class MecDriveAlignHatch extends Command {
         if (!straight) {
             double z = Robot.robotLineDetectorHatch.getCorrectedZ();
             Logger.debug("Pivot angle to correct: " + z);
-            double zSpeed = m_zSpeed;
+            double zSpeed = Z_SPEED;
             if (z > 0) {
                 zSpeed = -zSpeed;
             }
