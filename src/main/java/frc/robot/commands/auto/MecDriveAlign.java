@@ -4,16 +4,19 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.helpers.Logger;
+import frc.robot.Devices;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 
-// Automatically control the MecDrive to align the Hatcher with a line seen by the vision system.
-public class MecDriveAlignHatch extends Command {
+// Automatically control the MecDrive to align the Robot with the gyro, and the line seen by the vision system
+public class MecDriveAlign extends Command {
 
-    private final double Z_SPEED = .3;
     private final double X_SPEED = .3;
 
-    public MecDriveAlignHatch() {
+    private int m_targetAngle = 0;
+
+    public MecDriveAlign() {
         Logger.debug("Constructing Command: MecDriveAlignHatch...");
 
         // Declare subsystem dependencies
@@ -23,10 +26,18 @@ public class MecDriveAlignHatch extends Command {
     @Override
     protected void initialize() {
         Logger.debug("Initializing Command: MecDriveAlignHatch...");
+
+        m_targetAngle = OI.getDpadAngle();
     }
 
     @Override
     protected void execute() {
+        if (m_targetAngle == -1) return;
+
+        double angle = Devices.imuMecDrive.getAngleZ();
+        double speed = m_targetAngle - angle;
+        Robot.robotMecDriver.pivot(speed);
+
         boolean detected = Robot.robotLineDetectorFront.lineDetected();
         if (!detected) {
             Logger.debug("Line not detected!");
@@ -44,31 +55,21 @@ public class MecDriveAlignHatch extends Command {
             Robot.robotMecDriver.strafe(xSpeed);
             return;
         }
-
-        boolean straight = Robot.robotLineDetectorFront.isStraight();
-        if (!straight) {
-            double z = Robot.robotLineDetectorFront.getCorrectedZ();
-            Logger.debug("Pivot angle to correct: " + z);
-            double zSpeed = Z_SPEED;
-            if (z > 0) {
-                zSpeed = -zSpeed;
-            }
-            Robot.robotMecDriver.pivot(zSpeed);
-            return;
-        }
     }
 
     // We're finished when the line looks straight and is centered enough (or a line is not detected)
     @Override
     protected boolean isFinished() {
+        if (m_targetAngle == -1) return true;
+
+        boolean straight = Robot.robotMecDriver.isAlignedWithGyro(m_targetAngle);
+        if (!straight) return false;
+
         boolean detected = Robot.robotLineDetectorFront.lineDetected();
         if (!detected) return true;
 
         boolean centered = Robot.robotLineDetectorFront.isCentered();
         if (!centered) return false;
-
-        boolean straight = Robot.robotLineDetectorFront.isStraight();
-        if (!straight) return false;
 
         return true;
     }

@@ -23,6 +23,9 @@ public class MecDriver extends Subsystem {
     private final double SECONDS_FROM_NEUTRAL_TO_FULL = 0;
     private final int TIMEOUT_MS = 10;
 
+    // Alignment Constants
+    private double ALIGN_ANGLE_THRESHOLD = 10;
+
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
 
@@ -164,4 +167,10 @@ public class MecDriver extends Subsystem {
         }
     }
 
+    public boolean isAlignedWithGyro(int targetAngle) {
+        double angle = Devices.imuMecDrive.getAngleZ();
+        boolean straight = (targetAngle - ALIGN_ANGLE_THRESHOLD <= angle || angle <= -targetAngle + ALIGN_ANGLE_THRESHOLD);
+        return straight;
+    }
+    
 }

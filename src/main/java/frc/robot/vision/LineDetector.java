@@ -88,7 +88,7 @@ public class LineDetector {
                     Brain.setFrontLineXcenter(centerX);
                     Brain.setFrontLineYcenter(centerY);
 
-                    Logger.debug("Line Detected! Pull joystick trigger to align robot!");
+                    Logger.debug("Line Detected! Press Directional Pad to align robot!");
                 }
             }
             else {
@@ -145,7 +145,7 @@ public class LineDetector {
 
     public boolean isStraight(double angle) {
         //boolean straight = (m_targetAngle - m_angleThreshold <= angle && angle <= m_targetAngle + m_angleThreshold);
-        boolean straight = (m_targetAngle - m_angleThreshold <= angle || angle <= -m_targetAngle + m_angleThreshold); 
+        boolean straight = (m_targetAngle - m_angleThreshold <= angle || angle <= -m_targetAngle + m_angleThreshold);
         return straight;
     }
 

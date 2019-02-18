@@ -25,7 +25,7 @@ public class OI {
 
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
-        Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlignHatch());
+        Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign());
         Devices.driveXboxBtnA.whenPressed(new HatcherTogglePosition());
         Devices.driveXboxBtnB.whenPressed(new BallerTogglePosition());
 
@@ -64,6 +64,11 @@ public class OI {
             default:
                 return null;
         }
+    }
+
+    public static int getDpadAngle() {
+        int angle = Devices.driveXbox.getPOV(0);
+        return angle;
     }
 
     //----------//
