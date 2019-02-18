@@ -52,5 +52,5 @@ public class Pulley extends Subsystem {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxPulley.set(-PULLEY_SPEED);
     }
-
+    
 }

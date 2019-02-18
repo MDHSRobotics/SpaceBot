@@ -23,6 +23,7 @@ public class Arm extends Subsystem {
     public ArmPosition currentArmPosition = ArmPosition.START;
 
     // Encoder constants
+    private double TARGET_RESET_POSITION = 0;
     private final double TARGET_ROTATION_HALF = 0.125;	
     private final double TARGET_ROTATION_FULL = 0.25;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -85,12 +86,16 @@ public class Arm extends Subsystem {
         Devices.talonSrxArm.stopMotor();
     }
 
-    // TODO: The subsystem needs a "resetPosition" method
+    // Reset the Arm to its starting position
+    public void resetPosition() {
+        if (!m_talonsAreConnected) return;
+        Logger.debug("Arm -> Reset Position: " + TARGET_RESET_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, TARGET_RESET_POSITION);
+    }
 
     // Lowers the Arm to the encoded "half" position
     public void lowerHalf() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
         double targetPositionUnits = TARGET_ROTATION_HALF * EncoderConstants.REDLIN_ENCODER_TPR;
         Logger.debug("Arm -> Target Lower Half Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
@@ -135,7 +140,14 @@ public class Arm extends Subsystem {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         double targetPositionUnits = TARGET_ROTATION_FULL * EncoderConstants.REDLIN_ENCODER_TPR;
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 800);
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 1024);
+    }
+
+    // Return whether or not the motor has reached the encoded "reset" position
+    public boolean isPositionResetMet() {
+        if (!m_talonsAreConnected) return true;
+        int currentPosition = getPosition();
+        return (currentPosition < 100);
     }
 
 }
