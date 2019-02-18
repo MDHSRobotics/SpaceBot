@@ -36,16 +36,14 @@ public class Tank extends Subsystem {
 
     // Stop the Tank motor
     public void stop() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxTank.stopMotor();
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxTank.stopMotor();
     }
 
     // Spins the Tank motor to climb
     public void spin(double speed) {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxTank.set(speed);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxTank.set(speed);
     }
 
 }

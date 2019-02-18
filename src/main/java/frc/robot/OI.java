@@ -3,6 +3,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
+import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
@@ -23,11 +24,14 @@ public class OI {
         Logger.debug("Constructing OI...");
 
         // Bind the "drive" xbox buttons to specific commands
-        Devices.driveXboxBtn1.whenPressed(new HatcherTogglePosition()); // A
-        Devices.driveXboxBtn2.whenPressed(new BallerTogglePosition()); // B
+        Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
+        Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlignHatch());
+        Devices.driveXboxBtnA.whenPressed(new HatcherTogglePosition());
+        Devices.driveXboxBtnB.whenPressed(new BallerTogglePosition());
 
         // Bind the "climb" xbox buttons to specific commands
-        Devices.climbXboxBtn1.whenPressed(new ArmNextPosition()); // A
+        Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
+        Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
     }
 
     //----------------------//
@@ -195,14 +199,19 @@ public class OI {
     // TODO: Also consider adding a "debouncer" for the buttons
     // https://frc-pdr.readthedocs.io/en/latest/user_input/joystick.html
     
-    public static double getControlXboxAxisY() {
-        double controlXboxAxisY = Devices.climbXbox.getY(Hand.kRight);
-        return controlXboxAxisY;
-    }
-    
+    //----------------------//
+    // Interactive Climbing //
+    //----------------------//
 
-    public static double getXBoxTriggerPosition() {
-        double triggerAxis = Devices.driveXbox.getTriggerAxis(Hand.kRight);
+    // Gets the Arm "Lower More" speed from the climb xbox controller's Right Thumbstick Y axis position
+    public static double getArmLowerMoreSpeed() {
+        double y = Devices.climbXbox.getY(Hand.kRight);
+        return y;
+    }
+
+    // Gets the Tank "Spin" speed from the climb xbox controller's Right Trigger axis position
+    public static double getTankSpinSpeed() {
+        double triggerAxis = Devices.climbXbox.getTriggerAxis(Hand.kRight);
         return triggerAxis;
     }
 

@@ -26,8 +26,8 @@ public class TankSpin extends Command {
 
     @Override
     protected void execute() {
-        double triggerPostition = OI.getXBoxTriggerPosition();
-        Robot.robotTank.spin(triggerPostition);
+        double speed = OI.getTankSpinSpeed();
+        Robot.robotTank.spin(speed);
     }
 
     @Override

@@ -26,9 +26,9 @@ public class Arm extends Subsystem {
     private double m_targetRotationHalf = 0.125;	
     private double m_targetRotationFull = 0.25;
     // Choose so that Talon does not report sensor out of phase
-    public static boolean m_sensorPhase = false;
+    public boolean m_sensorPhase = false;
     // Choose based on what direction you want to be positive, this does not affect motor invert
-    public static boolean m_motorInvert = false;
+    public boolean m_motorInvert = false;
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -83,28 +83,27 @@ public class Arm extends Subsystem {
 
     // Stop the Arm motor
     public void stop() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxArm.stopMotor();
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxArm.stopMotor();
     }
+
+    // TODO: The subsystem needs a "resetPosition" method
 
     // Lowers the Arm to the encoded "half" position
     public void lowerHalf() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
-            double targetPositionUnits = m_targetRotationHalf * EncoderConstants.kRedlineEncoderTpr;
-            Logger.debug("Arm -> Target Lower Half Position: " + targetPositionUnits);
-            Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
+        double targetPositionUnits = m_targetRotationHalf * EncoderConstants.kRedlineEncoderTpr;
+        Logger.debug("Arm -> Target Lower Half Position: " + targetPositionUnits);
+        Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
 
     // Lowers the Arm to the encoded "full" position
     public void lowerFull() {
-        if (m_talonsAreConnected) {
-            double targetPositionUnits = m_targetRotationFull * EncoderConstants.kRedlineEncoderTpr;
-            Logger.debug("Arm -> Target Lower Full Position: " + targetPositionUnits);
-            Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
-        }
+        if (!m_talonsAreConnected) return;
+        double targetPositionUnits = m_targetRotationFull * EncoderConstants.kRedlineEncoderTpr;
+        Logger.debug("Arm -> Target Lower Full Position: " + targetPositionUnits);
+        Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
 
     // Lowers the Arm beyond the full encoded position, based on given speed
@@ -127,16 +126,16 @@ public class Arm extends Subsystem {
 
     // Return whether or not the motor has reached the encoded "half" position
     public boolean isPositionHalfMet() {
+        if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        if (currentPosition == -1) return true;
         double targetPositionUnits = m_targetRotationHalf * EncoderConstants.kRedlineEncoderTpr;
         return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 512);
     }
 
     // Return whether or not the motor has reached the encoded "full" position
     public boolean isPositionFullMet() {
+        if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        if (currentPosition == -1) return true;
         double targetPositionUnits = m_targetRotationFull * EncoderConstants.kRedlineEncoderTpr;
         return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 800);
     }

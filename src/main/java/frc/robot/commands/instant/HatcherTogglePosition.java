@@ -27,7 +27,7 @@ public class HatcherTogglePosition extends InstantCommand {
     protected void initialize() {
         Logger.debug("Initializing InstantCommand: HatcherTogglePosition...");
 
-        if (Robot.robotHatcher.isHatchGrabbed) {
+        if (Robot.robotHatcher.hatchIsGrabbed) {
             m_hatchGrabCmd.start();
         }
         else {

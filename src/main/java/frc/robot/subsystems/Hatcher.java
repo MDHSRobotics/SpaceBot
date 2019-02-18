@@ -16,7 +16,7 @@ import frc.robot.Devices;
 public class Hatcher extends Subsystem {
 
     // The public property to determine the Hatcher state
-    public boolean isHatchGrabbed = false;
+    public boolean hatchIsGrabbed = false;
 
     // Encoder variables
     private double m_targetRotations = 0.572; //Calculation: 0.572
@@ -79,29 +79,26 @@ public class Hatcher extends Subsystem {
 
     // Stop the Hatcher motor
     public void stop() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.stopMotor();
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.stopMotor();
     }
 
     // Open the Hatcher claw to grab the hatch
     public void grabHatch() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
-            double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
-            Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
-            Logger.debug("Hatcher -> Target Grab Position: " + targetPositionUnits);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
+        double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
+        Logger.debug("Hatcher -> Target Grab Position: " + targetPositionUnits);
     }
 
     // Close the Hatcher claw to release the hatch
     public void releaseHatch() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
-            double targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
-            Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
-            Logger.debug("Hatcher -> Target Release Position: " + targetPositionUnits);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
+        double targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
+        Logger.debug("Hatcher -> Target Release Position: " + targetPositionUnits);
     }
 
     // Get the current Hatcher claw motor velocity
@@ -124,7 +121,7 @@ public class Hatcher extends Subsystem {
 
     // Toggle the hatchIsGrabbed state
     public void toggleHatchGrabbed() {
-        isHatchGrabbed = !isHatchGrabbed;
+        hatchIsGrabbed = !hatchIsGrabbed;
     }
 
     //---------//
@@ -132,9 +129,8 @@ public class Hatcher extends Subsystem {
     //---------//
 
     public void driveStatic() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.set(0.2);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.set(0.2);
     }
 
 }

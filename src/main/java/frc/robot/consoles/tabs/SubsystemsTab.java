@@ -4,7 +4,7 @@ package frc.robot.consoles.tabs;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
 
-import frc.robot.commands.interactive.PulleyLift;
+import frc.robot.commands.interactive.TankSpin;
 import frc.robot.consoles.Logging;
 import frc.robot.Robot;
 
@@ -14,7 +14,7 @@ public class SubsystemsTab {
 
     // Tab, layout, and widget objects
     private ShuffleboardTab m_tab;
-    private ShuffleboardLayout m_pulleyLayout;
+    private ShuffleboardLayout m_tankLayout;
 
     // Constructor
     public SubsystemsTab() {
@@ -29,16 +29,16 @@ public class SubsystemsTab {
 
     // Create all other Widgets
     public void initialize() {
-        m_pulleyLayout = m_tab.getLayout("Pulley Subsystem", BuiltInLayouts.kList);
-        m_pulleyLayout.add(Robot.robotPulley);
-        m_pulleyLayout.add(new PulleyLift());
+        m_tankLayout = m_tab.getLayout("Tank Subsystem", BuiltInLayouts.kList);
+        m_tankLayout.add(Robot.robotTank);
+        m_tankLayout.add(new TankSpin());
     }
 
     // Configure all Widgets
     public void configure() {
-        m_pulleyLayout.withPosition(0, 0);
-        m_pulleyLayout.withSize(2, 2);
-        m_pulleyLayout.withProperties(Map.of("Label position", "HIDDEN")); // hide labels for elements within layout
+        m_tankLayout.withPosition(0, 0);
+        m_tankLayout.withSize(2, 2);
+        m_tankLayout.withProperties(Map.of("Label position", "HIDDEN")); // hide labels for elements within layout
     }
 
     // This will be called in the robotPeriodic

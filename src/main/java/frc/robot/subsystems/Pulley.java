@@ -37,23 +37,20 @@ public class Pulley extends Subsystem {
 
     // Stop the Pulley motor
     public void stop() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxPulley.stopMotor();
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxPulley.stopMotor();
     }
 
     // Run the motor to lift the pulley
     public void lift() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxPulley.set(m_pulleySpeed);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxPulley.set(m_pulleySpeed);
     }
 
      // Run the motor to lower the pulley
      public void lower() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxPulley.set(-m_pulleySpeed);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxPulley.set(-m_pulleySpeed);
     }
 
 }

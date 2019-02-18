@@ -24,8 +24,8 @@ public class ArmLowerMore extends Command {
 
     @Override
     protected void execute() {
-        double pos = OI.getControlXboxAxisY();
-        Robot.robotArm.lowerMore(pos);
+        double speed = OI.getArmLowerMoreSpeed();
+        Robot.robotArm.lowerMore(speed);
     }
 
     // This command continues until interrupted
@@ -39,6 +39,8 @@ public class ArmLowerMore extends Command {
         Logger.debug("Ending Command: ArmLowerMore...");
 
         Robot.robotArm.stop();
+
+        Robot.robotArm.currentArmPosition = ArmPosition.MORE;
     }
 
     @Override
@@ -46,7 +48,6 @@ public class ArmLowerMore extends Command {
         Logger.debug("Interrupting Command: ArmLowerMore...");
 
         Robot.robotArm.stop();
-        Robot.robotArm.currentArmPosition = ArmPosition.HALF;
     }
 
 }

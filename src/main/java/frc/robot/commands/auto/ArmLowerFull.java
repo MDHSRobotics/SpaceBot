@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
 import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
+import frc.robot.Robot.ClimbMode;
 
 
 // This command is activated by a button and lowers the arm to the full position
@@ -30,7 +31,6 @@ public class ArmLowerFull extends Command {
     @Override
     protected boolean isFinished() {
         boolean positionMet = Robot.robotArm.isPositionFullMet();
-        if (positionMet) Robot.robotArm.currentArmPosition = ArmPosition.FULL;
         return positionMet;
     }
 
@@ -39,6 +39,10 @@ public class ArmLowerFull extends Command {
         Logger.debug("Ending Command: ArmLowerFull...");
 
         Robot.robotArm.stop();
+
+        Robot.robotArm.currentArmPosition = ArmPosition.FULL;
+        // After the Arm is in the "full" position, the next climb task is give the user control over the Arm and Tank
+        Robot.robotClimbMode = ClimbMode.CLIMB;
     }
 
     @Override

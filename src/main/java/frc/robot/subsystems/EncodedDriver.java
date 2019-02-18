@@ -72,18 +72,16 @@ public class EncodedDriver extends Subsystem {
 
     // Stop all the drive motors
     public void stop() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxMecWheelRearRight.stopMotor();
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxMecWheelRearRight.stopMotor();
     }
 
     // Rotates the motor for a certain amount of raw encoder units
     // One rotations equals 4096 raw units
     public void driveRotations(double rotations) {
-        if (m_talonsAreConnected) {
-            double tickCount = rotations * EncoderConstants.kRedlineEncoderTpr;
-            Devices.talonSrxMecWheelRearRight.set(ControlMode.MotionMagic, tickCount);
-        }
+        if (!m_talonsAreConnected) return;
+        double tickCount = rotations * EncoderConstants.kRedlineEncoderTpr;
+        Devices.talonSrxMecWheelRearRight.set(ControlMode.MotionMagic, tickCount);
     }
 
     public int getPosition() {
@@ -103,9 +101,8 @@ public class EncodedDriver extends Subsystem {
 
     // Resets the encoder position
     public void resetEncoderPosition() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxMecWheelRearRight.setSelectedSensorPosition(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxMecWheelRearRight.setSelectedSensorPosition(0, EncoderConstants.kPIDLoopPrimary, EncoderConstants.kTimeoutMs);
     }
 
 }

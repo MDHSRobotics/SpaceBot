@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.helpers.Logger;
 import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
+import frc.robot.Robot.ClimbMode;
 
 
 // This command is activated by a button and lowers the arm to the half position
@@ -30,7 +31,6 @@ public class ArmLowerHalf extends Command {
     @Override
     protected boolean isFinished() {
         boolean positionMet = Robot.robotArm.isPositionHalfMet();
-        if (positionMet) Robot.robotArm.currentArmPosition = ArmPosition.HALF;
         return positionMet;
     }
 
@@ -39,6 +39,10 @@ public class ArmLowerHalf extends Command {
         Logger.debug("Ending Command: ArmLowerHalf...");
 
         Robot.robotArm.stop();
+
+        Robot.robotArm.currentArmPosition = ArmPosition.HALF;
+        // After the Arm is in the "half" position, the next climb task is to lift the robot up
+        Robot.robotClimbMode = ClimbMode.LIFT;
     }
 
     @Override
