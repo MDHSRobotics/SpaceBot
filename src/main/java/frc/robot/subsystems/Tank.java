@@ -11,9 +11,9 @@ import frc.robot.Devices;
 // Tank subsystem for climbing
 public class Tank extends Subsystem {
 
-    // Motor variables
-    private double m_secondsFromNeutralToFull = 0;
-    private int m_timeoutMS = 10;
+    // Motor constants
+    private final double SECONDS_FROM_NEUTRAL_TO_FULL = 0;
+    private final int TIMEOUT_MS = 10;
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -23,7 +23,7 @@ public class Tank extends Subsystem {
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxTank);
         if (m_talonsAreConnected) {
-            Devices.talonSrxTank.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+            Devices.talonSrxTank.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
         }
     }
 

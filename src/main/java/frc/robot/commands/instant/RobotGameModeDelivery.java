@@ -11,6 +11,7 @@ import frc.robot.Robot;
 public class RobotGameModeDelivery extends InstantCommand {
 
     public RobotGameModeDelivery() {
+        super();
         Logger.debug("Constructing InstantCommand: RobotGameModeDelivery...");
     }
 

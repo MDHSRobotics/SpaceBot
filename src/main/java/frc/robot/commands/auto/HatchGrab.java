@@ -26,8 +26,8 @@ public class HatchGrab extends Command {
 
     @Override
     protected void execute() {
-        Logger.debug("Position: " +  Robot.robotHatcher.getPosition());
-        Logger.debug("Velocity: " +  Robot.robotHatcher.getVelocity());
+        Logger.debug("Position: " + Robot.robotHatcher.getPosition());
+        Logger.debug("Velocity: " + Robot.robotHatcher.getVelocity());
     }
 
     // This command is finished when the hatch is grabbed

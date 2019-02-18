@@ -83,20 +83,20 @@ public class LineDetector {
                     }
 
                     // Add the values to NetworkTables via the Brain
-                    Brain.setHatchLineArea(area);
-                    Brain.setHatchLineAngle(angle);
-                    Brain.setHatchLineXcenter(centerX);
-                    Brain.setHatchLineYcenter(centerY);
+                    Brain.setFrontLineArea(area);
+                    Brain.setFrontLineAngle(angle);
+                    Brain.setFrontLineXcenter(centerX);
+                    Brain.setFrontLineYcenter(centerY);
 
-                    Logger.debug("Line Detected! Pull joystick trigger to align robot!");
+                    Logger.debug("Line Detected! Press Directional Pad to align robot!");
                 }
             }
             else {
                 // We can't work with these contours, so set everything to default
-                Brain.setHatchLineArea(Brain.hatchLineAreaDefault);
-                Brain.setHatchLineAngle(Brain.hatchLineAngleDefault);
-                Brain.setHatchLineXcenter(Brain.hatchLineXcenterDefault);
-                Brain.setHatchLineYcenter(Brain.hatchLineYcenterDefault);
+                Brain.setFrontLineArea(Brain.frontLineAreaDefault);
+                Brain.setFrontLineAngle(Brain.frontLineAngleDefault);
+                Brain.setFrontLineXcenter(Brain.frontLineXcenterDefault);
+                Brain.setFrontLineYcenter(Brain.frontLineYcenterDefault);
 
                 // TODO: consider checking all the contours, and if only one meets the minimum area requirements, use that
             }
@@ -127,7 +127,7 @@ public class LineDetector {
     }
 
     public boolean lineDetected() {
-        double area = Brain.getHatchLineArea();
+        double area = Brain.getFrontLineArea();
         boolean detected = lineDetected(area);
         return detected;
     }
@@ -138,19 +138,19 @@ public class LineDetector {
     }
 
     public boolean isStraight() {
-        double angle = Brain.getHatchLineAngle();
+        double angle = Brain.getFrontLineAngle();
         boolean straight = isStraight(angle);
         return straight;
     }
 
     public boolean isStraight(double angle) {
         //boolean straight = (m_targetAngle - m_angleThreshold <= angle && angle <= m_targetAngle + m_angleThreshold);
-        boolean straight = (m_targetAngle - m_angleThreshold <= angle || angle <= -m_targetAngle + m_angleThreshold); 
+        boolean straight = (m_targetAngle - m_angleThreshold <= angle || angle <= -m_targetAngle + m_angleThreshold);
         return straight;
     }
 
     public boolean isCentered() {
-        double centerX = Brain.getHatchLineXcenter();
+        double centerX = Brain.getFrontLineXcenter();
         boolean centered = isCentered(centerX);
         return centered;
     }
@@ -161,12 +161,12 @@ public class LineDetector {
     }
 
     public double getCorrectedZ() {
-        double angle = Brain.getHatchLineAngle();
+        double angle = Brain.getFrontLineAngle();
         return m_targetAngle + angle;
     }
 
     public double getCorrectedX() {
-        double centerX = Brain.getHatchLineXcenter();
+        double centerX = Brain.getFrontLineXcenter();
         return m_targetCenterX - centerX;
     }
 

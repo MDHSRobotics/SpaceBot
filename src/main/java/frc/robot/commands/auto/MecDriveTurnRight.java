@@ -11,33 +11,24 @@ import frc.robot.Robot;
 // This command rotates the MecDrive clockwise until is reaches its target
 public class MecDriveTurnRight extends Command {
 
-    // Angular velocity (degrees/second) at full power - THIS IS A GUESS - CHECK IT!!
-    private static double angularVelocityAtFullPower = 48.0;
-    // Default target angle to rotate in degrees (positive is clockwise)
-    private static double m_defaultTargetAngle = 15;
-    // Default power setting for drive: 0.0 to +1.0
-    private static double m_defaultPower = .1;
+    // Constants
+    private final double ANGULAR_VELOCITY_AT_FULL_POWER = 48.0; // Angular velocity (degrees/second) at full power - THIS IS A GUESS - CHECK IT!!
+    private final static double DEFAULT_TARGET_ANGLE = 15; // Default target angle to rotate in degrees (positive is clockwise)
+    private final static double DEFAULT_POWER = .1; // Default power setting for drive: 0.0 to +1.0
 
-    // Target angle to rotate in degrees (positive is clockwise)
-    private double m_targetAngle;
-    // Power setting for drive: 0.0 to +1.0
-    private double m_power;
-    // The current angle
-    private double m_currentAngle;
-    // Time (in seconds) that this command has executed
-	private double m_elapsedTime;
-    // Angular velocity (degrees/second) at current power setting
-    private double m_angularVelocity;
-    // True if turning right; False if turning left 
-    private boolean m_turningRight;
-    // Timer for this command
-	private Timer m_timer;
-	// Counter for the timer
-    private int m_counter;
+    // Private Member Variables
+    private double m_targetAngle; // Target angle to rotate in degrees (positive is clockwise)
+    private double m_power; // Power setting for drive: 0.0 to +1.0
+    private double m_currentAngle; // The current angle
+	private double m_elapsedTime; // Time (in seconds) that this command has executed
+    private double m_angularVelocity; // Angular velocity (degrees/second) at current power setting
+    private boolean m_turningRight; // True if turning right; False if turning left
+	private Timer m_timer; // Timer for this command
+    private int m_counter; // Counter for the timer
 
     // Constructors
     public MecDriveTurnRight() {
-        this(m_defaultTargetAngle, m_defaultPower);
+        this(DEFAULT_TARGET_ANGLE, DEFAULT_POWER);
     }
 
     public MecDriveTurnRight(double targetAngle, double power) {
@@ -54,7 +45,7 @@ public class MecDriveTurnRight extends Command {
 		m_elapsedTime = 0;
         m_timer = new Timer();
         // Scale velocity at full power by the current power (which is between 0 and 1.0)
-		m_angularVelocity = m_power * angularVelocityAtFullPower;
+		m_angularVelocity = m_power * ANGULAR_VELOCITY_AT_FULL_POWER;
 		if (!m_turningRight) {
             // Negate angular velocity if turning to the left (i.e. negative angle)
             m_angularVelocity *= (-1.0);

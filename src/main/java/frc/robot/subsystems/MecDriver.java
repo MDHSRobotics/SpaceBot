@@ -19,9 +19,12 @@ public class MecDriver extends Subsystem {
     // The direction of forward/backward via the controller
     public boolean controlStickDirectionFlipped = false;
 
-    // Motor variables
-    private double m_secondsFromNeutralToFull = 0;
-    private int m_timeoutMS = 10;
+    // Motor constants
+    private final double SECONDS_FROM_NEUTRAL_TO_FULL = 0;
+    private final int TIMEOUT_MS = 10;
+
+    // Alignment Constants
+    private double ALIGN_ANGLE_THRESHOLD = 10;
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -40,10 +43,10 @@ public class MecDriver extends Subsystem {
                                 talonRearRightIsConnected);
 
         if (m_talonsAreConnected) {
-            Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-            Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-            Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
-            Devices.talonSrxMecWheelRearRight.configOpenloopRamp(m_secondsFromNeutralToFull, m_timeoutMS);
+            Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+            Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+            Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+            Devices.talonSrxMecWheelRearRight.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
         }
     }
 
@@ -164,4 +167,10 @@ public class MecDriver extends Subsystem {
         }
     }
 
+    public boolean isAlignedWithGyro(int targetAngle) {
+        double angle = Devices.imuMecDrive.getAngleZ();
+        boolean straight = (targetAngle - ALIGN_ANGLE_THRESHOLD <= angle || angle <= -targetAngle + ALIGN_ANGLE_THRESHOLD);
+        return straight;
+    }
+    
 }

@@ -28,7 +28,7 @@ public class LightToggle extends Command {
         // 1. white=lineDetectedInMecDriveMode
         // 2. red=robotPerformingCommandNotUnderActiveUserControl
         // 3. off=robotInUserControlledModeWithNoLineDetected
-        boolean lineDetected = Robot.robotLineDetectorHatch.lineDetected();
+        boolean lineDetected = Robot.robotLineDetectorFront.lineDetected();
         if (lineDetected) {
             Robot.robotLighter.turnOnForward();
         }

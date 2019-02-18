@@ -10,7 +10,7 @@ import frc.robot.helpers.Logger;
 
 public class CameraTester {
 
-    private static final long m_sleepSeconds = 1;
+    private static final long SLEEP_SECONDS = 1;
 
     public static UsbCamera captureCamera(int deviceNumber, int camResolutionHeight, int camResolutionWidth) {
         Logger.debug("Starting Camera Capture... Device: " + deviceNumber);
@@ -30,7 +30,7 @@ public class CameraTester {
         try {
             Logger.debug("Waiting for Test USB Camera " + deviceNumber + " to connect...");
             try {
-                TimeUnit.SECONDS.sleep(m_sleepSeconds);
+                TimeUnit.SECONDS.sleep(SLEEP_SECONDS);
             }
             catch (InterruptedException e) {
                 Logger.debug("Swallowed InterruptedException: " + e);

@@ -11,33 +11,24 @@ import frc.robot.Robot;
 // This command drives the MecDrive forward until is reaches its target
 public class MecDriveForward extends Command {
 
-	// Velocity (feet/second) at full power - THIS IS A GUESS - CHECK IT!!
-    private static double m_velocityAtFullPower = 11.5;
-    // Default desired distance to travel (in feet) - NOTE: Negative means move backwards
-    private static double m_defaultTargetDistanceInFeet = 1;
-    // Default power setting for drive: 0.0 to +1.0
-    private static double m_defaultPower = .1;
+    // Constants
+    private final double VELOCITY_AT_FULL_POWER = 11.5; // Velocity (feet/second) at full power - THIS IS A GUESS - CHECK IT!!
+    private final static double DEFAULT_TARGET_DISTANCE_IN_FEET = 1; // Default desired distance to travel (in feet) - NOTE: Negative means move backwards
+    private final static double DEFAULT_POWER = .1; // Default power setting for drive: 0.0 to +1.0
 
-    // Desired distance to travel (in feet) - NOTE: Negative means move backwards
-    private double m_targetDistanceInFeet;
-     // Power setting for drive: 0.0 to +1.0
-    private double m_power;
-    // Distanced traveled thus far (in feet)
-    private double m_distanceTraveled;
-    // Velocity (feet/second) at current power setting
-    private double m_velocity;
-    // Time (in seconds) that this command has executed
-    private double m_elapsedTime;
-    // True if moving forward; False if moving backward
-    private boolean m_movingForward;
-    // Timer for this command
-	private Timer m_timer;
-	// Counter for the timer
-    private int m_counter;
+    // Private Member Variables
+    private double m_targetDistanceInFeet; // Desired distance to travel (in feet) - NOTE: Negative means move backwards
+    private double m_power; // Power setting for drive: 0.0 to +1.0
+    private double m_distanceTraveled; // Distanced traveled thus far (in feet)
+    private double m_velocity; // Velocity (feet/second) at current power setting
+    private double m_elapsedTime; // Time (in seconds) that this command has executed
+    private boolean m_movingForward; // True if moving forward; False if moving backward
+	private Timer m_timer; // Timer for this command
+    private int m_counter; // Counter for the timer
 
     // Constructors
     public MecDriveForward() {
-        this(m_defaultTargetDistanceInFeet, m_defaultPower);
+        this(DEFAULT_TARGET_DISTANCE_IN_FEET, DEFAULT_POWER);
     }
 
     public MecDriveForward(double targetDistanceInFeet, double power) {
@@ -51,13 +42,12 @@ public class MecDriveForward extends Command {
 		m_movingForward = (targetDistanceInFeet > 0);
         m_power = power;
         // Scale velocity at full power by the current power (which is between 0 and 1.0)
-		m_velocity = m_power * m_velocityAtFullPower;
+		m_velocity = m_power * VELOCITY_AT_FULL_POWER;
 		m_distanceTraveled = 0;
 		m_elapsedTime = 0;
 		m_timer = new Timer();
     }
 
-    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
         Logger.debug("Initializing Command: MecDriveForward...");
@@ -70,7 +60,6 @@ public class MecDriveForward extends Command {
 		Logger.debug("Target = " + m_targetDistanceInFeet + " feet" + "; Power = " + m_power);
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
         // Keep robot moving in the requested direction
@@ -98,7 +87,6 @@ public class MecDriveForward extends Command {
         return (m_distanceTraveled >= m_targetDistanceInFeet);
     }
 
-    // Called once after isFinished returns true
     @Override
     protected void end() {
         Logger.debug("Ending Command: MecDriveForward...");
@@ -109,8 +97,6 @@ public class MecDriveForward extends Command {
         Logger.debug("Target = " + m_targetDistanceInFeet + " feet; Actual = " + m_distanceTraveled + " feet; Elapsed time = " + m_elapsedTime + " seconds");
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
         Logger.debug("Interrupting Command: MecDriveForward...");
