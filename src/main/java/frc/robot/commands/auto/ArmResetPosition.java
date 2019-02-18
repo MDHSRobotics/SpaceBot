@@ -9,7 +9,7 @@ import frc.robot.Robot;
 import frc.robot.Robot.ClimbMode;
 
 
-// This command is activated by a button and lowers the arm to the half position
+// This command is activated by a button and resets the Arm to its starting position
 public class ArmResetPosition extends Command {
 
     public ArmResetPosition() {
@@ -28,7 +28,7 @@ public class ArmResetPosition extends Command {
         Robot.robotArm.resetPosition();
     }
 
-    // This command finishes when the "half" position is reached
+    // This command finishes when the "reset" position is reached
     @Override
     protected boolean isFinished() {
         boolean positionMet = Robot.robotArm.isPositionResetMet();
@@ -42,7 +42,7 @@ public class ArmResetPosition extends Command {
         Robot.robotArm.stop();
 
         Robot.robotArm.currentArmPosition = ArmPosition.START;
-        // After the Arm is in the "start" position, the next climb task is to lower arm to half
+        // The first climb task is to move the Arm
         Robot.robotClimbMode = ClimbMode.ARM;
     }
 

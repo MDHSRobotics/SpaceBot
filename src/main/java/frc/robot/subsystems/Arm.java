@@ -23,8 +23,7 @@ public class Arm extends Subsystem {
     public ArmPosition currentArmPosition = ArmPosition.START;
 
     // Encoder constants
-    private double targetPositionUnits;
-    private double TARGET_ROTATION_RESET;
+    private double TARGET_RESET_POSITION = 0;
     private final double TARGET_ROTATION_HALF = 0.125;	
     private final double TARGET_ROTATION_FULL = 0.25;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -87,10 +86,11 @@ public class Arm extends Subsystem {
         Devices.talonSrxArm.stopMotor();
     }
 
+    // Reset the Arm to its starting position
     public void resetPosition() {
         if (!m_talonsAreConnected) return;
-        Logger.debug("Arm -> Reset Position: " + 0);
-        Devices.talonSrxArm.set(ControlMode.Position, 0);
+        Logger.debug("Arm -> Reset Position: " + TARGET_RESET_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, TARGET_RESET_POSITION);
     }
 
     // Lowers the Arm to the encoded "half" position
