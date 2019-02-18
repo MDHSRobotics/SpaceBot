@@ -40,12 +40,13 @@ public class Robot extends TimedRobot {
         ARM, LIFT, CLIMB
     }
 
-    // The Robot's current Delivery Mode
-    // This is used to control vision processing actions, as well as xbox controller activation
+    // Game Mode is used to activate/deactivate the Climb Xbox Controller
+    public static GameMode robotGameMode = GameMode.DELIVERY;
+    // Delivery Mode is used to control vision processing actions, as well as xbox controller activation
     // TODO: We need to implement ways to set the Robot DeliveryMode, either manually, or automatically, or a combination
     // TODO: Determine the best default. What's the first action the Robot will take during Sandstorm?
-    public static GameMode robotGameMode = GameMode.DELIVERY;
     public static DeliveryMode robotDeliveryMode = DeliveryMode.GET_HATCH;
+    // Climb Mode tells the climb commands which system needs to be activated next
     public static ClimbMode robotClimbMode = ClimbMode.ARM;
 
     // Subsystems

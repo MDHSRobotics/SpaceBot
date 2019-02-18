@@ -38,7 +38,7 @@ public class ClimbNextStage extends InstantCommand {
         // We don't want to have the robot start climbing early because someone dropped the controller
         switch (Robot.robotGameMode) {
             case DELIVERY: // Reset and stop all Climb subsystems
-                // TODO: Implement this once we have an ArmResetPosition command
+                // TODO: Implement this once we have an ArmResetPosition and a PulleyResetPosition command
                 break;
 
             case CLIMB:

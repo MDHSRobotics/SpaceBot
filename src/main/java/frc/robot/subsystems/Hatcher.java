@@ -21,7 +21,7 @@ public class Hatcher extends Subsystem {
     // Encoder variables
     private double m_targetRotations = 0.572; //Calculation: 0.572
     // Choose so that Talon does not report sensor out of phase
-    private boolean m_sensorPhase = true; //false -- TODO: Why is this comment out of sink with the value, but not so on Baller?
+    private boolean m_sensorPhase = true; //false -- TODO: Why is this comment out of sync with the value, but not so on Baller?
     // Choose based on what direction you want to be positive, this does not affect motor invert
     private boolean m_motorInvert = true;
 
