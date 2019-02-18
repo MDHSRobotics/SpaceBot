@@ -16,13 +16,16 @@ public class MecDriver extends Subsystem {
         ROBOT, FIELD
     }
 
+    // The direction of forward/backward via the controller
     public boolean controlStickDirectionFlipped = false;
 
-    private boolean m_talonsAreConnected = false;
+    // Motor variables
     private double m_secondsFromNeutralToFull = 0;
     private int m_timeoutMS = 10;
 
-    // Constructor
+    // The Talon connection state, to prevent watchdog warnings during testing
+    private boolean m_talonsAreConnected = false;
+
     public MecDriver() {
         Logger.debug("Constructing Subsystem: MecDriver...");
 

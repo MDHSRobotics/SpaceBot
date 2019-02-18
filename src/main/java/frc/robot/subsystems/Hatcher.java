@@ -15,19 +15,19 @@ import frc.robot.Devices;
 // Hatcher subsystem, for grabbing and releasing hatches
 public class Hatcher extends Subsystem {
 
-    private boolean m_talonsAreConnected = false;
+    // The public property to determine the Hatcher state
+    public boolean hatchIsGrabbed = false;
 
+    // Encoder variables
     private double m_targetRotations = 0.572; //Calculation: 0.572
-    private double m_targetPositionUnits;
     // Choose so that Talon does not report sensor out of phase
     private boolean m_sensorPhase = true; //false -- TODO: Why is this comment out of sink with the value, but not so on Baller?
     // Choose based on what direction you want to be positive, this does not affect motor invert
     private boolean m_motorInvert = true;
 
-    // The public property to determine the Hatcher state
-    public boolean hatchIsGrabbed = false;
+    // The Talon connection state, to prevent watchdog warnings during testing
+    private boolean m_talonsAreConnected = false;
 
-    // Constructor
     public Hatcher() {
         Logger.debug("Constructing Subsystem: Hatcher...");
 
@@ -79,29 +79,26 @@ public class Hatcher extends Subsystem {
 
     // Stop the Hatcher motor
     public void stop() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.stopMotor();
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.stopMotor();
     }
 
     // Open the Hatcher claw to grab the hatch
     public void grabHatch() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
-            m_targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
-            Devices.talonSrxHatcher.set(ControlMode.MotionMagic, m_targetPositionUnits);
-            Logger.debug("Hatcher -> Target Grab Position: " + m_targetPositionUnits);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
+        double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
+        Logger.debug("Hatcher -> Target Grab Position: " + targetPositionUnits);
     }
 
     // Close the Hatcher claw to release the hatch
     public void releaseHatch() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
-            m_targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
-            Devices.talonSrxHatcher.set(ControlMode.MotionMagic, m_targetPositionUnits);
-            Logger.debug("Hatcher -> Target Release Position: " + m_targetPositionUnits);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
+        double targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
+        Logger.debug("Hatcher -> Target Release Position: " + targetPositionUnits);
     }
 
     // Get the current Hatcher claw motor velocity
@@ -118,8 +115,8 @@ public class Hatcher extends Subsystem {
     public boolean isPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        m_targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
-        return (Math.abs((Math.abs(currentPosition) - m_targetPositionUnits)) < 700);
+        double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 700);
     }
 
     // Toggle the hatchIsGrabbed state
@@ -132,9 +129,8 @@ public class Hatcher extends Subsystem {
     //---------//
 
     public void driveStatic() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxHatcher.set(0.2);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.set(0.2);
     }
 
 }

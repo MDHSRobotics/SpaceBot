@@ -27,12 +27,26 @@ import frc.robot.vision.LineDetector;
  */
 public class Robot extends TimedRobot {
 
-    // States
+    // Robot States
+    public enum GameMode {
+        DELIVERY, CLIMB
+    }
+
     public enum DeliveryMode {
         GET_HATCH, ATTACH_HATCH, GET_BALL, TOSS_BALL
     }
 
-    public DeliveryMode deliveryMode = DeliveryMode.GET_HATCH;
+    public enum ClimbMode {
+        ARM, LIFT, CLIMB
+    }
+
+    // The Robot's current Delivery Mode
+    // This is used to control vision processing actions, as well as xbox controller activation
+    // TODO: We need to implement ways to set the Robot DeliveryMode, either manually, or automatically, or a combination
+    // TODO: Determine the best default. What's the first action the Robot will take during Sandstorm?
+    public static GameMode robotGameMode = GameMode.DELIVERY;
+    public static DeliveryMode robotDeliveryMode = DeliveryMode.GET_HATCH;
+    public static ClimbMode robotClimbMode = ClimbMode.ARM;
 
     // Subsystems
     public static MecDriver robotMecDriver;
@@ -45,7 +59,6 @@ public class Robot extends TimedRobot {
     public static Arm robotArm;
     public static Tank robotTank;
     public static Pulley robotPulley;
-    public static Pusher robotPusher;
 
     // Vision
     public static UsbCamera robotCameraSight;
@@ -90,7 +103,6 @@ public class Robot extends TimedRobot {
         robotArm = new Arm();
         robotTank = new Tank();
         robotPulley = new Pulley();
-        robotPusher = new Pusher();
 
         // Test camera connections
         boolean cam0connected = CameraTester.testConnection(0);
@@ -176,7 +188,7 @@ public class Robot extends TimedRobot {
 
         /*
         String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-        switch(autoSelected) {
+        switch (autoSelected) {
             case "My Auto":
                 autonomousCommand = new MyAutoCommand();
                 break;

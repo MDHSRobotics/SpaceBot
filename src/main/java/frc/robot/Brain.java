@@ -34,14 +34,14 @@ public class Brain {
     public static double zSensitivityDefault = .5;
 
     // OI - Xbox Thumbsticks
-    public static double yLeftDeadZoneDefault = 0;
-    public static double xLeftDeadZoneDefault = 0;
-    public static double yRightDeadZoneDefault = 0;
-    public static double xRightDeadZoneDefault = 0;
-    public static double yLeftSensitivityDefault = 1;
-    public static double xLeftSensitivityDefault = 1;
-    public static double yRightSensitivityDefault = 1;
-    public static double xRightSensitivityDefault = 1;
+    public static double yLeftDeadZoneDefault = .001;
+    public static double xLeftDeadZoneDefault = .001;
+    public static double yRightDeadZoneDefault = .001;
+    public static double xRightDeadZoneDefault = .001;
+    public static double yLeftSensitivityDefault = .5;
+    public static double xLeftSensitivityDefault = .5;
+    public static double yRightSensitivityDefault = .5;
+    public static double xRightSensitivityDefault = .5;
 
     // Vision - LinePipeline
     public static double hueMinDefault = 0;
@@ -59,7 +59,7 @@ public class Brain {
     public static boolean hatchLineDetectedDefault = false;
 
     // Subsystem - MecDriver
-    public static DriveOrientation driveOrientationDefault = DriveOrientation.FIELD;
+    public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
 
     //---------------------//
     // NetworkTableEntries //

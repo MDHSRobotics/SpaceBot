@@ -33,6 +33,7 @@ public class HatcherTogglePosition extends InstantCommand {
         else {
             m_hatchReleaseCmd.start();
         }
+        // TODO: Should this happen here, or in the isFinished() methods for each command?
         Robot.robotHatcher.toggleHatchGrabbed();
     }
 

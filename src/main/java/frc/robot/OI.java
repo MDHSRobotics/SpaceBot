@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
-import frc.robot.commands.interactive.*;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
 
@@ -24,19 +23,15 @@ public class OI {
     public OI() {
         Logger.debug("Constructing OI...");
 
-        // Bind the xbox buttons to specific commands
-        Devices.xboxBtn1.whenPressed(new ArmLowerHalf());
-        Devices.xboxBtn2.whenPressed(new ArmLowerFull());
-        Devices.xboxBtn3.whenPressed(new ArmLowerMore());
-        Devices.xboxBtn4.whileHeld(new PulleyLift());
-        Devices.xboxBtn5.whileHeld(new PulleyLower());
-        Devices.xboxBtn6.whenPressed(new MecDriveAlignHatch());
-        Devices.xboxBtn7.whenPressed(new BallerTogglePosition());
-        Devices.xboxBtn8.whenPressed(new HatcherTogglePosition());
-        
+        // Bind the "drive" xbox buttons to specific commands
+        Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
+        Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlignHatch());
+        Devices.driveXboxBtnA.whenPressed(new HatcherTogglePosition());
+        Devices.driveXboxBtnB.whenPressed(new BallerTogglePosition());
 
-        // TODO: Bind the Tank appropriate commands
-        // TODO: Bind the Pusher appropriate commands
+        // Bind the "climb" xbox buttons to specific commands
+        Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
+        Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
     }
 
     //----------------------//
@@ -159,9 +154,9 @@ public class OI {
 
     // Gets the xbox thumbstick positions and applies user-determined orientation, deadzones, and sensitivity
     private static ThumbStickPosition getThumbstickPosition(boolean isYleftFlipped) {
-        double yLeft = Devices.xbox.getY(Hand.kLeft); // Forward & backward, flipped
-        double xLeft = Devices.xbox.getX(Hand.kLeft); // Strafe
-        double xRight = Devices.xbox.getX(Hand.kRight); // Rotate
+        double yLeft = Devices.driveXbox.getY(Hand.kLeft); // Forward & backward, flipped
+        double xLeft = Devices.driveXbox.getX(Hand.kLeft); // Strafe
+        double xRight = Devices.driveXbox.getX(Hand.kRight); // Rotate
 
         // Forward/backward and rotation directions are both reversed from what is intuitive, so flip them
         yLeft = -yLeft;
@@ -204,9 +199,19 @@ public class OI {
     // TODO: Also consider adding a "debouncer" for the buttons
     // https://frc-pdr.readthedocs.io/en/latest/user_input/joystick.html
     
+    //----------------------//
+    // Interactive Climbing //
+    //----------------------//
 
-    public static double getXBoxTriggerPosition() {
-        double triggerAxis = Devices.xbox.getTriggerAxis(Hand.kRight);
+    // Gets the Arm "Lower More" speed from the climb xbox controller's Right Thumbstick Y axis position
+    public static double getArmLowerMoreSpeed() {
+        double y = Devices.climbXbox.getY(Hand.kRight);
+        return y;
+    }
+
+    // Gets the Tank "Spin" speed from the climb xbox controller's Right Trigger axis position
+    public static double getTankSpinSpeed() {
+        double triggerAxis = Devices.climbXbox.getTriggerAxis(Hand.kRight);
         return triggerAxis;
     }
 

@@ -15,20 +15,19 @@ import frc.robot.Devices;
 // Baller subsystem, for holding and tossing cargo balls
 public class Baller extends Subsystem {
 
-    private boolean m_talonsAreConnected = false;
+    // The public property to determine the Baller state
+    public boolean ballIsTossed = false;
 
+    // Encoder variables
     private double m_targetRotations = 3.73; //Calculation: 4.44 -- TODO: Why is this comment out of sink with the value, but not so on Hatcher?
-    private double m_targetPositionUnits;	
-    private double m_stopThreshold = 10;
     // Choose so that Talon does not report sensor out of phase
     private boolean m_sensorPhase = false;
     // Choose based on what direction you want to be positive, this does not affect motor invert
     private boolean m_motorInvert = false;
 
-    // The public property to determine the Baller state
-    public boolean ballIsTossed = false;
+    // The Talon connection state, to prevent watchdog warnings during testing
+    private boolean m_talonsAreConnected = false;
 
-    // Constructor
     public Baller() {
         Logger.debug("Constructing Subsystem: Baller...");
 
@@ -79,29 +78,26 @@ public class Baller extends Subsystem {
 
     // Stop the Baller motor
     public void stop() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxBaller.stopMotor();
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxBaller.stopMotor();
     }
 
     // Move the Baller flipper to toss the ball
     public void tossBall() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-            m_targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
-            Logger.debug("Baller -> Target Toss Position: " + m_targetPositionUnits);
-            Devices.talonSrxBaller.set(ControlMode.Position, m_targetPositionUnits);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
+        double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        Logger.debug("Baller -> Target Toss Position: " + targetPositionUnits);
+        Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
     }
 
     // Move the Baller flipper back to the hold position
     public void holdBall() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
-            m_targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
-            Logger.debug("Baller -> Target Hold Position: " + m_targetPositionUnits);
-            Devices.talonSrxBaller.set(ControlMode.Position, m_targetPositionUnits);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
+        double targetPositionUnits = -(m_targetRotations * EncoderConstants.kRedlineEncoderTpr);
+        Logger.debug("Baller -> Target Hold Position: " + targetPositionUnits);
+        Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
     }
 
     // Get the current Baller flipper motor velocity
@@ -118,8 +114,8 @@ public class Baller extends Subsystem {
     public boolean isPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        m_targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
-        return (Math.abs((Math.abs(currentPosition) - m_targetPositionUnits)) < 600);
+        double targetPositionUnits = m_targetRotations * EncoderConstants.kRedlineEncoderTpr;
+        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
     }
 
     // Toggle the ballIsTossed state
@@ -132,9 +128,8 @@ public class Baller extends Subsystem {
     //---------//
 
     public void driveStatic() {
-        if (m_talonsAreConnected) {
-            Devices.talonSrxBaller.set(0.2);
-        }
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxBaller.set(0.2);
     }
 
 }

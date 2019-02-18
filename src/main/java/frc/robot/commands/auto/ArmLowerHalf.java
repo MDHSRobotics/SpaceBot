@@ -1,31 +1,18 @@
-
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.helpers.Logger;
+import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
+import frc.robot.Robot.ClimbMode;
 
 
 // This command is activated by a button and lowers the arm to the half position
 public class ArmLowerHalf extends Command {
-    // Default Speed
-    private double m_defaultSpeed = 0.2;
-    // Speed setting for drive: 0.0 to +1.0
-    private double m_speed;
-
-    // The following is a temporary code that uses the timer until we have the encoder working:
-    // Timer for this command
-    private Timer m_timer;
-    // Target duration for the motor to run in second
-    private int m_target = 2;
 
     public ArmLowerHalf() {
         Logger.debug("Constructing Command: ArmLowerHalf...");
-
-        m_speed = m_defaultSpeed;
-        m_timer = new Timer();
 
         requires(Robot.robotArm);
     }
@@ -33,22 +20,18 @@ public class ArmLowerHalf extends Command {
     @Override
     protected void initialize() {
         Logger.debug("Initializing Command: ArmLowerHalf...");
-
-        m_timer.reset();
-        m_timer.start();
     }
 
     @Override
     protected void execute() {
-        Robot.robotArm.move(m_speed);
+        Robot.robotArm.lowerHalf();
     }
 
-    // This command continues for a certain period of time
-    // Will be replaced be encoder logic
+    // This command finishes when the "half" position is reached
     @Override
     protected boolean isFinished() {
-        double elapsedTime = m_timer.get();
-        return (elapsedTime >= m_target);
+        boolean positionMet = Robot.robotArm.isPositionHalfMet();
+        return positionMet;
     }
 
     @Override
@@ -56,6 +39,10 @@ public class ArmLowerHalf extends Command {
         Logger.debug("Ending Command: ArmLowerHalf...");
 
         Robot.robotArm.stop();
+
+        Robot.robotArm.currentArmPosition = ArmPosition.HALF;
+        // After the Arm is in the "half" position, the next climb task is to lift the robot up
+        Robot.robotClimbMode = ClimbMode.LIFT;
     }
 
     @Override

@@ -57,7 +57,6 @@ public class MecDriveAlignHatch extends Command {
             return;
         }
 
-        
     }
 
     // We're finished when the line looks straight and is centered enough (or a line is not detected)
@@ -66,11 +65,11 @@ public class MecDriveAlignHatch extends Command {
         boolean detected = Robot.robotLineDetectorHatch.lineDetected();
         if (!detected) return true;
 
-        boolean straight = Robot.robotLineDetectorHatch.isStraight();
-        if (!straight) return false;
-
         boolean centered = Robot.robotLineDetectorHatch.isCentered();
         if (!centered) return false;
+
+        boolean straight = Robot.robotLineDetectorHatch.isStraight();
+        if (!straight) return false;
 
         return true;
     }
