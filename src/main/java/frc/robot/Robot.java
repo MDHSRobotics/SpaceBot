@@ -112,8 +112,8 @@ public class Robot extends TimedRobot {
         // Capture connected cameras
         if (cam0connected) robotCameraSight = CameraTester.captureCamera(0, camResolutionWidth, camResolutionHeight);
         if (cam1connected) robotCameraLineFront = CameraTester.captureCamera(1, camResolutionWidth, camResolutionHeight);
-        if (cam2connected) robotCameraLineLeft = CameraTester.captureCamera(3, camResolutionWidth, camResolutionHeight);
-        if (cam3connected) robotCameraLineRight = CameraTester.captureCamera(4, camResolutionWidth, camResolutionHeight);
+        if (cam2connected) robotCameraLineLeft = CameraTester.captureCamera(2, camResolutionWidth, camResolutionHeight);
+        if (cam3connected) robotCameraLineRight = CameraTester.captureCamera(2, camResolutionWidth, camResolutionHeight);
 
         // Instantiate Line Detector singletons
         robotLineDetectorFront = new LineDetector(robotCameraLineFront);
