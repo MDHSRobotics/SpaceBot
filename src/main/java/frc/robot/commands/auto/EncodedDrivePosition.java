@@ -2,6 +2,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.helpers.Logger;
 import frc.robot.Robot;
 
@@ -10,7 +11,7 @@ import frc.robot.Robot;
 public class EncodedDrivePosition extends Command {
 
     public EncodedDrivePosition() {
-        Logger.debug("Constructing EncodedDrivePosition...");
+        Logger.debug("Constructing Command: EncodedDrivePosition...");
 
         // Declare subsystem dependencies
         requires(Robot.robotEncodedDriver);
@@ -18,7 +19,7 @@ public class EncodedDrivePosition extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing EncodedDrivePosition...");
+        Logger.debug("Initializing Command: EncodedDrivePosition...");
 
         Robot.robotEncodedDriver.resetEncoderPosition();
     }

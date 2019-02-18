@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class EncodedDriverStop extends Command {
 
     public EncodedDriverStop() {
-        Logger.debug("Constructing EncodedDriverStop...");
+        Logger.debug("Constructing Command: EncodedDriverStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotEncodedDriver);
@@ -19,7 +19,7 @@ public class EncodedDriverStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing EncodedDriverStop...");
+        Logger.debug("Initializing Command: EncodedDriverStop...");
     }
 
     @Override

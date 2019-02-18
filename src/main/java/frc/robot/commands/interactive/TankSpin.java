@@ -11,7 +11,6 @@ import frc.robot.Robot;
 // This command spins the Tank
 public class TankSpin extends Command {
 
-
     public TankSpin() {
         Logger.debug("Constructing Command: TankSpin...");
 
