@@ -58,21 +58,21 @@ public class VisionTab {
         m_valueMaxWidget = m_tab.add("Value Maximum", Brain.valueMaxDefault);
         Brain.valueMaxEntry = m_valueMaxWidget.getEntry();
 
-        // Hatch Camera - Line Area
-        m_areaWidget = m_tab.add("Hatch Line Area", Brain.hatchLineAreaDefault);
-        Brain.hatchLineAreaEntry = m_areaWidget.getEntry();
+        // Front Camera - Line Area
+        m_areaWidget = m_tab.add("Front Line Area", Brain.frontLineAreaDefault);
+        Brain.frontLineAreaEntry = m_areaWidget.getEntry();
 
-        // Hatch Camera - Line Angle
-        m_angleWidget = m_tab.add("Hatch Line Angle", Brain.hatchLineAngleDefault);
-        Brain.hatchLineAngleEntry = m_angleWidget.getEntry();
+        // Front Camera - Line Angle
+        m_angleWidget = m_tab.add("Front Line Angle", Brain.frontLineAngleDefault);
+        Brain.frontLineAngleEntry = m_angleWidget.getEntry();
 
-        // Hatch Camera - Line Center X
-        m_xCenterWidget = m_tab.add("Hatch Line Center X", Brain.hatchLineXcenterDefault);
-        Brain.hatchLineXcenterEntry = m_xCenterWidget.getEntry();
+        // Front Camera - Line Center X
+        m_xCenterWidget = m_tab.add("Front Line Center X", Brain.frontLineXcenterDefault);
+        Brain.frontLineXcenterEntry = m_xCenterWidget.getEntry();
 
-        // Hatch Camera - Line Center Y
-        m_yCenterWidget = m_tab.add("Hatch Line Center Y", Brain.hatchLineYcenterDefault);
-        Brain.hatchLineYcenterEntry = m_yCenterWidget.getEntry();
+        // Front Camera - Line Center Y
+        m_yCenterWidget = m_tab.add("Front Line Center Y", Brain.frontLineYcenterDefault);
+        Brain.frontLineYcenterEntry = m_yCenterWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -134,16 +134,16 @@ public class VisionTab {
         Brain.setHueMax(valueMaxEntry);
 
         NetworkTableEntry areaEntry = m_areaWidget.getEntry();
-        Brain.setHatchLineArea(areaEntry);
+        Brain.setFrontLineArea(areaEntry);
 
         NetworkTableEntry angleEntry = m_angleWidget.getEntry();
-        Brain.setHatchLineAngle(angleEntry);
+        Brain.setFrontLineAngle(angleEntry);
 
         NetworkTableEntry xCenterEntry = m_xCenterWidget.getEntry();
-        Brain.setHatchLineXcenter(xCenterEntry);
+        Brain.setFrontLineXcenter(xCenterEntry);
 
         NetworkTableEntry yCenterEntry = m_yCenterWidget.getEntry();
-        Brain.setHatchLineYcenter(yCenterEntry);
+        Brain.setFrontLineYcenter(yCenterEntry);
     }
 
 }

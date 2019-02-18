@@ -33,8 +33,8 @@ public class MainTab {
         Brain.matchTimeEntry = m_matchTimeWidget.getEntry();
 
         // Line Detected
-        m_lineDetectedWidget = m_tab.add("Line Detected", Brain.hatchLineDetectedDefault);
-        Brain.hatchLineDetectedEntry = m_lineDetectedWidget.getEntry();
+        m_lineDetectedWidget = m_tab.add("Line Detected", Brain.frontLineDetectedDefault);
+        Brain.frontLineDetectedEntry = m_lineDetectedWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -63,8 +63,8 @@ public class MainTab {
         Brain.matchTimeEntry.setDouble(matchTime);
 
         // Line Detector
-        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
-        Brain.hatchLineDetectedEntry.setBoolean(detected);
+        boolean detected = Robot.robotLineDetectorFront.lineDetected();
+        Brain.frontLineDetectedEntry.setBoolean(detected);
     }
 
 }

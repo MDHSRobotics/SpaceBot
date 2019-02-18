@@ -27,15 +27,15 @@ public class MecDriveAlignHatch extends Command {
 
     @Override
     protected void execute() {
-        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
+        boolean detected = Robot.robotLineDetectorFront.lineDetected();
         if (!detected) {
             Logger.debug("Line not detected!");
             return;
         }
 
-        boolean centered = Robot.robotLineDetectorHatch.isCentered();
+        boolean centered = Robot.robotLineDetectorFront.isCentered();
         if (!centered) {
-            double x = Robot.robotLineDetectorHatch.getCorrectedX();
+            double x = Robot.robotLineDetectorFront.getCorrectedX();
             Logger.debug("Strafe pixels to correct: " + x);
             double xSpeed = X_SPEED;
             if (x > 0) {
@@ -45,9 +45,9 @@ public class MecDriveAlignHatch extends Command {
             return;
         }
 
-        boolean straight = Robot.robotLineDetectorHatch.isStraight();
+        boolean straight = Robot.robotLineDetectorFront.isStraight();
         if (!straight) {
-            double z = Robot.robotLineDetectorHatch.getCorrectedZ();
+            double z = Robot.robotLineDetectorFront.getCorrectedZ();
             Logger.debug("Pivot angle to correct: " + z);
             double zSpeed = Z_SPEED;
             if (z > 0) {
@@ -56,19 +56,18 @@ public class MecDriveAlignHatch extends Command {
             Robot.robotMecDriver.pivot(zSpeed);
             return;
         }
-
     }
 
     // We're finished when the line looks straight and is centered enough (or a line is not detected)
     @Override
     protected boolean isFinished() {
-        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
+        boolean detected = Robot.robotLineDetectorFront.lineDetected();
         if (!detected) return true;
 
-        boolean centered = Robot.robotLineDetectorHatch.isCentered();
+        boolean centered = Robot.robotLineDetectorFront.isCentered();
         if (!centered) return false;
 
-        boolean straight = Robot.robotLineDetectorHatch.isStraight();
+        boolean straight = Robot.robotLineDetectorFront.isStraight();
         if (!straight) return false;
 
         return true;

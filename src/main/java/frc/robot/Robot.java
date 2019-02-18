@@ -63,12 +63,10 @@ public class Robot extends TimedRobot {
 
     // Vision
     public static UsbCamera robotCameraSight;
-    public static UsbCamera robotCameraLineHatch;
-    public static UsbCamera robotCameraLineBall;
+    public static UsbCamera robotCameraLineFront;
     public static UsbCamera robotCameraLineLeft;
     public static UsbCamera robotCameraLineRight;
-    public static LineDetector robotLineDetectorHatch;
-    public static LineDetector robotLineDetectorBall;
+    public static LineDetector robotLineDetectorFront;
     public static LineDetector robotLineDetectorLeft;
     public static LineDetector robotLineDetectorRight;
     public static int camResolutionWidth = 320;
@@ -110,18 +108,15 @@ public class Robot extends TimedRobot {
         boolean cam1connected = CameraTester.testConnection(1);
         boolean cam2connected = CameraTester.testConnection(2);
         boolean cam3connected = CameraTester.testConnection(3);
-        boolean cam4connected = CameraTester.testConnection(4);
 
         // Capture connected cameras
         if (cam0connected) robotCameraSight = CameraTester.captureCamera(0, camResolutionWidth, camResolutionHeight);
-        if (cam1connected) robotCameraLineHatch = CameraTester.captureCamera(1, camResolutionWidth, camResolutionHeight);
-        if (cam2connected) robotCameraLineBall = CameraTester.captureCamera(2, camResolutionWidth, camResolutionHeight);
-        if (cam3connected) robotCameraLineLeft = CameraTester.captureCamera(3, camResolutionWidth, camResolutionHeight);
-        if (cam4connected) robotCameraLineRight = CameraTester.captureCamera(4, camResolutionWidth, camResolutionHeight);
+        if (cam1connected) robotCameraLineFront = CameraTester.captureCamera(1, camResolutionWidth, camResolutionHeight);
+        if (cam2connected) robotCameraLineLeft = CameraTester.captureCamera(3, camResolutionWidth, camResolutionHeight);
+        if (cam3connected) robotCameraLineRight = CameraTester.captureCamera(4, camResolutionWidth, camResolutionHeight);
 
         // Instantiate Line Detector singletons
-        robotLineDetectorHatch = new LineDetector(robotCameraLineHatch);
-        robotLineDetectorBall = new LineDetector(robotCameraLineBall);
+        robotLineDetectorFront = new LineDetector(robotCameraLineFront);
         robotLineDetectorLeft = new LineDetector(robotCameraLineLeft);
         robotLineDetectorRight = new LineDetector(robotCameraLineRight);
 

@@ -52,11 +52,11 @@ public class Brain {
     public static double valueMaxDefault = 255;
 
     // Vision - LineDetector
-    public static double hatchLineAreaDefault = 0;
-    public static double hatchLineAngleDefault = 0;
-    public static double hatchLineXcenterDefault = 0;
-    public static double hatchLineYcenterDefault = 0;
-    public static boolean hatchLineDetectedDefault = false;
+    public static double frontLineAreaDefault = 0;
+    public static double frontLineAngleDefault = 0;
+    public static double frontLineXcenterDefault = 0;
+    public static double frontLineYcenterDefault = 0;
+    public static boolean frontLineDetectedDefault = false;
 
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
@@ -101,12 +101,11 @@ public class Brain {
     public static NetworkTableEntry valueMaxEntry;
 
     // Vision - LineDetector
-    public static NetworkTableEntry hatchLineAreaEntry;
-    public static NetworkTableEntry hatchLineAngleEntry;
-    public static NetworkTableEntry hatchLineXcenterEntry;
-    public static NetworkTableEntry hatchLineYcenterEntry;
-    public static NetworkTableEntry hatchLineDetectedEntry;
-
+    public static NetworkTableEntry frontLineAreaEntry;
+    public static NetworkTableEntry frontLineAngleEntry;
+    public static NetworkTableEntry frontLineXcenterEntry;
+    public static NetworkTableEntry frontLineYcenterEntry;
+    public static NetworkTableEntry frontLineDetectedEntry;
 
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
@@ -244,45 +243,45 @@ public class Brain {
     }
 
     // Vision - LineDetector
-    public static void setHatchLineArea(NetworkTableEntry entry) {
-        double value = entry.getDouble(hatchLineAreaDefault);
-        hatchLineAreaEntry.setDouble(value);
+    public static void setFrontLineArea(NetworkTableEntry entry) {
+        double value = entry.getDouble(frontLineAreaDefault);
+        frontLineAreaEntry.setDouble(value);
     }
 
-    public static void setHatchLineArea(double value) {
-        hatchLineAreaEntry.setDouble(value);
+    public static void setFrontLineArea(double value) {
+        frontLineAreaEntry.setDouble(value);
     }
 
-    public static void setHatchLineAngle(NetworkTableEntry entry) {
-        double value = entry.getDouble(hatchLineAngleDefault);
-        hatchLineAngleEntry.setDouble(value);
+    public static void setFrontLineAngle(NetworkTableEntry entry) {
+        double value = entry.getDouble(frontLineAngleDefault);
+        frontLineAngleEntry.setDouble(value);
     }
 
-    public static void setHatchLineAngle(double value) {
-        hatchLineAngleEntry.setDouble(value);
+    public static void setFrontLineAngle(double value) {
+        frontLineAngleEntry.setDouble(value);
     }
 
-    public static void setHatchLineXcenter(NetworkTableEntry entry) {
-        double value = entry.getDouble(hatchLineXcenterDefault);
-        hatchLineXcenterEntry.setDouble(value);
+    public static void setFrontLineXcenter(NetworkTableEntry entry) {
+        double value = entry.getDouble(frontLineXcenterDefault);
+        frontLineXcenterEntry.setDouble(value);
     }
 
-    public static void setHatchLineXcenter(double value) {
-        hatchLineXcenterEntry.setDouble(value);
+    public static void setFrontLineXcenter(double value) {
+        frontLineXcenterEntry.setDouble(value);
     }
 
-    public static void setHatchLineYcenter(NetworkTableEntry entry) {
-        double value = entry.getDouble(hatchLineYcenterDefault);
-        hatchLineYcenterEntry.setDouble(value);
+    public static void setFrontLineYcenter(NetworkTableEntry entry) {
+        double value = entry.getDouble(frontLineYcenterDefault);
+        frontLineYcenterEntry.setDouble(value);
     }
 
-    public static void setHatchLineYcenter(double value) {
-        hatchLineYcenterEntry.setDouble(value);
+    public static void setFrontLineYcenter(double value) {
+        frontLineYcenterEntry.setDouble(value);
     }
 
-    public static void setHatchLineDetected() {
-        boolean detected = Robot.robotLineDetectorHatch.lineDetected();
-        hatchLineDetectedEntry.setBoolean(detected);
+    public static void setFrontLineDetected() {
+        boolean detected = Robot.robotLineDetectorFront.lineDetected();
+        frontLineDetectedEntry.setBoolean(detected);
     }
 
     // Subsystems - MecDriver
@@ -402,24 +401,24 @@ public class Brain {
     }
 
     // Vision - LineDetector
-    public static double getHatchLineArea() {
-        return hatchLineAreaEntry.getDouble(hatchLineAreaDefault);
+    public static double getFrontLineArea() {
+        return frontLineAreaEntry.getDouble(frontLineAreaDefault);
     }
 
-    public static double getHatchLineAngle() {
-        return hatchLineAngleEntry.getDouble(hatchLineAngleDefault);
+    public static double getFrontLineAngle() {
+        return frontLineAngleEntry.getDouble(frontLineAngleDefault);
     }
 
-    public static double getHatchLineXcenter() {
-        return hatchLineXcenterEntry.getDouble(hatchLineXcenterDefault);
+    public static double getFrontLineXcenter() {
+        return frontLineXcenterEntry.getDouble(frontLineXcenterDefault);
     }
 
-    public static double getHatchLineYcenter() {
-        return hatchLineYcenterEntry.getDouble(hatchLineYcenterDefault);
+    public static double getFrontLineYcenter() {
+        return frontLineYcenterEntry.getDouble(frontLineYcenterDefault);
     }
 
     public static boolean getLineDetected() {
-        return hatchLineDetectedEntry.getBoolean(hatchLineDetectedDefault);
+        return frontLineDetectedEntry.getBoolean(frontLineDetectedDefault);
     }
 
     // Subsystems - MecDriver
