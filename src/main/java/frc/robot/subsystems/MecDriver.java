@@ -102,30 +102,30 @@ public class MecDriver extends Subsystem {
         }
     }
 
-    // Drive straight at the given speed
-    public void driveStraight(double speed) {
-        if (m_talonsAreConnected) {
-            Devices.mecDrive.driveCartesian(0,speed, 0);
-        }
-        else {
-            Devices.mecDrive.feed();
-        }
-    }
-
-    // Pivot at the given speed
-    public void pivot(double speed) {
-        if (m_talonsAreConnected) {
-            Devices.mecDrive.driveCartesian(0, 0, speed);
-        }
-        else {
-            Devices.mecDrive.feed();
-        }
-    }
-
     // Strafe at the given speed
     public void strafe(double speed) {
         if (m_talonsAreConnected) {
             Devices.mecDrive.driveCartesian(speed, 0, 0);
+        }
+        else {
+            Devices.mecDrive.feed();
+        }
+    }
+
+    // Drive straight at the given speed
+    public void driveStraight(double speed) {
+        if (m_talonsAreConnected) {
+            Devices.mecDrive.driveCartesian(0, speed, 0);
+        }
+        else {
+            Devices.mecDrive.feed();
+        }
+    }
+
+    // Rotate at the given speed
+    public void rotate(double speed) {
+        if (m_talonsAreConnected) {
+            Devices.mecDrive.driveCartesian(0, 0, speed);
         }
         else {
             Devices.mecDrive.feed();
@@ -167,10 +167,11 @@ public class MecDriver extends Subsystem {
         }
     }
 
+    // Returns true if the gyro Z angle matches the target angle within the ALIGN_ANGLE_THRESHOLD
     public boolean isAlignedWithGyro(int targetAngle) {
         double angle = Devices.imuMecDrive.getAngleZ();
-        boolean straight = (targetAngle - ALIGN_ANGLE_THRESHOLD <= angle || angle <= -targetAngle + ALIGN_ANGLE_THRESHOLD);
-        return straight;
+        boolean aligned = (targetAngle - ALIGN_ANGLE_THRESHOLD <= angle || angle <= -targetAngle + ALIGN_ANGLE_THRESHOLD);
+        return aligned;
     }
-    
+
 }

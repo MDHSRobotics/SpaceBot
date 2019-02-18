@@ -87,11 +87,14 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Logger.debug("Initializing Robot...");
+
+        // Instantiate Devices FIRST
         robotDevices = new Devices();
-        // Pre-intialize the Shuffler FIRST
+
+        // Pre-intialize the Shuffler SECOND
         robotShuffler.preInitialize();
 
-        // Instantiate subsystem singletons SECOND
+        // Instantiate subsystem singletons THIRD
         robotMecDriver = new MecDriver();
         robotLighter = new Lighter();
 

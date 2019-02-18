@@ -12,15 +12,15 @@ import frc.robot.Robot;
 public class MecDriveForward extends Command {
 
     // Constants
-    private final double VELOCITY_AT_FULL_POWER = 11.5; // Velocity (feet/second) at full power - THIS IS A GUESS - CHECK IT!!
+    private final double VELOCITY_AT_FULL_SPEED = 11.5; // Velocity (feet/second) at full speed - THIS IS A GUESS - CHECK IT!!
     private final static double DEFAULT_TARGET_DISTANCE_IN_FEET = 1; // Default desired distance to travel (in feet) - NOTE: Negative means move backwards
-    private final static double DEFAULT_POWER = .1; // Default power setting for drive: 0.0 to +1.0
+    private final static double DEFAULT_SPEED = .1; // Default speed setting for drive: 0.0 to +1.0
 
     // Private Member Variables
     private double m_targetDistanceInFeet; // Desired distance to travel (in feet) - NOTE: Negative means move backwards
-    private double m_power; // Power setting for drive: 0.0 to +1.0
+    private double m_speed; // Speed setting for drive: 0.0 to +1.0
     private double m_distanceTraveled; // Distanced traveled thus far (in feet)
-    private double m_velocity; // Velocity (feet/second) at current power setting
+    private double m_velocity; // Velocity (feet/second) at current speed setting
     private double m_elapsedTime; // Time (in seconds) that this command has executed
     private boolean m_movingForward; // True if moving forward; False if moving backward
 	private Timer m_timer; // Timer for this command
@@ -28,10 +28,10 @@ public class MecDriveForward extends Command {
 
     // Constructors
     public MecDriveForward() {
-        this(DEFAULT_TARGET_DISTANCE_IN_FEET, DEFAULT_POWER);
+        this(DEFAULT_TARGET_DISTANCE_IN_FEET, DEFAULT_SPEED);
     }
 
-    public MecDriveForward(double targetDistanceInFeet, double power) {
+    public MecDriveForward(double targetDistanceInFeet, double speed) {
         Logger.debug("Constructing Command: MecDriveForward...");
 
         // Declare subsystem dependencies
@@ -40,9 +40,9 @@ public class MecDriveForward extends Command {
         m_targetDistanceInFeet = targetDistanceInFeet;
         // Use sign of distance to determine whether moving forward or backward
 		m_movingForward = (targetDistanceInFeet > 0);
-        m_power = power;
-        // Scale velocity at full power by the current power (which is between 0 and 1.0)
-		m_velocity = m_power * VELOCITY_AT_FULL_POWER;
+        m_speed = speed;
+        // Scale velocity at full speed by the current speed (which is between 0 and 1.0)
+		m_velocity = m_speed * VELOCITY_AT_FULL_SPEED;
 		m_distanceTraveled = 0;
 		m_elapsedTime = 0;
 		m_timer = new Timer();
@@ -57,17 +57,17 @@ public class MecDriveForward extends Command {
 		m_elapsedTime = 0;
 		m_timer.reset();
 		m_timer.start();
-		Logger.debug("Target = " + m_targetDistanceInFeet + " feet" + "; Power = " + m_power);
+		Logger.debug("Target = " + m_targetDistanceInFeet + " feet" + "; Speed = " + m_speed);
     }
 
     @Override
     protected void execute() {
         // Keep robot moving in the requested direction
-        double power = m_power;
+        double speed = m_speed;
         if (!m_movingForward) {
-            power = -power;
+            speed = -speed;
         }
-        Robot.robotMecDriver.driveStraight(power);
+        Robot.robotMecDriver.driveStraight(speed);
 
         // Return number of seconds since the timer was started
         m_elapsedTime = m_timer.get();

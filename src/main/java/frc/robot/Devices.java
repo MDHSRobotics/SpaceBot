@@ -79,7 +79,10 @@ public class Devices {
     // Relays
     public static final Relay lighterRelay = new Relay(1);
 
-    // Speed Controllers
+    // Gyros
+    public static final ADIS16448_IMU imuMecDrive = new ADIS16448_IMU();
+
+    // Motor Controllers
     public static final WPI_TalonSRX talonSrxMecWheelFrontLeft = new WPI_TalonSRX(14); // 1 motor
     public static final WPI_TalonSRX talonSrxMecWheelRearLeft = new WPI_TalonSRX(7); // 1 motor
     public static final WPI_TalonSRX talonSrxMecWheelFrontRight = new WPI_TalonSRX(8); // 1 motor
@@ -92,23 +95,21 @@ public class Devices {
     public static final WPI_TalonSRX talonSrxTank = new WPI_TalonSRX(2); // 1 motor
     public static final WPI_TalonSRX talonSrxPulley = new WPI_TalonSRX(3); // 4 motors
     public static final WPI_TalonSRX talonSrxPusher = new WPI_TalonSRX(4); // 1 motor
-
+    
     // Drives
     public static MecanumDrive mecDrive = null;
-                                               
-    // Gyros
-    public static final ADIS16448_IMU imuMecDrive = new ADIS16448_IMU();
-    
-    public Devices(){
+
+    // Constructor
+    public Devices() {
+        // TODO: Investigate why these motor controllers have to be inverted. Are all TalonSRX Motor Controllers backwards?
         talonSrxMecWheelFrontLeft.setInverted(true);
         talonSrxMecWheelRearLeft.setInverted(true);
         talonSrxMecWheelFrontRight.setInverted(true);
         talonSrxMecWheelRearRight.setInverted(true);
-
         mecDrive = new MecanumDrive(talonSrxMecWheelFrontLeft,
-                                        talonSrxMecWheelRearLeft,
-                                        talonSrxMecWheelFrontRight,
-                                        talonSrxMecWheelRearRight);
+                                    talonSrxMecWheelRearLeft,
+                                    talonSrxMecWheelFrontRight,
+                                    talonSrxMecWheelRearRight);
     }
 
     // Determines if the Talon SRX is connected

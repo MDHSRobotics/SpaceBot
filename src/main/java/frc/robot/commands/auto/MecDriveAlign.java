@@ -36,7 +36,7 @@ public class MecDriveAlign extends Command {
 
         double angle = Devices.imuMecDrive.getAngleZ();
         double speed = m_targetAngle - angle;
-        Robot.robotMecDriver.pivot(speed);
+        Robot.robotMecDriver.rotate(speed);
 
         boolean detected = Robot.robotLineDetectorFront.lineDetected();
         if (!detected) {
