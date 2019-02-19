@@ -35,7 +35,8 @@ public class BallHold extends Command {
     protected boolean isFinished() {
         // TODO: If this command never finishes, we can never use it in a CommandGroup to automate complex actions
         // Also, it will spam the log with Position and Velocity long after the action is complete
-        return false;
+        // return false;
+        return Robot.robotHatcher.isPositionMet();
     }
 
     @Override
