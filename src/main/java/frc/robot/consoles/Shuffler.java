@@ -22,7 +22,7 @@ public class Shuffler {
     private DebugTab m_debugTab;
 
     public Shuffler() {
-        Logging.logTrivial("Constructing Shuffler...");
+        ShuffleLogger.logTrivial("Constructing Shuffler...");
 
         m_mainTab = new MainTab();
         m_visionTab = new VisionTab();
@@ -33,7 +33,7 @@ public class Shuffler {
     }
 
     public void preInitialize() {
-        Logging.logTrivial("Pre-Initializing Shuffler...");
+        ShuffleLogger.logTrivial("Pre-Initializing Shuffler...");
 
         m_mainTab.preInitialize();
         m_visionTab.preInitialize();
@@ -44,7 +44,7 @@ public class Shuffler {
     }
 
     public void initialize() {
-        Logging.logTrivial("Initializing Shuffler...");
+        ShuffleLogger.logTrivial("Initializing Shuffler...");
 
         m_mainTab.initialize();
         m_visionTab.initialize();
@@ -55,7 +55,7 @@ public class Shuffler {
     }
 
     public void configure() {
-        Logging.logTrivial("Configuring Shuffler...");
+        ShuffleLogger.logTrivial("Configuring Shuffler...");
 
         m_mainTab.configure();
         m_visionTab.configure();

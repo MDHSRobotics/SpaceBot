@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 
 import frc.robot.commands.auto.HatchGrab;
 import frc.robot.commands.auto.HatchRelease;
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -17,7 +17,7 @@ public class HatcherTogglePosition extends InstantCommand {
 
     public HatcherTogglePosition() {
         super();
-        Logger.debug("Constructing InstantCommand: HatcherTogglePosition...");
+        Logger.setup("Constructing InstantCommand: HatcherTogglePosition...");
 
         m_hatchGrabCmd = new HatchGrab();
         m_hatchReleaseCmd = new HatchRelease();
@@ -25,7 +25,7 @@ public class HatcherTogglePosition extends InstantCommand {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing InstantCommand: HatcherTogglePosition...");
+        Logger.action("Initializing InstantCommand: HatcherTogglePosition...");
 
         if (Robot.robotHatcher.hatchIsGrabbed) {
             m_hatchGrabCmd.start();
@@ -33,7 +33,6 @@ public class HatcherTogglePosition extends InstantCommand {
         else {
             m_hatchReleaseCmd.start();
         }
-        // TODO: Should this happen here, or in the isFinished() methods for each command?
         Robot.robotHatcher.toggleHatchGrabbed();
     }
 

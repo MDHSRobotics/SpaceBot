@@ -3,7 +3,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
 import frc.robot.Robot.ClimbMode;
@@ -13,14 +13,14 @@ import frc.robot.Robot.ClimbMode;
 public class ArmResetPosition extends Command {
 
     public ArmResetPosition() {
-        Logger.debug("Constructing Command: ArmResetPosition...");
+        Logger.setup("Constructing Command: ArmResetPosition...");
 
         requires(Robot.robotArm);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: ArmResetPosition...");
+        Logger.action("Initializing Command: ArmResetPosition...");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ArmResetPosition extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: ArmResetPosition...");
+        Logger.ending("Ending Command: ArmResetPosition...");
 
         Robot.robotArm.stop();
 
@@ -48,7 +48,7 @@ public class ArmResetPosition extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: ArmResetPosition...");
+        Logger.ending("Interrupting Command: ArmResetPosition...");
 
         Robot.robotArm.stop();
     }

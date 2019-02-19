@@ -4,7 +4,7 @@ package frc.robot.consoles.tabs;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
-import frc.robot.consoles.Logging;
+import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Brain;
 
 
@@ -30,7 +30,7 @@ public class VisionTab {
 
     // Constructor
     public VisionTab() {
-        Logging.logTrivial("Constructing VisionTab...");
+        ShuffleLogger.logTrivial("Constructing VisionTab...");
 
         m_tab = Shuffleboard.getTab("Vision");
     }

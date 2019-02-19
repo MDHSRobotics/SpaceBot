@@ -3,7 +3,7 @@ package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -12,7 +12,7 @@ import frc.robot.Robot;
 public class TankSpin extends Command {
 
     public TankSpin() {
-        Logger.debug("Constructing Command: TankSpin...");
+        Logger.setup("Constructing Command: TankSpin...");
 
         // Declare subsystem dependencies
         requires(Robot.robotTank);
@@ -20,7 +20,7 @@ public class TankSpin extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: TankSpin...");
+        Logger.action("Initializing Command: TankSpin...");
     }
 
     @Override
@@ -36,14 +36,14 @@ public class TankSpin extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: TankSpin...");
+        Logger.ending("Ending Command: TankSpin...");
 
         Robot.robotTank.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: TankSpin...");
+        Logger.ending("Interrupting Command: TankSpin...");
 
         Robot.robotTank.stop();
     }

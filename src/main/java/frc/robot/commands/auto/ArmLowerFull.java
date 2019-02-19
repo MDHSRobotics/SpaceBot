@@ -3,7 +3,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
 import frc.robot.Robot.ClimbMode;
@@ -13,14 +13,14 @@ import frc.robot.Robot.ClimbMode;
 public class ArmLowerFull extends Command {
 
     public ArmLowerFull() {
-        Logger.debug("Constructing Command: ArmLowerFull...");
+        Logger.setup("Constructing Command: ArmLowerFull...");
 
         requires(Robot.robotArm);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: ArmLowerFull...");
+        Logger.action("Initializing Command: ArmLowerFull...");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ArmLowerFull extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: ArmLowerFull...");
+        Logger.ending("Ending Command: ArmLowerFull...");
 
         Robot.robotArm.stop();
 
@@ -48,7 +48,7 @@ public class ArmLowerFull extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: ArmLowerFull...");
+        Logger.ending("Interrupting Command: ArmLowerFull...");
 
         Robot.robotArm.stop();
     }

@@ -4,7 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.PulleyStop;
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Devices;
 
 
@@ -20,7 +20,7 @@ public class Pulley extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Pulley() {
-        Logger.debug("Constructing Subsystem: Pulley...");
+        Logger.setup("Constructing Subsystem: Pulley...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxPulley);
         if (m_talonsAreConnected) {
@@ -30,7 +30,7 @@ public class Pulley extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Pulley DefaultCommand -> PulleyStop...");
+        Logger.setup("Initializing Pulley DefaultCommand -> PulleyStop...");
 
         setDefaultCommand(new PulleyStop());
     }

@@ -3,7 +3,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class BallHold extends Command {
 
     public BallHold() {
-        Logger.debug("Constructing Command: BallHold...");
+        Logger.setup("Constructing Command: BallHold...");
 
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
@@ -19,15 +19,15 @@ public class BallHold extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: BallHold...");
+        Logger.action("Initializing Command: BallHold...");
 
         Robot.robotBaller.holdBall();
     }
 
     @Override
     protected void execute() {
-        Logger.debug("Position: " + Robot.robotBaller.getPosition());
-        Logger.debug("Velocity: " +  Robot.robotBaller.getVelocity());
+        Logger.info("BallHold -> Position: " + Robot.robotBaller.getPosition());
+        Logger.info("BallHold -> Velocity: " +  Robot.robotBaller.getVelocity());
     }
 
     // This command is finished when the ball has been fully blocked
@@ -35,19 +35,20 @@ public class BallHold extends Command {
     protected boolean isFinished() {
         // TODO: If this command never finishes, we can never use it in a CommandGroup to automate complex actions
         // Also, it will spam the log with Position and Velocity long after the action is complete
-        return false;
+        // return false;
+        return Robot.robotHatcher.isPositionMet();
     }
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: BallHold...");
+        Logger.ending("Ending Command: BallHold...");
 
         Robot.robotBaller.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: BallHold...");
+        Logger.ending("Interrupting Command: BallHold...");
 
         Robot.robotBaller.stop();
     }

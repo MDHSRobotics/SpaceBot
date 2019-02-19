@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 // Log events to various places: Shuffleboard, stdout, etc.
 // Note: Event names should be terse
 
-public class Logging {
+public class ShuffleLogger {
 
     //--------------------------------------------------------------------------------------------//
     // Trivial events such as command switching state

@@ -4,7 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.interactive.TankSpin;
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Devices;
 
 
@@ -19,7 +19,7 @@ public class Tank extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Tank() {
-        Logger.debug("Constructing Subsystem: Tank...");
+        Logger.setup("Constructing Subsystem: Tank...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxTank);
         if (m_talonsAreConnected) {
@@ -29,7 +29,7 @@ public class Tank extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Tank DefaultCommand -> TankSpin...");
+        Logger.setup("Initializing Tank DefaultCommand -> TankSpin...");
 
         setDefaultCommand(new TankSpin());
     }

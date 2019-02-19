@@ -2,7 +2,7 @@ package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -12,14 +12,14 @@ import frc.robot.Robot;
 public class ArmLowerMore extends Command {
 
     public ArmLowerMore() {
-        Logger.debug("Constructing Command: ArmLowerMore...");
+        Logger.setup("Constructing Command: ArmLowerMore...");
 
         requires(Robot.robotArm);
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: ArmLowerMore...");
+        Logger.action("Initializing Command: ArmLowerMore...");
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ArmLowerMore extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: ArmLowerMore...");
+        Logger.ending("Ending Command: ArmLowerMore...");
 
         Robot.robotArm.stop();
 
@@ -45,7 +45,7 @@ public class ArmLowerMore extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: ArmLowerMore...");
+        Logger.ending("Interrupting Command: ArmLowerMore...");
 
         Robot.robotArm.stop();
     }

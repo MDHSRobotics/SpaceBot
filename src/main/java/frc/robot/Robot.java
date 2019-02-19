@@ -12,7 +12,6 @@ import frc.robot.commands.auto.*;
 import frc.robot.commands.idle.*;
 import frc.robot.commands.instant.*;
 import frc.robot.consoles.*;
-import frc.robot.helpers.Logger;
 import frc.robot.subsystems.*;
 import frc.robot.vision.CameraTester;
 import frc.robot.vision.LineDetector;
@@ -48,6 +47,9 @@ public class Robot extends TimedRobot {
     public static DeliveryMode robotDeliveryMode = DeliveryMode.GET_HATCH;
     // Climb Mode tells the climb commands which system needs to be activated next
     public static ClimbMode robotClimbMode = ClimbMode.ARM;
+
+    // Core Classes
+    public static Logger robotLogger;
     public static Devices robotDevices;
 
     // Subsystems
@@ -86,15 +88,17 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        Logger.debug("Initializing Robot...");
+        // Instantiate the Logger FIRST to support ANSI on Windows 10
+        robotLogger = new Logger();
+        Logger.setup("Initializing Robot...");
 
-        // Instantiate Devices FIRST
+        // Instantiate Devices SECOND
         robotDevices = new Devices();
 
-        // Pre-intialize the Shuffler SECOND
+        // Pre-intialize the Shuffler THIRD
         robotShuffler.preInitialize();
 
-        // Instantiate subsystem singletons THIRD
+        // Instantiate subsystem singletons FOURTH
         robotMecDriver = new MecDriver();
         robotLighter = new Lighter();
 
@@ -123,7 +127,7 @@ public class Robot extends TimedRobot {
         robotLineDetectorRight = new LineDetector(robotCameraLineRight);
 
         // Add the commands to the SmartDashboard
-        Logger.debug("Adding AutoModes to SmartDashboard...");
+        Logger.setup("Adding AutoModes to SmartDashboard...");
         autoCommandChooser = new SendableChooser<>();
 
         autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
@@ -159,7 +163,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-        Logger.debug("Disabling Robot...");
+        Logger.ending("Disabling Robot...");
     }
 
     @Override
@@ -180,7 +184,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        Logger.debug("Initializing Autonomous...");
+        Logger.action("Initializing Autonomous...");
 
         m_autoCmd = autoCommandChooser.getSelected();
 
@@ -213,7 +217,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        Logger.debug("Initializing Teleop...");
+        Logger.action("Initializing Teleop...");
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to

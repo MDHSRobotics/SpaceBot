@@ -3,7 +3,7 @@ package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class TankStop extends Command {
 
     public TankStop() {
-        Logger.debug("Constructing Command: TankStop...");
+        Logger.setup("Constructing Command: TankStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotTank);
@@ -19,7 +19,7 @@ public class TankStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: TankStop...");
+        Logger.action("Initializing Command: TankStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class TankStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: TankStop...");
+        Logger.ending("Ending Command: TankStop...");
 
         Robot.robotTank.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: TankStop...");
+        Logger.ending("Interrupting Command: TankStop...");
 
         Robot.robotTank.stop();
     }

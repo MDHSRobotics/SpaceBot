@@ -3,7 +3,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 import frc.robot.Robot.ClimbMode;;
 
@@ -12,7 +12,7 @@ import frc.robot.Robot.ClimbMode;;
 public class TankPulleyLift extends Command {
 
     public TankPulleyLift() {
-        Logger.debug("Constructing Command: TankPulleyLift...");
+        Logger.setup("Constructing Command: TankPulleyLift...");
 
         requires(Robot.robotTank);
         requires(Robot.robotPulley);
@@ -20,7 +20,7 @@ public class TankPulleyLift extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: TankPulleyLift...");
+        Logger.action("Initializing Command: TankPulleyLift...");
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TankPulleyLift extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: TankPulleyLift...");
+        Logger.ending("Ending Command: TankPulleyLift...");
 
         Robot.robotTank.stop();
         Robot.robotPulley.stop();
@@ -47,7 +47,7 @@ public class TankPulleyLift extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: TankPulleyLift...");
+        Logger.ending("Interrupting Command: TankPulleyLift...");
 
         Robot.robotTank.stop();
         Robot.robotPulley.stop();

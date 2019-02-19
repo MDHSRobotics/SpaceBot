@@ -3,8 +3,8 @@ package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.consoles.Logger;
 import frc.robot.helpers.CartesianMovement;
-import frc.robot.helpers.Logger;
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -13,7 +13,7 @@ import frc.robot.Robot;
 public class MecDriveCartesian extends Command {
 
     public MecDriveCartesian() {
-        Logger.debug("Constructing Command: MecDriveCartesian...");
+        Logger.setup("Constructing Command: MecDriveCartesian...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -21,7 +21,7 @@ public class MecDriveCartesian extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveCartesian...");
+        Logger.action("Initializing Command: MecDriveCartesian...");
     }
 
     @Override
@@ -38,14 +38,14 @@ public class MecDriveCartesian extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveCartesian...");
+        Logger.ending("Ending Command: MecDriveCartesian...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveCartesian...");
+        Logger.ending("Interrupting Command: MecDriveCartesian...");
 
         Robot.robotMecDriver.stop();
     }

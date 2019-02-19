@@ -6,8 +6,8 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.ArmStop;
+import frc.robot.consoles.Logger;
 import frc.robot.helpers.EncoderConstants;
-import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
 
@@ -33,7 +33,7 @@ public class Arm extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Arm() {
-        Logger.debug("Contructing Subsystem: Arm...");
+        Logger.setup("Constructing Subsystem: Arm...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArm);
         if (m_talonsAreConnected) {
@@ -75,7 +75,7 @@ public class Arm extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Arm DefaultCommand -> ArmStop...");
+        Logger.setup("Initializing Arm DefaultCommand -> ArmStop...");
 
         setDefaultCommand(new ArmStop());
     }
@@ -89,7 +89,7 @@ public class Arm extends Subsystem {
     // Reset the Arm to its starting position
     public void resetPosition() {
         if (!m_talonsAreConnected) return;
-        Logger.debug("Arm -> Reset Position: " + TARGET_RESET_POSITION);
+        Logger.info("Arm -> Reset Position: " + TARGET_RESET_POSITION);
         Devices.talonSrxArm.set(ControlMode.Position, TARGET_RESET_POSITION);
     }
 
@@ -97,7 +97,7 @@ public class Arm extends Subsystem {
     public void lowerHalf() {
         if (!m_talonsAreConnected) return;
         double targetPositionUnits = TARGET_ROTATION_HALF * EncoderConstants.REDLIN_ENCODER_TPR;
-        Logger.debug("Arm -> Target Lower Half Position: " + targetPositionUnits);
+        Logger.info("Arm -> Target Lower Half Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
 
@@ -105,7 +105,7 @@ public class Arm extends Subsystem {
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
         double targetPositionUnits = TARGET_ROTATION_FULL * EncoderConstants.REDLIN_ENCODER_TPR;
-        Logger.debug("Arm -> Target Lower Full Position: " + targetPositionUnits);
+        Logger.info("Arm -> Target Lower Full Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
 
@@ -119,11 +119,13 @@ public class Arm extends Subsystem {
 
     // Get the current motor velocity
     public int getVelocity() {
+        if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxArm.getSelectedSensorVelocity();
     }
 
     // Get the current motor position
     public int getPosition() {
+        if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxArm.getSelectedSensorPosition();
     }
 

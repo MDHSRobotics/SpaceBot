@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
 
 import frc.robot.commands.interactive.TankSpin;
-import frc.robot.consoles.Logging;
+import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Robot;
 
 
@@ -18,7 +18,7 @@ public class SubsystemsTab {
 
     // Constructor
     public SubsystemsTab() {
-        Logging.logTrivial("Constructing SubsystemsTab...");
+        ShuffleLogger.logTrivial("Constructing SubsystemsTab...");
 
         m_tab = Shuffleboard.getTab("Subsystems");
     }
