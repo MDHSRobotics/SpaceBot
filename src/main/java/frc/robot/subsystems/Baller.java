@@ -33,14 +33,14 @@ public class Baller extends Subsystem {
         if (m_talonsAreConnected) {
             Devices.talonSrxBaller.configFactoryDefault();
 
-            Devices.talonSrxBaller.configPeakCurrentDuration(40, 20);
-            Devices.talonSrxBaller.configPeakCurrentLimit(11, 20);
-            Devices.talonSrxBaller.configContinuousCurrentLimit(10, 20);
+            Devices.talonSrxBaller.configPeakCurrentDuration(40, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configPeakCurrentLimit(11, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configContinuousCurrentLimit(10, EncoderConstants.TIMEOUT_MS);
 
             Devices.talonSrxBaller.configNominalOutputForward(0);
             Devices.talonSrxBaller.configNominalOutputReverse(0);
             Devices.talonSrxBaller.configPeakOutputForward(0.5);
-            Devices.talonSrxBaller.configPeakOutputReverse(-0.5);
+            Devices.talonSrxBaller.configPeakOutputReverse(-0.2);
 
             Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
             Devices.talonSrxBaller.setSensorPhase(SENSOR_PHASE);
@@ -53,7 +53,7 @@ public class Baller extends Subsystem {
             Devices.talonSrxBaller.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.1, EncoderConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
+            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, EncoderConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxBaller.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;

@@ -33,17 +33,17 @@ public class Hatcher extends Subsystem {
         if (m_talonsAreConnected) {
             Devices.talonSrxHatcher.configFactoryDefault();
 
-            Devices.talonSrxHatcher.configPeakCurrentDuration(40, 20);
-            Devices.talonSrxHatcher.configPeakCurrentLimit(11, 20);
-            Devices.talonSrxHatcher.configContinuousCurrentLimit(10, 20);
+            Devices.talonSrxHatcher.configPeakCurrentDuration(40, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentLimit(11, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configContinuousCurrentLimit(10, EncoderConstants.TIMEOUT_MS);
 
             Devices.talonSrxHatcher.configNominalOutputForward(0);
             Devices.talonSrxHatcher.configNominalOutputReverse(0);
             Devices.talonSrxHatcher.configPeakOutputForward(0.5);
             Devices.talonSrxHatcher.configPeakOutputReverse(-0.5);
 
-            Devices.talonSrxHatcher.configMotionAcceleration(6000, 20);
-            Devices.talonSrxHatcher.configMotionCruiseVelocity(15000, 20);
+            Devices.talonSrxHatcher.configMotionAcceleration(4000, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configMotionCruiseVelocity(8000, EncoderConstants.TIMEOUT_MS);
 
             // Config TalonSRX Redline encoder
             Devices.talonSrxHatcher.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
@@ -120,14 +120,4 @@ public class Hatcher extends Subsystem {
     public void toggleHatchGrabbed() {
         hatchIsGrabbed = !hatchIsGrabbed;
     }
-
-    //---------//
-    // Testing //
-    //---------//
-
-    public void driveStatic() {
-        if (!m_talonsAreConnected) return;
-        Devices.talonSrxHatcher.set(0.2);
-    }
-
 }
