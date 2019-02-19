@@ -36,6 +36,8 @@ public class MecDriveAlign extends Command {
             return;
         }
 
+        // TODO: See which line is detected, and move based on that, such that the front camera can see the line when initial adjustment is complete
+
         double zRotation = 0;
         double angle = Devices.imuMecDrive.getAngleZ();
         double correction = m_targetAngle - angle;
@@ -44,7 +46,7 @@ public class MecDriveAlign extends Command {
             if (correction < -180) correction = correction + 360;
             zRotation = correction/180;
             if (zRotation < .1) zRotation = .1;
-            Logger.info("MecDriveAlign -> Target Angle: " + m_targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Rotate Speed: " + zRotation);
+            Logger.info("MecDriveAlign -> Target Angle: " + m_targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Z Rotate Speed: " + zRotation);
         }
 
         double ySpeed = 0;
@@ -58,7 +60,7 @@ public class MecDriveAlign extends Command {
                     if (imageX < 0) {
                         ySpeed = -ySpeed;
                     }
-                    Logger.info("MecDriveAlign -> X pixels to correct: " + imageX + "; Strafe: " + ySpeed);
+                    Logger.info("MecDriveAlign -> X pixels to correct: " + imageX + "; Y Strafe: " + ySpeed);
                 }
             }
         }
