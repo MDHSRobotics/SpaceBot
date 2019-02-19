@@ -12,12 +12,10 @@ import frc.robot.Robot;
 // Automatically control the MecDrive to align the Robot with the gyro, and the line seen by the vision system
 public class MecDriveAlign extends Command {
 
-    private final double X_SPEED = .3;
-
     private int m_targetAngle = 0;
 
     public MecDriveAlign() {
-        Logger.debug("Constructing Command: MecDriveAlignHatch...");
+        Logger.debug("Constructing Command: MecDriveAlign...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -25,36 +23,48 @@ public class MecDriveAlign extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveAlignHatch...");
+        Logger.debug("Initializing Command: MecDriveAlign...");
 
         m_targetAngle = OI.getDpadAngle();
     }
 
     @Override
     protected void execute() {
-        if (m_targetAngle == -1) return;
+        if (m_targetAngle == -1) {
+            Logger.debug("MecDriveAlign -> Missed the DPad button press!");
+            Robot.robotMecDriver.stop();
+            return;
+        }
 
+        double zRotation = 0;
         double angle = Devices.imuMecDrive.getAngleZ();
-        double speed = m_targetAngle - angle;
-        Robot.robotMecDriver.rotate(speed);
-
-        boolean detected = Robot.robotLineDetectorFront.lineDetected();
-        if (!detected) {
-            Logger.debug("Line not detected!");
-            return;
+        double correction = m_targetAngle - angle;
+        if (correction < -5 || 5 < correction) {
+            if (correction > 180) correction = correction - 360;
+            if (correction < -180) correction = correction + 360;
+            zRotation = correction/180;
+            if (zRotation < .1) zRotation = .1;
+            Logger.debug("MecDriveAlign -> Target Angle: " + m_targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Rotate Speed: " + zRotation);
         }
 
-        boolean centered = Robot.robotLineDetectorFront.isCentered();
-        if (!centered) {
-            double x = Robot.robotLineDetectorFront.getCorrectedX();
-            Logger.debug("Strafe pixels to correct: " + x);
-            double xSpeed = X_SPEED;
-            if (x > 0) {
-                xSpeed = -xSpeed;
+        double ySpeed = 0;
+        if (-45 < correction && correction < 45) {
+            boolean detected = Robot.robotLineDetectorFront.lineDetected();
+            if (detected) {
+                boolean centered = Robot.robotLineDetectorFront.isCentered();
+                if (!centered) {
+                    double imageX = Robot.robotLineDetectorFront.getCorrectedX();
+                    ySpeed = .25;
+                    if (imageX < 0) {
+                        ySpeed = -ySpeed;
+                    }
+                    Logger.debug("MecDriveAlign -> X pixels to correct: " + imageX + "; Strafe: " + ySpeed);
+                }
             }
-            Robot.robotMecDriver.strafe(xSpeed);
-            return;
         }
+
+        // Use the correction values to align to the gyro and line detector
+        Robot.robotMecDriver.driveCartesian(ySpeed, 0, zRotation);
     }
 
     // We're finished when the line looks straight and is centered enough (or a line is not detected)
@@ -66,24 +76,28 @@ public class MecDriveAlign extends Command {
         if (!straight) return false;
 
         boolean detected = Robot.robotLineDetectorFront.lineDetected();
-        if (!detected) return true;
+        if (!detected) {
+            Logger.debug("MecDriveAlign -> Line lost!");
+            return true;
+        }
 
         boolean centered = Robot.robotLineDetectorFront.isCentered();
         if (!centered) return false;
 
+        Logger.debug("MecDriveAlign -> Aligned!");
         return true;
     }
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveAlignHatch...");
+        Logger.debug("Ending Command: MecDriveAlign...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveAlignHatch...");
+        Logger.debug("Interrupting Command: MecDriveAlign...");
 
         Robot.robotMecDriver.stop();
     }

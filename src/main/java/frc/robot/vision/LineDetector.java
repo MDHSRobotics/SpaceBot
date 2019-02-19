@@ -20,11 +20,11 @@ public class LineDetector {
 
     private double m_minimumArea = (Robot.camResolutionHeight / 3) ^ 2;
 
-    private double m_targetAngle = 90;
-    private double m_targetCenterX = Robot.camResolutionWidth / 2;
+    private double m_angleTarget = 90;
+    private double m_centerXtarget = Robot.camResolutionWidth / 2;
 
     private double m_angleThreshold = 10;
-    private double m_centerXThreshold = Robot.camResolutionWidth / 64;
+    private double m_centerXthreshold = Robot.camResolutionWidth / 64;
 
     private VisionThread m_visionThread;
 
@@ -145,7 +145,7 @@ public class LineDetector {
 
     public boolean isStraight(double angle) {
         //boolean straight = (m_targetAngle - m_angleThreshold <= angle && angle <= m_targetAngle + m_angleThreshold);
-        boolean straight = (m_targetAngle - m_angleThreshold <= angle || angle <= -m_targetAngle + m_angleThreshold);
+        boolean straight = (m_angleTarget - m_angleThreshold <= angle || angle <= -m_angleTarget + m_angleThreshold);
         return straight;
     }
 
@@ -156,18 +156,18 @@ public class LineDetector {
     }
 
     public boolean isCentered(double centerX) {
-        boolean centered = (m_targetCenterX - m_centerXThreshold <= centerX && centerX <= m_targetCenterX + m_centerXThreshold);
+        boolean centered = (m_centerXtarget - m_centerXthreshold <= centerX && centerX <= m_centerXtarget + m_centerXthreshold);
         return centered;
     }
 
     public double getCorrectedZ() {
         double angle = Brain.getFrontLineAngle();
-        return m_targetAngle + angle;
+        return m_angleTarget + angle;
     }
 
     public double getCorrectedX() {
         double centerX = Brain.getFrontLineXcenter();
-        return m_targetCenterX - centerX;
+        return m_centerXtarget - centerX;
     }
 
 }
