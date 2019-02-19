@@ -7,8 +7,8 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.HatcherStop;
+import frc.robot.consoles.Logger;
 import frc.robot.helpers.EncoderConstants;
-import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
 
@@ -27,7 +27,7 @@ public class Hatcher extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Hatcher() {
-        Logger.debug("Constructing Subsystem: Hatcher...");
+        Logger.setup("Constructing Subsystem: Hatcher...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxHatcher);
         if (m_talonsAreConnected) {
@@ -70,7 +70,7 @@ public class Hatcher extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Hatcher DefaultCommand -> HatcherStop...");
+        Logger.setup("Initializing Hatcher DefaultCommand -> HatcherStop...");
 
         setDefaultCommand(new HatcherStop());
     }
@@ -85,24 +85,26 @@ public class Hatcher extends Subsystem {
     public void grabHatch() {
         if (!m_talonsAreConnected) return;
         double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
-        Logger.debug("Hatcher -> Target Grab Position: " + targetPositionUnits);
+        Logger.info("Hatcher -> Target Grab Position: " + targetPositionUnits);
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
     }
 
     // Close the Hatcher claw to release the hatch
     public void releaseHatch() {
         if (!m_talonsAreConnected) return;
-        Logger.debug("Hatcher -> Target Release Position: " + 0);
+        Logger.info("Hatcher -> Target Release Position: " + 0);
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, 0);
     }
 
     // Get the current Hatcher claw motor velocity
     public int getVelocity() {
+        if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxHatcher.getSelectedSensorVelocity();
     }
 
     // Get the current Hatcher claw motor position
     public int getPosition() {
+        if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxHatcher.getSelectedSensorPosition();
     }
 

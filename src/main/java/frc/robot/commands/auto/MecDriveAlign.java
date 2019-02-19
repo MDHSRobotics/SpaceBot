@@ -3,7 +3,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Devices;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -15,7 +15,7 @@ public class MecDriveAlign extends Command {
     private int m_targetAngle = 0;
 
     public MecDriveAlign() {
-        Logger.debug("Constructing Command: MecDriveAlign...");
+        Logger.setup("Constructing Command: MecDriveAlign...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -23,7 +23,7 @@ public class MecDriveAlign extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveAlign...");
+        Logger.action("Initializing Command: MecDriveAlign...");
 
         m_targetAngle = OI.getDpadAngle();
     }
@@ -31,7 +31,7 @@ public class MecDriveAlign extends Command {
     @Override
     protected void execute() {
         if (m_targetAngle == -1) {
-            Logger.debug("MecDriveAlign -> Missed the DPad button press!");
+            Logger.warning("MecDriveAlign -> Missed the DPad button press!");
             Robot.robotMecDriver.stop();
             return;
         }
@@ -44,7 +44,7 @@ public class MecDriveAlign extends Command {
             if (correction < -180) correction = correction + 360;
             zRotation = correction/180;
             if (zRotation < .1) zRotation = .1;
-            Logger.debug("MecDriveAlign -> Target Angle: " + m_targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Rotate Speed: " + zRotation);
+            Logger.info("MecDriveAlign -> Target Angle: " + m_targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Rotate Speed: " + zRotation);
         }
 
         double ySpeed = 0;
@@ -58,7 +58,7 @@ public class MecDriveAlign extends Command {
                     if (imageX < 0) {
                         ySpeed = -ySpeed;
                     }
-                    Logger.debug("MecDriveAlign -> X pixels to correct: " + imageX + "; Strafe: " + ySpeed);
+                    Logger.info("MecDriveAlign -> X pixels to correct: " + imageX + "; Strafe: " + ySpeed);
                 }
             }
         }
@@ -77,27 +77,27 @@ public class MecDriveAlign extends Command {
 
         boolean detected = Robot.robotLineDetectorFront.lineDetected();
         if (!detected) {
-            Logger.debug("MecDriveAlign -> Line lost!");
+            Logger.info("MecDriveAlign -> Line lost!");
             return true;
         }
 
         boolean centered = Robot.robotLineDetectorFront.isCentered();
         if (!centered) return false;
 
-        Logger.debug("MecDriveAlign -> Aligned!");
+        Logger.info("MecDriveAlign -> Aligned!");
         return true;
     }
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveAlign...");
+        Logger.ending("Ending Command: MecDriveAlign...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveAlign...");
+        Logger.ending("Interrupting Command: MecDriveAlign...");
 
         Robot.robotMecDriver.stop();
     }

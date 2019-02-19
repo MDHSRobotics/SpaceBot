@@ -4,7 +4,7 @@ package frc.robot.consoles.tabs;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
-import frc.robot.consoles.Logging;
+import frc.robot.consoles.ShuffleLogger;
 
 
 // The Shuffleboard Debug Tab
@@ -16,7 +16,7 @@ public class DebugTab {
 
     // Constructor
     public DebugTab() {
-        Logging.logTrivial("Constructing DebugTab...");
+        ShuffleLogger.logTrivial("Constructing DebugTab...");
 
         m_tab = Shuffleboard.getTab("Debug");
     }

@@ -5,7 +5,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import java.util.concurrent.TimeUnit;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 
 
 public class CameraTester {
@@ -13,7 +13,7 @@ public class CameraTester {
     private static final long SLEEP_SECONDS = 1;
 
     public static UsbCamera captureCamera(int deviceNumber, int camResolutionHeight, int camResolutionWidth) {
-        Logger.debug("Starting Camera Capture... Device: " + deviceNumber);
+        Logger.action("Starting Camera Capture... Device: " + deviceNumber);
 
         CameraServer camServer = CameraServer.getInstance();
         UsbCamera cam = camServer.startAutomaticCapture(deviceNumber);
@@ -23,17 +23,17 @@ public class CameraTester {
     }
 
     public static boolean testConnection(int deviceNumber) {
-        Logger.debug("Checking for USB Camera Connection... Device: " + deviceNumber);
+        Logger.action("Checking for USB Camera Connection... Device: " + deviceNumber);
 
         boolean cameraIsConnected = false;
         UsbCamera testCam = new UsbCamera("Test USB Camera " + deviceNumber, deviceNumber);
         try {
-            Logger.debug("Waiting for Test USB Camera " + deviceNumber + " to connect...");
+            Logger.waiting("Waiting for Test USB Camera " + deviceNumber + " to connect...");
             try {
                 TimeUnit.SECONDS.sleep(SLEEP_SECONDS);
             }
             catch (InterruptedException e) {
-                Logger.debug("Swallowed InterruptedException: " + e);
+                Logger.warning("Swallowed InterruptedException: " + e);
             }
             cameraIsConnected = testCam.isConnected();
         }
@@ -41,7 +41,7 @@ public class CameraTester {
             testCam.close();
         }
         if (!cameraIsConnected) {
-            Logger.debug("USB Camera " + deviceNumber + " not found, disabled!");
+            Logger.warning("USB Camera " + deviceNumber + " not found, disabled!");
         }
         return cameraIsConnected;
     }

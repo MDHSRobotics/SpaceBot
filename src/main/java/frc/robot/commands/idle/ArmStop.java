@@ -3,7 +3,7 @@ package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class ArmStop extends Command {
 
     public ArmStop() {
-        Logger.debug("Constructing Command: ArmStop...");
+        Logger.setup("Constructing Command: ArmStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotArm);
@@ -19,7 +19,7 @@ public class ArmStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: ArmStop...");
+        Logger.action("Initializing Command: ArmStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class ArmStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: ArmStop...");
+        Logger.ending("Ending Command: ArmStop...");
 
         Robot.robotArm.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: ArmStop...");
+        Logger.ending("Interrupting Command: ArmStop...");
 
         Robot.robotArm.stop();
     }

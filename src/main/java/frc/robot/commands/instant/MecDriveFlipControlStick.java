@@ -3,7 +3,7 @@ package frc.robot.commands.instant;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class MecDriveFlipControlStick extends Command {
 
     public MecDriveFlipControlStick() {
-        Logger.debug("Constructing Command: MecDriveFlipControlStick...");
+        Logger.setup("Constructing Command: MecDriveFlipControlStick...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -19,7 +19,7 @@ public class MecDriveFlipControlStick extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveFlipControlStick...");
+        Logger.action("Initializing Command: MecDriveFlipControlStick...");
 
         Robot.robotMecDriver.stop();
     }
@@ -37,14 +37,14 @@ public class MecDriveFlipControlStick extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveFlipControlStick...");
+        Logger.ending("Ending Command: MecDriveFlipControlStick...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveFlipControlStick...");
+        Logger.ending("Interrupting Command: MecDriveFlipControlStick...");
 
         Robot.robotMecDriver.stop();
     }

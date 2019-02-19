@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 
 import frc.robot.commands.auto.BallHold;
 import frc.robot.commands.auto.BallToss;
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -17,7 +17,7 @@ public class BallerTogglePosition extends InstantCommand {
 
     public BallerTogglePosition() {
         super();
-        Logger.debug("Constructing InstantCommand: BallerTogglePosition...");
+        Logger.setup("Constructing InstantCommand: BallerTogglePosition...");
 
         m_ballHoldCmd = new BallHold();
         m_ballTossCmd = new BallToss();
@@ -25,7 +25,7 @@ public class BallerTogglePosition extends InstantCommand {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing InstantCommand: BallerTogglePosition...");
+        Logger.action("Initializing InstantCommand: BallerTogglePosition...");
 
         if (Robot.robotBaller.ballIsTossed) {
             m_ballHoldCmd.start();

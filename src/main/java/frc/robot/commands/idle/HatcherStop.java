@@ -3,7 +3,7 @@ package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class HatcherStop extends Command {
 
     public HatcherStop() {
-        Logger.debug("Constructing Command: HatcherStop...");
+        Logger.setup("Constructing Command: HatcherStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotHatcher);
@@ -19,7 +19,7 @@ public class HatcherStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: HatcherStop...");
+        Logger.action("Initializing Command: HatcherStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class HatcherStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: HatcherStop...");
+        Logger.ending("Ending Command: HatcherStop...");
 
         Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: HatcherStop...");
+        Logger.ending("Interrupting Command: HatcherStop...");
 
         Robot.robotHatcher.stop();
     }

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
+import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
 
@@ -21,7 +22,7 @@ public class OI {
 
     // Constructor
     public OI() {
-        Logger.debug("Constructing OI...");
+        Logger.setup("Constructing OI...");
 
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
@@ -80,7 +81,7 @@ public class OI {
     public static CartesianMovement getCartesianMovementFromJoystick(boolean isYflipped) {
         JoystickPosition pos = getJoystickPosition(isYflipped);
         CartesianMovement move = new CartesianMovement(pos.xPosition, pos.yPosition, pos.zPosition);
-        // Logger.debug("Joystick Cartesian Movement: " + pos.yPosition + ", " + pos.xPosition + ", " + pos.zPosition);
+        // Logger.info("Joystick Cartesian Movement: " + pos.yPosition + ", " + pos.xPosition + ", " + pos.zPosition);
         return move;
     }
 
@@ -145,7 +146,7 @@ public class OI {
     public static CartesianMovement getCartesianMovementFromThumbsticks(boolean isYleftFlipped) {
         ThumbStickPosition pos = getThumbstickPosition(isYleftFlipped);
         CartesianMovement move = new CartesianMovement(pos.xLeftPosition, pos.yLeftPosition, pos.xRightPosition);
-        // Logger.debug("Xbox Cartesian Movement: " + pos.yLeftPosition + ", " + pos.xLeftPosition + ", " + pos.xRightPosition);
+        // Logger.info("Xbox Cartesian Movement: " + pos.yLeftPosition + ", " + pos.xLeftPosition + ", " + pos.xRightPosition);
         return move;
     }
 

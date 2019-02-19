@@ -3,7 +3,7 @@ package frc.robot.commands.instant;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -12,14 +12,14 @@ public class RobotGameModeClimb extends InstantCommand {
 
     public RobotGameModeClimb() {
         super();
-        Logger.debug("Constructing InstantCommand: RobotGameModeClimb...");
+        Logger.setup("Constructing InstantCommand: RobotGameModeClimb...");
     }
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing InstantCommand: RobotGameModeClimb...");
+        Logger.action("Initializing InstantCommand: RobotGameModeClimb...");
 
-        Logger.debug("Robot Game Mode is now CLIMB");
+        Logger.info("Robot Game Mode is now CLIMB");
         Robot.robotGameMode = Robot.GameMode.CLIMB;
     }
 

@@ -4,7 +4,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -32,7 +32,7 @@ public class MecDriveTurnRight extends Command {
     }
 
     public MecDriveTurnRight(double targetAngle, double speed) {
-        Logger.debug("Constructing Command: MecDriveTurnRight...");
+        Logger.setup("Constructing Command: MecDriveTurnRight...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -54,13 +54,13 @@ public class MecDriveTurnRight extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveTurnRight...");
+        Logger.action("Initializing Command: MecDriveTurnRight...");
 
 		m_timer.reset();
 		m_timer.start();
 		m_elapsedTime = 0;
         m_counter = 0;
-		Logger.debug("Target = " + m_targetAngle + " degrees" + "; Speed = " + m_speed);
+		Logger.info("Target = " + m_targetAngle + " degrees" + "; Speed = " + m_speed);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class MecDriveTurnRight extends Command {
         // Degrees turned (degrees) = elapsed time (seconds) * angular velocity (degrees per second)
 		m_currentAngle = m_elapsedTime * m_angularVelocity;
 		if (++m_counter >= 50) {
-			Logger.debug("Executing Command: MecDriveTurnRight: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
+			Logger.info("Executing Command: MecDriveTurnRight: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
 			m_counter = 0;
 		}
     }
@@ -99,22 +99,22 @@ public class MecDriveTurnRight extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveTurnRight...");
+        Logger.ending("Ending Command: MecDriveTurnRight...");
 
         Robot.robotMecDriver.stop();
 
         m_timer.stop();
-        Logger.debug("Target = " + m_targetAngle + " degrees; Actual = " + m_currentAngle + " desgrees; Elapsed time = " + m_elapsedTime + " seconds");
+        Logger.info("Target = " + m_targetAngle + " degrees; Actual = " + m_currentAngle + " desgrees; Elapsed time = " + m_elapsedTime + " seconds");
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveTurnRight...");
+        Logger.ending("Interrupting Command: MecDriveTurnRight...");
 
         Robot.robotMecDriver.stop();
 
         m_timer.stop();
-        Logger.debug("Target = " + m_targetAngle + " degrees; Actual = " + m_currentAngle + " desgrees; Elapsed time = " + m_elapsedTime + " seconds");
+        Logger.info("Target = " + m_targetAngle + " degrees; Actual = " + m_currentAngle + " desgrees; Elapsed time = " + m_elapsedTime + " seconds");
     }
 
 }

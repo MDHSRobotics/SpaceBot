@@ -4,7 +4,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -32,7 +32,7 @@ public class MecDriveForward extends Command {
     }
 
     public MecDriveForward(double targetDistanceInFeet, double speed) {
-        Logger.debug("Constructing Command: MecDriveForward...");
+        Logger.setup("Constructing Command: MecDriveForward...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -50,14 +50,14 @@ public class MecDriveForward extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveForward...");
+        Logger.action("Initializing Command: MecDriveForward...");
 
 		m_counter = 0;
 		m_distanceTraveled = 0;
 		m_elapsedTime = 0;
 		m_timer.reset();
 		m_timer.start();
-		Logger.debug("Target = " + m_targetDistanceInFeet + " feet" + "; Speed = " + m_speed);
+		Logger.info("Target = " + m_targetDistanceInFeet + " feet" + "; Speed = " + m_speed);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MecDriveForward extends Command {
 		m_distanceTraveled = m_elapsedTime * m_velocity;
 		
 		if (++m_counter >= 50) {
-			Logger.debug("Distance traveled = " + m_distanceTraveled + " feet; Elapsed time = " + m_elapsedTime + " seconds");
+			Logger.info("Distance traveled = " + m_distanceTraveled + " feet; Elapsed time = " + m_elapsedTime + " seconds");
 			m_counter = 0;
 		}
     }
@@ -89,22 +89,22 @@ public class MecDriveForward extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveForward...");
+        Logger.ending("Ending Command: MecDriveForward...");
 
         Robot.robotMecDriver.stop();
 
         m_timer.stop();
-        Logger.debug("Target = " + m_targetDistanceInFeet + " feet; Actual = " + m_distanceTraveled + " feet; Elapsed time = " + m_elapsedTime + " seconds");
+        Logger.info("Target = " + m_targetDistanceInFeet + " feet; Actual = " + m_distanceTraveled + " feet; Elapsed time = " + m_elapsedTime + " seconds");
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveForward...");
+        Logger.ending("Interrupting Command: MecDriveForward...");
 
         Robot.robotMecDriver.stop();
 
         m_timer.stop();
-        Logger.debug("Target = " + m_targetDistanceInFeet + " feet; Actual = " + m_distanceTraveled + " feet; Elapsed time = " + m_elapsedTime + " seconds");
+        Logger.info("Target = " + m_targetDistanceInFeet + " feet; Actual = " + m_distanceTraveled + " feet; Elapsed time = " + m_elapsedTime + " seconds");
     }
 
 }

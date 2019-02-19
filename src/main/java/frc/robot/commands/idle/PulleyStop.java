@@ -3,7 +3,7 @@ package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class PulleyStop extends Command {
 
     public PulleyStop() {
-        Logger.debug("Constructing Command: PulleyStop...");
+        Logger.setup("Constructing Command: PulleyStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotPulley);
@@ -19,7 +19,7 @@ public class PulleyStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: PulleyStop...");
+        Logger.action("Initializing Command: PulleyStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class PulleyStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: PulleyStop...");
+        Logger.ending("Ending Command: PulleyStop...");
 
         Robot.robotPulley.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: PulleyStop...");
+        Logger.ending("Interrupting Command: PulleyStop...");
 
         Robot.robotPulley.stop();
     }

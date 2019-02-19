@@ -3,7 +3,7 @@ package frc.robot.commands.instant;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class MecDriveToggleOrientation extends Command {
 
     public MecDriveToggleOrientation() {
-        Logger.debug("Constructing Command: MecDriveToggleOrientation...");
+        Logger.setup("Constructing Command: MecDriveToggleOrientation...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -19,7 +19,7 @@ public class MecDriveToggleOrientation extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: MecDriveToggleOrientation...");
+        Logger.action("Initializing Command: MecDriveToggleOrientation...");
 
         Robot.robotMecDriver.stop();
     }
@@ -37,14 +37,14 @@ public class MecDriveToggleOrientation extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: MecDriveToggleOrientation...");
+        Logger.ending("Ending Command: MecDriveToggleOrientation...");
 
         Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: MecDriveToggleOrientation...");
+        Logger.ending("Interrupting Command: MecDriveToggleOrientation...");
 
         Robot.robotMecDriver.stop();
     }

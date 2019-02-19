@@ -8,7 +8,7 @@ import frc.robot.commands.auto.ArmLowerFull;
 import frc.robot.commands.auto.TankPulleyLift;
 import frc.robot.commands.interactive.ArmLowerMore;
 import frc.robot.commands.interactive.TankSpin;
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -22,7 +22,7 @@ public class ClimbNextStage extends InstantCommand {
 
     public ClimbNextStage() {
         super();
-        Logger.debug("Constructing InstantCommand: ClimbNextStage...");
+        Logger.setup("Constructing InstantCommand: ClimbNextStage...");
 
         m_armLowerHalfCmd = new ArmLowerHalf();
         m_armLowerFullCmd = new ArmLowerFull();
@@ -33,7 +33,7 @@ public class ClimbNextStage extends InstantCommand {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing InstantCommand: ClimbNextStage...");
+        Logger.action("Initializing InstantCommand: ClimbNextStage...");
 
         // We don't want to have the robot start climbing early because someone dropped the controller
         switch (Robot.robotGameMode) {

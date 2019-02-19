@@ -7,8 +7,8 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.BallerStop;
+import frc.robot.consoles.Logger;
 import frc.robot.helpers.EncoderConstants;
-import frc.robot.helpers.Logger;
 import frc.robot.Devices;
 
 
@@ -27,7 +27,7 @@ public class Baller extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Baller() {
-        Logger.debug("Constructing Subsystem: Baller...");
+        Logger.setup("Constructing Subsystem: Baller...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxBaller);
         if (m_talonsAreConnected) {
@@ -69,7 +69,7 @@ public class Baller extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Baller DefaultCommand -> BallerStop...");
+        Logger.setup("Initializing Baller DefaultCommand -> BallerStop...");
 
         setDefaultCommand(new BallerStop());
     }
@@ -84,24 +84,26 @@ public class Baller extends Subsystem {
     public void tossBall() {
         if (!m_talonsAreConnected) return;
         double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
-        Logger.debug("Baller -> Target Toss Position: " + targetPositionUnits);
+        Logger.info("Baller -> Target Toss Position: " + targetPositionUnits);
         Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
     }
 
     // Move the Baller flipper back to the hold position
     public void holdBall() {
         if (!m_talonsAreConnected) return;
-        Logger.debug("Baller -> Target Hold Position: " + 0);
+        Logger.info("Baller -> Target Hold Position: " + 0);
         Devices.talonSrxBaller.set(ControlMode.Position, 0);
     }
 
     // Get the current Baller flipper motor velocity
     public int getVelocity() {
+        if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxBaller.getSelectedSensorVelocity();
     }
 
     // Get the current Baller flipper motor position
     public int getPosition() {
+        if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxBaller.getSelectedSensorPosition();
     }
 

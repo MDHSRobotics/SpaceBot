@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
+import frc.robot.consoles.Logger;
 import frc.robot.Brain;
 import frc.robot.Robot;
-import frc.robot.helpers.Logger;
 
 
 public class LineDetector {
@@ -30,7 +30,7 @@ public class LineDetector {
 
     // Constructor
     public LineDetector(UsbCamera lineCam) {
-        Logger.debug("Constructing Vision: LineDetector...");
+        Logger.setup("Constructing Vision: LineDetector...");
 
         if (lineCam != null) {
             intitialize(lineCam);
@@ -38,7 +38,7 @@ public class LineDetector {
     }
 
     public void intitialize(UsbCamera lineCam) {
-        Logger.debug("Intitializing Vision: LineDetector...");
+        Logger.action("Intitializing Vision: LineDetector...");
 
         LinePipeline linePipe = new LinePipeline();
         m_visionThread = new VisionThread(lineCam, linePipe, pipeline -> {
@@ -46,7 +46,7 @@ public class LineDetector {
             int outputSize = output.size();
             // We can only work with one contour
             if (outputSize == 1) {
-                Logger.debug("One contour identified, checking minimum size...");
+                Logger.info("One contour identified, checking minimum size...");
                 MatOfPoint contour = output.get(0);
 
                 // Get the rotated rectangle
@@ -88,7 +88,7 @@ public class LineDetector {
                     Brain.setFrontLineXcenter(centerX);
                     Brain.setFrontLineYcenter(centerY);
 
-                    Logger.debug("Line Detected! Press Directional Pad to align robot!");
+                    Logger.info("Line Detected! Press Directional Pad to align robot!");
                 }
             }
             else {
@@ -101,7 +101,7 @@ public class LineDetector {
                 // TODO: consider checking all the contours, and if only one meets the minimum area requirements, use that
             }
         });
-        Logger.debug("Starting LineDetector Thread...");
+        Logger.action("Starting LineDetector Thread...");
         m_visionThread.start();
     }
 

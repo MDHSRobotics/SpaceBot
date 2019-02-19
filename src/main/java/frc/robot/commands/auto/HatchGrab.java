@@ -3,7 +3,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class HatchGrab extends Command {
 
     public HatchGrab() {
-        Logger.debug("Constructing Command: HatchGrab...");
+        Logger.setup("Constructing Command: HatchGrab...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -19,15 +19,15 @@ public class HatchGrab extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: HatchGrab...");
+        Logger.action("Initializing Command: HatchGrab...");
 
         Robot.robotHatcher.grabHatch();
     }
 
     @Override
     protected void execute() {
-        Logger.debug("Position: " + Robot.robotHatcher.getPosition());
-        Logger.debug("Velocity: " + Robot.robotHatcher.getVelocity());
+        Logger.info("HatchGrab -> Position: " + Robot.robotHatcher.getPosition());
+        Logger.info("HatchGrab -> Velocity: " + Robot.robotHatcher.getVelocity());
     }
 
     // This command is finished when the hatch is grabbed
@@ -41,14 +41,14 @@ public class HatchGrab extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: HatchGrab...");
+        Logger.ending("Ending Command: HatchGrab...");
 
         Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: HatchGrab...");
+        Logger.ending("Interrupting Command: HatchGrab...");
 
         Robot.robotHatcher.stop();
     }

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Relay;
 
 import frc.robot.commands.interactive.LightToggle;
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Devices;
 
 
@@ -13,12 +13,12 @@ import frc.robot.Devices;
 public class Lighter extends Subsystem {
     
     public Lighter() {
-        Logger.debug("Constructing Subsystem: Lighter...");
+        Logger.setup("Constructing Subsystem: Lighter...");
     }
 
     @Override
     public void initDefaultCommand() {
-        Logger.debug("Initializing Lighter DefaultCommand -> LightToggle...");
+        Logger.setup("Initializing Lighter DefaultCommand -> LightToggle...");
 
         setDefaultCommand(new LightToggle());
     }

@@ -3,7 +3,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class HatchRelease extends Command {
 
     public HatchRelease() {
-        Logger.debug("Constructing Command: HatchRelease...");
+        Logger.setup("Constructing Command: HatchRelease...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -19,15 +19,15 @@ public class HatchRelease extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: HatchRelease...");
+        Logger.action("Initializing Command: HatchRelease...");
 
         Robot.robotHatcher.releaseHatch();
     }
 
     @Override
     protected void execute() {
-        Logger.debug("Position: " + Robot.robotHatcher.getPosition());
-        Logger.debug("Velocity: " + Robot.robotHatcher.getVelocity());
+        Logger.info("HatchRelease -> Position: " + Robot.robotHatcher.getPosition());
+        Logger.info("HatchRelease -> Velocity: " + Robot.robotHatcher.getVelocity());
     }
 
     // This command is finished when the Hatch is released
@@ -41,14 +41,14 @@ public class HatchRelease extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: HatchRelease...");
+        Logger.ending("Ending Command: HatchRelease...");
 
         Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: HatchRelease...");
+        Logger.ending("Interrupting Command: HatchRelease...");
 
         Robot.robotHatcher.stop();
     }

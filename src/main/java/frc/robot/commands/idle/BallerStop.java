@@ -3,7 +3,7 @@ package frc.robot.commands.idle;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class BallerStop extends Command {
 
     public BallerStop() {
-        Logger.debug("Constructing Command: BallerStop...");
+        Logger.setup("Constructing Command: BallerStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotBaller);
@@ -19,7 +19,7 @@ public class BallerStop extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: BallerStop...");
+        Logger.action("Initializing Command: BallerStop...");
     }
 
     @Override
@@ -35,14 +35,14 @@ public class BallerStop extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: BallerStop...");
+        Logger.ending("Ending Command: BallerStop...");
 
         Robot.robotBaller.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: BallerStop...");
+        Logger.ending("Interrupting Command: BallerStop...");
 
         Robot.robotBaller.stop();
     }

@@ -3,7 +3,7 @@ package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.helpers.Logger;
+import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class LightToggle extends Command {
 
     public LightToggle() {
-        Logger.debug("Constructing Command: LightToggle...");
+        Logger.setup("Constructing Command: LightToggle...");
 
          // Declare subsystem dependencies
          requires(Robot.robotLighter);
@@ -19,7 +19,7 @@ public class LightToggle extends Command {
 
     @Override
     protected void initialize() {
-        Logger.debug("Initializing Command: LightToggle...");
+        Logger.action("Initializing Command: LightToggle...");
     }
 
     @Override
@@ -44,14 +44,14 @@ public class LightToggle extends Command {
 
     @Override
     protected void end() {
-        Logger.debug("Ending Command: LightToggle...");
+        Logger.ending("Ending Command: LightToggle...");
 
         Robot.robotLighter.turnOff();
     }
 
     @Override
     protected void interrupted() {
-        Logger.debug("Interrupting Command: LightToggle...");
+        Logger.ending("Interrupting Command: LightToggle...");
 
         Robot.robotLighter.turnOff();
     }
