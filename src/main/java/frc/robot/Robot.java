@@ -47,6 +47,9 @@ public class Robot extends TimedRobot {
     public static DeliveryMode robotDeliveryMode = DeliveryMode.GET_HATCH;
     // Climb Mode tells the climb commands which system needs to be activated next
     public static ClimbMode robotClimbMode = ClimbMode.ARM;
+
+    // Core Classes
+    public static Logger robotLogger;
     public static Devices robotDevices;
 
     // Subsystems
@@ -85,15 +88,17 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        // Instantiate the Logger FIRST to support ANSI on Windows 10
+        robotLogger = new Logger();
         Logger.setup("Initializing Robot...");
 
-        // Instantiate Devices FIRST
+        // Instantiate Devices SECOND
         robotDevices = new Devices();
 
-        // Pre-intialize the Shuffler SECOND
+        // Pre-intialize the Shuffler THIRD
         robotShuffler.preInitialize();
 
-        // Instantiate subsystem singletons THIRD
+        // Instantiate subsystem singletons FOURTH
         robotMecDriver = new MecDriver();
         robotLighter = new Lighter();
 
