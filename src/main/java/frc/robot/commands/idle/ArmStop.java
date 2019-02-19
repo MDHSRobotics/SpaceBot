@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class ArmStop extends Command {
 
     public ArmStop() {
-        Logger.debug("Constucting Command: ArmStop...");
+        Logger.debug("Constructing Command: ArmStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotArm);

@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class PulleyStop extends Command {
 
     public PulleyStop() {
-        Logger.debug("Constucting Command: PulleyStop...");
+        Logger.debug("Constructing Command: PulleyStop...");
 
         // Declare subsystem dependencies
         requires(Robot.robotPulley);

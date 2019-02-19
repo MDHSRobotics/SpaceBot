@@ -33,7 +33,7 @@ public class Arm extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Arm() {
-        Logger.debug("Contructing Subsystem: Arm...");
+        Logger.debug("Constructing Subsystem: Arm...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArm);
         if (m_talonsAreConnected) {
