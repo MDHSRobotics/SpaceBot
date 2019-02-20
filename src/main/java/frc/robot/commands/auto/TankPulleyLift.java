@@ -32,8 +32,6 @@ double targetPosition;
     protected void execute() {
         // TODO: Use the gyro and encoders to synchronize the Tank and Pulley in lifting the robot above the platform without falling over
 
-        offsetAngle = Robot.robotPulley.getGyroAngle();
-        Robot.robotPulley.levelRobot(offsetAngle);
 
     }
 

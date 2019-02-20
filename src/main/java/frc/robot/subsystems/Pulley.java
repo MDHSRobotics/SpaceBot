@@ -97,14 +97,6 @@ public class Pulley extends Subsystem {
         Devices.talonSrxPulleyMaster.stopMotor();
     }
 
-    // Run the motor to lift the pulley
-    public void levelRobot (double offsetAngle) {
-        //TODO: Add algorithm to convert offset angle into target position 
-        Logger.info("Target Position: " + TARGET_POSITION);
-        Devices.talonSrxPulley.set(ControlMode.Position, TARGET_POSITION);
-        
-    }
-
     public double getPosition(){
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxPulley.getSelectedSensorPosition();
