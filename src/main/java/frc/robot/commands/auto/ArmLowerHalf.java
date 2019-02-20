@@ -21,11 +21,13 @@ public class ArmLowerHalf extends Command {
     @Override
     protected void initialize() {
         Logger.action("Initializing Command: ArmLowerHalf...");
+
+        Robot.robotArm.lowerHalf();
     }
 
     @Override
     protected void execute() {
-        Robot.robotArm.lowerHalf();
+        
     }
 
     // This command finishes when the "half" position is reached

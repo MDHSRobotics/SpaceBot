@@ -87,7 +87,7 @@ public class Arm extends Subsystem {
     }
 
     // Reset the Arm to its starting position
-    public void resetPosition() {
+    public void resetArmPosition() {
         if (!m_talonsAreConnected) return;
         Logger.info("Arm -> Reset Position: " + TARGET_RESET_POSITION);
         Devices.talonSrxArm.set(ControlMode.Position, TARGET_RESET_POSITION);
@@ -146,7 +146,7 @@ public class Arm extends Subsystem {
     }
 
     // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isPositionResetMet() {
+    public boolean isArmPositionResetMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         return (currentPosition < 100);

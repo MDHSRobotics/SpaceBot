@@ -21,17 +21,19 @@ public class ArmResetPosition extends Command {
     @Override
     protected void initialize() {
         Logger.action("Initializing Command: ArmResetPosition...");
+
+        Robot.robotArm.resetArmPosition();
     }
 
     @Override
     protected void execute() {
-        Robot.robotArm.resetPosition();
+        
     }
 
     // This command finishes when the "reset" position is reached
     @Override
     protected boolean isFinished() {
-        boolean positionMet = Robot.robotArm.isPositionResetMet();
+        boolean positionMet = Robot.robotArm.isArmPositionResetMet();
         return positionMet;
     }
 
