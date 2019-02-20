@@ -21,11 +21,13 @@ public class ArmLowerFull extends Command {
     @Override
     protected void initialize() {
         Logger.action("Initializing Command: ArmLowerFull...");
+
+        Robot.robotArm.lowerFull();
     }
 
     @Override
     protected void execute() {
-        Robot.robotArm.lowerFull();
+        
     }
  
     // This command finishes when the "full" position is reached
