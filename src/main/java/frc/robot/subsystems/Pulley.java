@@ -34,6 +34,8 @@ public class Pulley extends Subsystem {
     private final int TIMEOUT_MS = 10;
     private final double PULLEY_SPEED = .5; 
     private double TARGET_POSITION;
+    private final double POSITION_TOLERANCE = 100;
+    private final double TARGET_POSITION_RESET = 0;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -103,7 +105,13 @@ public class Pulley extends Subsystem {
         
     }
 
+    public double getPosition(){
+        if (!m_talonsAreConnected) return 0;
+        return Devices.talonSrxPulley.getSelectedSensorPosition();
+    }
+
     public double getGyroAngle(){
+        if (!m_talonsAreConnected) return 0;
         double gyroAngle = Devices.imuMecDrive.getAngleX();
         return gyroAngle;
     }
@@ -126,10 +134,16 @@ public class Pulley extends Subsystem {
             return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
     
-    public void resetPulleyPosition(){
-        if (m_talonsAreConnected){
-            
-        }
+    public void resetPulleyPosition() {
+        if (!m_talonsAreConnected) return;
+        Logger.info("Pulley -> Reset Position: " + TARGET_POSITION_RESET);
+        Devices.talonSrxArm.set(ControlMode.Position, TARGET_POSITION_RESET);
+    }
+
+    public boolean isPulleyPositionResetMet() {
+            if (!m_talonsAreConnected) return true;
+            double currentPosition = getPosition();
+            return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
 
 }
