@@ -21,8 +21,8 @@ public class Hatcher extends Subsystem {
     // Encoder constants
     private final double ROTATION_DEGREE = 10.3;
     private final double GEARBOX_RATIO = 20;
-    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(EncoderConstants.REDLIN_ENCODER_TPR); //equates to 0.572
-    private final int POSITION_TOLERANCE = 100; // 
+    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(EncoderConstants.REDLIN_ENCODER_TPR); // Equates to 0.572
+    private final int POSITION_TOLERANCE = 100;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
