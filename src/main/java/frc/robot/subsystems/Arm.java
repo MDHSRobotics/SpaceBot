@@ -23,11 +23,16 @@ public class Arm extends Subsystem {
     public ArmPosition currentArmPosition = ArmPosition.START;
 
     // Encoder constants
-    private double TARGET_RESET_POSITION = 0;
-    private final double TARGET_ROTATION_HALF = 0.125;	
-    private final double TARGET_ROTATION_FULL = 0.25;
+ 
+    private final double GEARBOX_RATIO = 81;
+    private final double ROTATION_HALF_DEGREES = 45;
+    private final double ROTATION_FULL_DEGREES = 90;
+    private final double TARGET_POSITION_HALF = (ROTATION_HALF_DEGREES/360)*GEARBOX_RATIO*EncoderConstants.REDLIN_ENCODER_TPR;	
+    private final double TARGET_POSITION_FULL = (ROTATION_FULL_DEGREES/360)*GEARBOX_RATIO*EncoderConstants.REDLIN_ENCODER_TPR;
+    private final double TARGET_POSITION_RESET = 0;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+    private final double POSITION_TOLERANCE = 0;
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -89,14 +94,14 @@ public class Arm extends Subsystem {
     // Reset the Arm to its starting position
     public void resetArmPosition() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Arm -> Reset Position: " + TARGET_RESET_POSITION);
-        Devices.talonSrxArm.set(ControlMode.Position, TARGET_RESET_POSITION);
+        Logger.info("Arm -> Reset Position: " + TARGET_POSITION_RESET);
+        Devices.talonSrxArm.set(ControlMode.Position, TARGET_POSITION_RESET);
     }
 
     // Lowers the Arm to the encoded "half" position
     public void lowerHalf() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = TARGET_ROTATION_HALF * EncoderConstants.REDLIN_ENCODER_TPR;
+        double targetPositionUnits = TARGET_POSITION_HALF * EncoderConstants.REDLIN_ENCODER_TPR;
         Logger.info("Arm -> Target Lower Half Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
@@ -104,7 +109,7 @@ public class Arm extends Subsystem {
     // Lowers the Arm to the encoded "full" position
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = TARGET_ROTATION_FULL * EncoderConstants.REDLIN_ENCODER_TPR;
+        double targetPositionUnits = TARGET_POSITION_FULL * EncoderConstants.REDLIN_ENCODER_TPR;
         Logger.info("Arm -> Target Lower Full Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
@@ -133,23 +138,23 @@ public class Arm extends Subsystem {
     public boolean isPositionHalfMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = TARGET_ROTATION_HALF * EncoderConstants.REDLIN_ENCODER_TPR;
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 512);
+        double targetPositionUnits = TARGET_POSITION_HALF * EncoderConstants.REDLIN_ENCODER_TPR;
+        return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
     }
 
     // Return whether or not the motor has reached the encoded "full" position
     public boolean isPositionFullMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = TARGET_ROTATION_FULL * EncoderConstants.REDLIN_ENCODER_TPR;
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 1024);
+        double targetPositionUnits = TARGET_POSITION_FULL * EncoderConstants.REDLIN_ENCODER_TPR;
+        return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
     }
 
     // Return whether or not the motor has reached the encoded "reset" position
     public boolean isArmPositionResetMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        return (currentPosition < 100);
+        return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
 
 }
