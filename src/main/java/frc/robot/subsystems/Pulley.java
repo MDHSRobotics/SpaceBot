@@ -36,9 +36,9 @@ public class Pulley extends Subsystem {
     public Pulley() {
         Logger.setup("Constructing Subsystem: Pulley...");
 
-        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxPulley);
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxPulleyMaster);
         if (m_talonsAreConnected) {
-            Devices.talonSrxPulley.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
         }
     }
 
@@ -52,25 +52,25 @@ public class Pulley extends Subsystem {
     // Stop the Pulley motor
     public void stop() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxPulley.stopMotor();
+        Devices.talonSrxPulleyMaster.stopMotor();
     }
 
     // Run the motor to lift the pulley
     public void lift() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxPulley.set(PULLEY_SPEED);
+        Devices.talonSrxPulleyMaster.set(PULLEY_SPEED);
     }
 
      // Run the motor to lower the pulley
      public void lower() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxPulley.set(-PULLEY_SPEED);
+        Devices.talonSrxPulleyMaster.set(-PULLEY_SPEED);
     }
 
     // Get the current motor position
     public int getPosition() {
         if (!m_talonsAreConnected) return 0;
-        return Devices.talonSrxPulley.getSelectedSensorPosition();
+        return Devices.talonSrxPulleyMaster.getSelectedSensorPosition();
     }
 
     public void resetPulleyPosition() {
