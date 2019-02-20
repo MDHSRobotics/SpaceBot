@@ -12,6 +12,13 @@ import frc.robot.Devices;
 // Pulley subsystem for lifting the robot onto the platform
 public class Pulley extends Subsystem {
 
+    public enum PulleyPosition {
+        DOWN, UP
+    }
+
+    // The public property to determine the Pulley state
+    public PulleyPosition currentPulleyPosition = PulleyPosition.DOWN;
+
     // Motor constants
     private final double SECONDS_FROM_NEUTRAL_TO_FULL = 0;
     private final int TIMEOUT_MS = 10;

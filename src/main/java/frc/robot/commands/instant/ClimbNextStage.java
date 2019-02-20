@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.auto.ArmLowerHalf;
 import frc.robot.commands.auto.ArmLowerFull;
 import frc.robot.commands.auto.TankPulleyLift;
+import frc.robot.commands.groups.ArmPulleyReset;
 import frc.robot.commands.interactive.ArmLowerMore;
 import frc.robot.commands.interactive.TankSpin;
 import frc.robot.consoles.Logger;
@@ -17,6 +18,7 @@ public class ClimbNextStage extends InstantCommand {
     private ArmLowerHalf m_armLowerHalfCmd;
     private ArmLowerFull m_armLowerFullCmd;
     private ArmLowerMore m_armLowerMoreCmd;
+    private ArmPulleyReset m_armPulleyResetCmd;
     private TankPulleyLift m_tankPulleyLiftCmd;
     private TankSpin m_tankSpinCmd;
 
@@ -38,7 +40,7 @@ public class ClimbNextStage extends InstantCommand {
         // We don't want to have the robot start climbing early because someone dropped the controller
         switch (Robot.robotGameMode) {
             case DELIVERY: // Reset and stop all Climb subsystems
-                // TODO: Implement this once we have an ArmResetPosition and a PulleyResetPosition command
+                m_armPulleyResetCmd.start();
                 break;
 
             case CLIMB:

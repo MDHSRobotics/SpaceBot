@@ -39,10 +39,6 @@ public class Robot extends TimedRobot {
         ARM, LIFT, CLIMB
     }
 
-    public enum PulleyMode {
-        DOWN, UP
-    }
-
     // Game Mode is used to activate/deactivate the Climb Xbox Controller
     public static GameMode robotGameMode = GameMode.DELIVERY;
     // Delivery Mode is used to control vision processing actions, as well as xbox controller activation

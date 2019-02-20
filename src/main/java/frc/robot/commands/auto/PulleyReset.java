@@ -9,9 +9,9 @@ import frc.robot.Robot.ClimbMode;;
 
 
 // This command uses the gyro to synchronize the Tank and the Pulley in lifting the robot above the platform
-public class TankPulleyReset extends Command {
+public class PulleyReset extends Command {
 
-    public TankPulleyReset() {
+    public PulleyReset() {
         Logger.setup("Constructing Command: TankPulleyReset...");
 
         requires(Robot.robotPulley);
