@@ -34,6 +34,7 @@ public class Pulley extends Subsystem {
     private final int TIMEOUT_MS = 10;
     private final double PULLEY_SPEED = .5; 
     private double TARGET_POSITION;
+    private double m_target_position = 0;
     private final double POSITION_TOLERANCE = 100;
     private final double TARGET_POSITION_RESET = 0;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -49,8 +50,9 @@ public class Pulley extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Pulley() {
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxPulley);
         if (m_talonsAreConnected) {
-        Devices.talonSrxPulley.configPeakCurrentDuration(40, 20);
+            Devices.talonSrxPulley.configPeakCurrentDuration(40, 20);
             Devices.talonSrxPulley.configPeakCurrentLimit(11, 20);
             Devices.talonSrxPulley.configContinuousCurrentLimit(10, 20);
 
@@ -95,6 +97,16 @@ public class Pulley extends Subsystem {
     public void stop() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxPulleyMaster.stopMotor();
+    }
+
+    public void lift(){
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxPulley.set(PULLEY_SPEED);
+    }
+
+    public void lower(){
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxPulley.set(-PULLEY_SPEED);
     }
 
     public double getPosition(){
