@@ -4,12 +4,17 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
+import frc.robot.Devices;
 import frc.robot.Robot;
-import frc.robot.Robot.ClimbMode;;
+import frc.robot.Robot.ClimbMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 // This command uses the gyro to synchronize the Tank and the Pulley in lifting the robot above the platform
 public class TankPulleyLift extends Command {
+
+double offsetAngle;
+double targetPosition;
 
     public TankPulleyLift() {
         Logger.setup("Constructing Command: TankPulleyLift...");
@@ -26,6 +31,10 @@ public class TankPulleyLift extends Command {
     @Override
     protected void execute() {
         // TODO: Use the gyro and encoders to synchronize the Tank and Pulley in lifting the robot above the platform without falling over
+
+        offsetAngle = Robot.robotPulley.getGyroAngle();
+        Robot.robotPulley.levelRobot(offsetAngle);
+
     }
 
     // This will finish when the Pulley reaches its encoded target

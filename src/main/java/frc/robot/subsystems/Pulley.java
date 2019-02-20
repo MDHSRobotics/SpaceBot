@@ -7,6 +7,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.idle.PulleyStop;
 import frc.robot.consoles.Logger;
 import frc.robot.Devices;
+import frc.robot.helpers.EncoderConstants;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
+import frc.robot.consoles.Logger;
+
+
+
+
 
 
 // Pulley subsystem for lifting the robot onto the platform
@@ -22,7 +32,10 @@ public class Pulley extends Subsystem {
     // Motor constants
     private final double SECONDS_FROM_NEUTRAL_TO_FULL = 0;
     private final int TIMEOUT_MS = 10;
-    private final double PULLEY_SPEED = .5;
+    private final double PULLEY_SPEED = .5; 
+    private double TARGET_POSITION;
+    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
     // Encoder constants
     private final double POSITION_TOLERANCE = 0;
@@ -34,11 +47,38 @@ public class Pulley extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Pulley() {
-        Logger.setup("Constructing Subsystem: Pulley...");
-
-        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxPulleyMaster);
         if (m_talonsAreConnected) {
-            Devices.talonSrxPulleyMaster.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
+        Devices.talonSrxPulley.configPeakCurrentDuration(40, 20);
+            Devices.talonSrxPulley.configPeakCurrentLimit(11, 20);
+            Devices.talonSrxPulley.configContinuousCurrentLimit(10, 20);
+
+            Devices.talonSrxPulley.configNominalOutputForward(0);
+            Devices.talonSrxPulley.configNominalOutputReverse(0);
+            Devices.talonSrxPulley.configPeakOutputForward(0.5);
+            Devices.talonSrxPulley.configPeakOutputReverse(-0.5);
+
+            Devices.talonSrxPulley.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulley.setSensorPhase(SENSOR_PHASE);
+            Devices.talonSrxPulley.setInverted(MOTOR_INVERT);
+            Devices.talonSrxPulley.configAllowableClosedloopError(0, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+
+            Devices.talonSrxPulley.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulley.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.0125, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulley.config_kI(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulley.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.1, EncoderConstants.TIMEOUT_MS);
+
+            // Reset Encoder Position 
+            Devices.talonSrxPulley.setSelectedSensorPosition(0, 0, 20);
+            SensorCollection sensorCol = Devices.talonSrxPulley.getSensorCollection();
+            int absolutePosition = sensorCol.getPulseWidthPosition();
+            absolutePosition &= 0xFFF;
+            if (SENSOR_PHASE) absolutePosition *= -1;
+            if (MOTOR_INVERT) absolutePosition *= -1;
+            // Set the quadrature (relative) sensor to match absolute
+            Devices.talonSrxPulley.setSelectedSensorPosition(absolutePosition, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            
+            Devices.talonSrxPulley.configMotionAcceleration(6000, 20);
+            Devices.talonSrxPulley.configMotionCruiseVelocity(15000, 20);
         }
     }
 
@@ -56,15 +96,16 @@ public class Pulley extends Subsystem {
     }
 
     // Run the motor to lift the pulley
-    public void lift() {
-        if (!m_talonsAreConnected) return;
-        Devices.talonSrxPulleyMaster.set(PULLEY_SPEED);
+    public void levelRobot (double offsetAngle) {
+        //TODO: Add algorithm to convert offset angle into target position 
+        Logger.info("Target Position: " + TARGET_POSITION);
+        Devices.talonSrxPulley.set(ControlMode.Position, TARGET_POSITION);
+        
     }
 
-     // Run the motor to lower the pulley
-     public void lower() {
-        if (!m_talonsAreConnected) return;
-        Devices.talonSrxPulleyMaster.set(-PULLEY_SPEED);
+    public double getGyroAngle(){
+        double gyroAngle = Devices.imuMecDrive.getAngleX();
+        return gyroAngle;
     }
 
     // Get the current motor position
@@ -85,4 +126,10 @@ public class Pulley extends Subsystem {
             return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
     
+    public void resetPulleyPosition(){
+        if (m_talonsAreConnected){
+            
+        }
+    }
+
 }
