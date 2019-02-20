@@ -15,10 +15,10 @@ import frc.robot.Robot;
 
 public class ClimbNextStage extends InstantCommand {
 
+    private ArmPulleyReset m_armPulleyResetCmd;
     private ArmLowerHalf m_armLowerHalfCmd;
     private ArmLowerFull m_armLowerFullCmd;
     private ArmLowerMore m_armLowerMoreCmd;
-    private ArmPulleyReset m_armPulleyResetCmd;
     private TankPulleyLift m_tankPulleyLiftCmd;
     private TankSpin m_tankSpinCmd;
 
@@ -26,6 +26,7 @@ public class ClimbNextStage extends InstantCommand {
         super();
         Logger.setup("Constructing InstantCommand: ClimbNextStage...");
 
+        m_armPulleyResetCmd = new ArmPulleyReset();
         m_armLowerHalfCmd = new ArmLowerHalf();
         m_armLowerFullCmd = new ArmLowerFull();
         m_armLowerMoreCmd = new ArmLowerMore();
