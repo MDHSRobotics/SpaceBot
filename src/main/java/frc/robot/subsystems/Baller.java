@@ -19,7 +19,10 @@ public class Baller extends Subsystem {
     public boolean ballIsTossed = false;
 
     // Encoder constants
-    private final double TARGET_ROTATIONS = 4.44;
+    private final double ROTATION_DEGREE = 100;
+    private final double GEARBOX_RATIO = 16;
+    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(EncoderConstants.REDLIN_ENCODER_TPR); // Equates to 4.44
+    private final int POSITION_TOLERANCE = 100;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -33,14 +36,14 @@ public class Baller extends Subsystem {
         if (m_talonsAreConnected) {
             Devices.talonSrxBaller.configFactoryDefault();
 
-            Devices.talonSrxBaller.configPeakCurrentDuration(40, 20);
-            Devices.talonSrxBaller.configPeakCurrentLimit(11, 20);
-            Devices.talonSrxBaller.configContinuousCurrentLimit(10, 20);
+            Devices.talonSrxBaller.configPeakCurrentDuration(40, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configPeakCurrentLimit(11, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configContinuousCurrentLimit(10, EncoderConstants.TIMEOUT_MS);
 
             Devices.talonSrxBaller.configNominalOutputForward(0);
             Devices.talonSrxBaller.configNominalOutputReverse(0);
             Devices.talonSrxBaller.configPeakOutputForward(0.5);
-            Devices.talonSrxBaller.configPeakOutputReverse(-0.5);
+            Devices.talonSrxBaller.configPeakOutputReverse(-0.2);
 
             Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
             Devices.talonSrxBaller.setSensorPhase(SENSOR_PHASE);
@@ -53,7 +56,7 @@ public class Baller extends Subsystem {
             Devices.talonSrxBaller.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.1, EncoderConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, 20);
+            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, EncoderConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxBaller.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
@@ -83,9 +86,8 @@ public class Baller extends Subsystem {
     // Move the Baller flipper to toss the ball
     public void tossBall() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
-        Logger.info("Baller -> Target Toss Position: " + targetPositionUnits);
-        Devices.talonSrxBaller.set(ControlMode.Position, targetPositionUnits);
+        Logger.info("Baller -> Target Toss Position: " + TARGET_POSITION);
+        Devices.talonSrxBaller.set(ControlMode.Position, TARGET_POSITION);
     }
 
     // Move the Baller flipper back to the hold position
@@ -111,8 +113,7 @@ public class Baller extends Subsystem {
     public boolean isPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 600);
+        return Math.abs(currentPosition - TARGET_POSITION) < POSITION_TOLERANCE;
     }
 
     // Toggle the ballIsTossed state

@@ -19,7 +19,10 @@ public class Hatcher extends Subsystem {
     public boolean hatchIsGrabbed = false;
 
     // Encoder constants
-    private final double TARGET_ROTATIONS = 0.572;
+    private final double ROTATION_DEGREE = 10.3;
+    private final double GEARBOX_RATIO = 20;
+    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(EncoderConstants.REDLIN_ENCODER_TPR); // Equates to 0.572
+    private final int POSITION_TOLERANCE = 100;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -33,17 +36,17 @@ public class Hatcher extends Subsystem {
         if (m_talonsAreConnected) {
             Devices.talonSrxHatcher.configFactoryDefault();
 
-            Devices.talonSrxHatcher.configPeakCurrentDuration(40, 20);
-            Devices.talonSrxHatcher.configPeakCurrentLimit(11, 20);
-            Devices.talonSrxHatcher.configContinuousCurrentLimit(10, 20);
+            Devices.talonSrxHatcher.configPeakCurrentDuration(40, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentLimit(11, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configContinuousCurrentLimit(10, EncoderConstants.TIMEOUT_MS);
 
             Devices.talonSrxHatcher.configNominalOutputForward(0);
             Devices.talonSrxHatcher.configNominalOutputReverse(0);
             Devices.talonSrxHatcher.configPeakOutputForward(0.5);
             Devices.talonSrxHatcher.configPeakOutputReverse(-0.5);
 
-            Devices.talonSrxHatcher.configMotionAcceleration(6000, 20);
-            Devices.talonSrxHatcher.configMotionCruiseVelocity(15000, 20);
+            Devices.talonSrxHatcher.configMotionAcceleration(4000, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configMotionCruiseVelocity(8000, EncoderConstants.TIMEOUT_MS);
 
             // Config TalonSRX Redline encoder
             Devices.talonSrxHatcher.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
@@ -57,7 +60,7 @@ public class Hatcher extends Subsystem {
             Devices.talonSrxHatcher.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, 20);
+            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, EncoderConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxHatcher.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
@@ -84,9 +87,8 @@ public class Hatcher extends Subsystem {
     // Open the Hatcher claw to grab the hatch
     public void grabHatch() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
-        Logger.info("Hatcher -> Target Grab Position: " + targetPositionUnits);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, targetPositionUnits);
+        Logger.info("Hatcher -> Target Grab Position: " + TARGET_POSITION);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, TARGET_POSITION);
     }
 
     // Close the Hatcher claw to release the hatch
@@ -112,22 +114,12 @@ public class Hatcher extends Subsystem {
     public boolean isPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = TARGET_ROTATIONS * EncoderConstants.REDLIN_ENCODER_TPR;
-        return (Math.abs((Math.abs(currentPosition) - targetPositionUnits)) < 0);
+        return Math.abs(currentPosition - TARGET_POSITION) < POSITION_TOLERANCE;
     }
 
     // Toggle the hatchIsGrabbed state
     public void toggleHatchGrabbed() {
         hatchIsGrabbed = !hatchIsGrabbed;
-    }
-
-    //---------//
-    // Testing //
-    //---------//
-
-    public void driveStatic() {
-        if (!m_talonsAreConnected) return;
-        Devices.talonSrxHatcher.set(0.2);
     }
 
 }
