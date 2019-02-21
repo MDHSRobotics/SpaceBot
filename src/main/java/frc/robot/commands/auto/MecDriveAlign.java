@@ -80,7 +80,7 @@ public class MecDriveAlign extends Command {
 
         boolean detected = Robot.robotLineDetectorFront.lineDetected();
         if (!detected) {
-            Logger.info("MecDriveAlign -> Line lost!");
+            Logger.info("MecDriveAlign -> No line detected!");
             return true;
         }
 

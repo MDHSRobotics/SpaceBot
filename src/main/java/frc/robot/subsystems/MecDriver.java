@@ -173,7 +173,9 @@ public class MecDriver extends Subsystem {
     // Returns true if the gyro Z angle matches the target angle within the ALIGN_ANGLE_THRESHOLD
     public boolean isAlignedWithGyro(int targetAngle) {
         double angle = Devices.imuMecDrive.getAngleZ();
-        boolean aligned = (targetAngle - ALIGN_ANGLE_THRESHOLD <= angle || angle <= -targetAngle + ALIGN_ANGLE_THRESHOLD);
+        double difference = Math.abs(targetAngle - angle);
+        if (difference > 180) difference = 360 - difference;
+        boolean aligned = (difference <= ALIGN_ANGLE_THRESHOLD);
         return aligned;
     }
 
