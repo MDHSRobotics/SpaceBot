@@ -26,16 +26,14 @@ public class BallToss extends Command {
 
     @Override
     protected void execute() {
-        Logger.info("BallToss -> Position: " + Robot.robotBaller.getPosition());
-        Logger.info("BallToss -> Velocity: " +  Robot.robotBaller.getVelocity());
+        int position = Robot.robotBaller.getPosition();
+        int velocity = Robot.robotBaller.getVelocity();
+        Logger.info("BallToss -> Position: " + position + "; Velocity: " + velocity);
     }
 
     // This command is finished when the ball has been fully tossed
     @Override
     protected boolean isFinished() {
-        // TODO: If this command never finishes, we can never use it in a CommandGroup to automate complex actions
-        // Also, it will spam the log with Position and Velocity long after the action is complete
-        // return false;
         return Robot.robotHatcher.isPositionMet();
     }
 

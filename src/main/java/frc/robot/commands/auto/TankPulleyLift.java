@@ -42,6 +42,7 @@ public class TankPulleyLift extends Command {
         Robot.robotPulley.stop();
 
         // After the Pulley has reached its encoded target, the next climb task is lower the Arm to the "full" position
+        Logger.info("Climb Mode is now ARM");
         Robot.robotClimbMode = ClimbMode.ARM;
     }
 

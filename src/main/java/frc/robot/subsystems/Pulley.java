@@ -97,6 +97,13 @@ public class Pulley extends Subsystem {
         Devices.talonSrxPulleyMaster.stopMotor();
     }
 
+    // Reset the Pulley to its starting position
+    public void resetPosition() {
+        if (!m_talonsAreConnected) return;
+        Logger.info("Pulley -> Reset Position: " + TARGET_POSITION_RESET);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, TARGET_POSITION_RESET);
+    }
+
     public void lift() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxPulleyMaster.set(PULLEY_SPEED);
@@ -107,10 +114,10 @@ public class Pulley extends Subsystem {
         Devices.talonSrxPulleyMaster.set(-PULLEY_SPEED);
     }
 
-    public void resetPulleyPosition() {
-        if (!m_talonsAreConnected) return;
-        Logger.info("Pulley -> Reset Position: " + TARGET_POSITION_RESET);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, TARGET_POSITION_RESET);
+    // Get the current motor velocity
+    public int getVelocity() {
+        if (!m_talonsAreConnected) return 0;
+        return Devices.talonSrxPulleyMaster.getSelectedSensorVelocity();
     }
 
     // Get the current motor position
@@ -119,7 +126,8 @@ public class Pulley extends Subsystem {
         return Devices.talonSrxPulleyMaster.getSelectedSensorPosition();
     }
 
-    public boolean isPulleyPositionResetMet() {
+    // Return whether or not the motor has reached the encoded "reset" position
+    public boolean isPositionResetMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         return (Math.abs(currentPosition) < POSITION_TOLERANCE);

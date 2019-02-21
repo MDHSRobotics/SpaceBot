@@ -94,7 +94,7 @@ public class Arm extends Subsystem {
     }
 
     // Reset the Arm to its starting position
-    public void resetArmPosition() {
+    public void resetPosition() {
         if (!m_talonsAreConnected) return;
         Logger.info("Arm -> Reset Position: " + TARGET_POSITION_RESET);
         Devices.talonSrxArm.set(ControlMode.Position, TARGET_POSITION_RESET);

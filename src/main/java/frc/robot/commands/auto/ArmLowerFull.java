@@ -27,14 +27,15 @@ public class ArmLowerFull extends Command {
 
     @Override
     protected void execute() {
-        
+        int position = Robot.robotArm.getPosition();
+        int velocity = Robot.robotArm.getVelocity();
+        Logger.info("ArmLowerFull -> Position: " + position + "; Velocity: " + velocity);
     }
  
     // This command finishes when the "full" position is reached
     @Override
     protected boolean isFinished() {
-        boolean positionMet = Robot.robotArm.isPositionFullMet();
-        return positionMet;
+        return Robot.robotArm.isPositionFullMet();
     }
 
     @Override
@@ -43,8 +44,11 @@ public class ArmLowerFull extends Command {
 
         Robot.robotArm.stop();
 
+        Logger.info("Arm position is now FULL");
         Robot.robotArm.currentArmPosition = ArmPosition.FULL;
+
         // After the Arm is in the "full" position, the next climb task is give the user control over the Arm and Tank
+        Logger.info("Climb Mode is now CLIMB");
         Robot.robotClimbMode = ClimbMode.CLIMB;
     }
 

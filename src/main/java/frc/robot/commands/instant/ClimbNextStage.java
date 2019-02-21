@@ -42,6 +42,7 @@ public class ClimbNextStage extends InstantCommand {
         // We don't want to have the robot start climbing early because someone dropped the controller
         switch (Robot.robotGameMode) {
             case DELIVERY: // Reset and stop all Climb subsystems
+                Logger.info("Climb -> Resetting Arm and Pulley!");
                 m_armPulleyResetCmd.start();
                 break;
 
@@ -50,10 +51,12 @@ public class ClimbNextStage extends InstantCommand {
                     case ARM:
                         switch (Robot.robotArm.currentArmPosition) {
                             case START: // The first Climb action
+                                Logger.info("1st Climb -> Lowering the Arm HALF!");
                                 m_armLowerHalfCmd.start();
                                 break;
 
                             case HALF: // The third Climb action
+                                Logger.info("3rd Climb -> Lowering the Arm FULL!");
                                 m_armLowerFullCmd.start();
                                 break;
 
@@ -63,10 +66,12 @@ public class ClimbNextStage extends InstantCommand {
                         break;
 
                     case LIFT: // The second Climb action
+                        Logger.info("2nd Climb -> Spinning the Tank and Lifting the Pulley!");
                         m_tankPulleyLiftCmd.start();
                         break;
 
                     case CLIMB: // The fourth Climb action
+                        Logger.info("4th Climb -> Xbox Control of Arm and Tank!");
                         m_armLowerMoreCmd.start();
                         m_tankSpinCmd.start();
                         break;

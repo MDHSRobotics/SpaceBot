@@ -26,17 +26,15 @@ public class HatchGrab extends Command {
 
     @Override
     protected void execute() {
-        Logger.info("HatchGrab -> Position: " + Robot.robotHatcher.getPosition());
-        Logger.info("HatchGrab -> Velocity: " + Robot.robotHatcher.getVelocity());
+        int position = Robot.robotHatcher.getPosition();
+        int velocity = Robot.robotHatcher.getVelocity();
+        Logger.info("HatchGrab -> Position: " + position + "; Velocity: " + velocity);
     }
 
     // This command is finished when the hatch is grabbed
     @Override
     protected boolean isFinished() {
-        // TODO: If this command never finishes, we can never use it in a CommandGroup to automate complex actions
-        // Also, it will spam the log with Position and Velocity long after the action is complete
         return Robot.robotHatcher.isPositionMet();
-        // return false;
     }
 
     @Override

@@ -29,9 +29,11 @@ public class BallerTogglePosition extends InstantCommand {
         Logger.action("Initializing InstantCommand: BallerTogglePosition...");
 
         if (Robot.robotBaller.ballIsTossed) {
+            Logger.action("Baller -> Moving to HOLD...");
             m_ballHoldCmd.start();
         }
         else {
+            Logger.action("Baller -> Moving to TOSS...");
             m_ballTossCmd.start();
         }
         Robot.robotBaller.toggleBallTossed();

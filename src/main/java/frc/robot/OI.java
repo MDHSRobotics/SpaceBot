@@ -26,12 +26,14 @@ public class OI {
 
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
+        Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
         Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign());
         Devices.driveXboxBtnA.whenPressed(new HatcherTogglePosition());
         Devices.driveXboxBtnB.whenPressed(new BallerTogglePosition());
 
         // Bind the "climb" xbox buttons to specific commands
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
+        Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
         Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
     }
 
