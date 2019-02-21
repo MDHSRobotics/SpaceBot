@@ -17,6 +17,7 @@ public class RobotGameModeDelivery extends InstantCommand {
 
     @Override
     protected void initialize() {
+        System.out.println("--");
         Logger.action("Initializing InstantCommand: RobotGameModeDelivery...");
 
         Logger.info("Robot Game Mode is now DELIVERY");

@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
     // Consoles
     public static SendableChooser<Command> autoCommandChooser;
     private Command m_autoCmd;
-    public static Shuffler robotShuffler = new Shuffler();
+    public static Shuffler robotShuffler;
 
     // OI
     public static OI robotOI;
@@ -88,7 +88,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        // Instantiate the Logger FIRST to support ANSI on Windows 10
+        System.out.println("--");
+
+        // Instantiate the Logger FIRST
         robotLogger = new Logger();
         Logger.setup("Initializing Robot...");
 
@@ -96,6 +98,7 @@ public class Robot extends TimedRobot {
         robotDevices = new Devices();
 
         // Pre-intialize the Shuffler THIRD
+        robotShuffler = new Shuffler();
         robotShuffler.preInitialize();
 
         // Instantiate subsystem singletons FOURTH
@@ -163,6 +166,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+        System.out.println("--");
         Logger.ending("Disabling Robot...");
     }
 
@@ -184,6 +188,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        System.out.println("--");
         Logger.action("Initializing Autonomous...");
 
         m_autoCmd = autoCommandChooser.getSelected();
@@ -217,6 +222,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        System.out.println("--");
         Logger.action("Initializing Teleop...");
 
         // This makes sure that the autonomous stops running when

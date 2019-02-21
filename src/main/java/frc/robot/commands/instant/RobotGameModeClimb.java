@@ -17,6 +17,7 @@ public class RobotGameModeClimb extends InstantCommand {
 
     @Override
     protected void initialize() {
+        System.out.println("--");
         Logger.action("Initializing InstantCommand: RobotGameModeClimb...");
 
         Logger.info("Robot Game Mode is now CLIMB");

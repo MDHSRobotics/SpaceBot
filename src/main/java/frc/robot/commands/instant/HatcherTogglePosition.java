@@ -25,6 +25,7 @@ public class HatcherTogglePosition extends InstantCommand {
 
     @Override
     protected void initialize() {
+        System.out.println("--");
         Logger.action("Initializing InstantCommand: HatcherTogglePosition...");
 
         if (Robot.robotHatcher.hatchIsGrabbed) {

@@ -36,6 +36,7 @@ public class ClimbNextStage extends InstantCommand {
 
     @Override
     protected void initialize() {
+        System.out.println("--");
         Logger.action("Initializing InstantCommand: ClimbNextStage...");
 
         // We don't want to have the robot start climbing early because someone dropped the controller

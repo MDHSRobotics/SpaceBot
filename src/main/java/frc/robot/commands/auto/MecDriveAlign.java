@@ -23,6 +23,7 @@ public class MecDriveAlign extends Command {
 
     @Override
     protected void initialize() {
+        System.out.println("--");
         Logger.action("Initializing Command: MecDriveAlign...");
 
         m_targetAngle = OI.getDpadAngle();

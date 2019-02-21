@@ -25,6 +25,7 @@ public class BallerTogglePosition extends InstantCommand {
 
     @Override
     protected void initialize() {
+        System.out.println("--");
         Logger.action("Initializing InstantCommand: BallerTogglePosition...");
 
         if (Robot.robotBaller.ballIsTossed) {
