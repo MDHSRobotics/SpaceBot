@@ -45,6 +45,7 @@ public class MecDriveCartesian extends Command {
 
     @Override
     protected void interrupted() {
+        System.out.println("--");
         Logger.ending("Interrupting Command: MecDriveCartesian...");
 
         Robot.robotMecDriver.stop();

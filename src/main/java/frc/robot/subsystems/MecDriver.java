@@ -42,7 +42,10 @@ public class MecDriver extends Subsystem {
                                 talonFrontRightIsConnected && 
                                 talonRearRightIsConnected);
 
-        if (m_talonsAreConnected) {
+        if (!m_talonsAreConnected) {
+            Logger.error("MecDriver talons not all connected! Disabling MecDriver...");
+        }
+        else {
             Devices.talonSrxMecWheelFrontLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
             Devices.talonSrxMecWheelRearLeft.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
             Devices.talonSrxMecWheelFrontRight.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);

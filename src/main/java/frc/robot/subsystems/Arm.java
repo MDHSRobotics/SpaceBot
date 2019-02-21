@@ -40,8 +40,10 @@ public class Arm extends Subsystem {
     public Arm() {
         Logger.setup("Constructing Subsystem: Arm...");
 
-        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArm);
-        if (m_talonsAreConnected) {
+        if (!m_talonsAreConnected) {
+            Logger.error("Arm talons not all connected! Disabling Arm...");
+        }
+        else {
             Devices.talonSrxArm.configFactoryDefault();
 
             Devices.talonSrxArm.configPeakCurrentDuration(40, 20);

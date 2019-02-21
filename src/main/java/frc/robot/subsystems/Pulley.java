@@ -35,8 +35,21 @@ public class Pulley extends Subsystem {
     private boolean m_talonsAreConnected = false;
 
     public Pulley() {
-        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxPulleyMaster);
-        if (m_talonsAreConnected) {
+        Logger.setup("Constructing Subsystem: Pulley...");
+
+        boolean talonMasterIsConnected = Devices.isConnected(Devices.talonSrxPulleyMaster);
+        boolean talonSlaveAIsConnected = Devices.isConnected(Devices.talonSrxPulleySlaveA);
+        boolean talonSlaveBIsConnected = Devices.isConnected(Devices.talonSrxPulleySlaveB);
+        boolean talonSlaveCIsConnected = Devices.isConnected(Devices.talonSrxPulleySlaveC);
+        m_talonsAreConnected = (talonMasterIsConnected &&
+                                talonSlaveAIsConnected && 
+                                talonSlaveBIsConnected && 
+                                talonSlaveCIsConnected);
+
+        if (!m_talonsAreConnected) {
+            Logger.error("Pulley talons not all connected! Disabling Pulley...");
+        }
+        else {
             Devices.talonSrxPulleyMaster.configPeakCurrentDuration(40, 20);
             Devices.talonSrxPulleyMaster.configPeakCurrentLimit(11, 20);
             Devices.talonSrxPulleyMaster.configContinuousCurrentLimit(10, 20);

@@ -33,7 +33,10 @@ public class Baller extends Subsystem {
         Logger.setup("Constructing Subsystem: Baller...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxBaller);
-        if (m_talonsAreConnected) {
+        if (!m_talonsAreConnected) {
+            Logger.error("Baller talons not all connected! Disabling Baller...");
+        }
+        else {
             Devices.talonSrxBaller.configFactoryDefault();
 
             Devices.talonSrxBaller.configPeakCurrentDuration(40, EncoderConstants.TIMEOUT_MS);

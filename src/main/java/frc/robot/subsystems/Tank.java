@@ -22,7 +22,10 @@ public class Tank extends Subsystem {
         Logger.setup("Constructing Subsystem: Tank...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxTank);
-        if (m_talonsAreConnected) {
+        if (!m_talonsAreConnected) {
+            Logger.error("Tank talons not all connected! Disabling Tank...");
+        }
+        else {
             Devices.talonSrxTank.configOpenloopRamp(SECONDS_FROM_NEUTRAL_TO_FULL, TIMEOUT_MS);
         }
     }

@@ -33,7 +33,10 @@ public class Hatcher extends Subsystem {
         Logger.setup("Constructing Subsystem: Hatcher...");
 
         m_talonsAreConnected = Devices.isConnected(Devices.talonSrxHatcher);
-        if (m_talonsAreConnected) {
+        if (!m_talonsAreConnected) {
+            Logger.error("Hatcher talons not all connected! Disabling Hatcher...");
+        }
+        else {
             Devices.talonSrxHatcher.configFactoryDefault();
 
             Devices.talonSrxHatcher.configPeakCurrentDuration(40, EncoderConstants.TIMEOUT_MS);

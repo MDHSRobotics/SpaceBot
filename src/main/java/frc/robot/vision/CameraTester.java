@@ -41,7 +41,7 @@ public class CameraTester {
             testCam.close();
         }
         if (!cameraIsConnected) {
-            Logger.warning("USB Camera " + deviceNumber + " not found, disabled!");
+            Logger.error("USB Camera " + deviceNumber + " not found, disabled!");
         }
         return cameraIsConnected;
     }
