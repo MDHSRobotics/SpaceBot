@@ -7,7 +7,14 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.PulleyStop;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
+
+//import org.graalvm.compiler.lir.alloc.trace.TraceRegisterAllocationPhase_OptionDescriptors;
+
 import frc.robot.consoles.Logger;
+import frc.robot.helpers.EncoderConstants;
 import frc.robot.Devices;
 import frc.robot.helpers.EncoderConstants;
 
@@ -23,11 +30,13 @@ public class Pulley extends Subsystem {
     public PulleyPosition currentPulleyPosition = PulleyPosition.DOWN;
 
     // Motor constants
-    private final double PULLEY_SPEED = .5;
-
+    private final double PULLEY_SPEED = .5; 
+    private double MOTOR_OUTPUT;
+    
     // Encoder constants
-    private final double POSITION_TOLERANCE = 100;
+    private final double POSITION_TOLERANCE = 0;
     private final double TARGET_POSITION_RESET = 0;
+    private final double END_POSITION = 0; // TODO Determine actual end position of pulley in ticks 
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -65,7 +74,7 @@ public class Pulley extends Subsystem {
             Devices.talonSrxPulleyMaster.configAllowableClosedloopError(0, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
 
             Devices.talonSrxPulleyMaster.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxPulleyMaster.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.0125, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.32, EncoderConstants.TIMEOUT_MS);
             Devices.talonSrxPulleyMaster.config_kI(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
             Devices.talonSrxPulleyMaster.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.1, EncoderConstants.TIMEOUT_MS);
 
@@ -133,7 +142,20 @@ public class Pulley extends Subsystem {
         return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
 
-    public double getGyroAngle() {
+    public boolean isEndPositionMet() {
+        if (!m_talonsAreConnected) return true;
+        double currentPosition = getPosition();
+        return (Math.abs((Math.abs(currentPosition) - END_POSITION)) < POSITION_TOLERANCE);
+    }
+
+    public void levelRobot(double offsetAngle) {
+        if (!m_talonsAreConnected) return;
+        //TODO add algorithm to convert offset angle into motor percent output
+        Logger.info("Target Position: " + MOTOR_OUTPUT);
+        Devices.talonSrxPulley.set(ControlMode.PercentOutput, MOTOR_OUTPUT);
+    }
+
+    public double getRobotPitch() {
         if (!m_talonsAreConnected) return 0;
         double gyroAngle = Devices.imuMecDrive.getAngleX();
         return gyroAngle;
