@@ -10,16 +10,13 @@ import frc.robot.commands.idle.PulleyStop;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
-
-//import org.graalvm.compiler.lir.alloc.trace.TraceRegisterAllocationPhase_OptionDescriptors;
-
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.EncoderConstants;
 import frc.robot.Devices;
 import frc.robot.helpers.EncoderConstants;
 
 
-// Pulley subsystem for lifting the robot onto the platform
+// Pulley subsystem for leveling the backend of the robot
 public class Pulley extends Subsystem {
 
     public enum PulleyPosition {
@@ -148,7 +145,12 @@ public class Pulley extends Subsystem {
         return (Math.abs((Math.abs(currentPosition) - END_POSITION)) < POSITION_TOLERANCE);
     }
 
-    public void levelRobot(double offsetAngle) {
+    /**
+     * Transforms an inputed gyro offset angle into a motor power output percentage in 
+     * order to level the robot
+     * @param offsetAngle The input offset angle from current angle to level with the ground
+     */
+    public void levelRobot(double offsetAngle){
         if (!m_talonsAreConnected) return;
         //TODO add algorithm to convert offset angle into motor percent output
         Logger.info("Target Position: " + MOTOR_OUTPUT);
@@ -160,5 +162,4 @@ public class Pulley extends Subsystem {
         double gyroAngle = Devices.imuMecDrive.getAngleX();
         return gyroAngle;
     }
-
 }
