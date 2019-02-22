@@ -24,14 +24,17 @@ public class ArmLowerMore extends Command {
 
     @Override
     protected void execute() {
+        int position = Robot.robotArm.getPosition();
+        int velocity = Robot.robotArm.getVelocity();
         double speed = OI.getArmLowerMoreSpeed();
+        Logger.info("ArmLowerMore -> Position: " + position + "; Velocity: " + velocity + "; Speed: " + speed);
         Robot.robotArm.lowerMore(speed);
     }
 
     // This command continues until interrupted
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.robotArm.isPositionMoreMet();
     }
 
     @Override
