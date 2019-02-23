@@ -19,10 +19,14 @@ public class Hatcher extends Subsystem {
     public boolean hatchIsGrabbed = false;
 
     // Encoder constants
+    private final double GEAR_RATIO = 20;
+
     private final double ROTATION_DEGREE = 10.3;
-    private final double GEARBOX_RATIO = 20;
-    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(TalonConstants.REDLIN_ENCODER_TPR); // Equates to 0.572
-    private final int POSITION_TOLERANCE = 100;
+
+    private final double RELEASE_POSITION = 0;
+    private final double GRAB_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 0.572
+    private final double POSITION_TOLERANCE = 100;
+
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -81,24 +85,29 @@ public class Hatcher extends Subsystem {
         setDefaultCommand(new HatcherStop());
     }
 
+    // Toggle the hatchIsGrabbed state
+    public void toggleHatchGrabbed() {
+        hatchIsGrabbed = !hatchIsGrabbed;
+    }
+
     // Stop the Hatcher motor
     public void stop() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxHatcher.stopMotor();
     }
 
-    // Open the Hatcher claw to grab the hatch
-    public void grabHatch() {
-        if (!m_talonsAreConnected) return;
-        Logger.info("Hatcher -> Target Grab Position: " + TARGET_POSITION);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, TARGET_POSITION);
-    }
-
     // Close the Hatcher claw to release the hatch
     public void releaseHatch() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Hatcher -> Target Release Position: " + 0);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, 0);
+        Logger.info("Hatcher -> Release Position: " + RELEASE_POSITION);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, RELEASE_POSITION);
+    }
+
+    // Open the Hatcher claw to grab the hatch
+    public void grabHatch() {
+        if (!m_talonsAreConnected) return;
+        Logger.info("Hatcher -> Grab Position: " + GRAB_POSITION);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, GRAB_POSITION);
     }
 
     // Get the current Hatcher claw motor velocity
@@ -114,15 +123,11 @@ public class Hatcher extends Subsystem {
     }
 
     // Return whether or not the motor has reached the encoded position
+    // TODO: Is this all we need? What about a method for checking the Release position?
     public boolean isPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        return Math.abs(currentPosition - TARGET_POSITION) < POSITION_TOLERANCE;
-    }
-
-    // Toggle the hatchIsGrabbed state
-    public void toggleHatchGrabbed() {
-        hatchIsGrabbed = !hatchIsGrabbed;
+        return Math.abs(currentPosition - GRAB_POSITION) < POSITION_TOLERANCE;
     }
 
 }

@@ -34,7 +34,7 @@ public class ArmLowerMore extends Command {
     // This command continues until interrupted
     @Override
     protected boolean isFinished() {
-        return Robot.robotArm.isPositionMoreMet();
+        return Robot.robotArm.isMorePositionMet();
     }
 
     @Override

@@ -35,7 +35,7 @@ public class ArmLowerHalf extends Command {
     // This command finishes when the "half" position is reached
     @Override
     protected boolean isFinished() {
-        return Robot.robotArm.isPositionHalfMet();
+        return Robot.robotArm.isHalfPositionMet();
     }
 
     @Override

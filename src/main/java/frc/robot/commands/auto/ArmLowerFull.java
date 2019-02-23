@@ -35,7 +35,7 @@ public class ArmLowerFull extends Command {
     // This command finishes when the "full" position is reached
     @Override
     protected boolean isFinished() {
-        return Robot.robotArm.isPositionFullMet();
+        return Robot.robotArm.isFullPositionMet();
     }
 
     @Override

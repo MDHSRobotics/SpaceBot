@@ -25,24 +25,22 @@ public class Pulley extends Subsystem {
     public PulleyPosition currentPulleyPosition = PulleyPosition.DOWN;
 
     // Encoder Constants
-    private final double POSITION_TOLERANCE = 0;
-    private final double RESET_POSITION = 0;
-    // TODO: Determine actual end position of pulley in ticks
-    private final double END_POSITION = 0; 
     private final double GEAR_RATIO = 28;
+
+    private final double RESET_POSITION = 0;
+    private final double END_POSITION = 0; // TODO: Determine actual end position of Pulley in ticks
+    private final double POSITION_TOLERANCE = 0;
+
     private final double SPOOL_DIAMETER = 1.625; // In inches
     private final double SPOOL_CIRCUMFERENCE = Math.PI * SPOOL_DIAMETER;
-    // So that Talon does not report sensor out of phase
-    private final boolean SENSOR_PHASE = false; 
-    // Which direction you want to be positive; this does not affect motor invert
-    private final boolean MOTOR_INVERT = false;
+
+    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
     // Leveling Constants
     private final double MOTOR_HOLD_POWER = 0;
-    // The distance in inches
-    private final double DISTANCE_FROM_CENTER_TO_PULLEY = 0;
-    
-    private double m_motor_output = 0;
+    private final double DISTANCE_FROM_CENTER_TO_PULLEY = 0; // In inches
+
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
 
@@ -125,9 +123,9 @@ public class Pulley extends Subsystem {
         if (!m_talonsAreConnected) return;
         double offsetAngleInDegrees = Math.toDegrees(Math.atan(offsetAngle));
         double offsetDistance = DISTANCE_FROM_CENTER_TO_PULLEY * offsetAngleInDegrees;
-        m_motor_output = MOTOR_HOLD_POWER + offsetDistance / 13;
-        Logger.info("Target Position: " + m_motor_output);
-        Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, m_motor_output);
+        double motorOutput = MOTOR_HOLD_POWER + offsetDistance / 13;
+        Logger.info("Target Position: " + motorOutput);
+        Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, motorOutput);
     }  
 
     // Get the Robot's Pitch from the gyro
