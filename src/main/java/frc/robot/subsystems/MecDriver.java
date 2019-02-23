@@ -149,7 +149,7 @@ public class MecDriver extends Subsystem {
                 Devices.mecDrive.driveCartesian(ySpeed, xSpeed, zRotation);
             }
             else if (orientation == DriveOrientation.FIELD) {
-                double gyroAngle = Devices.imuMecDrive.getAngleZ();
+                double gyroAngle = Devices.gyro.getYaw();
                 // Logger.info("Cartesian Movement: " + ySpeed + ", " + xSpeed + ", " + zRotation + ", " + gyroAngle);
                 Devices.mecDrive.driveCartesian(ySpeed, xSpeed, zRotation, gyroAngle);
             }
@@ -172,7 +172,7 @@ public class MecDriver extends Subsystem {
 
     // Returns true if the gyro Z angle matches the target angle within the ALIGN_ANGLE_THRESHOLD
     public boolean isAlignedWithGyro(int targetAngle) {
-        double angle = Devices.imuMecDrive.getAngleZ();
+        double angle = Devices.gyro.getYaw();
         double difference = Math.abs(targetAngle - angle);
         if (difference > 180) difference = 360 - difference;
         boolean aligned = (difference <= ALIGN_ANGLE_THRESHOLD);

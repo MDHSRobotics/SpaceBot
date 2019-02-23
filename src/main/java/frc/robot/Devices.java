@@ -1,12 +1,13 @@
 
 package frc.robot;
 
-import com.analog.adis16448.frc.ADIS16448_IMU;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.helpers.DPad;
@@ -80,10 +81,10 @@ public class Devices {
     public static final Relay lighterRelay = new Relay(1);
 
     // Gyros
-    public static final ADIS16448_IMU imuMecDrive = new ADIS16448_IMU();
+    public static final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     // Motor Controllers
-    public static final WPI_TalonSRX talonSrxMecWheelFrontLeft = new WPI_TalonSRX(14); // 1 motor
+    public static final WPI_TalonSRX talonSrxMecWheelFrontLeft = new WPI_TalonSRX(15); // 1 motor
     public static final WPI_TalonSRX talonSrxMecWheelRearLeft = new WPI_TalonSRX(7); // 1 motor
     public static final WPI_TalonSRX talonSrxMecWheelFrontRight = new WPI_TalonSRX(8); // 1 motor
     public static final WPI_TalonSRX talonSrxMecWheelRearRight = new WPI_TalonSRX(6); // 1 motor
@@ -98,7 +99,7 @@ public class Devices {
     public static final WPI_TalonSRX talonSrxPulleySlaveA = new WPI_TalonSRX(5);
     public static final WPI_TalonSRX talonSrxPulleySlaveB = new WPI_TalonSRX(11);
     public static final WPI_TalonSRX talonSrxPulleySlaveC = new WPI_TalonSRX(12);
-    
+
     // Drives
     public static MecanumDrive mecDrive = null;
 

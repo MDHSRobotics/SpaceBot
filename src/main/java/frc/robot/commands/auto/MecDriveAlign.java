@@ -4,6 +4,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
+// TODO: Commands should never be accessing Devices directly
 import frc.robot.Devices;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -12,7 +13,7 @@ import frc.robot.Robot;
 // Automatically control the MecDrive to align the Robot with the gyro, and the line seen by the vision system
 public class MecDriveAlign extends Command {
 
-    private int m_targetAngle = 0;
+    private int m_targetAngle = -1;
 
     public MecDriveAlign() {
         Logger.setup("Constructing Command: MecDriveAlign...");
@@ -26,12 +27,13 @@ public class MecDriveAlign extends Command {
         System.out.println("--");
         Logger.action("Initializing Command: MecDriveAlign...");
 
-        m_targetAngle = OI.getDpadAngle();
+        m_targetAngle = OI.getDpadAngleForGyro();
     }
 
     @Override
     protected void execute() {
         if (m_targetAngle == -1) {
+            // TODO: This happens sometimes, so find a more reliable way to get the button that was pressed
             Logger.warning("MecDriveAlign -> Missed the DPad button press!");
             Robot.robotMecDriver.stop();
             return;
@@ -39,14 +41,19 @@ public class MecDriveAlign extends Command {
 
         // TODO: See which line is detected, and move based on that, such that the front camera can see the line when initial adjustment is complete
 
+
+        // TODO: Move this whole block of code to subsystem methods
+
         double zRotation = 0;
-        double angle = Devices.imuMecDrive.getAngleZ();
+        double angle = Devices.gyro.getYaw();
         double correction = m_targetAngle - angle;
         if (correction < -5 || 5 < correction) {
             if (correction > 180) correction = correction - 360;
             if (correction < -180) correction = correction + 360;
             zRotation = correction/180;
-            if (zRotation < .1) zRotation = .1;
+            zRotation = zRotation/3;
+            if (-.1 < zRotation && zRotation < 0) zRotation = -.1;
+            if (0 < zRotation && zRotation < .1) zRotation = .1;
             Logger.info("MecDriveAlign -> Target Angle: " + m_targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Z Rotate Speed: " + zRotation);
         }
 

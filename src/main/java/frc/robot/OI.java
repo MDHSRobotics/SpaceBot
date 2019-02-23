@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
+import frc.robot.commands.interactive.MecDriveSlowForward;
+import frc.robot.commands.interactive.MecDriveSlowTurnRight;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
@@ -27,6 +29,8 @@ public class OI {
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
         Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
+        Devices.driveXboxBtnBumperLeft.whenPressed(new MecDriveSlowForward());
+        Devices.driveXboxBtnBumperRight.whenPressed(new MecDriveSlowTurnRight());
         Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign());
         Devices.driveXboxBtnA.whenPressed(new HatcherTogglePosition());
         Devices.driveXboxBtnB.whenPressed(new BallerTogglePosition());
@@ -69,11 +73,6 @@ public class OI {
         }
     }
 
-    public static int getDpadAngle() {
-        int angle = Devices.driveXbox.getPOV(0);
-        return angle;
-    }
-
     //----------//
     // Joystick //
     //----------//
@@ -103,7 +102,7 @@ public class OI {
 
         // Forward/backward and rotation directions are both reversed from what is intuitive, so flip them
         y = -y;
-        z = -z;
+        z = -z; // TODO: Low priority, but check to see if this should be deleted, like we did for thumbsticks
 
         // User-determined flipping of forward/backward orientation
         if (isYflipped) {
@@ -166,9 +165,8 @@ public class OI {
         double xLeft = Devices.driveXbox.getX(Hand.kLeft); // Strafe
         double xRight = Devices.driveXbox.getX(Hand.kRight); // Rotate
 
-        // Forward/backward and rotation directions are both reversed from what is intuitive, so flip them
+        // Forward/backward direction is reversed from what is intuitive, so flip it
         yLeft = -yLeft;
-        xRight = -xRight;
 
         // User-determined flipping of forward/backward orientation
         if (isYleftFlipped) {
@@ -202,6 +200,13 @@ public class OI {
 
         ThumbStickPosition pos = new ThumbStickPosition(yLeft, xLeft, xRight);
         return pos;
+    }
+
+    // Converts the Dpad Angle (0 to 360, clockwise) into a Gyro Angle (0 to 180, clockwise, 0 to -180 counter-clockwise)
+    public static int getDpadAngleForGyro() {
+        int angle = Devices.driveXbox.getPOV(0);
+        if (angle > 180) angle = angle - 360;
+        return angle;
     }
 
     // TODO: Also consider adding a "debouncer" for the buttons
