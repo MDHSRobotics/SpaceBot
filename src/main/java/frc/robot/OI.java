@@ -73,13 +73,6 @@ public class OI {
         }
     }
 
-    // Converts the Dpad Angle (0 to 360, clockwise) into a Gyro Angle (0 to 180, counter-clockwise, 0 to -180 clockwise)
-    public static int getDpadAngleForGyro() {
-        int angle = Devices.driveXbox.getPOV(0);
-        if (angle > 180) angle = angle - 360;
-        return angle;
-    }
-
     //----------//
     // Joystick //
     //----------//
@@ -109,7 +102,7 @@ public class OI {
 
         // Forward/backward and rotation directions are both reversed from what is intuitive, so flip them
         y = -y;
-        z = -z;
+        z = -z; // TODO: Low priority, but check to see if this should be deleted, like we did for thumbsticks
 
         // User-determined flipping of forward/backward orientation
         if (isYflipped) {
@@ -154,7 +147,7 @@ public class OI {
     public static CartesianMovement getCartesianMovementFromThumbsticks(boolean isYleftFlipped) {
         ThumbStickPosition pos = getThumbstickPosition(isYleftFlipped);
         CartesianMovement move = new CartesianMovement(pos.xLeftPosition, pos.yLeftPosition, pos.xRightPosition);
-        //Logger.info("Xbox Cartesian Movement: " + pos.yLeftPosition + ", " + pos.xLeftPosition + ", " + pos.xRightPosition);
+        // Logger.info("Xbox Cartesian Movement: " + pos.yLeftPosition + ", " + pos.xLeftPosition + ", " + pos.xRightPosition);
         return move;
     }
 
@@ -172,7 +165,7 @@ public class OI {
         double xLeft = Devices.driveXbox.getX(Hand.kLeft); // Strafe
         double xRight = Devices.driveXbox.getX(Hand.kRight); // Rotate
 
-        // Forward/backward and rotation directions are both reversed from what is intuitive, so flip them
+        // Forward/backward direction is reversed from what is intuitive, so flip it
         yLeft = -yLeft;
 
         // User-determined flipping of forward/backward orientation
@@ -207,6 +200,13 @@ public class OI {
 
         ThumbStickPosition pos = new ThumbStickPosition(yLeft, xLeft, xRight);
         return pos;
+    }
+
+    // Converts the Dpad Angle (0 to 360, clockwise) into a Gyro Angle (0 to 180, clockwise, 0 to -180 counter-clockwise)
+    public static int getDpadAngleForGyro() {
+        int angle = Devices.driveXbox.getPOV(0);
+        if (angle > 180) angle = angle - 360;
+        return angle;
     }
 
     // TODO: Also consider adding a "debouncer" for the buttons
