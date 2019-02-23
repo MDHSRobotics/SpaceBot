@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
+import frc.robot.commands.interactive.MecDriveSlowForward;
+import frc.robot.commands.interactive.MecDriveSlowTurnRight;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
@@ -27,6 +29,8 @@ public class OI {
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
         Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
+        Devices.driveXboxBtnBumperLeft.whenPressed(new MecDriveSlowForward());
+        Devices.driveXboxBtnBumperRight.whenPressed(new MecDriveSlowTurnRight());
         Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign());
         Devices.driveXboxBtnA.whenPressed(new HatcherTogglePosition());
         Devices.driveXboxBtnB.whenPressed(new BallerTogglePosition());
@@ -72,8 +76,7 @@ public class OI {
     // Converts the Dpad Angle (0 to 360, clockwise) into a Gyro Angle (0 to 180, counter-clockwise, 0 to -180 clockwise)
     public static int getDpadAngleForGyro() {
         int angle = Devices.driveXbox.getPOV(0);
-        if (angle > 180) angle = -(angle - 360);
-        angle = -angle;
+        if (angle > 180) angle = angle - 360;
         return angle;
     }
 
@@ -151,7 +154,7 @@ public class OI {
     public static CartesianMovement getCartesianMovementFromThumbsticks(boolean isYleftFlipped) {
         ThumbStickPosition pos = getThumbstickPosition(isYleftFlipped);
         CartesianMovement move = new CartesianMovement(pos.xLeftPosition, pos.yLeftPosition, pos.xRightPosition);
-        // Logger.info("Xbox Cartesian Movement: " + pos.yLeftPosition + ", " + pos.xLeftPosition + ", " + pos.xRightPosition);
+        //Logger.info("Xbox Cartesian Movement: " + pos.yLeftPosition + ", " + pos.xLeftPosition + ", " + pos.xRightPosition);
         return move;
     }
 
@@ -171,7 +174,6 @@ public class OI {
 
         // Forward/backward and rotation directions are both reversed from what is intuitive, so flip them
         yLeft = -yLeft;
-        xRight = -xRight;
 
         // User-determined flipping of forward/backward orientation
         if (isYleftFlipped) {

@@ -46,34 +46,34 @@ public class Shuffler {
     public void initialize() {
         ShuffleLogger.logTrivial("Initializing Shuffler...");
 
-        m_mainTab.initialize();
+        // m_mainTab.initialize();
         m_visionTab.initialize();
         m_inputsTab.initialize();
-        m_driveTab.initialize();
-        m_subsystemsTab.initialize();
-        m_debugTab.initialize();
+        // m_driveTab.initialize();
+        // m_subsystemsTab.initialize();
+        // m_debugTab.initialize();
     }
 
     public void configure() {
         ShuffleLogger.logTrivial("Configuring Shuffler...");
 
-        m_mainTab.configure();
+        // m_mainTab.configure();
         m_visionTab.configure();
         m_inputsTab.configure();
-        m_driveTab.configure();
-        m_subsystemsTab.configure();
-        m_debugTab.configure();
+        // m_driveTab.configure();
+        // m_subsystemsTab.configure();
+        // m_debugTab.configure();
 
         setupSmartdashboard();
     }
 
     public void update() {
-        m_mainTab.update();
+        // m_mainTab.update();
         m_visionTab.update();
         m_inputsTab.update();
-        m_driveTab.update();
-        m_subsystemsTab.update();
-        m_debugTab.update();
+        // m_driveTab.update();
+        // m_subsystemsTab.update();
+        // m_debugTab.update();
     }
 
     // This is for stuff that can't be displayed easily in custom Shuffleboard tabs

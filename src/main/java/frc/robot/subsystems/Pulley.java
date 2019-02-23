@@ -160,7 +160,7 @@ public class Pulley extends Subsystem {
     }
 
     public double getRobotPitch() {
-        double gyroAngle = Devices.imuMecDrive.getPitch();
+        double gyroAngle = Devices.gyro.getPitch();
         return gyroAngle;
     }
 

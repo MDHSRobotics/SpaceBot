@@ -45,13 +45,13 @@ public class MecDriveAlign extends Command {
         // TODO: Move this whole block of code to subsystem methods
 
         double zRotation = 0;
-        double angle = Devices.imuMecDrive.getYaw();
+        double angle = Devices.gyro.getYaw();
         double correction = m_targetAngle - angle;
         if (correction < -5 || 5 < correction) {
             if (correction > 180) correction = correction - 360;
             if (correction < -180) correction = correction + 360;
             zRotation = correction/180;
-            zRotation = -zRotation;
+            zRotation = zRotation/3;
             if (-.1 < zRotation && zRotation < 0) zRotation = -.1;
             if (0 < zRotation && zRotation < .1) zRotation = .1;
             Logger.info("MecDriveAlign -> Target Angle: " + m_targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Z Rotate Speed: " + zRotation);
