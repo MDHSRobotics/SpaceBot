@@ -69,8 +69,11 @@ public class OI {
         }
     }
 
-    public static int getDpadAngle() {
+    // Converts the Dpad Angle (0 to 360, clockwise) into a Gyro Angle (0 to 180, counter-clockwise, 0 to -180 clockwise)
+    public static int getDpadAngleForGyro() {
         int angle = Devices.driveXbox.getPOV(0);
+        if (angle > 180) angle = -(angle - 360);
+        angle = -angle;
         return angle;
     }
 
