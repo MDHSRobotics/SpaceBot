@@ -19,10 +19,14 @@ public class Baller extends Subsystem {
     public boolean ballIsTossed = false;
 
     // Encoder constants
+    private final double GEAR_RATIO = 16;
+
     private final double ROTATION_DEGREE = 100;
-    private final double GEARBOX_RATIO = 16;
-    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(TalonConstants.REDLIN_ENCODER_TPR); // Equates to 4.44
-    private final int POSITION_TOLERANCE = 100;
+
+    private final double HOLD_POSITION = 0;
+    private final double TOSS_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 4.44
+    private final double POSITION_TOLERANCE = 100;
+
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -80,24 +84,29 @@ public class Baller extends Subsystem {
         setDefaultCommand(new BallerStop());
     }
 
+    // Toggle the ballIsTossed state
+    public void toggleBallTossed() {
+        ballIsTossed = !ballIsTossed;
+    }
+
     // Stop the Baller motor
     public void stop() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxBaller.stopMotor();
     }
 
-    // Move the Baller flipper to toss the ball
-    public void tossBall() {
-        if (!m_talonsAreConnected) return;
-        Logger.info("Baller -> Target Toss Position: " + TARGET_POSITION);
-        Devices.talonSrxBaller.set(ControlMode.Position, TARGET_POSITION);
-    }
-
     // Move the Baller flipper back to the hold position
     public void holdBall() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Baller -> Target Hold Position: " + 0);
-        Devices.talonSrxBaller.set(ControlMode.Position, 0);
+        Logger.info("Baller -> Hold Position: " + HOLD_POSITION);
+        Devices.talonSrxBaller.set(ControlMode.Position, HOLD_POSITION);
+    }
+
+    // Move the Baller flipper to toss the ball
+    public void tossBall() {
+        if (!m_talonsAreConnected) return;
+        Logger.info("Baller -> Toss Position: " + TOSS_POSITION);
+        Devices.talonSrxBaller.set(ControlMode.Position, TOSS_POSITION);
     }
 
     // Get the current Baller flipper motor velocity
@@ -113,15 +122,11 @@ public class Baller extends Subsystem {
     }
 
     // Return whether or not the motor has reached the encoded position
+    // TODO: Is this all we need? What about a method for checking the Hold position?
     public boolean isPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        return Math.abs(currentPosition - TARGET_POSITION) < POSITION_TOLERANCE;
-    }
-
-    // Toggle the ballIsTossed state
-    public void toggleBallTossed() {
-        ballIsTossed = !ballIsTossed;
+        return Math.abs(currentPosition - TOSS_POSITION) < POSITION_TOLERANCE;
     }
 
     //---------//

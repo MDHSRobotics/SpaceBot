@@ -23,20 +23,21 @@ public class Arm extends Subsystem {
     public ArmPosition currentArmPosition = ArmPosition.START;
 
     // Encoder constants
-    private final double GEARBOX_RATIO = 81;
+    private final double GEAR_RATIO = 81;
 
     // TODO: test to find the correct degree measures
-    private final double ROTATION_HALF_DEGREES = 45;
-    private final double ROTATION_FULL_DEGREES = 90;
-    private final double ROTATION_MORE_DEGREES = 110;
+    private final double HALF_ROTATION_DEGREE = 45;
+    private final double FULL_ROTATION_DEGREE = 90;
+    private final double MORE_ROTATION_DEGREE = 110;
 
-    private final double TARGET_POSITION_HALF = (ROTATION_HALF_DEGREES/360)*GEARBOX_RATIO*TalonConstants.REDLIN_ENCODER_TPR;	
-    private final double TARGET_POSITION_FULL = (ROTATION_FULL_DEGREES/360)*GEARBOX_RATIO*TalonConstants.REDLIN_ENCODER_TPR;
-    private final double TARGET_POSITION_MORE = (ROTATION_MORE_DEGREES/360)*GEARBOX_RATIO*TalonConstants.REDLIN_ENCODER_TPR;
-    private final double TARGET_POSITION_RESET = 0;
+    private final double RESET_POSITION = 0;
+    private final double HALF_POSITION = (HALF_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;	
+    private final double FULL_POSITION = (FULL_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
+    private final double MORE_POSITION = (MORE_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
+    private final double POSITION_TOLERANCE = 0; // TODO: test to see what tolerance works
+
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
-    private final double POSITION_TOLERANCE = 0; // TODO: test to see what tolerance works
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -100,14 +101,14 @@ public class Arm extends Subsystem {
     // Reset the Arm to its starting position
     public void resetPosition() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Arm -> Reset Position: " + TARGET_POSITION_RESET);
-        Devices.talonSrxArm.set(ControlMode.Position, TARGET_POSITION_RESET);
+        Logger.info("Arm -> Reset Position: " + RESET_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, RESET_POSITION);
     }
 
     // Lowers the Arm to the encoded "half" position
     public void lowerHalf() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = TARGET_POSITION_HALF * TalonConstants.REDLIN_ENCODER_TPR;
+        double targetPositionUnits = HALF_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
         Logger.info("Arm -> Target Lower Half Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
@@ -115,7 +116,7 @@ public class Arm extends Subsystem {
     // Lowers the Arm to the encoded "full" position
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = TARGET_POSITION_FULL * TalonConstants.REDLIN_ENCODER_TPR;
+        double targetPositionUnits = FULL_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
         Logger.info("Arm -> Target Lower Full Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
@@ -123,7 +124,7 @@ public class Arm extends Subsystem {
     // Lowers the Arm beyond the full encoded position, based on given speed
     public void lowerMore(double speed) {
         if (!m_talonsAreConnected) return;
-        boolean posMet = isPositionMoreMet();
+        boolean posMet = isMorePositionMet();
         if (posMet) {
             stop();
         }
@@ -145,35 +146,35 @@ public class Arm extends Subsystem {
     }
 
     // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isPositionResetMet() {
+    public boolean isResetPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
 
     // Return whether or not the motor has reached the encoded "half" position
-    public boolean isPositionHalfMet() {
+    public boolean isHalfPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = TARGET_POSITION_HALF * TalonConstants.REDLIN_ENCODER_TPR;
+        double targetPositionUnits = HALF_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
         return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
     }
 
     // Return whether or not the motor has reached the encoded "full" position
-    public boolean isPositionFullMet() {
+    public boolean isFullPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = TARGET_POSITION_FULL * TalonConstants.REDLIN_ENCODER_TPR;
+        double targetPositionUnits = FULL_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
         return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
     }
 
     //Return whether or not the motor has reached the encoded "more" position
-    public boolean isPositionMoreMet() {
+    public boolean isMorePositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         // TODO: It looks like the logic of the next two lines is used in multiple places.
         //       Consider making a method that does this logic.
-        double targetPositionUnits = TARGET_POSITION_MORE * TalonConstants.REDLIN_ENCODER_TPR;
+        double targetPositionUnits = MORE_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
         return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
     }
 

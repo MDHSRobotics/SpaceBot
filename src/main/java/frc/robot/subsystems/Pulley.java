@@ -1,6 +1,8 @@
 
 package frc.robot.subsystems;
 
+import java.lang.Math;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
@@ -22,20 +24,22 @@ public class Pulley extends Subsystem {
     // The public property to determine the Pulley state
     public PulleyPosition currentPulleyPosition = PulleyPosition.DOWN;
 
-    // Motor constants
-    private final double PULLEY_SPEED = .5;
-    // TODO: This next line will eventually produce a runtime error, because you have assigned it no value, and it never gets set, but it does get used.
-    //       Is MOTOR_OUTPUT intended to be a constant?
-    //       If so, it should set to "final" and initialized here (use a reasonable default value if the actual value still needs to be determined.)
-    //       If not, it should not be in all caps, but instead start with "m_", and it should not be grouped with the "Motor Constants".
-    private double MOTOR_OUTPUT;
+    // Encoder Constants
+    private final double GEAR_RATIO = 28;
 
-    // Encoder constants
+    private final double RESET_POSITION = 0;
+    private final double END_POSITION = 0; // TODO: Determine actual end position of Pulley in ticks
     private final double POSITION_TOLERANCE = 0;
-    private final double TARGET_POSITION_RESET = 0;
-    private final double END_POSITION = 0; // TODO: Determine actual end position of pulley in ticks 
+
+    private final double SPOOL_DIAMETER = 1.625; // In inches
+    private final double SPOOL_CIRCUMFERENCE = Math.PI * SPOOL_DIAMETER;
+
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+
+    // Leveling Constants
+    private final double MOTOR_HOLD_POWER = 0;
+    private final double DISTANCE_FROM_CENTER_TO_PULLEY = 0; // In inches
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -103,48 +107,11 @@ public class Pulley extends Subsystem {
         Devices.talonSrxPulleyMaster.stopMotor();
     }
 
-    // Reset the Pulley to its starting position
-    public void resetPosition() {
+     // Reset the Pulley to its starting position
+     public void resetPosition() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Pulley -> Reset Position: " + TARGET_POSITION_RESET);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, TARGET_POSITION_RESET);
-    }
-
-    public void lift() {
-        if (!m_talonsAreConnected) return;
-        Devices.talonSrxPulleyMaster.set(PULLEY_SPEED);
-    }
-
-    public void lower() {
-        if (!m_talonsAreConnected) return;
-        Devices.talonSrxPulleyMaster.set(-PULLEY_SPEED);
-    }
-
-    // Get the current motor velocity
-    public int getVelocity() {
-        if (!m_talonsAreConnected) return 0;
-        return Devices.talonSrxPulleyMaster.getSelectedSensorVelocity();
-    }
-
-    // Get the current motor position
-    public int getPosition() {
-        if (!m_talonsAreConnected) return 0;
-        return Devices.talonSrxPulleyMaster.getSelectedSensorPosition();
-    }
-
-    // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isPositionResetMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return (Math.abs(currentPosition) < POSITION_TOLERANCE);
-    }
-
-    // Return whether or not the motor has reached the encoded "end" position
-    public boolean isEndPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        double currentPosition = getPosition();
-        // TODO: Is this logic correct? The Arm does it differently.
-        return (Math.abs((Math.abs(currentPosition) - END_POSITION)) < POSITION_TOLERANCE);
+        Logger.info("Pulley -> Reset Position: " + RESET_POSITION);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, RESET_POSITION);
     }
 
     /**
@@ -154,14 +121,45 @@ public class Pulley extends Subsystem {
      */
     public void levelRobot(double offsetAngle) {
         if (!m_talonsAreConnected) return;
-        // TODO: add algorithm to convert offset angle into motor percent output
-        Logger.info("Target Position: " + MOTOR_OUTPUT);
-        Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, MOTOR_OUTPUT);
-    }
+        double offsetAngleInDegrees = Math.toDegrees(Math.atan(offsetAngle));
+        double offsetDistance = DISTANCE_FROM_CENTER_TO_PULLEY * offsetAngleInDegrees;
+        double motorOutput = MOTOR_HOLD_POWER + offsetDistance / 13;
+        Logger.info("Target Position: " + motorOutput);
+        Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, motorOutput);
+    }  
 
+    // Get the Robot's Pitch from the gyro
+    // TODO: Perhaps this should be somewhere more central, like Devices, OI, or maybe a new class called Gyro, or Sensors?
     public double getRobotPitch() {
         double gyroAngle = Devices.gyro.getPitch();
         return gyroAngle;
     }
+
+     // Get the current motor position
+     public int getPosition() {
+        if (!m_talonsAreConnected) return 0;
+        return Devices.talonSrxPulleyMaster.getSelectedSensorPosition();
+    }
+
+    // Get the current motor velocity
+    public int getVelocity() {
+        if (!m_talonsAreConnected) return 0;
+        return Devices.talonSrxPulleyMaster.getSelectedSensorVelocity();
+    }
+
+    // Return whether or not the motor has reached the encoded "reset" position
+    public boolean isResetPositionMet() {
+        if (!m_talonsAreConnected) return true;
+        int currentPosition = getPosition();
+        return (Math.abs(currentPosition - RESET_POSITION) < POSITION_TOLERANCE);
+    }
+
+    // Return whether or not the motor has reached the encoded "end" position
+    public boolean isEndPositionMet() {
+        if (!m_talonsAreConnected) return true;
+        double currentPosition = getPosition();
+        // TODO: Is this logic correct? The Arm does it differently.
+        return (Math.abs((Math.abs(currentPosition) - END_POSITION)) < POSITION_TOLERANCE);
+    }  
 
 }
