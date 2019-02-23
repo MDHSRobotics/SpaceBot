@@ -33,7 +33,7 @@ public class PulleyReset extends Command {
     // This will finish when the Pulley reaches its encoded target
     @Override
     protected boolean isFinished() {
-        return Robot.robotPulley.isPositionResetMet();
+        return Robot.robotPulley.isResetPositionMet();
     }
 
     @Override

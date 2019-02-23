@@ -26,18 +26,16 @@ public class Pulley extends Subsystem {
 
     // Encoder Constants
     private final double POSITION_TOLERANCE = 0;
-    private final double TARGET_POSITION_RESET = 0;
+    private final double RESET_POSITION = 0;
     // TODO: Determine actual end position of pulley in ticks
     private final double END_POSITION = 0; 
     private final double GEAR_RATIO = 28;
     private final double SPOOL_DIAMETER = 1.625; // In inches
-    private final double SPOOL_CIRCUMFERENCE = Math.PI*SPOOL_DIAMETER;
+    private final double SPOOL_CIRCUMFERENCE = Math.PI * SPOOL_DIAMETER;
     // So that Talon does not report sensor out of phase
     private final boolean SENSOR_PHASE = false; 
     // Which direction you want to be positive; this does not affect motor invert
     private final boolean MOTOR_INVERT = false;
-
-
 
     // Leveling Constants
     private final double MOTOR_HOLD_POWER = 0;
@@ -111,6 +109,34 @@ public class Pulley extends Subsystem {
         Devices.talonSrxPulleyMaster.stopMotor();
     }
 
+     // Reset the Pulley to its starting position
+     public void resetPosition() {
+        if (!m_talonsAreConnected) return;
+        Logger.info("Pulley -> Reset Position: " + RESET_POSITION);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, RESET_POSITION);
+    }
+
+    /**
+     * Transforms an inputed gyro offset angle into a motor power output percentage in 
+     * order to level the robot
+     * @param offsetAngle The input offset angle from current angle to level with the ground
+     */
+    public void levelRobot(double offsetAngle) {
+        if (!m_talonsAreConnected) return;
+        double offsetAngleInDegrees = Math.toDegrees(Math.atan(offsetAngle));
+        double offsetDistance = DISTANCE_FROM_CENTER_TO_PULLEY * offsetAngleInDegrees;
+        m_motor_output = MOTOR_HOLD_POWER + offsetDistance / 13;
+        Logger.info("Target Position: " + m_motor_output);
+        Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, m_motor_output);
+    }  
+
+    // Get the Robot's Pitch from the gyro
+    // TODO: Perhaps this should be somewhere more central, like Devices, OI, or maybe a new class called Gyro, or Sensors?
+    public double getRobotPitch() {
+        double gyroAngle = Devices.gyro.getPitch();
+        return gyroAngle;
+    }
+
      // Get the current motor position
      public int getPosition() {
         if (!m_talonsAreConnected) return 0;
@@ -123,23 +149,11 @@ public class Pulley extends Subsystem {
         return Devices.talonSrxPulleyMaster.getSelectedSensorVelocity();
     }
 
-    public double getRobotPitch() {
-        double gyroAngle = Devices.gyro.getPitch();
-        return gyroAngle;
-    }
-
-    /**
-     * Transforms an inputed gyro offset angle into a motor power output percentage in 
-     * order to level the robot
-     * @param offsetAngle The input offset angle from current angle to level with the ground
-     */
-    public void levelRobot(double offsetAngle) {
-        if (!m_talonsAreConnected) return;
-        double offsetAngleInDegrees = Math.toDegrees(Math.atan(offsetAngle));
-        double offsetDistance = DISTANCE_FROM_CENTER_TO_PULLEY*offsetAngleInDegrees;
-        m_motor_output = MOTOR_HOLD_POWER+offsetDistance/13;
-        Logger.info("Target Position: " + m_motor_output);
-        Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, m_motor_output);
+    // Return whether or not the motor has reached the encoded "reset" position
+    public boolean isResetPositionMet() {
+        if (!m_talonsAreConnected) return true;
+        int currentPosition = getPosition();
+        return (Math.abs(currentPosition - RESET_POSITION) < POSITION_TOLERANCE);
     }
 
     // Return whether or not the motor has reached the encoded "end" position
@@ -148,20 +162,6 @@ public class Pulley extends Subsystem {
         double currentPosition = getPosition();
         // TODO: Is this logic correct? The Arm does it differently.
         return (Math.abs((Math.abs(currentPosition) - END_POSITION)) < POSITION_TOLERANCE);
-    }    
-
-     // Reset the Pulley to its starting position
-     public void resetPosition() {
-        if (!m_talonsAreConnected) return;
-        Logger.info("Pulley -> Reset Position: " + TARGET_POSITION_RESET);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, TARGET_POSITION_RESET);
-    }
-
-    // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isPositionResetMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return (Math.abs(currentPosition - TARGET_POSITION_RESET) < POSITION_TOLERANCE);
-    }
+    }  
 
 }
