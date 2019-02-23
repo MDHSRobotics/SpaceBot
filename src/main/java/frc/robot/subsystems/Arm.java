@@ -3,8 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
-
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.ArmStop;
@@ -27,7 +25,7 @@ public class Arm extends Subsystem {
     // Encoder constants
     private final double GEARBOX_RATIO = 81;
 
-    //TODO test to find the correct degree measures
+    // TODO: test to find the correct degree measures
     private final double ROTATION_HALF_DEGREES = 45;
     private final double ROTATION_FULL_DEGREES = 90;
     private final double ROTATION_MORE_DEGREES = 110;
@@ -38,7 +36,7 @@ public class Arm extends Subsystem {
     private final double TARGET_POSITION_RESET = 0;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
-    private final double POSITION_TOLERANCE = 0; //TODO test to see what tolerance works
+    private final double POSITION_TOLERANCE = 0; // TODO: test to see what tolerance works
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -123,9 +121,13 @@ public class Arm extends Subsystem {
     }
 
     // Lowers the Arm beyond the full encoded position, based on given speed
-    // TODO: Use encoders to set a limit? There will also be a physical stop
     public void lowerMore(double speed) {
-        if (m_talonsAreConnected) {
+        if (!m_talonsAreConnected) return;
+        boolean posMet = isPositionMoreMet();
+        if (posMet) {
+            stop();
+        }
+        else {
             Devices.talonSrxArm.set(speed);
         }
     }
@@ -140,6 +142,13 @@ public class Arm extends Subsystem {
     public int getPosition() {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxArm.getSelectedSensorPosition();
+    }
+
+    // Return whether or not the motor has reached the encoded "reset" position
+    public boolean isPositionResetMet() {
+        if (!m_talonsAreConnected) return true;
+        int currentPosition = getPosition();
+        return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
 
     // Return whether or not the motor has reached the encoded "half" position
@@ -162,15 +171,10 @@ public class Arm extends Subsystem {
     public boolean isPositionMoreMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
+        // TODO: It looks like the logic of the next two lines is used in multiple places.
+        //       Consider making a method that does this logic.
         double targetPositionUnits = TARGET_POSITION_MORE * TalonConstants.REDLIN_ENCODER_TPR;
         return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
-    }
-
-    // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isPositionResetMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
 
 }

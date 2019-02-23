@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.PulleyStop;
 import frc.robot.consoles.Logger;
-import frc.robot.helpers.EncoderConstants;
 import frc.robot.helpers.TalonConstants;
 import frc.robot.Devices;
 
@@ -71,10 +70,10 @@ public class Pulley extends Subsystem {
             Devices.talonSrxPulleyMaster.setInverted(MOTOR_INVERT);
             Devices.talonSrxPulleyMaster.configAllowableClosedloopError(TalonConstants.PID_LOOP_PRIMARY, 0, TalonConstants.TIMEOUT_MS);
 
-            Devices.talonSrxPulleyMaster.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxPulleyMaster.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.32, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxPulleyMaster.config_kI(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxPulleyMaster.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.1, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.32, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.1, TalonConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
             Devices.talonSrxPulleyMaster.setSelectedSensorPosition(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
@@ -144,6 +143,7 @@ public class Pulley extends Subsystem {
     public boolean isEndPositionMet() {
         if (!m_talonsAreConnected) return true;
         double currentPosition = getPosition();
+        // TODO: Is this logic correct? The Arm does it differently.
         return (Math.abs((Math.abs(currentPosition) - END_POSITION)) < POSITION_TOLERANCE);
     }
 
