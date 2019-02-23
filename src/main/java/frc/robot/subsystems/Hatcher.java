@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.HatcherStop;
 import frc.robot.consoles.Logger;
-import frc.robot.helpers.EncoderConstants;
+import frc.robot.helpers.TalonConstants;
 import frc.robot.Devices;
 
 
@@ -21,7 +21,7 @@ public class Hatcher extends Subsystem {
     // Encoder constants
     private final double ROTATION_DEGREE = 10.3;
     private final double GEARBOX_RATIO = 20;
-    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(EncoderConstants.REDLIN_ENCODER_TPR); // Equates to 0.572
+    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(TalonConstants.REDLIN_ENCODER_TPR); // Equates to 0.572
     private final int POSITION_TOLERANCE = 100;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
@@ -39,38 +39,38 @@ public class Hatcher extends Subsystem {
         else {
             Devices.talonSrxHatcher.configFactoryDefault();
 
-            Devices.talonSrxHatcher.configPeakCurrentDuration(40, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.configPeakCurrentLimit(11, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.configContinuousCurrentLimit(10, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentDuration(40, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentLimit(11, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configContinuousCurrentLimit(10, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxHatcher.configNominalOutputForward(0);
             Devices.talonSrxHatcher.configNominalOutputReverse(0);
             Devices.talonSrxHatcher.configPeakOutputForward(0.5);
             Devices.talonSrxHatcher.configPeakOutputReverse(-0.5);
 
-            Devices.talonSrxHatcher.configMotionAcceleration(4000, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.configMotionCruiseVelocity(8000, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configMotionAcceleration(4000, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configMotionCruiseVelocity(8000, TalonConstants.TIMEOUT_MS);
 
             // Config TalonSRX Redline encoder
-            Devices.talonSrxHatcher.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxHatcher.setSensorPhase(SENSOR_PHASE);
             Devices.talonSrxHatcher.setInverted(MOTOR_INVERT);
-            Devices.talonSrxHatcher.configAllowableClosedloopError(0, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configAllowableClosedloopError(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
 
-            Devices.talonSrxHatcher.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.32, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.config_kI(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.32, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxHatcher.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
             if (SENSOR_PHASE) absolutePosition *= -1;
             if (MOTOR_INVERT) absolutePosition *= -1;
             // Set the quadrature (relative) sensor to match absolute
-            Devices.talonSrxHatcher.setSelectedSensorPosition(absolutePosition, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
         }
     }
 

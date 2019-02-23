@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.idle.PulleyStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.EncoderConstants;
+import frc.robot.helpers.TalonConstants;
 import frc.robot.Devices;
 
 
@@ -56,19 +57,19 @@ public class Pulley extends Subsystem {
             Logger.error("Pulley talons not all connected! Disabling Pulley...");
         }
         else {
-            Devices.talonSrxPulleyMaster.configPeakCurrentDuration(40, 20);
-            Devices.talonSrxPulleyMaster.configPeakCurrentLimit(11, 20);
-            Devices.talonSrxPulleyMaster.configContinuousCurrentLimit(10, 20);
-
-            Devices.talonSrxPulleyMaster.configNominalOutputForward(0);
-            Devices.talonSrxPulleyMaster.configNominalOutputReverse(0);
+            Devices.talonSrxPulleyMaster.configPeakCurrentDuration(TalonConstants.PEAK_CURRENT_DURATION, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configPeakCurrentLimit(TalonConstants.PEAK_CURRENT_AMPS, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_CURRENT_LIMIT, TalonConstants.TIMEOUT_MS);
+           
+            Devices.talonSrxPulleyMaster.configNominalOutputForward(TalonConstants.NOMINAL_OUTPUT_FORWARD);
+            Devices.talonSrxPulleyMaster.configNominalOutputReverse(TalonConstants.NOMINAL_OUTPUT_REVERSE);
             Devices.talonSrxPulleyMaster.configPeakOutputForward(0.5);
             Devices.talonSrxPulleyMaster.configPeakOutputReverse(-0.5);
 
-            Devices.talonSrxPulleyMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxPulleyMaster.setSensorPhase(SENSOR_PHASE);
             Devices.talonSrxPulleyMaster.setInverted(MOTOR_INVERT);
-            Devices.talonSrxPulleyMaster.configAllowableClosedloopError(0, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configAllowableClosedloopError(TalonConstants.PID_LOOP_PRIMARY, 0, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxPulleyMaster.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
             Devices.talonSrxPulleyMaster.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.32, EncoderConstants.TIMEOUT_MS);
@@ -76,17 +77,17 @@ public class Pulley extends Subsystem {
             Devices.talonSrxPulleyMaster.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.1, EncoderConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxPulleyMaster.setSelectedSensorPosition(0, 0, 20);
+            Devices.talonSrxPulleyMaster.setSelectedSensorPosition(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxPulleyMaster.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
             if (SENSOR_PHASE) absolutePosition *= -1;
             if (MOTOR_INVERT) absolutePosition *= -1;
             // Set the quadrature (relative) sensor to match absolute
-            Devices.talonSrxPulleyMaster.setSelectedSensorPosition(absolutePosition, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             
-            Devices.talonSrxPulleyMaster.configMotionAcceleration(6000, 20);
-            Devices.talonSrxPulleyMaster.configMotionCruiseVelocity(15000, 20);
+            Devices.talonSrxPulleyMaster.configMotionAcceleration(6000, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configMotionCruiseVelocity(15000, TalonConstants.TIMEOUT_MS);
         }
     }
 

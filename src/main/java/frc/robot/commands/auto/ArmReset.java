@@ -35,7 +35,7 @@ public class ArmReset extends Command {
     // This command finishes when the "reset" position is reached
     @Override
     protected boolean isFinished() {
-        return Robot.robotArm.isArmPositionResetMet();
+        return Robot.robotArm.isPositionResetMet();
     }
 
     @Override

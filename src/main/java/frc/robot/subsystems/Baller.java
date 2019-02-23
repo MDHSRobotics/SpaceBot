@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.BallerStop;
 import frc.robot.consoles.Logger;
-import frc.robot.helpers.EncoderConstants;
+import frc.robot.helpers.TalonConstants;
 import frc.robot.Devices;
 
 
@@ -21,7 +21,7 @@ public class Baller extends Subsystem {
     // Encoder constants
     private final double ROTATION_DEGREE = 100;
     private final double GEARBOX_RATIO = 16;
-    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(EncoderConstants.REDLIN_ENCODER_TPR); // Equates to 4.44
+    private final double TARGET_POSITION = (ROTATION_DEGREE/360)*(GEARBOX_RATIO)*(TalonConstants.REDLIN_ENCODER_TPR); // Equates to 4.44
     private final int POSITION_TOLERANCE = 100;
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
@@ -39,34 +39,34 @@ public class Baller extends Subsystem {
         else {
             Devices.talonSrxBaller.configFactoryDefault();
 
-            Devices.talonSrxBaller.configPeakCurrentDuration(40, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxBaller.configPeakCurrentLimit(11, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxBaller.configContinuousCurrentLimit(10, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configPeakCurrentDuration(40, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configPeakCurrentLimit(11, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configContinuousCurrentLimit(10, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxBaller.configNominalOutputForward(0);
             Devices.talonSrxBaller.configNominalOutputReverse(0);
             Devices.talonSrxBaller.configPeakOutputForward(0.5);
             Devices.talonSrxBaller.configPeakOutputReverse(-0.2);
 
-            Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxBaller.setSensorPhase(SENSOR_PHASE);
             Devices.talonSrxBaller.setInverted(MOTOR_INVERT);
-            Devices.talonSrxBaller.configAllowableClosedloopError(0, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configAllowableClosedloopError(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
 
-            Devices.talonSrxBaller.config_kF(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxBaller.config_kP(EncoderConstants.PID_LOOP_PRIMARY, 0.0125, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxBaller.config_kI(EncoderConstants.PID_LOOP_PRIMARY, 0.0, EncoderConstants.TIMEOUT_MS);
-            Devices.talonSrxBaller.config_kD(EncoderConstants.PID_LOOP_PRIMARY, 0.1, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.0125, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.1, TalonConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxBaller.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
             if (SENSOR_PHASE) absolutePosition *= -1;
             if (MOTOR_INVERT) absolutePosition *= -1;
             // Set the quadrature (relative) sensor to match absolute
-            Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, EncoderConstants.PID_LOOP_PRIMARY, EncoderConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             
             Devices.talonSrxBaller.configMotionAcceleration(6000, 20);
             Devices.talonSrxBaller.configMotionCruiseVelocity(15000, 20);
