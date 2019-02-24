@@ -114,26 +114,16 @@ public class Pulley extends Subsystem {
         Devices.talonSrxPulleyMaster.set(ControlMode.Position, RESET_POSITION);
     }
 
-    /**
-     * Transforms an inputed gyro offset angle into a motor power output percentage in 
-     * order to level the robot
-     * @param offsetAngle The input offset angle from current angle to level with the ground
-     */
-    public void levelRobot(double offsetAngle) {
+    // Transforms the gyro pitch into a motor power output percentage in order to level the robot
+    public void levelRobot() {
         if (!m_talonsAreConnected) return;
+        double offsetAngle = Devices.gyro.getPitch();
         double offsetAngleInDegrees = Math.toDegrees(Math.atan(offsetAngle));
         double offsetDistance = DISTANCE_FROM_CENTER_TO_PULLEY * offsetAngleInDegrees;
         double motorOutput = MOTOR_HOLD_POWER + offsetDistance / 13;
         Logger.info("Target Position: " + motorOutput);
         Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, motorOutput);
     }  
-
-    // Get the Robot's Pitch from the gyro
-    // TODO: Perhaps this should be somewhere more central, like Devices, OI, or maybe a new class called Gyro, or Sensors?
-    public double getRobotPitch() {
-        double gyroAngle = Devices.gyro.getPitch();
-        return gyroAngle;
-    }
 
      // Get the current motor position
      public int getPosition() {

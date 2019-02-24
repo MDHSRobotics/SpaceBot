@@ -1,5 +1,5 @@
 
-package frc.robot.vision;
+package frc.robot.sensors;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import frc.robot.consoles.Logger;
 
 
-public class CameraTester {
+public class Cameras {
 
     private static final long SLEEP_SECONDS = 1;
 

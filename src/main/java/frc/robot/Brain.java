@@ -279,11 +279,6 @@ public class Brain {
         frontLineYcenterEntry.setDouble(value);
     }
 
-    public static void setFrontLineDetected() {
-        boolean detected = Robot.robotLineDetectorFront.lineDetected();
-        frontLineDetectedEntry.setBoolean(detected);
-    }
-
     // Subsystems - MecDriver
     public static void setDriveOrientation(NetworkTableEntry entry) {
         String defaultString = Brain.driveOrientationDefault.toString();
@@ -415,10 +410,6 @@ public class Brain {
 
     public static double getFrontLineYcenter() {
         return frontLineYcenterEntry.getDouble(frontLineYcenterDefault);
-    }
-
-    public static boolean getLineDetected() {
-        return frontLineDetectedEntry.getBoolean(frontLineDetectedDefault);
     }
 
     // Subsystems - MecDriver

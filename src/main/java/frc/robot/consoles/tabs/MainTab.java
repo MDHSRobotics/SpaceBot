@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import java.util.Map;
 
 import frc.robot.consoles.ShuffleLogger;
+import frc.robot.sensors.Vision;
 import frc.robot.Brain;
 import frc.robot.Robot;
 
@@ -63,7 +64,7 @@ public class MainTab {
         Brain.matchTimeEntry.setDouble(matchTime);
 
         // Line Detector
-        boolean detected = Robot.robotLineDetectorFront.lineDetected();
+        boolean detected = Vision.lineDetected();
         Brain.frontLineDetectedEntry.setBoolean(detected);
     }
 

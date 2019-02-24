@@ -77,11 +77,11 @@ public class Devices {
     public static final DPadButton climbXboxBtnDpadDownLeft = new DPadButton(climbXbox, Direction.DOWN_LEFT);
     public static final DPadButton climbXboxBtnDpadDownRight = new DPadButton(climbXbox, Direction.DOWN_RIGHT);
 
-    // Relays
-    public static final Relay lighterRelay = new Relay(1);
-
     // Gyros
     public static final AHRS gyro = new AHRS(SPI.Port.kMXP);
+
+    // Relays
+    public static final Relay lighterRelay = new Relay(1);
 
     // Motor Controllers
     public static final WPI_TalonSRX talonSrxMecWheelFrontLeft = new WPI_TalonSRX(15); // 1 motor

@@ -4,6 +4,7 @@ package frc.robot.commands.interactive;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
+import frc.robot.sensors.Vision;
 import frc.robot.Robot;
 
 
@@ -28,7 +29,7 @@ public class LightToggle extends Command {
         // 1. white=lineDetectedInMecDriveMode
         // 2. red=robotPerformingCommandNotUnderActiveUserControl
         // 3. off=robotInUserControlledModeWithNoLineDetected
-        boolean lineDetected = Robot.robotLineDetectorFront.lineDetected();
+        boolean lineDetected = Vision.lineDetected();
         if (lineDetected) {
             Robot.robotLighter.turnOnForward();
         }
