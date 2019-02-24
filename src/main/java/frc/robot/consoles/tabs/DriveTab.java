@@ -4,7 +4,7 @@ package frc.robot.consoles.tabs;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
-import frc.robot.commands.test.MecDriveForward;
+import frc.robot.commands.test.MecDriveStraightDistance;
 import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Brain;
 import frc.robot.Devices;
@@ -18,7 +18,7 @@ public class DriveTab {
     private ShuffleboardTab m_tab;
     private ComplexWidget m_mecDriveWidget;
     private ComplexWidget m_mecDriverWidget;
-    private ComplexWidget m_mecDriveForwardCmdWidget;
+    private ComplexWidget m_mecDriveStraightCmdWidget;
     private SimpleWidget m_targetDistanceWidget;
 
     // Create Brain Widgets
@@ -39,7 +39,7 @@ public class DriveTab {
     public void initialize() {
         m_mecDriveWidget = m_tab.add("Mecanum Drive", Devices.mecDrive);
         m_mecDriverWidget = m_tab.add("Mecanum Driver Subsystem", Robot.robotMecDriver);
-        m_mecDriveForwardCmdWidget = m_tab.add("Mecanum Drive Forward", new MecDriveForward());
+        m_mecDriveStraightCmdWidget = m_tab.add("Mecanum Drive Straight", new MecDriveStraightDistance());
     }
 
     // Configure all Widgets
@@ -50,8 +50,8 @@ public class DriveTab {
         m_targetDistanceWidget.withPosition(0, 1);
         m_targetDistanceWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_mecDriveForwardCmdWidget.withPosition(0, 2);
-        m_mecDriveForwardCmdWidget.withSize(2, 1);
+        m_mecDriveStraightCmdWidget.withPosition(0, 2);
+        m_mecDriveStraightCmdWidget.withSize(2, 1);
 
         m_mecDriveWidget.withPosition(3, 1);
         m_mecDriveWidget.withSize(4, 3);
