@@ -98,6 +98,9 @@ public class Pulley extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Pulley DefaultCommand -> PulleyStop...");
 
+        // TODO: We should make a PulleyFeed command, and default to that. We don't need to use the power here.
+        // But while the Pulley is up, we need to use PulleyStop to keep it up.
+        // Look at other subsystems to see if they can default to a "Feed" command as well, to save power.
         setDefaultCommand(new PulleyStop());
     }
 
