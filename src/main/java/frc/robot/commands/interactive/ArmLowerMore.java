@@ -31,7 +31,7 @@ public class ArmLowerMore extends Command {
         Robot.robotArm.lowerMore(speed);
     }
 
-    // This command continues until interrupted
+    // This command continues until it hits the encoded limit
     @Override
     protected boolean isFinished() {
         return Robot.robotArm.isMorePositionMet();

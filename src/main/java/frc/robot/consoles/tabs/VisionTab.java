@@ -14,7 +14,7 @@ public class VisionTab {
     // Tab, layout, and widget objects
     private ShuffleboardTab m_tab;
 
-    // LinePipeline
+    // Line Pipeline - HSV Thresholds
     private SimpleWidget m_hueMinWidget;
     private SimpleWidget m_hueMaxWidget;
     private SimpleWidget m_saturationMinWidget;
@@ -22,11 +22,23 @@ public class VisionTab {
     private SimpleWidget m_valueMinWidget;
     private SimpleWidget m_valueMaxWidget;
 
-    // LineDetector
-    private SimpleWidget m_areaWidget;
-    private SimpleWidget m_angleWidget;
-    private SimpleWidget m_xCenterWidget;
-    private SimpleWidget m_yCenterWidget;
+    // Line Detection - Front Camera
+    private SimpleWidget m_frontAreaWidget;
+    private SimpleWidget m_frontAngleWidget;
+    private SimpleWidget m_frontXcenterWidget;
+    private SimpleWidget m_frontYcenterWidget;
+
+    // Line Detection - Left Camera
+    private SimpleWidget m_leftAreaWidget;
+    private SimpleWidget m_leftAngleWidget;
+    private SimpleWidget m_leftXcenterWidget;
+    private SimpleWidget m_leftYcenterWidget;
+
+    // Line Detection - Right Camera
+    private SimpleWidget m_rightAreaWidget;
+    private SimpleWidget m_rightAngleWidget;
+    private SimpleWidget m_rightXcenterWidget;
+    private SimpleWidget m_rightYcenterWidget;
 
     // Constructor
     public VisionTab() {
@@ -58,21 +70,44 @@ public class VisionTab {
         m_valueMaxWidget = m_tab.add("Value Maximum", Brain.valueMaxDefault);
         Brain.valueMaxEntry = m_valueMaxWidget.getEntry();
 
-        // Front Camera - Line Area
-        m_areaWidget = m_tab.add("Front Line Area", Brain.frontLineAreaDefault);
-        Brain.frontLineAreaEntry = m_areaWidget.getEntry();
+        // Front Camera
+        m_frontAreaWidget = m_tab.add("Front Line Area", Brain.frontLineAreaDefault);
+        Brain.frontLineAreaEntry = m_frontAreaWidget.getEntry();
 
-        // Front Camera - Line Angle
-        m_angleWidget = m_tab.add("Front Line Angle", Brain.frontLineAngleDefault);
-        Brain.frontLineAngleEntry = m_angleWidget.getEntry();
+        m_frontAngleWidget = m_tab.add("Front Line Angle", Brain.frontLineAngleDefault);
+        Brain.frontLineAngleEntry = m_frontAngleWidget.getEntry();
 
-        // Front Camera - Line Center X
-        m_xCenterWidget = m_tab.add("Front Line Center X", Brain.frontLineXcenterDefault);
-        Brain.frontLineXcenterEntry = m_xCenterWidget.getEntry();
+        m_frontXcenterWidget = m_tab.add("Front Line Center X", Brain.frontLineXcenterDefault);
+        Brain.frontLineXcenterEntry = m_frontXcenterWidget.getEntry();
 
-        // Front Camera - Line Center Y
-        m_yCenterWidget = m_tab.add("Front Line Center Y", Brain.frontLineYcenterDefault);
-        Brain.frontLineYcenterEntry = m_yCenterWidget.getEntry();
+        m_frontYcenterWidget = m_tab.add("Front Line Center Y", Brain.frontLineYcenterDefault);
+        Brain.frontLineYcenterEntry = m_frontYcenterWidget.getEntry();
+
+        // Left Camera
+        m_leftAreaWidget = m_tab.add("Left Line Area", Brain.leftLineAreaDefault);
+        Brain.leftLineAreaEntry = m_leftAreaWidget.getEntry();
+
+        m_leftAngleWidget = m_tab.add("Left Line Angle", Brain.leftLineAngleDefault);
+        Brain.leftLineAngleEntry = m_leftAngleWidget.getEntry();
+
+        m_leftXcenterWidget = m_tab.add("Left Line Center X", Brain.leftLineXcenterDefault);
+        Brain.leftLineXcenterEntry = m_leftXcenterWidget.getEntry();
+
+        m_leftYcenterWidget = m_tab.add("Left Line Center Y", Brain.leftLineYcenterDefault);
+        Brain.leftLineYcenterEntry = m_leftYcenterWidget.getEntry();
+
+        // Right Camera
+        m_rightAreaWidget = m_tab.add("Right Line Area", Brain.rightLineAreaDefault);
+        Brain.rightLineAreaEntry = m_rightAreaWidget.getEntry();
+
+        m_rightAngleWidget = m_tab.add("Right Line Angle", Brain.rightLineAngleDefault);
+        Brain.rightLineAngleEntry = m_rightAngleWidget.getEntry();
+
+        m_rightXcenterWidget = m_tab.add("Right Line Center X", Brain.rightLineXcenterDefault);
+        Brain.rightLineXcenterEntry = m_rightXcenterWidget.getEntry();
+
+        m_rightYcenterWidget = m_tab.add("Right Line Center Y", Brain.rightLineYcenterDefault);
+        Brain.rightLineYcenterEntry = m_rightYcenterWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -81,69 +116,128 @@ public class VisionTab {
 
     // Configure all Widgets
     public void configure() {
+        // Hue Thresholds
         m_hueMinWidget.withPosition(0, 0);
         m_hueMinWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_hueMaxWidget.withPosition(0, 1);
+        m_hueMaxWidget.withPosition(1, 0);
         m_hueMaxWidget.withWidget(BuiltInWidgets.kTextView);
         
-        m_saturationMinWidget.withPosition(0, 2);
+        // Saturation Thresholds
+        m_saturationMinWidget.withPosition(0, 1);
         m_saturationMinWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_saturationMaxWidget.withPosition(0, 3);
+        m_saturationMaxWidget.withPosition(1, 1);
         m_saturationMaxWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_valueMinWidget.withPosition(0, 4);
+        // Value Thresholds
+        m_valueMinWidget.withPosition(0, 2);
         m_valueMinWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_valueMaxWidget.withPosition(0, 5);
+        m_valueMaxWidget.withPosition(1, 2);
         m_valueMaxWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_areaWidget.withPosition(1, 0);
-        m_areaWidget.withWidget(BuiltInWidgets.kTextView);
+        // Front Camera
+        m_frontAreaWidget.withPosition(0, 3);
+        m_frontAreaWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_angleWidget.withPosition(1, 1);
-        m_angleWidget.withWidget(BuiltInWidgets.kTextView);
+        m_frontAngleWidget.withPosition(1, 3);
+        m_frontAngleWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_xCenterWidget.withPosition(1, 2);
-        m_xCenterWidget.withWidget(BuiltInWidgets.kTextView);
+        m_frontXcenterWidget.withPosition(2, 3);
+        m_frontXcenterWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_yCenterWidget.withPosition(1, 3);
-        m_yCenterWidget.withWidget(BuiltInWidgets.kTextView);
+        m_frontYcenterWidget.withPosition(3, 3);
+        m_frontYcenterWidget.withWidget(BuiltInWidgets.kTextView);
 
+        // Left Camera
+        m_leftAreaWidget.withPosition(0, 4);
+        m_leftAreaWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_leftAngleWidget.withPosition(1, 4);
+        m_leftAngleWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_leftXcenterWidget.withPosition(2, 4);
+        m_leftXcenterWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_leftYcenterWidget.withPosition(3, 4);
+        m_leftYcenterWidget.withWidget(BuiltInWidgets.kTextView);
+
+        // Right Camera
+        m_rightAreaWidget.withPosition(0, 5);
+        m_rightAreaWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_rightAngleWidget.withPosition(1, 5);
+        m_rightAngleWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_rightXcenterWidget.withPosition(2, 5);
+        m_rightXcenterWidget.withWidget(BuiltInWidgets.kTextView);
+
+        m_rightYcenterWidget.withPosition(3, 5);
+        m_rightYcenterWidget.withWidget(BuiltInWidgets.kTextView);
     }
 
     // This will be called in the robotPeriodic
     public void update() {
+        // Hue Thresholds
         NetworkTableEntry hueMinEntry = m_hueMinWidget.getEntry();
         Brain.setHueMin(hueMinEntry);
 
         NetworkTableEntry hueMaxEntry = m_hueMaxWidget.getEntry();
         Brain.setHueMax(hueMaxEntry);
 
+        // Saturation Thresholds
         NetworkTableEntry saturationMinEntry = m_saturationMinWidget.getEntry();
-        Brain.setHueMin(saturationMinEntry);
+        Brain.setSaturationMin(saturationMinEntry);
 
         NetworkTableEntry saturationMaxEntry = m_saturationMaxWidget.getEntry();
-        Brain.setHueMax(saturationMaxEntry);
+        Brain.setSaturationMax(saturationMaxEntry);
 
+        // Value Thresholds
         NetworkTableEntry valueMinEntry = m_valueMinWidget.getEntry();
-        Brain.setHueMin(valueMinEntry);
+        Brain.setValueMin(valueMinEntry);
 
         NetworkTableEntry valueMaxEntry = m_valueMaxWidget.getEntry();
-        Brain.setHueMax(valueMaxEntry);
+        Brain.setValueMax(valueMaxEntry);
 
-        NetworkTableEntry areaEntry = m_areaWidget.getEntry();
-        Brain.setFrontLineArea(areaEntry);
+        // Front Camera
+        NetworkTableEntry frontAreaEntry = m_frontAreaWidget.getEntry();
+        Brain.setFrontLineArea(frontAreaEntry);
 
-        NetworkTableEntry angleEntry = m_angleWidget.getEntry();
-        Brain.setFrontLineAngle(angleEntry);
+        NetworkTableEntry frontAngleEntry = m_frontAngleWidget.getEntry();
+        Brain.setFrontLineAngle(frontAngleEntry);
 
-        NetworkTableEntry xCenterEntry = m_xCenterWidget.getEntry();
-        Brain.setFrontLineXcenter(xCenterEntry);
+        NetworkTableEntry frontXcenterEntry = m_frontXcenterWidget.getEntry();
+        Brain.setFrontLineXcenter(frontXcenterEntry);
 
-        NetworkTableEntry yCenterEntry = m_yCenterWidget.getEntry();
-        Brain.setFrontLineYcenter(yCenterEntry);
+        NetworkTableEntry frontYcenterEntry = m_frontYcenterWidget.getEntry();
+        Brain.setFrontLineYcenter(frontYcenterEntry);
+
+        // Left Camera
+        NetworkTableEntry leftAreaEntry = m_leftAreaWidget.getEntry();
+        Brain.setLeftLineArea(leftAreaEntry);
+
+        NetworkTableEntry leftAngleEntry = m_leftAngleWidget.getEntry();
+        Brain.setLeftLineAngle(leftAngleEntry);
+
+        NetworkTableEntry leftXcenterEntry = m_leftXcenterWidget.getEntry();
+        Brain.setLeftLineXcenter(leftXcenterEntry);
+
+        NetworkTableEntry leftYcenterEntry = m_leftYcenterWidget.getEntry();
+        Brain.setLeftLineYcenter(leftYcenterEntry);
+
+        // Right Camera
+        NetworkTableEntry rightAreaEntry = m_rightAreaWidget.getEntry();
+        Brain.setRightLineArea(rightAreaEntry);
+
+        NetworkTableEntry rightAngleEntry = m_rightAngleWidget.getEntry();
+        Brain.setRightLineAngle(rightAngleEntry);
+
+        NetworkTableEntry rightXcenterEntry = m_rightXcenterWidget.getEntry();
+        Brain.setRightLineXcenter(rightXcenterEntry);
+
+        NetworkTableEntry rightYcenterEntry = m_rightYcenterWidget.getEntry();
+        Brain.setRightLineYcenter(rightYcenterEntry);
     }
 
 }

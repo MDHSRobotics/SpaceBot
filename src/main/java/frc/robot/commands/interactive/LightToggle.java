@@ -8,7 +8,7 @@ import frc.robot.sensors.Vision;
 import frc.robot.Robot;
 
 
-// This command toggles the LineDetector "Lighter" light
+// This command toggles the "Lighter" lights when a line is detected by Vision
 public class LightToggle extends Command {
 
     public LightToggle() {
@@ -25,19 +25,21 @@ public class LightToggle extends Command {
 
     @Override
     protected void execute() {
-        // TODO: this needs to handle three different states:
-        // 1. white=lineDetectedInMecDriveMode
-        // 2. red=robotPerformingCommandNotUnderActiveUserControl
-        // 3. off=robotInUserControlledModeWithNoLineDetected
-        boolean lineDetected = Vision.lineDetected();
+        // TODO: this need to check to see if the left and right lines are detected as well
+        boolean lineDetected = Vision.frontLineDetected();
         if (lineDetected) {
             Robot.robotLighter.turnOnForward();
         }
         else {
             Robot.robotLighter.turnOnReverse();
         }
+        // TODO: this actually needs to handle three different states:
+        // 1. white=lineDetectedInMecDriveMode
+        // 2. red=robotPerformingCommandNotUnderActiveUserControl
+        // 3. off=robotInUserControlledModeWithNoLineDetected
     }
 
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;

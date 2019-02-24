@@ -29,6 +29,7 @@ public class TankSpin extends Command {
         Robot.robotTank.spin(speed);
     }
 
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;

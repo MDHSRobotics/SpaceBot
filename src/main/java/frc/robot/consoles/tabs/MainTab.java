@@ -64,7 +64,7 @@ public class MainTab {
         Brain.matchTimeEntry.setDouble(matchTime);
 
         // Line Detector
-        boolean detected = Vision.lineDetected();
+        boolean detected = Vision.frontLineDetected();
         Brain.frontLineDetectedEntry.setBoolean(detected);
     }
 

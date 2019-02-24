@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
-import frc.robot.commands.interactive.MecDriveSlowForward;
-import frc.robot.commands.interactive.MecDriveSlowTurnRight;
+import frc.robot.commands.test.*;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
@@ -29,11 +28,14 @@ public class OI {
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
         Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
-        Devices.driveXboxBtnBumperLeft.whenPressed(new MecDriveSlowForward());
-        Devices.driveXboxBtnBumperRight.whenPressed(new MecDriveSlowTurnRight());
         Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign());
-        Devices.driveXboxBtnA.whenPressed(new HatcherTogglePosition());
-        Devices.driveXboxBtnB.whenPressed(new BallerTogglePosition());
+        Devices.driveXboxBtnBumperLeft.whenPressed(new HatcherTogglePosition());
+        Devices.driveXboxBtnBumperRight.whenPressed(new BallerTogglePosition());
+        // Test drive commands
+        Devices.driveXboxBtnA.whileHeld(new MecDriveSlowForward());
+        Devices.driveXboxBtnB.whileHeld(new MecDriveSlowTurnRight());
+        Devices.driveXboxBtnX.whileHeld(new MecDriveSlowOrbitInwardClockwise());
+        Devices.driveXboxBtnY.whileHeld(new MecDriveSlowOrbitOutwardClockwise());
 
         // Bind the "climb" xbox buttons to specific commands
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());

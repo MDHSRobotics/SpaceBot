@@ -23,7 +23,7 @@ public class Lighter extends Subsystem {
         setDefaultCommand(new LightToggle());
     }
 
-    //TODO: change Forward and Reverse to White and Red once we know which is which
+    // TODO: change Forward and Reverse to White and Red once we know which is which
     public void turnOnForward() {
         Devices.lighterRelay.set(Relay.Value.kForward);
     }

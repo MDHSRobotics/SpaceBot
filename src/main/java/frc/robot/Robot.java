@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import frc.robot.commands.auto.*;
 import frc.robot.commands.idle.*;
 import frc.robot.commands.instant.*;
+import frc.robot.commands.test.*;
 import frc.robot.consoles.*;
 import frc.robot.sensors.*;
 import frc.robot.subsystems.*;

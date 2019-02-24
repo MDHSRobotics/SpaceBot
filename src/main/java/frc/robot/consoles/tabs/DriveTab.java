@@ -4,7 +4,7 @@ package frc.robot.consoles.tabs;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
-import frc.robot.commands.auto.MecDriveForward;
+import frc.robot.commands.test.MecDriveForward;
 import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Brain;
 import frc.robot.Devices;
