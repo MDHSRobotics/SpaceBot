@@ -115,8 +115,8 @@ public class Robot extends TimedRobot {
         autoCommandChooser = new SendableChooser<>();
 
         autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
-        autoCommandChooser.addOption("MecDrive - Forward", new MecDriveForward());
-        autoCommandChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
+        autoCommandChooser.addOption("MecDrive - Forward", new MecDriveStraightDistance());
+        autoCommandChooser.addOption("MecDrive - Turn Right", new MecDriveRotateAngle());
         autoCommandChooser.addOption("MecDrive - Toggle Orientation", new MecDriveToggleOrientation());
 
         SmartDashboard.putData("AutoMode", autoCommandChooser);
