@@ -26,8 +26,8 @@ public class MecDriver extends Subsystem {
     private final int TIMEOUT_MS = 10;
 
     // Alignment Constants
-    private double ALIGN_X_SPEED = .25;
-    private double ALIGN_Y_SPEED = .25;
+    private double ALIGN_FRONT_MAGNITUDE = .25;
+    private double ALIGN_SIDE_MAGNITUDE = .25;
     private double ALIGN_Z_SENSITIVITY = .5;
     private double ALIGN_Z_SPEED_MINIMUM = .1;
 
@@ -198,22 +198,22 @@ public class MecDriver extends Subsystem {
         Devices.mecDrive.drivePolar(magnitude, angle, rotation);
     }
 
-    // Drive to align the Robot to a detected line at the given gyro angle
-    public void driveAlign(double targetAngle) {
+    // Drive to align the Robot to a detected line at the given yaw
+    public void driveAlign(double targetYaw) {
         if (!m_talonsAreConnected) {
             Devices.mecDrive.feed();
             return;
         }
 
-        // Get the correction angle to align the Robot with the target gyro angle
-        double angle = Devices.gyro.getYaw();
-        double correction = targetAngle - angle;
+        // Get the correction yaw needed to align the Robot with the target yaw
+        double yaw = Devices.gyro.getYaw();
+        double correction = targetYaw - yaw;
         if (correction > 180) correction = correction - 360;
         if (correction < -180) correction = correction + 360;
 
-        // Get the X or Y speeds to align the robot with the appropriate detected lines
-        double ySpeed = 0;
-        double xSpeed = 0;
+        // Get the drive polar magnitude and angle needed to align the Robot's center with the appropriate detected line
+        double magnitude = 0;
+        double angle = 0;
         if (-45 <= correction && correction <= 45) {
             // Our target in in front of us, so look for a line in front to use to start centering
             boolean detected = Vision.frontLineDetected();
@@ -221,13 +221,12 @@ public class MecDriver extends Subsystem {
                 boolean centered = Vision.isFrontCentered();
                 if (!centered) {
                     double imageX = Vision.getFrontCorrectedX();
-                    ySpeed = ALIGN_Y_SPEED;
-                    if (imageX < 0) {
-                        ySpeed = -ySpeed;
-                    }
-                    Logger.info("MecDriver -> Front Camera -> Pixels to correct: " + imageX + "; Y Strafe: " + ySpeed);
+                    angle = correction + 90;
+                    magnitude = ALIGN_FRONT_MAGNITUDE;
+                    if (imageX < 0) magnitude = -magnitude;
+                    Logger.info("MecDriver -> Front Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
                     // TODO: Comment these next two lines out once we've tested to see that it works
-                    Devices.mecDrive.driveCartesian(ySpeed, 0, 0);
+                    Devices.mecDrive.drivePolar(magnitude, angle, 0);
                     return;
                 }
             }
@@ -239,13 +238,12 @@ public class MecDriver extends Subsystem {
                 boolean centered = Vision.isLeftCentered();
                 if (!centered) {
                     double imageX = Vision.getLeftCorrectedX();
-                    xSpeed = ALIGN_X_SPEED;
-                    if (imageX < 0) {
-                        xSpeed = -xSpeed;
-                    }
-                    Logger.info("MecDriver -> Left Camera -> Pixels to correct: " + imageX + "; X Speed: " + xSpeed);
+                    angle = correction + 90;
+                    magnitude = ALIGN_SIDE_MAGNITUDE;
+                    if (imageX < 0) magnitude = -magnitude;
+                    Logger.info("MecDriver -> Left Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
                     // TODO: Comment these next two lines out once we've tested to see that it works
-                    Devices.mecDrive.driveCartesian(0, xSpeed, 0);
+                    Devices.mecDrive.drivePolar(magnitude, angle, 0);
                     return;
                 }
             }
@@ -257,26 +255,25 @@ public class MecDriver extends Subsystem {
                 boolean centered = Vision.isRightCentered();
                 if (!centered) {
                     double imageX = Vision.getRightCorrectedX();
-                    xSpeed = ALIGN_X_SPEED;
-                    if (imageX > 0) {
-                        xSpeed = -xSpeed;
-                    }
-                    Logger.info("MecDriver -> Right Camera -> Pixels to correct: " + imageX + "; X Speed: " + xSpeed);
+                    angle = correction + 90;
+                    magnitude = ALIGN_SIDE_MAGNITUDE;
+                    if (imageX > 0) magnitude = -magnitude;
+                    Logger.info("MecDriver -> Right Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
                     // TODO: Comment these next two lines out once we've tested to see that it works
-                    Devices.mecDrive.driveCartesian(0, xSpeed, 0);
+                    Devices.mecDrive.drivePolar(magnitude, angle, 0);
                     return;
                 }
             }
         }
 
-        // Get the rotation speed to align the robot with the target gyro angle
+        // Get the rotation speed to align the Robot with the target gyro yaw
         double zRotation = (correction / 180) * ALIGN_Z_SENSITIVITY;
         if (0 < zRotation && zRotation < ALIGN_Z_SPEED_MINIMUM) zRotation = ALIGN_Z_SPEED_MINIMUM;
         if (0 > zRotation && zRotation > -ALIGN_Z_SPEED_MINIMUM) zRotation = -ALIGN_Z_SPEED_MINIMUM;
-        Logger.info("MecDriver -> Target Angle: " + targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Z Rotate Speed: " + zRotation);
+        Logger.info("MecDriver -> Target Angle: " + targetYaw + "; Yaw: " + yaw + "; Correction: " + correction + "; Z Rotate Speed: " + zRotation);
 
-        // TODO: Need to test this, to balance the speeds to produce the fastest and most reliable alignment
-        Devices.mecDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+        // TODO: Need to test this, to balance the speeds to produce the fastest and most reliable simultaneous alignment
+        Devices.mecDrive.drivePolar(magnitude, angle, zRotation);
     }
 
     public boolean isAligned(double targetAngle) {
