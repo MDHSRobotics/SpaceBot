@@ -4,10 +4,11 @@ package frc.robot.commands.interactive;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
+import frc.robot.sensors.Vision;
 import frc.robot.Robot;
 
 
-// This command toggles the LineDetector "Lighter" light
+// This command toggles the "Lighter" lights when a line is detected by Vision
 public class LightToggle extends Command {
 
     public LightToggle() {
@@ -24,19 +25,22 @@ public class LightToggle extends Command {
 
     @Override
     protected void execute() {
-        // TODO: this needs to handle three different states:
-        // 1. white=lineDetectedInMecDriveMode
-        // 2. red=robotPerformingCommandNotUnderActiveUserControl
-        // 3. off=robotInUserControlledModeWithNoLineDetected
-        boolean lineDetected = Robot.robotLineDetectorFront.lineDetected();
+        // TODO: this need to check to see if the left and right lines are detected as well
+        boolean lineDetected = Vision.frontLineDetected();
         if (lineDetected) {
             Robot.robotLighter.turnOnForward();
         }
         else {
             Robot.robotLighter.turnOnReverse();
         }
+        // TODO: this actually needs to handle three different states:
+        // 1. off = robot is driving too fast to detect a line
+        // 2. red = robot is driving slow enough to detect a line, but no line is detected
+        // 3. white = robot is driving slow enough to detect a line, and a line is detected
+        // This necessitates that the MecDriver updates a public property called "lineIsDetectable", the value of which is based on input speed while driving
     }
 
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;

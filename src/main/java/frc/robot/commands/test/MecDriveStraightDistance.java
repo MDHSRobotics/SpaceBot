@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
@@ -8,8 +8,8 @@ import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
-// This command drives the MecDrive forward until is reaches its target
-public class MecDriveForward extends Command {
+// This command drives the MecDrive straight until is reaches its target distance
+public class MecDriveStraightDistance extends Command {
 
     // Constants
     private final double VELOCITY_AT_FULL_SPEED = 11.5; // Velocity (feet/second) at full speed - THIS IS A GUESS - CHECK IT!!
@@ -27,12 +27,12 @@ public class MecDriveForward extends Command {
     private int m_counter; // Counter for the timer
 
     // Constructors
-    public MecDriveForward() {
+    public MecDriveStraightDistance() {
         this(DEFAULT_TARGET_DISTANCE_IN_FEET, DEFAULT_SPEED);
     }
 
-    public MecDriveForward(double targetDistanceInFeet, double speed) {
-        Logger.setup("Constructing Command: MecDriveForward...");
+    public MecDriveStraightDistance(double targetDistanceInFeet, double speed) {
+        Logger.setup("Constructing Command: MecDriveStraightDistance...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -50,7 +50,7 @@ public class MecDriveForward extends Command {
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: MecDriveForward...");
+        Logger.action("Initializing Command: MecDriveStraightDistance...");
 
 		m_counter = 0;
 		m_distanceTraveled = 0;
@@ -89,7 +89,7 @@ public class MecDriveForward extends Command {
 
     @Override
     protected void end() {
-        Logger.ending("Ending Command: MecDriveForward...");
+        Logger.ending("Ending Command: MecDriveStraightDistance...");
 
         Robot.robotMecDriver.stop();
 
@@ -99,7 +99,7 @@ public class MecDriveForward extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.ending("Interrupting Command: MecDriveForward...");
+        Logger.ending("Interrupting Command: MecDriveStraightDistance...");
 
         Robot.robotMecDriver.stop();
 

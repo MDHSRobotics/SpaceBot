@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
@@ -8,8 +8,8 @@ import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
-// This command rotates the MecDrive clockwise until is reaches its target
-public class MecDriveTurnRight extends Command {
+// This command rotates the MecDrive until is reaches its target angle
+public class MecDriveRotateAngle extends Command {
 
     // Constants
     private final double ANGULAR_VELOCITY_AT_FULL_SPEED = 48.0; // Angular velocity (degrees/second) at full speed - THIS IS A GUESS - CHECK IT!!
@@ -27,12 +27,12 @@ public class MecDriveTurnRight extends Command {
     private int m_counter; // Counter for the timer
 
     // Constructors
-    public MecDriveTurnRight() {
+    public MecDriveRotateAngle() {
         this(DEFAULT_TARGET_ANGLE, DEFAULT_SPEED);
     }
 
-    public MecDriveTurnRight(double targetAngle, double speed) {
-        Logger.setup("Constructing Command: MecDriveTurnRight...");
+    public MecDriveRotateAngle(double targetAngle, double speed) {
+        Logger.setup("Constructing Command: MecDriveRotateAngle...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -54,7 +54,7 @@ public class MecDriveTurnRight extends Command {
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: MecDriveTurnRight...");
+        Logger.action("Initializing Command: MecDriveRotateAngle...");
 
 		m_timer.reset();
 		m_timer.start();
@@ -78,7 +78,7 @@ public class MecDriveTurnRight extends Command {
         // Degrees turned (degrees) = elapsed time (seconds) * angular velocity (degrees per second)
 		m_currentAngle = m_elapsedTime * m_angularVelocity;
 		if (++m_counter >= 50) {
-			Logger.info("Executing Command: MecDriveTurnRight: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
+			Logger.info("Executing Command: MecDriveRotateAngle: Current angle = " + m_currentAngle + " degress; Elapsed time = " + m_elapsedTime + " seconds");
 			m_counter = 0;
 		}
     }
@@ -99,7 +99,7 @@ public class MecDriveTurnRight extends Command {
 
     @Override
     protected void end() {
-        Logger.ending("Ending Command: MecDriveTurnRight...");
+        Logger.ending("Ending Command: MecDriveRotateAngle...");
 
         Robot.robotMecDriver.stop();
 
@@ -109,7 +109,7 @@ public class MecDriveTurnRight extends Command {
 
     @Override
     protected void interrupted() {
-        Logger.ending("Interrupting Command: MecDriveTurnRight...");
+        Logger.ending("Interrupting Command: MecDriveRotateAngle...");
 
         Robot.robotMecDriver.stop();
 

@@ -1,5 +1,5 @@
 
-package frc.robot.commands.interactive;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,7 +7,7 @@ import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
-// Tests the MecDrive Slow Forward
+// Tests the MecDrive slowly driving forward
 public class MecDriveSlowForward extends Command {
 
     public MecDriveSlowForward() {
@@ -27,10 +27,10 @@ public class MecDriveSlowForward extends Command {
         Robot.robotMecDriver.driveStraight(.2);
     }
 
-    // This command continues until interrupted
+    // This command finishes immediately, but is intended to be continually restarted while a button is held
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override

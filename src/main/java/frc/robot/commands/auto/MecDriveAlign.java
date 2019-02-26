@@ -4,8 +4,6 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
-// TODO: Commands should never be accessing Devices directly
-import frc.robot.Devices;
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -39,42 +37,7 @@ public class MecDriveAlign extends Command {
             return;
         }
 
-        // TODO: See which line is detected, and move based on that, such that the front camera can see the line when initial adjustment is complete
-
-
-        // TODO: Move this whole block of code to subsystem methods
-
-        double zRotation = 0;
-        double angle = Devices.gyro.getYaw();
-        double correction = m_targetAngle - angle;
-        if (correction < -5 || 5 < correction) {
-            if (correction > 180) correction = correction - 360;
-            if (correction < -180) correction = correction + 360;
-            zRotation = correction/180;
-            zRotation = zRotation/3;
-            if (-.1 < zRotation && zRotation < 0) zRotation = -.1;
-            if (0 < zRotation && zRotation < .1) zRotation = .1;
-            Logger.info("MecDriveAlign -> Target Angle: " + m_targetAngle + "; Gyro Angle: " + angle + "; Correction: " + correction + "; Z Rotate Speed: " + zRotation);
-        }
-
-        double ySpeed = 0;
-        if (-45 < correction && correction < 45) {
-            boolean detected = Robot.robotLineDetectorFront.lineDetected();
-            if (detected) {
-                boolean centered = Robot.robotLineDetectorFront.isCentered();
-                if (!centered) {
-                    double imageX = Robot.robotLineDetectorFront.getCorrectedX();
-                    ySpeed = .25;
-                    if (imageX < 0) {
-                        ySpeed = -ySpeed;
-                    }
-                    Logger.info("MecDriveAlign -> X pixels to correct: " + imageX + "; Y Strafe: " + ySpeed);
-                }
-            }
-        }
-
-        // Use the correction values to align to the gyro and line detector
-        Robot.robotMecDriver.driveCartesian(ySpeed, 0, zRotation);
+        Robot.robotMecDriver.driveAlign(m_targetAngle);
     }
 
     // We're finished when the line looks straight and is centered enough (or a line is not detected)
@@ -82,20 +45,8 @@ public class MecDriveAlign extends Command {
     protected boolean isFinished() {
         if (m_targetAngle == -1) return true;
 
-        boolean straight = Robot.robotMecDriver.isAlignedWithGyro(m_targetAngle);
-        if (!straight) return false;
-
-        boolean detected = Robot.robotLineDetectorFront.lineDetected();
-        if (!detected) {
-            Logger.info("MecDriveAlign -> No line detected!");
-            return true;
-        }
-
-        boolean centered = Robot.robotLineDetectorFront.isCentered();
-        if (!centered) return false;
-
-        Logger.info("MecDriveAlign -> Aligned!");
-        return true;
+        boolean aligned = Robot.robotMecDriver.isAligned(m_targetAngle);
+        return aligned;
     }
 
     @Override

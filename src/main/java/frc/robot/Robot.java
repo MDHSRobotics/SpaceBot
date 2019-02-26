@@ -8,13 +8,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import frc.robot.commands.auto.*;
 import frc.robot.commands.idle.*;
 import frc.robot.commands.instant.*;
+import frc.robot.commands.test.*;
 import frc.robot.consoles.*;
+import frc.robot.sensors.*;
 import frc.robot.subsystems.*;
-import frc.robot.vision.CameraTester;
-import frc.robot.vision.LineDetector;
 
 
 /**
@@ -27,6 +26,10 @@ import frc.robot.vision.LineDetector;
 public class Robot extends TimedRobot {
 
     // Robot States
+    public enum Variant {
+        TEST_BOARD, TEST_DRIVE, BUILD_HOME, BUILD_AWAY
+    }
+
     public enum GameMode {
         DELIVERY, CLIMB
     }
@@ -39,6 +42,9 @@ public class Robot extends TimedRobot {
         ARM, LIFT, CLIMB
     }
 
+    // Variant is used to configure different device mappings for different "robots"
+    // TODO: This needs to be added to the Brain and Shuffleboard, so that it is settable on the fly
+    public static Variant robotVariant = Variant.TEST_BOARD;
     // Game Mode is used to activate/deactivate the Climb Xbox Controller
     public static GameMode robotGameMode = GameMode.DELIVERY;
     // Delivery Mode is used to control vision processing actions, as well as xbox controller activation
@@ -63,16 +69,11 @@ public class Robot extends TimedRobot {
     public static Tank robotTank;
     public static Pulley robotPulley;
 
-    // Vision
+    // Sensors
+    public static Gyro robotGyo;
     public static UsbCamera robotCameraSight;
-    public static UsbCamera robotCameraLineFront;
-    public static UsbCamera robotCameraLineLeft;
-    public static UsbCamera robotCameraLineRight;
-    public static LineDetector robotLineDetectorFront;
-    public static LineDetector robotLineDetectorLeft;
-    public static LineDetector robotLineDetectorRight;
-    public static int camResolutionWidth = 320;
-	public static int camResolutionHeight = 240;
+    public static final int CAM_RESOLUTION_WIDTH = 160;
+	public static final int CAM_RESOLUTION_HEIGHT = 120;
 
     // Consoles
     public static SendableChooser<Command> autoCommandChooser;
@@ -101,7 +102,11 @@ public class Robot extends TimedRobot {
         robotShuffler = new Shuffler();
         robotShuffler.preInitialize();
 
-        // Instantiate subsystem singletons FOURTH
+        // Initialize Sensors FOURTH
+        boolean cam0connected = Cameras.testConnection(0);
+        if (cam0connected) robotCameraSight = Cameras.captureCamera(0, CAM_RESOLUTION_WIDTH, CAM_RESOLUTION_HEIGHT);
+
+        // Instantiate Subsystems FIFTH
         robotMecDriver = new MecDriver();
         robotLighter = new Lighter();
 
@@ -112,30 +117,13 @@ public class Robot extends TimedRobot {
         robotTank = new Tank();
         robotPulley = new Pulley();
 
-        // Test camera connections
-        boolean cam0connected = CameraTester.testConnection(0);
-        boolean cam1connected = CameraTester.testConnection(1);
-        boolean cam2connected = CameraTester.testConnection(2);
-        boolean cam3connected = CameraTester.testConnection(3);
-
-        // Capture connected cameras
-        if (cam0connected) robotCameraSight = CameraTester.captureCamera(0, camResolutionWidth, camResolutionHeight);
-        if (cam1connected) robotCameraLineFront = CameraTester.captureCamera(1, camResolutionWidth, camResolutionHeight);
-        if (cam2connected) robotCameraLineLeft = CameraTester.captureCamera(2, camResolutionWidth, camResolutionHeight);
-        if (cam3connected) robotCameraLineRight = CameraTester.captureCamera(2, camResolutionWidth, camResolutionHeight);
-
-        // Instantiate Line Detector singletons
-        robotLineDetectorFront = new LineDetector(robotCameraLineFront);
-        robotLineDetectorLeft = new LineDetector(robotCameraLineLeft);
-        robotLineDetectorRight = new LineDetector(robotCameraLineRight);
-
         // Add the commands to the SmartDashboard
         Logger.setup("Adding AutoModes to SmartDashboard...");
         autoCommandChooser = new SendableChooser<>();
 
         autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
-        autoCommandChooser.addOption("MecDrive - Forward", new MecDriveForward());
-        autoCommandChooser.addOption("MecDrive - Turn Right", new MecDriveTurnRight());
+        autoCommandChooser.addOption("MecDrive - Straight Distance", new MecDriveStraightDistance());
+        autoCommandChooser.addOption("MecDrive - Rotate Angle", new MecDriveRotateAngle());
         autoCommandChooser.addOption("MecDrive - Toggle Orientation", new MecDriveToggleOrientation());
 
         SmartDashboard.putData("AutoMode", autoCommandChooser);

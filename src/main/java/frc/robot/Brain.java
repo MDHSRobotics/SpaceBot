@@ -43,7 +43,7 @@ public class Brain {
     public static double yRightSensitivityDefault = .5;
     public static double xRightSensitivityDefault = .5;
 
-    // Vision - LinePipeline
+    // Vision - Line Pipeline
     public static double hueMinDefault = 0;
     public static double hueMaxDefault = 180;
     public static double saturationMinDefault = 0;
@@ -51,12 +51,26 @@ public class Brain {
     public static double valueMinDefault = 232;
     public static double valueMaxDefault = 255;
 
-    // Vision - LineDetector
+    // Vision - Front Line
     public static double frontLineAreaDefault = 0;
     public static double frontLineAngleDefault = 0;
     public static double frontLineXcenterDefault = 0;
     public static double frontLineYcenterDefault = 0;
     public static boolean frontLineDetectedDefault = false;
+
+    // Vision - Left Line
+    public static double leftLineAreaDefault = 0;
+    public static double leftLineAngleDefault = 0;
+    public static double leftLineXcenterDefault = 0;
+    public static double leftLineYcenterDefault = 0;
+    public static boolean leftLineDetectedDefault = false;
+
+    // Vision - Right Line
+    public static double rightLineAreaDefault = 0;
+    public static double rightLineAngleDefault = 0;
+    public static double rightLineXcenterDefault = 0;
+    public static double rightLineYcenterDefault = 0;
+    public static boolean rightLineDetectedDefault = false;
 
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
@@ -92,7 +106,7 @@ public class Brain {
     public static NetworkTableEntry yRightSensitivityEntry;
     public static NetworkTableEntry xRightSensitivityEntry;
 
-    // Vision - LinePipeline
+    // Vision - Line Pipeline
     public static NetworkTableEntry hueMinEntry;
     public static NetworkTableEntry hueMaxEntry;
     public static NetworkTableEntry saturationMinEntry;
@@ -100,12 +114,26 @@ public class Brain {
     public static NetworkTableEntry valueMinEntry;
     public static NetworkTableEntry valueMaxEntry;
 
-    // Vision - LineDetector
+    // Vision - Front Line
     public static NetworkTableEntry frontLineAreaEntry;
     public static NetworkTableEntry frontLineAngleEntry;
     public static NetworkTableEntry frontLineXcenterEntry;
     public static NetworkTableEntry frontLineYcenterEntry;
     public static NetworkTableEntry frontLineDetectedEntry;
+
+    // Vision - Left Line
+    public static NetworkTableEntry leftLineAreaEntry;
+    public static NetworkTableEntry leftLineAngleEntry;
+    public static NetworkTableEntry leftLineXcenterEntry;
+    public static NetworkTableEntry leftLineYcenterEntry;
+    public static NetworkTableEntry leftLineDetectedEntry;
+
+    // Vision - Right Line
+    public static NetworkTableEntry rightLineAreaEntry;
+    public static NetworkTableEntry rightLineAngleEntry;
+    public static NetworkTableEntry rightLineXcenterEntry;
+    public static NetworkTableEntry rightLineYcenterEntry;
+    public static NetworkTableEntry rightLineDetectedEntry;
 
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
@@ -211,7 +239,7 @@ public class Brain {
         xRightSensitivityEntry.setDouble(value);
     }
 
-    // Vision - LinePipeline
+    // Vision - Line Pipeline
     public static void setHueMin(NetworkTableEntry entry) {
         double value = entry.getDouble(hueMinDefault);
         hueMinEntry.setDouble(value);
@@ -242,7 +270,7 @@ public class Brain {
         valueMaxEntry.setDouble(value);
     }
 
-    // Vision - LineDetector
+    // Vision - Front Line
     public static void setFrontLineArea(NetworkTableEntry entry) {
         double value = entry.getDouble(frontLineAreaDefault);
         frontLineAreaEntry.setDouble(value);
@@ -279,9 +307,78 @@ public class Brain {
         frontLineYcenterEntry.setDouble(value);
     }
 
-    public static void setFrontLineDetected() {
-        boolean detected = Robot.robotLineDetectorFront.lineDetected();
-        frontLineDetectedEntry.setBoolean(detected);
+    // Vision - Left Line
+    public static void setLeftLineArea(NetworkTableEntry entry) {
+        double value = entry.getDouble(leftLineAreaDefault);
+        leftLineAreaEntry.setDouble(value);
+    }
+
+    public static void setLeftLineArea(double value) {
+        leftLineAreaEntry.setDouble(value);
+    }
+
+    public static void setLeftLineAngle(NetworkTableEntry entry) {
+        double value = entry.getDouble(leftLineAngleDefault);
+        leftLineAngleEntry.setDouble(value);
+    }
+
+    public static void setLeftLineAngle(double value) {
+        leftLineAngleEntry.setDouble(value);
+    }
+
+    public static void setLeftLineXcenter(NetworkTableEntry entry) {
+        double value = entry.getDouble(leftLineXcenterDefault);
+        leftLineXcenterEntry.setDouble(value);
+    }
+
+    public static void setLeftLineXcenter(double value) {
+        leftLineXcenterEntry.setDouble(value);
+    }
+
+    public static void setLeftLineYcenter(NetworkTableEntry entry) {
+        double value = entry.getDouble(leftLineYcenterDefault);
+        leftLineYcenterEntry.setDouble(value);
+    }
+
+    public static void setLeftLineYcenter(double value) {
+        leftLineYcenterEntry.setDouble(value);
+    }
+
+    // Vision - Right Line
+    public static void setRightLineArea(NetworkTableEntry entry) {
+        double value = entry.getDouble(rightLineAreaDefault);
+        rightLineAreaEntry.setDouble(value);
+    }
+
+    public static void setRightLineArea(double value) {
+        rightLineAreaEntry.setDouble(value);
+    }
+
+    public static void setRightLineAngle(NetworkTableEntry entry) {
+        double value = entry.getDouble(rightLineAngleDefault);
+        rightLineAngleEntry.setDouble(value);
+    }
+
+    public static void setRightLineAngle(double value) {
+        rightLineAngleEntry.setDouble(value);
+    }
+
+    public static void setRightLineXcenter(NetworkTableEntry entry) {
+        double value = entry.getDouble(rightLineXcenterDefault);
+        rightLineXcenterEntry.setDouble(value);
+    }
+
+    public static void setRightLineXcenter(double value) {
+        rightLineXcenterEntry.setDouble(value);
+    }
+
+    public static void setRightLineYcenter(NetworkTableEntry entry) {
+        double value = entry.getDouble(rightLineYcenterDefault);
+        rightLineYcenterEntry.setDouble(value);
+    }
+
+    public static void setRightLineYcenter(double value) {
+        rightLineYcenterEntry.setDouble(value);
     }
 
     // Subsystems - MecDriver
@@ -375,7 +472,7 @@ public class Brain {
         return xRightSensitivityEntry.getDouble(xRightSensitivityDefault);
     }
 
-    // Vision - LinePipeline
+    // Vision - Line Pipeline
     public static double getHueMin() {
         return hueMinEntry.getDouble(hueMinDefault);
     }
@@ -400,7 +497,7 @@ public class Brain {
         return valueMaxEntry.getDouble(valueMaxDefault);
     }
 
-    // Vision - LineDetector
+    // Vision - Front Line
     public static double getFrontLineArea() {
         return frontLineAreaEntry.getDouble(frontLineAreaDefault);
     }
@@ -417,8 +514,38 @@ public class Brain {
         return frontLineYcenterEntry.getDouble(frontLineYcenterDefault);
     }
 
-    public static boolean getLineDetected() {
-        return frontLineDetectedEntry.getBoolean(frontLineDetectedDefault);
+    // Vision - Left Line
+    public static double getLeftLineArea() {
+        return leftLineAreaEntry.getDouble(leftLineAreaDefault);
+    }
+
+    public static double getLeftLineAngle() {
+        return leftLineAngleEntry.getDouble(leftLineAngleDefault);
+    }
+
+    public static double getLeftLineXcenter() {
+        return leftLineXcenterEntry.getDouble(leftLineXcenterDefault);
+    }
+
+    public static double getLeftLineYcenter() {
+        return leftLineYcenterEntry.getDouble(leftLineYcenterDefault);
+    }
+
+    // Vision - Right Line
+    public static double getRightLineArea() {
+        return rightLineAreaEntry.getDouble(rightLineAreaDefault);
+    }
+
+    public static double getRightLineAngle() {
+        return rightLineAngleEntry.getDouble(rightLineAngleDefault);
+    }
+
+    public static double getRightLineXcenter() {
+        return rightLineXcenterEntry.getDouble(rightLineXcenterDefault);
+    }
+
+    public static double getRightLineYcenter() {
+        return rightLineYcenterEntry.getDouble(rightLineYcenterDefault);
     }
 
     // Subsystems - MecDriver
