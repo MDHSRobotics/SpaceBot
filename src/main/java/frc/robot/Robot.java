@@ -26,6 +26,10 @@ import frc.robot.subsystems.*;
 public class Robot extends TimedRobot {
 
     // Robot States
+    public enum Variant {
+        TEST_BOARD, TEST_DRIVE, BUILD_HOME, BUILD_AWAY
+    }
+
     public enum GameMode {
         DELIVERY, CLIMB
     }
@@ -38,6 +42,9 @@ public class Robot extends TimedRobot {
         ARM, LIFT, CLIMB
     }
 
+    // Variant is used to configure different device mappings for different "robots"
+    // TODO: This needs to be added to the Brain and Shuffleboard, so that it is settable on the fly
+    public static Variant robotVariant = Variant.TEST_BOARD;
     // Game Mode is used to activate/deactivate the Climb Xbox Controller
     public static GameMode robotGameMode = GameMode.DELIVERY;
     // Delivery Mode is used to control vision processing actions, as well as xbox controller activation
