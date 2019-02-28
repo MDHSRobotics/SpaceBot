@@ -3,6 +3,7 @@ package frc.robot.consoles.tabs;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
+import java.util.Map;
 
 import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Brain;
@@ -13,6 +14,10 @@ public class InputsTab {
 
     // Tab, layout, and widget objects
     private ShuffleboardTab m_tab;
+    private ShuffleboardLayout m_controllersLayout;
+    private ShuffleboardLayout m_xboxLeftLayout;
+    private ShuffleboardLayout m_xboxRightLayout;
+    private ShuffleboardLayout m_joystickLayout;
 
     // OI
     private SimpleWidget m_controlStickWidget;
@@ -43,60 +48,64 @@ public class InputsTab {
         ShuffleLogger.logTrivial("Constructing InputsTab...");
 
         m_tab = Shuffleboard.getTab("Inputs");
+        m_controllersLayout = m_tab.getLayout("Controllers", BuiltInLayouts.kGrid);
+        m_xboxLeftLayout = m_tab.getLayout("XBOX Left Thumbstick", BuiltInLayouts.kGrid);
+        m_xboxRightLayout = m_tab.getLayout("XBOX Right Thumbstick", BuiltInLayouts.kGrid);
+        m_joystickLayout = m_tab.getLayout("Joystick", BuiltInLayouts.kGrid);
     }
 
     // Create Brain Widgets
     public void preInitialize() {
         // OI
-        m_controlStickWidget = m_tab.add("Control Stick", Brain.controlStickDefault.toString());
+        m_controlStickWidget = m_controllersLayout.add("Control Stick (XBOX or JOYSTICK)", Brain.controlStickDefault.toString());
         Brain.controlStickEntry = m_controlStickWidget.getEntry();
 
         // Joystick
-        m_yDeadZoneWidget = m_tab.add("Y Dead Zone", Brain.yDeadZoneDefault);
+        m_yDeadZoneWidget = m_joystickLayout.add("Y Dead Zone", Brain.yDeadZoneDefault);
         Brain.yDeadZoneEntry = m_yDeadZoneWidget.getEntry();
 
-        m_xDeadZoneWidget = m_tab.add("X Dead Zone", Brain.xDeadZoneDefault);
+        m_xDeadZoneWidget = m_joystickLayout.add("X Dead Zone", Brain.xDeadZoneDefault);
         Brain.xDeadZoneEntry = m_xDeadZoneWidget.getEntry();
 
-        m_zDeadZoneWidget = m_tab.add("Z Dead Zone", Brain.zDeadZoneDefault);
+        m_zDeadZoneWidget = m_joystickLayout.add("Z Dead Zone", Brain.zDeadZoneDefault);
         Brain.zDeadZoneEntry = m_zDeadZoneWidget.getEntry();
 
-        m_ySensitivityWidget = m_tab.add("Y Sensitivity", Brain.ySensitivityDefault);
+        m_ySensitivityWidget = m_joystickLayout.add("Y Sensitivity", Brain.ySensitivityDefault);
         Brain.ySensitivityEntry = m_ySensitivityWidget.getEntry();
 
-        m_xSensitivityWidget = m_tab.add("X Sensitivity", Brain.xSensitivityDefault);
+        m_xSensitivityWidget = m_joystickLayout.add("X Sensitivity", Brain.xSensitivityDefault);
         Brain.xSensitivityEntry = m_xSensitivityWidget.getEntry();
 
-        m_zSensitivityWidget = m_tab.add("Z Sensitivity", Brain.zSensitivityDefault);
+        m_zSensitivityWidget = m_joystickLayout.add("Z Sensitivity", Brain.zSensitivityDefault);
         Brain.zSensitivityEntry = m_zSensitivityWidget.getEntry();
 
         // Thumbsticks
-        m_yLeftDeadZoneWidget = m_tab.add("Y Left Dead Zone", Brain.yLeftDeadZoneDefault);
+        m_yLeftDeadZoneWidget = m_xboxLeftLayout.add("Y Left Dead Zone", Brain.yLeftDeadZoneDefault);
         Brain.yLeftDeadZoneEntry = m_yLeftDeadZoneWidget.getEntry();
 
-        m_xLeftDeadZoneWidget = m_tab.add("X Left Dead Zone", Brain.xLeftDeadZoneDefault);
+        m_xLeftDeadZoneWidget = m_xboxLeftLayout.add("X Left Dead Zone", Brain.xLeftDeadZoneDefault);
         Brain.xLeftDeadZoneEntry = m_xLeftDeadZoneWidget.getEntry();
 
-        m_yRightDeadZoneWidget = m_tab.add("Y Right Dead Zone", Brain.yRightDeadZoneDefault);
+        m_yRightDeadZoneWidget = m_xboxLeftLayout.add("Y Right Dead Zone", Brain.yRightDeadZoneDefault);
         Brain.yRightDeadZoneEntry = m_yRightDeadZoneWidget.getEntry();
 
-        m_xRightDeadZoneWidget = m_tab.add("X Right Dead Zone", Brain.xRightDeadZoneDefault);
+        m_xRightDeadZoneWidget = m_xboxLeftLayout.add("X Right Dead Zone", Brain.xRightDeadZoneDefault);
         Brain.xRightDeadZoneEntry = m_xRightDeadZoneWidget.getEntry();
 
-        m_yLeftSensitivityWidget = m_tab.add("Y Left Sensitivity", Brain.yLeftSensitivityDefault);
+        m_yLeftSensitivityWidget = m_xboxLeftLayout.add("Y Left Sensitivity", Brain.yLeftSensitivityDefault);
         Brain.yLeftSensitivityEntry = m_yLeftSensitivityWidget.getEntry();
 
-        m_xLeftSensitivityWidget = m_tab.add("X Left Sensitivity", Brain.xLeftSensitivityDefault);
+        m_xLeftSensitivityWidget = m_xboxLeftLayout.add("X Left Sensitivity", Brain.xLeftSensitivityDefault);
         Brain.xLeftSensitivityEntry = m_xLeftSensitivityWidget.getEntry();
 
-        m_yRightSensitivityWidget = m_tab.add("Y Right Sensitivity", Brain.yRightSensitivityDefault);
+        m_yRightSensitivityWidget = m_xboxLeftLayout.add("Y Right Sensitivity", Brain.yRightSensitivityDefault);
         Brain.yRightSensitivityEntry = m_yRightSensitivityWidget.getEntry();
 
-        m_xRightSensitivityWidget = m_tab.add("X Right Sensitivity", Brain.xRightSensitivityDefault);
+        m_xRightSensitivityWidget = m_xboxLeftLayout.add("X Right Sensitivity", Brain.xRightSensitivityDefault);
         Brain.xRightSensitivityEntry = m_xRightSensitivityWidget.getEntry();
 
         // Mecanum Drive
-        m_driveOrientationWidget = m_tab.add("Drive Orientation", Brain.driveOrientationDefault.toString());
+        m_driveOrientationWidget = m_controllersLayout.add("Drive Orientation", Brain.driveOrientationDefault.toString());
         Brain.driveOrientationEntry = m_driveOrientationWidget.getEntry();
     }
 
@@ -106,56 +115,53 @@ public class InputsTab {
 
     // Configure all Widgets
     public void configure() {
+        // Layouts
+        m_controllersLayout.withPosition(0, 0);
+        m_controllersLayout.withSize(1, 2);
+        m_controllersLayout.withProperties(Map.of("Number of columns", 2));
+        m_controllersLayout.withProperties(Map.of("Number of rows", 1));
+        m_controllersLayout.withProperties(Map.of("Label position", "TOP"));
+
+        m_xboxLeftLayout.withPosition(0, 1);
+        m_xboxLeftLayout.withSize(2, 2);
+        m_xboxLeftLayout.withProperties(Map.of("Number of columns", 2));
+        m_xboxLeftLayout.withProperties(Map.of("Number of rows", 2));
+        m_xboxLeftLayout.withProperties(Map.of("Label position", "TOP"));
+
+        m_xboxRightLayout.withPosition(2, 1);
+        m_xboxRightLayout.withSize(2, 2);
+        m_xboxRightLayout.withProperties(Map.of("Number of columns", 2));
+        m_xboxRightLayout.withProperties(Map.of("Number of rows", 2));
+        m_xboxRightLayout.withProperties(Map.of("Label position", "TOP"));
+
+        m_joystickLayout.withPosition(3, 0);
+        m_joystickLayout.withSize(2, 2);
+        m_joystickLayout.withProperties(Map.of("Number of columns", 2));
+        m_joystickLayout.withProperties(Map.of("Number of rows", 2));
+        m_joystickLayout.withProperties(Map.of("Label position", "TOP"));
+
         // Joystick
-        m_yDeadZoneWidget.withPosition(0, 0);
         m_yDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_xDeadZoneWidget.withPosition(0, 1);
         m_xDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_zDeadZoneWidget.withPosition(0, 2);
         m_zDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_ySensitivityWidget.withPosition(1, 0);
         m_ySensitivityWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_xSensitivityWidget.withPosition(1, 1);
         m_xSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_zSensitivityWidget.withPosition(1, 2);
         m_zSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
 
         // OI
-        m_controlStickWidget.withPosition(2, 0);
         // m_driveOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
 
         // Mecanum Drive
-        m_driveOrientationWidget.withPosition(2, 1);
         // m_driveOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
 
         // Thumbsticks
-        m_yLeftDeadZoneWidget.withPosition(3, 0);
         m_yLeftDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_xLeftDeadZoneWidget.withPosition(3, 1);
         m_xLeftDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_yRightDeadZoneWidget.withPosition(3, 2);
         m_yRightDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_xRightDeadZoneWidget.withPosition(3, 3);
         m_xRightDeadZoneWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_yLeftSensitivityWidget.withPosition(4, 0);
         m_yLeftSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_xLeftSensitivityWidget.withPosition(4, 1);
         m_xLeftSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_yRightSensitivityWidget.withPosition(4, 2);
         m_yRightSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
-
-        m_xRightSensitivityWidget.withPosition(4, 3);
         m_xRightSensitivityWidget.withWidget(BuiltInWidgets.kTextView);
     }
 

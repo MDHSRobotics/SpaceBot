@@ -10,7 +10,7 @@ import frc.robot.consoles.tabs.*;
 // to make it easier to change things rather than having to look throughout all of the 
 // classes for subsystems, commands, etc.
 
-// The Shuffler class knows about the subsystems, commands, etc.  but generally not vice versa
+// The Shuffler class knows about the subsystems, commands, etc. but generally not vice versa
 public class Shuffler {
 
     // Tabs
