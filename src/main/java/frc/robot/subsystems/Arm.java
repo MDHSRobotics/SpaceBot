@@ -15,25 +15,21 @@ import frc.robot.Devices;
 // plus a little extra controlled by the user.
 public class Arm extends Subsystem {
 
-    public enum ArmPosition {
-        START, HALF, FULL, MORE
+    public enum ArmMode {
+        AUTO, MANUAL
     }
 
     // The public property to determine the Arm state
-    public ArmPosition currentArmPosition = ArmPosition.START;
+    public ArmMode armMode   = ArmMode.AUTO;
 
     // Encoder constants
     private final double GEAR_RATIO = 81;
 
     // TODO: test to find the correct degree measures
-    private final double HALF_ROTATION_DEGREE = 45;
     private final double FULL_ROTATION_DEGREE = 90;
-    private final double MORE_ROTATION_DEGREE = 110;
 
     private final double RESET_POSITION = 0;
-    private final double HALF_POSITION = (HALF_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;	
     private final double FULL_POSITION = (FULL_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
-    private final double MORE_POSITION = (MORE_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
     private final double POSITION_TOLERANCE = 0; // TODO: test to see what tolerance works
 
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -41,6 +37,7 @@ public class Arm extends Subsystem {
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
+
 
     public Arm() {
         Logger.setup("Constructing Subsystem: Arm...");
@@ -105,14 +102,6 @@ public class Arm extends Subsystem {
         Devices.talonSrxArm.set(ControlMode.Position, RESET_POSITION);
     }
 
-    // Lowers the Arm to the encoded "half" position
-    public void lowerHalf() {
-        if (!m_talonsAreConnected) return;
-        double targetPositionUnits = HALF_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
-        Logger.info("Arm -> Target Lower Half Position: " + targetPositionUnits);
-        Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
-    }
-
     // Lowers the Arm to the encoded "full" position
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
@@ -121,16 +110,8 @@ public class Arm extends Subsystem {
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
     }
 
-    // Lowers the Arm beyond the full encoded position, based on given speed
-    public void lowerMore(double speed) {
-        if (!m_talonsAreConnected) return;
-        boolean posMet = isMorePositionMet();
-        if (posMet) {
-            stop();
-        }
-        else {
-            Devices.talonSrxArm.set(speed);
-        }
+    public void manualControl(double jStickValue){
+        Devices.talonSrxArm.set(jStickValue);
     }
 
     // Get the current motor velocity
@@ -152,29 +133,11 @@ public class Arm extends Subsystem {
         return (Math.abs(currentPosition) < POSITION_TOLERANCE);
     }
 
-    // Return whether or not the motor has reached the encoded "half" position
-    public boolean isHalfPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        double targetPositionUnits = HALF_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
-        return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
-    }
-
     // Return whether or not the motor has reached the encoded "full" position
     public boolean isFullPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         double targetPositionUnits = FULL_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
-        return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
-    }
-
-    //Return whether or not the motor has reached the encoded "more" position
-    public boolean isMorePositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        // TODO: It looks like the logic of the next two lines is used in multiple places.
-        //       Consider making a method that does this logic.
-        double targetPositionUnits = MORE_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
         return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
     }
 

@@ -21,7 +21,7 @@ public class HatchRelease extends Command {
     protected void initialize() {
         Logger.action("Initializing Command: HatchRelease...");
 
-        Robot.robotHatcher.releaseHatch();
+        Robot.robotHatcher.stop();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class HatchRelease extends Command {
     // This command is finished when the Hatch is released
     @Override
     protected boolean isFinished() {
-        return Robot.robotHatcher.isReleasePositionMet();
+        return false;
     }
 
     @Override

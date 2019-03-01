@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,7 +17,7 @@ import frc.robot.Devices;
 public class Hatcher extends Subsystem {
 
     // The public property to determine the Hatcher state
-    public boolean hatchIsGrabbed = false;
+    public boolean hatchIsGrabbed = true;
 
     // Encoder constants
     private final double GEAR_RATIO = 20;
@@ -24,7 +25,7 @@ public class Hatcher extends Subsystem {
     private final double ROTATION_DEGREE = 10.3;
 
     private final double RELEASE_POSITION = 0;
-    private final double GRAB_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 0.572
+    private final double CLOSE_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 0.572
     private final double POSITION_TOLERANCE = 100;
 
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -93,22 +94,16 @@ public class Hatcher extends Subsystem {
     // Stop the Hatcher motor
     public void stop() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxHatcher.stopMotor();
+        Devices.talonSrxHatcher.setNeutralMode(NeutralMode.Coast);
     }
 
     // Close the Hatcher claw to release the hatch
-    public void releaseHatch() {
+    public void closeHatch() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Hatcher -> Release Position: " + RELEASE_POSITION);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, RELEASE_POSITION);
+        Logger.info("Hatcher -> Release Position: " + CLOSE_POSITION);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, CLOSE_POSITION);
     }
 
-    // Open the Hatcher claw to grab the hatch
-    public void grabHatch() {
-        if (!m_talonsAreConnected) return;
-        Logger.info("Hatcher -> Grab Position: " + GRAB_POSITION);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, GRAB_POSITION);
-    }
 
     // Get the current Hatcher claw motor velocity
     public int getVelocity() {
@@ -126,7 +121,7 @@ public class Hatcher extends Subsystem {
     public boolean isGrabPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        return Math.abs(currentPosition - GRAB_POSITION) < POSITION_TOLERANCE;
+        return Math.abs(currentPosition - CLOSE_POSITION) < POSITION_TOLERANCE;
     }
 
     // Return whether or not the motor has reached the encoded position

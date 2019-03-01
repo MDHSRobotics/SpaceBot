@@ -31,6 +31,9 @@ public class Pulley extends Subsystem {
     private final double END_POSITION = 0; // TODO: Determine actual end position of Pulley in ticks
     private final double POSITION_TOLERANCE = 0;
 
+    private final double FULL_ROTATION_DEGREE = 90;
+    private final double FULL_POSITION = (FULL_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
+
     private final double SPOOL_DIAMETER = 1.625; // In inches
     private final double SPOOL_CIRCUMFERENCE = Math.PI * SPOOL_DIAMETER;
 
@@ -127,6 +130,17 @@ public class Pulley extends Subsystem {
         Logger.info("Target Position: " + motorOutput);
         Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, motorOutput);
     }  
+
+    public void pulleyUp() {
+        if(!m_talonsAreConnected) return;
+        Logger.info("Target Position: " + FULL_POSITION);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, FULL_POSITION);
+    }
+
+    public void manualControl(double Joystick){
+
+        Devices.talonSrxPulleyMaster.set(Joystick);
+    }
 
      // Get the current motor position
      public int getPosition() {
