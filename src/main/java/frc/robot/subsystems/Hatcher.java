@@ -124,10 +124,16 @@ public class Hatcher extends Subsystem {
 
     // Return whether or not the motor has reached the encoded position
     // TODO: Is this all we need? What about a method for checking the Release position?
-    public boolean isPositionMet() {
+    public boolean isGrabPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         return Math.abs(currentPosition - GRAB_POSITION) < POSITION_TOLERANCE;
+    }
+
+    public boolean isReleasePositionMet() {
+        if (!m_talonsAreConnected) return true;
+        int currentPosition = getPosition();
+        return Math.abs(currentPosition - RELEASE_POSITION) < POSITION_TOLERANCE;
     }
 
 }

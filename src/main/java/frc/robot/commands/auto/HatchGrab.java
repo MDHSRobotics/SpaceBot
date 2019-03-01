@@ -34,7 +34,7 @@ public class HatchGrab extends Command {
     // This command is finished when the hatch is grabbed
     @Override
     protected boolean isFinished() {
-        return Robot.robotHatcher.isPositionMet();
+        return Robot.robotHatcher.isGrabPositionMet();
     }
 
     @Override
