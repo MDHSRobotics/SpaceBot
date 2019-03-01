@@ -4,16 +4,14 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
-import frc.robot.subsystems.Arm.ArmPosition;
 import frc.robot.Robot;
-import frc.robot.Robot.ClimbMode;
 
 
-// This command is activated by a button and resets the Arm to its starting position
+// This command uses the gyro to synchronize the Tank and the Pulley in lifting the robot above the platform
 public class ArmReset extends Command {
 
     public ArmReset() {
-        Logger.setup("Constructing Command: ArmReset...");
+        Logger.setup("Constructing Command: TankPulleyReset...");
 
         requires(Robot.robotArm);
     }
@@ -27,12 +25,12 @@ public class ArmReset extends Command {
 
     @Override
     protected void execute() {
-        int position = Robot.robotArm.getPosition();
-        int velocity = Robot.robotArm.getVelocity();
+        int position = Robot.robotPulley.getPosition();
+        int velocity = Robot.robotPulley.getVelocity();
         Logger.info("ArmReset -> Position: " + position + "; Velocity: " + velocity);
     }
 
-    // This command finishes when the "reset" position is reached
+    // This will finish when the Arm reaches its encoded target
     @Override
     protected boolean isFinished() {
         return Robot.robotArm.isResetPositionMet();
@@ -42,21 +40,15 @@ public class ArmReset extends Command {
     protected void end() {
         Logger.ending("Ending Command: ArmReset...");
 
-        Robot.robotArm.stop();
-
-        Logger.info("Arm position is now START");
-        Robot.robotArm.currentArmPosition = ArmPosition.START;
-
-        // The first climb task is to move the Arm
-        Logger.info("Climb Mode is now ARM");
-        Robot.robotClimbMode = ClimbMode.ARM;
+        Robot.robotPulley.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: ArmReset...");
 
-        Robot.robotArm.stop();
+        Robot.robotTank.stop();
+        Robot.robotPulley.stop();
     }
 
 }

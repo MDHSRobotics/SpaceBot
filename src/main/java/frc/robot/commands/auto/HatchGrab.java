@@ -21,7 +21,7 @@ public class HatchGrab extends Command {
     protected void initialize() {
         Logger.action("Initializing Command: HatchGrab...");
 
-        Robot.robotHatcher.grabHatch();
+        Robot.robotHatcher.closeHatch();
     }
 
     @Override

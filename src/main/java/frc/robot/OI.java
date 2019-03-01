@@ -40,7 +40,7 @@ public class OI {
         // Bind the "climb" xbox buttons to specific commands
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
         Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
-        Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
+        Devices.climbXboxBtnA.whenPressed(new EngageArm());
     }
 
     //----------------------//
@@ -219,9 +219,14 @@ public class OI {
     //----------------------//
 
     // Gets the Arm "Lower More" speed from the climb xbox controller's Right Thumbstick Y axis position
-    public static double getArmLowerMoreSpeed() {
+    public static double getPulleyJoystick() {
         double y = Devices.climbXbox.getY(Hand.kRight);
         return y;
+    }
+
+    public static double getArmJoystick() {
+        double x = Devices.climbXbox.getX(Hand.kLeft);
+        return x;
     }
 
     // Gets the Tank "Spin" speed from the climb xbox controller's Right Trigger axis position
