@@ -122,11 +122,17 @@ public class Baller extends Subsystem {
     }
 
     // Return whether or not the motor has reached the encoded position
-    // TODO: Is this all we need? What about a method for checking the Hold position?
-    public boolean isPositionMet() {
+    public boolean isTossPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         return Math.abs(currentPosition - TOSS_POSITION) < POSITION_TOLERANCE;
+    }
+
+    // Return whether or not the motor has reached the encoded position
+    public boolean isHoldPositionMet() {
+        if (!m_talonsAreConnected) return true;
+        int currentPosition = getPosition();
+        return Math.abs(currentPosition) < POSITION_TOLERANCE;
     }
 
     //---------//

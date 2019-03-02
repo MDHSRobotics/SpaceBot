@@ -34,7 +34,7 @@ public class HatchRelease extends Command {
     // This command is finished when the Hatch is released
     @Override
     protected boolean isFinished() {
-        return Robot.robotHatcher.isPositionMet();
+        return Robot.robotHatcher.isReleasePositionMet();
     }
 
     @Override
