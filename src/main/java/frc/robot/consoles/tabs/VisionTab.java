@@ -126,26 +126,26 @@ public class VisionTab {
     // Configure all Widgets
     public void configure() {
         // Layouts
-        m_hsvLayout.withPosition(0, 0);
-        m_hsvLayout.withSize(3, 2);
-        m_hsvLayout.withProperties(Map.of("Number of columns", 3));
-        m_hsvLayout.withProperties(Map.of("Number of rows", 2));
-        m_hsvLayout.withProperties(Map.of("Label position", "LEFT"));
-
-        m_frontCamLayout.withPosition(0, 1);
-        m_frontCamLayout.withSize(2, 2);
+        m_frontCamLayout.withPosition(0, 0);
+        m_frontCamLayout.withSize(3, 2);
         m_frontCamLayout.withProperties(Map.of("Number of columns", 2));
         m_frontCamLayout.withProperties(Map.of("Number of rows", 2));
         m_frontCamLayout.withProperties(Map.of("Label position", "LEFT"));
 
+        m_hsvLayout.withPosition(3, 0);
+        m_hsvLayout.withSize(3, 2);
+        m_hsvLayout.withProperties(Map.of("Number of columns", 2));
+        m_hsvLayout.withProperties(Map.of("Number of rows", 2));
+        m_hsvLayout.withProperties(Map.of("Label position", "LEFT"));
+
         m_leftCamLayout.withPosition(0, 2);
-        m_leftCamLayout.withSize(2, 2);
+        m_leftCamLayout.withSize(3, 2);
         m_leftCamLayout.withProperties(Map.of("Number of columns", 2));
         m_leftCamLayout.withProperties(Map.of("Number of rows", 2));
         m_leftCamLayout.withProperties(Map.of("Label position", "LEFT"));
 
-        m_rightCamLayout.withPosition(0, 3);
-        m_rightCamLayout.withSize(2, 2);
+        m_rightCamLayout.withPosition(3, 2);
+        m_rightCamLayout.withSize(3, 2);
         m_rightCamLayout.withProperties(Map.of("Number of columns", 2));
         m_rightCamLayout.withProperties(Map.of("Number of rows", 2));
         m_rightCamLayout.withProperties(Map.of("Label position", "LEFT"));
