@@ -18,6 +18,9 @@ public class Cameras {
         CameraServer camServer = CameraServer.getInstance();
         UsbCamera cam = camServer.startAutomaticCapture(deviceNumber);
         cam.setResolution(camResolutionWidth, camResolutionHeight);
+        cam.setFPS(30);
+        cam.setBrightness(50);
+        cam.setExposureManual(50);
 
         return cam;
     }
