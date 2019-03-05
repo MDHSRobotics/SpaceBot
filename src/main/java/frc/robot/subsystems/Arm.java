@@ -20,7 +20,7 @@ public class Arm extends Subsystem {
     }
 
     // The public property to determine the Arm state
-    public ArmMode armMode   = ArmMode.AUTO;
+    public ArmMode armMode = ArmMode.AUTO;
 
     // Encoder constants
     private final double GEAR_RATIO = 81;

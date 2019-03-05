@@ -22,14 +22,14 @@ public class Hatcher extends Subsystem {
     // Encoder constants
     private final double GEAR_RATIO = 20;
 
-    private final double ROTATION_DEGREE = 10.3;
+    private final double ROTATION_DEGREE = 10.3; 
 
     private final double RELEASE_POSITION = 0;
     private final double CLOSE_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 0.572
     private final double POSITION_TOLERANCE = 100;
 
-    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+    private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -94,12 +94,13 @@ public class Hatcher extends Subsystem {
     // Stop the Hatcher motor
     public void stop() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxHatcher.setNeutralMode(NeutralMode.Coast);
+        Devices.talonSrxHatcher.stopMotor();
     }
 
     // Close the Hatcher claw to release the hatch
     public void closeHatch() {
         if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
         Logger.info("Hatcher -> Release Position: " + CLOSE_POSITION);
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, CLOSE_POSITION);
     }
