@@ -9,7 +9,7 @@ import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Brain;
 
 
-// The Shuffleboard Inputs Tab
+// The Shuffleboard Vision Tab
 public class VisionTab {
 
     // Tab, layout, and widget objects

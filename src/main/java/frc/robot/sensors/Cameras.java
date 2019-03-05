@@ -6,11 +6,13 @@ import edu.wpi.first.cameraserver.CameraServer;
 import java.util.concurrent.TimeUnit;
 
 import frc.robot.consoles.Logger;
+import frc.robot.Brain;
 
 
 public class Cameras {
 
     private static final long SLEEP_SECONDS = 1;
+    private static final int FPS = 30;
 
     public static UsbCamera captureCamera(int deviceNumber, int camResolutionHeight, int camResolutionWidth) {
         Logger.action("Starting Camera Capture... Device: " + deviceNumber);
@@ -18,9 +20,15 @@ public class Cameras {
         CameraServer camServer = CameraServer.getInstance();
         UsbCamera cam = camServer.startAutomaticCapture(deviceNumber);
         cam.setResolution(camResolutionWidth, camResolutionHeight);
-        cam.setFPS(30);
-        cam.setBrightness(50);
-        cam.setExposureManual(50);
+        cam.setFPS(FPS);
+
+        int brightness = (int)Brain.getBrightness();
+        int exposure = (int)Brain.getExposure();
+        int whiteBalance = (int)Brain.getWhiteBalance();
+
+        cam.setBrightness(brightness);
+        cam.setExposureManual(exposure);
+        cam.setWhiteBalanceManual(whiteBalance);
 
         return cam;
     }
