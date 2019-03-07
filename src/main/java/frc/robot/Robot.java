@@ -72,8 +72,6 @@ public class Robot extends TimedRobot {
     // Sensors
     public static Gyro robotGyo;
     public static UsbCamera robotCameraSight;
-    public static final int CAM_RESOLUTION_WIDTH = 160;
-	public static final int CAM_RESOLUTION_HEIGHT = 120;
 
     // Consoles
     public static SendableChooser<Command> autoCommandChooser;
@@ -104,7 +102,7 @@ public class Robot extends TimedRobot {
 
         // Initialize Sensors FOURTH
         boolean cam0connected = Cameras.testConnection(0);
-        if (cam0connected) robotCameraSight = Cameras.captureCamera(0, CAM_RESOLUTION_WIDTH, CAM_RESOLUTION_HEIGHT);
+        if (cam0connected) robotCameraSight = Cameras.captureCamera(0);
 
         // Instantiate Subsystems FIFTH
         robotMecDriver = new MecDriver();

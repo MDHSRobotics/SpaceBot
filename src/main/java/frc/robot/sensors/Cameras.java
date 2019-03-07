@@ -11,15 +11,18 @@ import frc.robot.Brain;
 
 public class Cameras {
 
-    private static final long SLEEP_SECONDS = 1;
-    private static final int FPS = 30;
+    public static final int CAM_RESOLUTION_WIDTH = 320;
+    public static final int CAM_RESOLUTION_HEIGHT = 240;
+    public static final int FPS = 30;
 
-    public static UsbCamera captureCamera(int deviceNumber, int camResolutionHeight, int camResolutionWidth) {
+    private static final long SLEEP_SECONDS = 1;
+
+    public static UsbCamera captureCamera(int deviceNumber) {
         Logger.action("Starting Camera Capture... Device: " + deviceNumber);
 
         CameraServer camServer = CameraServer.getInstance();
         UsbCamera cam = camServer.startAutomaticCapture(deviceNumber);
-        cam.setResolution(camResolutionWidth, camResolutionHeight);
+        cam.setResolution(CAM_RESOLUTION_WIDTH, CAM_RESOLUTION_HEIGHT);
         cam.setFPS(FPS);
 
         int brightness = (int)Brain.getBrightness();

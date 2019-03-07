@@ -2,18 +2,20 @@
 package frc.robot.sensors;
 
 import frc.robot.Brain;
-import frc.robot.Robot;
 
 
 public class Vision {
 
-    private static final double MINIMUM_AREA = (Robot.CAM_RESOLUTION_HEIGHT / 3) ^ 2;
+    public static final int CAM_RESOLUTION_WIDTH = 160;
+    public static final int CAM_RESOLUTION_HEIGHT = 120;
+
+    private static final double MINIMUM_AREA = (CAM_RESOLUTION_HEIGHT / 3) ^ 2;
 
     // private static final double ANGLE_TARGET = 90;
     // private static final double ANGLE_THRESHOLD = 5;
 
-    private static final double CENTER_X_TARGET = Robot.CAM_RESOLUTION_WIDTH / 2;
-    private static final double CENTER_X_THRESHOLD = Robot.CAM_RESOLUTION_WIDTH / 64;
+    private static final double CENTER_X_TARGET = CAM_RESOLUTION_WIDTH / 2;
+    private static final double CENTER_X_THRESHOLD = CAM_RESOLUTION_WIDTH / 64;
 
     public static boolean frontLineDetected() {
         double area = Brain.getFrontLineArea();
