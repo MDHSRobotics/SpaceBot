@@ -200,16 +200,14 @@ public class MecDriver extends Subsystem {
 
     // Drive to align the Robot to a detected line at the given yaw
     public void driveAlign(double targetYaw) {
-        if (!m_talonsAreConnected) {
-            Devices.mecDrive.feed();
-            return;
-        }
+        Logger.setup("##");
 
         // Get the correction yaw needed to align the Robot with the target yaw
         double yaw = Devices.gyro.getYaw();
         double correction = targetYaw - yaw;
         if (correction > 180) correction = correction - 360;
         if (correction < -180) correction = correction + 360;
+        Logger.info("MecDriver -> Gyro -> Target Yaw: " + targetYaw + "; Current Yaw: " + yaw + "; Correction: " + correction);
 
         // Get the drive polar magnitude and angle needed to align the Robot's center with the appropriate detected line
         double magnitude = 0;
@@ -225,9 +223,6 @@ public class MecDriver extends Subsystem {
                     magnitude = ALIGN_FRONT_MAGNITUDE;
                     if (imageX < 0) magnitude = -magnitude;
                     Logger.info("MecDriver -> Front Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
-                    // TODO: Comment these next two lines out once we've tested to see that it works
-                    Devices.mecDrive.drivePolar(magnitude, angle, 0);
-                    return;
                 }
             }
         }
@@ -242,9 +237,6 @@ public class MecDriver extends Subsystem {
                     magnitude = ALIGN_SIDE_MAGNITUDE;
                     if (imageX < 0) magnitude = -magnitude;
                     Logger.info("MecDriver -> Left Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
-                    // TODO: Comment these next two lines out once we've tested to see that it works
-                    Devices.mecDrive.drivePolar(magnitude, angle, 0);
-                    return;
                 }
             }
         }
@@ -259,9 +251,6 @@ public class MecDriver extends Subsystem {
                     magnitude = ALIGN_SIDE_MAGNITUDE;
                     if (imageX > 0) magnitude = -magnitude;
                     Logger.info("MecDriver -> Right Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
-                    // TODO: Comment these next two lines out once we've tested to see that it works
-                    Devices.mecDrive.drivePolar(magnitude, angle, 0);
-                    return;
                 }
             }
         }
@@ -270,10 +259,16 @@ public class MecDriver extends Subsystem {
         double zRotation = (correction / 180) * ALIGN_Z_SENSITIVITY;
         if (0 < zRotation && zRotation < ALIGN_Z_SPEED_MINIMUM) zRotation = ALIGN_Z_SPEED_MINIMUM;
         if (0 > zRotation && zRotation > -ALIGN_Z_SPEED_MINIMUM) zRotation = -ALIGN_Z_SPEED_MINIMUM;
-        Logger.info("MecDriver -> Target Angle: " + targetYaw + "; Yaw: " + yaw + "; Correction: " + correction + "; Z Rotate Speed: " + zRotation);
 
-        // TODO: Need to test this, to balance the speeds to produce the fastest and most reliable simultaneous alignment
-        Devices.mecDrive.drivePolar(magnitude, angle, zRotation);
+        Logger.action("MecDriver -> Drive Polar: " + magnitude + ", " + angle + ", " + zRotation);
+        if (!m_talonsAreConnected) {
+            Devices.mecDrive.feed();
+        }
+        else {
+            // TODO: Need to test this, to balance the speeds to produce the fastest and most reliable simultaneous alignment
+            Devices.mecDrive.drivePolar(magnitude, angle, zRotation);
+        }
+        Logger.ending("^^");
     }
 
     public boolean isAligned(double targetAngle) {
