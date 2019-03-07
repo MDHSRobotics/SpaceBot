@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
+
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.ArmStop;
@@ -15,13 +17,6 @@ import frc.robot.Devices;
 // plus a little extra controlled by the user.
 public class Arm extends Subsystem {
 
-    public enum ArmMode {
-        AUTO, MANUAL
-    }
-
-    // The public property to determine the Arm state
-    public ArmMode armMode = ArmMode.AUTO;
-
     // Encoder constants
     private final double GEAR_RATIO = 81;
 
@@ -30,10 +25,10 @@ public class Arm extends Subsystem {
 
     private final double RESET_POSITION = 0;
     private final double FULL_POSITION = (FULL_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
-    private final double POSITION_TOLERANCE = 0; // TODO: test to see what tolerance works
+    private final double POSITION_TOLERANCE = 100; // TODO: test to see what tolerance works
 
-    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+    private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -41,34 +36,34 @@ public class Arm extends Subsystem {
 
     public Arm() {
         Logger.setup("Constructing Subsystem: Arm...");
-
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArm);
         if (!m_talonsAreConnected) {
             Logger.error("Arm talons not all connected! Disabling Arm...");
         }
         else {
             Devices.talonSrxArm.configFactoryDefault();
 
-            Devices.talonSrxArm.configPeakCurrentDuration(TalonConstants.PEAK_CURRENT_DURATION, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.configPeakCurrentLimit(TalonConstants.PEAK_CURRENT_AMPS, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_CURRENT_LIMIT, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.configPeakCurrentDuration(40, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.configPeakCurrentLimit(11, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.configContinuousCurrentLimit(10, TalonConstants.TIMEOUT_MS);
 
-            Devices.talonSrxArm.configNominalOutputForward(TalonConstants.NOMINAL_OUTPUT_FORWARD);
-            Devices.talonSrxArm.configNominalOutputReverse(TalonConstants.NOMINAL_OUTPUT_REVERSE);
+            Devices.talonSrxArm.configNominalOutputForward(0);
+            Devices.talonSrxArm.configNominalOutputReverse(0);
             Devices.talonSrxArm.configPeakOutputForward(0.3);
             Devices.talonSrxArm.configPeakOutputReverse(-0.3);
 
             Devices.talonSrxArm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.setSensorPhase(SENSOR_PHASE);
             Devices.talonSrxArm.setInverted(MOTOR_INVERT);
-            Devices.talonSrxArm.configAllowableClosedloopError(TalonConstants.PID_LOOP_PRIMARY, 0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.configAllowableClosedloopError(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxArm.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.06, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.045, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxArm.setSelectedSensorPosition(0, TalonConstants.PID_SLOT_0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxArm.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
@@ -97,7 +92,7 @@ public class Arm extends Subsystem {
 
     // Reset the Arm to its starting position
     public void resetPosition() {
-        if (!m_talonsAreConnected) return;
+        //if (!m_talonsAreConnected) return;
         Logger.info("Arm -> Reset Position: " + RESET_POSITION);
         Devices.talonSrxArm.set(ControlMode.Position, RESET_POSITION);
     }
@@ -105,9 +100,9 @@ public class Arm extends Subsystem {
     // Lowers the Arm to the encoded "full" position
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = FULL_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
-        Logger.info("Arm -> Target Lower Full Position: " + targetPositionUnits);
-        Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
+        Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
+        Logger.info("Arm -> Target Lower Full Position: " + FULL_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, FULL_POSITION);
     }
 
     public void manualControl(double jStickValue){
@@ -137,7 +132,7 @@ public class Arm extends Subsystem {
     public boolean isFullPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        double targetPositionUnits = FULL_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
+        double targetPositionUnits = (FULL_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
         return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
     }
 

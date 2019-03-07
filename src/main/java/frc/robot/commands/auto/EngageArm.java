@@ -4,24 +4,22 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
-import frc.robot.subsystems.Arm.ArmMode;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.Robot.ClimbMode;
 
 
 // This command is activated by a button and lowers the arm to the half position
 public class EngageArm extends Command {
 
     public EngageArm() {
-        Logger.setup("Constructing Command: ArmAuto...");
+        Logger.setup("Constructing Command: EngageArm...");
 
         requires(Robot.robotArm);
     }
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: ArmAuto...");
+        Logger.action("Initializing Command: EngageArm...");
 
         Robot.robotArm.lowerFull();
     }
@@ -32,20 +30,19 @@ public class EngageArm extends Command {
 
             Robot.robotArm.manualControl(OI.getArmJoystick());
         }
-        int position = Robot.robotArm.getPosition();
-        int velocity = Robot.robotArm.getVelocity();
-        Logger.info("ArmAuto -> Position: " + position + "; Velocity: " + velocity);
+        Logger.info("ArmAuto -> Position: " + Robot.robotArm.getPosition() + "; Velocity: " + Robot.robotArm.getVelocity());
     }
 
     // This command finishes when the "half" position is reached
     @Override
     protected boolean isFinished() {
         return Robot.robotArm.isFullPositionMet();
+        //return false;
     }
 
     @Override
     protected void end() {
-        Logger.ending("Ending Command: ArmAuto...");
+        Logger.ending("Ending Command: EngageArm...");
 
         Robot.robotArm.stop();
     }
