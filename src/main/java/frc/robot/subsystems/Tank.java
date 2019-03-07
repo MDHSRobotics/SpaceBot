@@ -8,7 +8,7 @@ import frc.robot.consoles.Logger;
 import frc.robot.Devices;
 
 
-// Tank subsystem for climbing
+// Tank subsystem for extended drive reach and power after climbing
 public class Tank extends Subsystem {
 
     // Motor constants

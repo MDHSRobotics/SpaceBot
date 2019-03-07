@@ -29,8 +29,8 @@ public class OI {
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
         Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
         Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign());
-        Devices.driveXboxBtnBumperLeft.whenPressed(new HatcherTogglePosition());
-        Devices.driveXboxBtnBumperRight.whenPressed(new BallerTogglePosition());
+        Devices.driveXboxBtnBumperLeft.whenPressed(new HatcherToggleClawPosition());
+        Devices.driveXboxBtnBumperRight.whenPressed(new BallerToggleFlipperPosition());
         // Test drive commands
         Devices.driveXboxBtnA.whileHeld(new MecDriveSlowForward());
         Devices.driveXboxBtnB.whileHeld(new MecDriveSlowTurnRight());
@@ -40,7 +40,7 @@ public class OI {
         // Bind the "climb" xbox buttons to specific commands
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
         Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
-        Devices.climbXboxBtnA.whenPressed(new EngageArm());
+        Devices.climbXboxBtnA.whenPressed(new ArmLower());
     }
 
     //----------------------//
@@ -218,18 +218,21 @@ public class OI {
     // Interactive Climbing //
     //----------------------//
 
-    // Gets the Arm "Lower More" speed from the climb xbox controller's Right Thumbstick Y axis position
-    public static double getPulleyJoystick() {
+    // Gets the Pulley speed from the climb xbox controller's Right Thumbstick Y axis position
+    public static double getPulleyLiftSpeed() {
         double y = Devices.climbXbox.getY(Hand.kRight);
         return y;
     }
 
-    public static double getArmJoystick() {
+    // Gets the Arm speed from the climb xbox controller's Left Thumbstick X axis position
+    // TODO: Wouldn't we want to use the Y for both the Pulley and Arm?
+    public static double getArmLowerSpeed() {
         double x = Devices.climbXbox.getX(Hand.kLeft);
         return x;
     }
 
     // Gets the Tank "Spin" speed from the climb xbox controller's Right Trigger axis position
+    // TODO: This needs to be controlled by the driveXbox controller now.
     public static double getTankSpinSpeed() {
         double triggerAxis = Devices.climbXbox.getTriggerAxis(Hand.kRight);
         return triggerAxis;

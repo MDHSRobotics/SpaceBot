@@ -14,7 +14,7 @@ import frc.robot.helpers.TalonConstants;
 import frc.robot.Devices;
 
 
-// Pulley subsystem for lifting the robot onto a platform, using the gyro to mitigate tipping over
+// Pulley subsystem for lifting the back end of robot up above a platform
 public class Pulley extends Subsystem {
 
     public enum PulleyPosition {
@@ -27,22 +27,14 @@ public class Pulley extends Subsystem {
     // Encoder Constants
     private final double GEAR_RATIO = 28;
 
+    private final double LIFT_ROTATION_DEGREE = 90;
+
     private final double RESET_POSITION = 0;
-    private final double END_POSITION = 0; // TODO: Determine actual end position of Pulley in ticks
+    private final double LIFT_POSITION = (LIFT_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
     private final double POSITION_TOLERANCE = 0;
-
-    private final double FULL_ROTATION_DEGREE = 90;
-    private final double FULL_POSITION = (FULL_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
-
-    private final double SPOOL_DIAMETER = 1.625; // In inches
-    private final double SPOOL_CIRCUMFERENCE = Math.PI * SPOOL_DIAMETER;
 
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
-
-    // Leveling Constants
-    private final double MOTOR_HOLD_POWER = 0;
-    private final double DISTANCE_FROM_CENTER_TO_PULLEY = 0; // In inches
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -113,6 +105,11 @@ public class Pulley extends Subsystem {
         Devices.talonSrxPulleyMaster.stopMotor();
     }
 
+    // Set the Pulley motor speed explicitly
+    public void setSpeed(double speed){
+        Devices.talonSrxPulleyMaster.set(speed);
+    }
+
      // Reset the Pulley to its starting position
      public void resetPosition() {
         if (!m_talonsAreConnected) return;
@@ -120,26 +117,11 @@ public class Pulley extends Subsystem {
         Devices.talonSrxPulleyMaster.set(ControlMode.Position, RESET_POSITION);
     }
 
-    // Transforms the gyro pitch into a motor power output percentage in order to level the robot
-    public void levelRobot() {
+    // Lift the robot to the encoded Pulley motor position
+    public void lift() {
         if (!m_talonsAreConnected) return;
-        double offsetAngle = Devices.gyro.getPitch();
-        double offsetAngleInDegrees = Math.toDegrees(Math.atan(offsetAngle));
-        double offsetDistance = DISTANCE_FROM_CENTER_TO_PULLEY * offsetAngleInDegrees;
-        double motorOutput = MOTOR_HOLD_POWER + offsetDistance / 13;
-        Logger.info("Target Position: " + motorOutput);
-        Devices.talonSrxPulleyMaster.set(ControlMode.PercentOutput, motorOutput);
-    }  
-
-    public void pulleyUp() {
-        if(!m_talonsAreConnected) return;
-        Logger.info("Target Position: " + FULL_POSITION);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, FULL_POSITION);
-    }
-
-    public void manualControl(double Joystick){
-
-        Devices.talonSrxPulleyMaster.set(Joystick);
+        Logger.info("Pulley -> Lift Position: " + LIFT_POSITION);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, LIFT_POSITION);
     }
 
      // Get the current motor position
@@ -161,12 +143,11 @@ public class Pulley extends Subsystem {
         return (Math.abs(currentPosition - RESET_POSITION) < POSITION_TOLERANCE);
     }
 
-    // Return whether or not the motor has reached the encoded "end" position
-    public boolean isEndPositionMet() {
+    // Return whether or not the motor has reached the encoded "lift" position
+    public boolean isLiftPositionMet() {
         if (!m_talonsAreConnected) return true;
         double currentPosition = getPosition();
-        // TODO: Is this logic correct? The Arm does it differently.
-        return (Math.abs((Math.abs(currentPosition) - END_POSITION)) < POSITION_TOLERANCE);
+        return (Math.abs(currentPosition - LIFT_POSITION) < POSITION_TOLERANCE);
     }  
 
 }
