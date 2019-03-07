@@ -3,7 +3,6 @@ package frc.robot.consoles.tabs;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
-import java.util.Map;
 
 import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Brain;

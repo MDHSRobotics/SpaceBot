@@ -45,15 +45,15 @@ public class Brain {
 
     // Sight
     public static double brightnessDefault = 50;
-    public static double exposureDefault = 50;
-    public static double whiteBalanceDefault = 4000;
+    public static double exposureDefault = 40;
+    public static double whiteBalanceDefault = 4500;
 
     // Vision - Line Pipeline
     public static double hueMinDefault = 0;
     public static double hueMaxDefault = 180;
     public static double saturationMinDefault = 0;
-    public static double saturationMaxDefault = 146;
-    public static double valueMinDefault = 232;
+    public static double saturationMaxDefault = 170;
+    public static double valueMinDefault = 115;
     public static double valueMaxDefault = 255;
 
     // Vision - Front Line
