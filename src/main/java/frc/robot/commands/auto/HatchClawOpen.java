@@ -8,9 +8,9 @@ import frc.robot.Robot;
 
 
 // This command opens the Hatcher claw to grab the hatch
-public class HatchGrab extends Command {
+public class HatchClawOpen extends Command {
 
-    public HatchGrab() {
+    public HatchClawOpen() {
         Logger.setup("Constructing Command: HatchGrab...");
 
          // Declare subsystem dependencies
@@ -21,20 +21,23 @@ public class HatchGrab extends Command {
     protected void initialize() {
         Logger.action("Initializing Command: HatchGrab...");
 
-        Robot.robotHatcher.grabHatch();
+        // Set the encoded position
+        Robot.robotHatcher.closeClaw();
     }
 
     @Override
     protected void execute() {
+        // TODO: Comment out Logger output once this is determined to be working reliably.
+        //       Excess logging during executes can slow things down and spam the log.
         int position = Robot.robotHatcher.getPosition();
         int velocity = Robot.robotHatcher.getVelocity();
         Logger.info("HatchGrab -> Position: " + position + "; Velocity: " + velocity);
     }
 
-    // This command is finished when the hatch is grabbed
+    // This command is finished when the hatch claw is closed
     @Override
     protected boolean isFinished() {
-        return Robot.robotHatcher.isGrabPositionMet();
+        return Robot.robotHatcher.isClosePositionMet();
     }
 
     @Override

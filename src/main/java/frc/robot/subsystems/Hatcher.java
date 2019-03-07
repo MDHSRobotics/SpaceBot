@@ -15,20 +15,20 @@ import frc.robot.Devices;
 // Hatcher subsystem, for grabbing and releasing hatches
 public class Hatcher extends Subsystem {
 
-    // The public property to determine the Hatcher state
-    public boolean hatchIsGrabbed = false;
+    // The public property to determine the Hatcher's claw state
+    public boolean clawIsClosed = false;
 
     // Encoder constants
     private final double GEAR_RATIO = 20;
 
     private final double ROTATION_DEGREE = 10.3;
 
-    private final double RELEASE_POSITION = 0;
-    private final double GRAB_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 0.572
+    private final double OPEN_POSITION = 0;
+    private final double CLOSE_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 0.572
     private final double POSITION_TOLERANCE = 100;
 
-    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+    private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -82,33 +82,33 @@ public class Hatcher extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Hatcher DefaultCommand -> HatcherStop...");
 
+        // TODO: This should be changed to a new command called "HatcherFeed",
+        //       which calls a new command on Hatcher that just feeds the motor,
+        //       instead of constantly giving it power to stop it.
         setDefaultCommand(new HatcherStop());
     }
 
-    // Toggle the hatchIsGrabbed state
-    public void toggleHatchGrabbed() {
-        hatchIsGrabbed = !hatchIsGrabbed;
+    // Toggle the clawIsClosed state
+    public void toggleClawPosition() {
+        clawIsClosed = !clawIsClosed;
     }
 
-    // Stop the Hatcher motor
+    // Stop the Hatcher claw motor
     public void stop() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxHatcher.stopMotor();
     }
 
-    // Close the Hatcher claw to release the hatch
-    public void releaseHatch() {
+    // Close the Hatcher claw
+    public void closeClaw() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Hatcher -> Release Position: " + RELEASE_POSITION);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, RELEASE_POSITION);
+        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
+        Logger.info("Hatcher -> Close Position: " + CLOSE_POSITION);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, CLOSE_POSITION);
     }
 
-    // Open the Hatcher claw to grab the hatch
-    public void grabHatch() {
-        if (!m_talonsAreConnected) return;
-        Logger.info("Hatcher -> Grab Position: " + GRAB_POSITION);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, GRAB_POSITION);
-    }
+    // TODO: Test to make sure we don't need a controlled "openClaw" method,
+    //       instead of just letting to spring open it
 
     // Get the current Hatcher claw motor velocity
     public int getVelocity() {
@@ -122,18 +122,27 @@ public class Hatcher extends Subsystem {
         return Devices.talonSrxHatcher.getSelectedSensorPosition();
     }
 
-    // Return whether or not the motor has reached the encoded position
-    public boolean isGrabPositionMet() {
+    // Return whether or not the motor has reached the encoded "close" position
+    public boolean isClosePositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        return Math.abs(currentPosition - GRAB_POSITION) < POSITION_TOLERANCE;
+        return Math.abs(currentPosition - CLOSE_POSITION) < POSITION_TOLERANCE;
     }
 
-    // Return whether or not the motor has reached the encoded position
-    public boolean isReleasePositionMet() {
+    // Return whether or not the motor has reached the encoded "open" position
+    public boolean isOpenPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        return Math.abs(currentPosition - RELEASE_POSITION) < POSITION_TOLERANCE;
+        return Math.abs(currentPosition - OPEN_POSITION) < POSITION_TOLERANCE;
+    }
+
+    //---------//
+    // Testing //
+    //---------//
+
+    public void setSpeed() {
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxHatcher.set(0.2);
     }
 
 }

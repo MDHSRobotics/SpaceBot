@@ -9,15 +9,15 @@ import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
-// Toggles the position of the Baller
-public class BallerTogglePosition extends InstantCommand {
+// Toggles the position of the Baller's flipper
+public class BallerToggleFlipperPosition extends InstantCommand {
 
     private BallHold m_ballHoldCmd;
     private BallToss m_ballTossCmd;
 
-    public BallerTogglePosition() {
+    public BallerToggleFlipperPosition() {
         super();
-        Logger.setup("Constructing InstantCommand: BallerTogglePosition...");
+        Logger.setup("Constructing InstantCommand: BallerToggleFlipperPosition...");
 
         m_ballHoldCmd = new BallHold();
         m_ballTossCmd = new BallToss();
@@ -26,7 +26,7 @@ public class BallerTogglePosition extends InstantCommand {
     @Override
     protected void initialize() {
         System.out.println("--");
-        Logger.action("Initializing InstantCommand: BallerTogglePosition...");
+        Logger.action("Initializing InstantCommand: BallerToggleFlipperPosition...");
 
         if (Robot.robotBaller.ballIsTossed) {
             Logger.action("Baller -> Moving to HOLD...");
@@ -36,7 +36,7 @@ public class BallerTogglePosition extends InstantCommand {
             Logger.action("Baller -> Moving to TOSS...");
             m_ballTossCmd.start();
         }
-        Robot.robotBaller.toggleBallTossed();
+        Robot.robotBaller.toggleBallFlipperPosition();
     }
 
 }

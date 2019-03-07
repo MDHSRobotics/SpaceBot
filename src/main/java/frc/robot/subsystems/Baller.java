@@ -15,7 +15,7 @@ import frc.robot.Devices;
 // Baller subsystem, for holding and tossing cargo balls
 public class Baller extends Subsystem {
 
-    // The public property to determine the Baller state
+    // The public property to determine the Baller's flipper state
     public boolean ballIsTossed = false;
 
     // Encoder constants
@@ -85,7 +85,7 @@ public class Baller extends Subsystem {
     }
 
     // Toggle the ballIsTossed state
-    public void toggleBallTossed() {
+    public void toggleBallFlipperPosition() {
         ballIsTossed = !ballIsTossed;
     }
 
@@ -121,25 +121,25 @@ public class Baller extends Subsystem {
         return Devices.talonSrxBaller.getSelectedSensorPosition();
     }
 
-    // Return whether or not the motor has reached the encoded position
+    // Return whether or not the motor has reached the encoded "toss" position
     public boolean isTossPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
         return Math.abs(currentPosition - TOSS_POSITION) < POSITION_TOLERANCE;
     }
 
-    // Return whether or not the motor has reached the encoded position
+    // Return whether or not the motor has reached the encoded "hold" position
     public boolean isHoldPositionMet() {
         if (!m_talonsAreConnected) return true;
         int currentPosition = getPosition();
-        return Math.abs(currentPosition) < POSITION_TOLERANCE;
+        return Math.abs(currentPosition - HOLD_POSITION) < POSITION_TOLERANCE;
     }
 
     //---------//
     // Testing //
     //---------//
 
-    public void driveStatic() {
+    public void setSpeed() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxBaller.set(0.2);
     }

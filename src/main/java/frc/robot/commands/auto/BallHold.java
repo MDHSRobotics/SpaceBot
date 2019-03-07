@@ -26,6 +26,8 @@ public class BallHold extends Command {
 
     @Override
     protected void execute() {
+        // TODO: Comment out Logger output once this is determined to be working reliably.
+        //       Excess logging during executes can slow things down and spam the log.
         int position = Robot.robotBaller.getPosition();
         int velocity = Robot.robotBaller.getVelocity();
         Logger.info("BallHold -> Position: " + position + "; Velocity: " + velocity);
