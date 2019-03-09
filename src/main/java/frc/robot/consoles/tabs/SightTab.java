@@ -52,6 +52,10 @@ public class SightTab {
 
     // This will be called in the robotPeriodic
     public void update() {
+
+        // Don't need to update anything if the sight camera is not active
+        if (Robot.robotCameraSight == null ) return;
+
         double brightness = Brain.getBrightness();
         NetworkTableEntry brightnessEntry = m_brightnessWidget.getEntry();
         double newBrightness = brightnessEntry.getDouble(brightness);
