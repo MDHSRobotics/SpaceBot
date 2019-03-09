@@ -11,7 +11,7 @@ import frc.robot.Robot;
 public class HatchClawOpen extends Command {
 
     public HatchClawOpen() {
-        Logger.setup("Constructing Command: HatchGrab...");
+        Logger.setup("Constructing Command: HatchClawOpen...");
 
          // Declare subsystem dependencies
          requires(Robot.robotHatcher);
@@ -19,7 +19,7 @@ public class HatchClawOpen extends Command {
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: HatchGrab...");
+        Logger.action("Initializing Command: HatchClawOpen...");
 
         // Set the encoded position
         Robot.robotHatcher.closeClaw();
@@ -31,25 +31,25 @@ public class HatchClawOpen extends Command {
         //       Excess logging during executes can slow things down and spam the log.
         int position = Robot.robotHatcher.getPosition();
         int velocity = Robot.robotHatcher.getVelocity();
-        Logger.info("HatchGrab -> Position: " + position + "; Velocity: " + velocity);
+        Logger.info("HatchClawOpen -> Position: " + position + "; Velocity: " + velocity);
     }
 
-    // This command is finished when the hatch claw is closed
+    // This command is continues until interrupted
     @Override
     protected boolean isFinished() {
-        return Robot.robotHatcher.isClosePositionMet();
+        return false;
     }
 
     @Override
     protected void end() {
-        Logger.ending("Ending Command: HatchGrab...");
+        Logger.ending("Ending Command: HatchClawOpen...");
 
         Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.ending("Interrupting Command: HatchGrab...");
+        Logger.ending("Interrupting Command: HatchClawOpen...");
 
         Robot.robotHatcher.stop();
     }

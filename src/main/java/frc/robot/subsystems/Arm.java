@@ -15,13 +15,6 @@ import frc.robot.Devices;
 // plus a little extra controlled by the user.
 public class Arm extends Subsystem {
 
-    public enum ArmMode {
-        AUTO, MANUAL
-    }
-
-    // The public property to determine the Arm state
-    public ArmMode armMode = ArmMode.AUTO;
-
     // Encoder constants
     private final double GEAR_RATIO = 81;
 
@@ -29,10 +22,10 @@ public class Arm extends Subsystem {
 
     private final double RESET_POSITION = 0;
     private final double LOWER_POSITION = (LOWER_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
-    private final double POSITION_TOLERANCE = 0; // TODO: test to see what tolerance works
+    private final double POSITION_TOLERANCE = 100;
 
-    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+    private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -59,10 +52,10 @@ public class Arm extends Subsystem {
             Devices.talonSrxArm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.setSensorPhase(SENSOR_PHASE);
             Devices.talonSrxArm.setInverted(MOTOR_INVERT);
-            Devices.talonSrxArm.configAllowableClosedloopError(TalonConstants.PID_LOOP_PRIMARY, 0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.configAllowableClosedloopError(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxArm.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.06, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.045, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
 
@@ -107,6 +100,7 @@ public class Arm extends Subsystem {
     // Lowers the Arm to the encoded "lower" position
     public void lower() {
         if (!m_talonsAreConnected) return;
+        Devices.talonSrxArm.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
         double targetPositionUnits = LOWER_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
         Logger.info("Arm -> Lower Position: " + targetPositionUnits);
         Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
