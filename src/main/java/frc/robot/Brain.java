@@ -43,12 +43,17 @@ public class Brain {
     public static double yRightSensitivityDefault = .5;
     public static double xRightSensitivityDefault = .5;
 
+    // Sight
+    public static double brightnessDefault = 40;
+    public static double exposureDefault = 30;
+    public static double whiteBalanceDefault = 4500;
+
     // Vision - Line Pipeline
     public static double hueMinDefault = 0;
     public static double hueMaxDefault = 180;
     public static double saturationMinDefault = 0;
-    public static double saturationMaxDefault = 146;
-    public static double valueMinDefault = 232;
+    public static double saturationMaxDefault = 170;
+    public static double valueMinDefault = 115;
     public static double valueMaxDefault = 255;
 
     // Vision - Front Line
@@ -105,6 +110,11 @@ public class Brain {
     public static NetworkTableEntry xLeftSensitivityEntry;
     public static NetworkTableEntry yRightSensitivityEntry;
     public static NetworkTableEntry xRightSensitivityEntry;
+
+    // Sight
+    public static NetworkTableEntry brightnessEntry;
+    public static NetworkTableEntry exposureEntry;
+    public static NetworkTableEntry whiteBalanceEntry;
 
     // Vision - Line Pipeline
     public static NetworkTableEntry hueMinEntry;
@@ -237,6 +247,22 @@ public class Brain {
     public static void setXrightSensitivity(NetworkTableEntry entry) {
         double value = entry.getDouble(xRightSensitivityDefault);
         xRightSensitivityEntry.setDouble(value);
+    }
+
+    // Sight
+    public static void setBrightness(NetworkTableEntry entry) {
+        double value = entry.getDouble(brightnessDefault);
+        brightnessEntry.setDouble(value);
+    }
+
+    public static void setExposure(NetworkTableEntry entry) {
+        double value = entry.getDouble(exposureDefault);
+        exposureEntry.setDouble(value);
+    }
+
+    public static void setWhiteBalance(NetworkTableEntry entry) {
+        double value = entry.getDouble(whiteBalanceDefault);
+        whiteBalanceEntry.setDouble(value);
     }
 
     // Vision - Line Pipeline
@@ -470,6 +496,19 @@ public class Brain {
 
     public static double getXrightSensitivity() {
         return xRightSensitivityEntry.getDouble(xRightSensitivityDefault);
+    }
+
+    // Sight
+    public static double getBrightness() {
+        return brightnessEntry.getDouble(brightnessDefault);
+    }
+
+    public static double getExposure() {
+        return exposureEntry.getDouble(exposureDefault);
+    }
+
+    public static double getWhiteBalance() {
+        return whiteBalanceEntry.getDouble(whiteBalanceDefault);
     }
 
     // Vision - Line Pipeline

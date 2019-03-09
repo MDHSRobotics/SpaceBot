@@ -18,7 +18,7 @@ public class MainTab {
     private ShuffleboardTab m_tab;
     private ComplexWidget m_autoCmdWidget;
     private SimpleWidget m_matchTimeWidget;
-    private SimpleWidget m_lineDetectedWidget;
+    private SimpleWidget m_frontLineDetectedWidget;
 
     // Constructor
     public MainTab() {
@@ -33,9 +33,9 @@ public class MainTab {
         m_matchTimeWidget = m_tab.add("Match Time", Brain.matchTimeDefault);
         Brain.matchTimeEntry = m_matchTimeWidget.getEntry();
 
-        // Line Detected
-        m_lineDetectedWidget = m_tab.add("Line Detected", Brain.frontLineDetectedDefault);
-        Brain.frontLineDetectedEntry = m_lineDetectedWidget.getEntry();
+        // Front Line Detected
+        m_frontLineDetectedWidget = m_tab.add("Front Line Detected", Brain.frontLineDetectedDefault);
+        Brain.frontLineDetectedEntry = m_frontLineDetectedWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -53,7 +53,7 @@ public class MainTab {
         m_matchTimeWidget.withWidget(BuiltInWidgets.kDial);
         m_matchTimeWidget.withProperties(Map.of("min", -1, "max", 135)); // this property setting isn't working
 
-        m_lineDetectedWidget.withPosition(3, 0);
+        m_frontLineDetectedWidget.withPosition(3, 0);
     }
 
     // This will be called in the robotPeriodic
@@ -63,9 +63,9 @@ public class MainTab {
         double matchTime = ds.getMatchTime();
         Brain.matchTimeEntry.setDouble(matchTime);
 
-        // Line Detector
-        boolean detected = Vision.frontLineDetected();
-        Brain.frontLineDetectedEntry.setBoolean(detected);
+        // Front Line Detector
+        boolean frontLineDetected = Vision.frontLineDetected();
+        Brain.frontLineDetectedEntry.setBoolean(frontLineDetected);
     }
 
 }
