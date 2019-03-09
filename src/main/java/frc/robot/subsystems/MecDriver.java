@@ -26,10 +26,10 @@ public class MecDriver extends Subsystem {
     private final int TIMEOUT_MS = 10;
 
     // Alignment Constants
-    private double ALIGN_FRONT_MAGNITUDE = .25;
-    private double ALIGN_SIDE_MAGNITUDE = .25;
-    private double ALIGN_Z_SENSITIVITY = .5;
-    private double ALIGN_Z_SPEED_MINIMUM = .1;
+    private double ALIGN_FRONT_MAGNITUDE = .3;
+    private double ALIGN_SIDE_MAGNITUDE = .3;
+    private double ALIGN_Z_SENSITIVITY = .7;
+    private double ALIGN_Z_SPEED_MINIMUM = .2;
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;

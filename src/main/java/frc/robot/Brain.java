@@ -44,8 +44,8 @@ public class Brain {
     public static double xRightSensitivityDefault = .5;
 
     // Sight
-    public static double brightnessDefault = 50;
-    public static double exposureDefault = 40;
+    public static double brightnessDefault = 40;
+    public static double exposureDefault = 30;
     public static double whiteBalanceDefault = 4500;
 
     // Vision - Line Pipeline

@@ -6,8 +6,8 @@ import frc.robot.Brain;
 
 public class Vision {
 
-    public static final int CAM_RESOLUTION_WIDTH = 160;
-    public static final int CAM_RESOLUTION_HEIGHT = 120;
+    public static final int CAM_RESOLUTION_WIDTH = 320;
+    public static final int CAM_RESOLUTION_HEIGHT = 240;
 
     private static final double MINIMUM_AREA = (CAM_RESOLUTION_HEIGHT / 3) ^ 2;
 
