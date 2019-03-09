@@ -142,25 +142,25 @@ public class MecDriver extends Subsystem {
 
     // Orbit at the given speed, with the robot always looking inward
     // Positive is clockwise, negative is counter-clockwise
-    public void orbitInward(double speed) {
+    public void orbitInward(double magnitude, double zRotation) {
         if (!m_talonsAreConnected) {
             Devices.mecDrive.feed();
             return;
         }
 
         // TODO: Test that this does what the method description says it does
-        Devices.mecDrive.drivePolar(speed, -90, speed);
+        Devices.mecDrive.drivePolar(magnitude, -90, zRotation);
     }
 
     // Orbit at the given speed, with the robot always looking outward
-    public void orbitOutward(double speed) {
+    public void orbitOutward(double magnitude, double zRotation) {
         if (!m_talonsAreConnected) {
             Devices.mecDrive.feed();
             return;
         }
 
         // TODO: Test that this does what the method description says it does
-        Devices.mecDrive.drivePolar(speed, 90, speed);
+        Devices.mecDrive.drivePolar(magnitude, 90, zRotation);
     }
 
     // Drive using the cartesian method, using the current control orientation

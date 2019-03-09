@@ -24,7 +24,7 @@ public class MecDriveSlowTurnRight extends Command {
 
     @Override
     protected void execute() {
-        Robot.robotMecDriver.rotate(.2);
+        Robot.robotMecDriver.rotate(.5);
     }
 
     // This command finishes immediately, but is intended to be continually restarted while a button is held
@@ -36,8 +36,6 @@ public class MecDriveSlowTurnRight extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: MecDriveSlowTurnRight...");
-
-        Robot.robotMecDriver.stop();
     }
 
     @Override
