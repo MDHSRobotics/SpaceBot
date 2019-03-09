@@ -18,15 +18,16 @@ public class Baller extends Subsystem {
     // The public property to determine the Baller's flipper state
     public boolean ballIsTossed = false;
 
-    // Encoder constants
+    // Position constants
     private final double GEAR_RATIO = 16;
-
-    private final double ROTATION_DEGREE = 120;
-
+    private final double ROTATION_DEGREE = 120; // Amount of degrees the ball launcher will rotatate up/down
+    private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
+    private final double TOSS_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE
     private final double HOLD_POSITION = 0;
-    private final double TOSS_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 4.44
     private final double POSITION_TOLERANCE = 100;
 
+    // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -43,9 +44,9 @@ public class Baller extends Subsystem {
         else {
             Devices.talonSrxBaller.configFactoryDefault();
 
-            Devices.talonSrxBaller.configPeakCurrentDuration(40, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxBaller.configPeakCurrentLimit(11, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxBaller.configContinuousCurrentLimit(10, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentDuration(TalonConstants.PEAK_AMPERAGE_DURATION, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentLimit(TalonConstants.PEAK_AMPERAGE, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_AMPERAGE_LIMIT, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxBaller.configNominalOutputForward(0);
             Devices.talonSrxBaller.configNominalOutputReverse(0);

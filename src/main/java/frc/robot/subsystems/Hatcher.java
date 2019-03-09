@@ -18,15 +18,16 @@ public class Hatcher extends Subsystem {
     // The public property to determine the Hatcher's claw state
     public boolean clawIsClosed = false;
 
-    // Encoder constants
+    // Position constants
     private final double GEAR_RATIO = 20;
-
-    private final double ROTATION_DEGREE = 10.3;
-
+    private final double ROTATION_DEGREE = 10.3; // Amount of degrees the hatch claw will open/close
+    private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
+    private final double CLOSE_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE
     private final double OPEN_POSITION = 0;
-    private final double CLOSE_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 0.572
     private final double POSITION_TOLERANCE = 100;
 
+    // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -43,9 +44,9 @@ public class Hatcher extends Subsystem {
         else {
             Devices.talonSrxHatcher.configFactoryDefault();
 
-            Devices.talonSrxHatcher.configPeakCurrentDuration(40, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.configPeakCurrentLimit(11, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.configContinuousCurrentLimit(10, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentDuration(TalonConstants.PEAK_AMPERAGE_DURATION, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentLimit(TalonConstants.PEAK_AMPERAGE, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_AMPERAGE_LIMIT, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxHatcher.configNominalOutputForward(0);
             Devices.talonSrxHatcher.configNominalOutputReverse(0);
@@ -82,9 +83,6 @@ public class Hatcher extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Hatcher DefaultCommand -> HatcherStop...");
 
-        // TODO: This should be changed to a new command called "HatcherFeed",
-        //       which calls a new command on Hatcher that just feeds the motor,
-        //       instead of constantly giving it power to stop it.
         setDefaultCommand(new HatcherStop());
     }
 

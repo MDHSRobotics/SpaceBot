@@ -35,7 +35,7 @@ public class ArmLower extends Command {
         if (OI.getArmLowerSpeed() != 0) {
             // TODO: When this happens, set a state on the Arm subsystem to indicate it's now under manual control.
             //       Check that state first, and if it's manual, don't check that the input is not zero, just use the value.
-            Robot.robotArm.setSpeed(OI.getArmLowerSpeed());
+            Robot.robotArm.manualControl(OI.getArmLowerSpeed());
             // TODO: I know I said otherwise previously, but now I do think it might be better to have this start a new command instead.
         }
 
@@ -49,6 +49,7 @@ public class ArmLower extends Command {
     // This will finish when the Arm reaches its encoded "lower" position
     @Override
     protected boolean isFinished() {
+        // TODO determine proper finish logic
         return Robot.robotArm.isLowerPositionMet();
     }
 
