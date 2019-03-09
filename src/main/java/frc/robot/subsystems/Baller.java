@@ -21,13 +21,13 @@ public class Baller extends Subsystem {
     // Encoder constants
     private final double GEAR_RATIO = 16;
 
-    private final double ROTATION_DEGREE = 100;
+    private final double ROTATION_DEGREE = 120;
 
     private final double HOLD_POSITION = 0;
     private final double TOSS_POSITION = (ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR; // Equates to 4.44
     private final double POSITION_TOLERANCE = 100;
 
-    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
+    private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
@@ -49,8 +49,8 @@ public class Baller extends Subsystem {
 
             Devices.talonSrxBaller.configNominalOutputForward(0);
             Devices.talonSrxBaller.configNominalOutputReverse(0);
-            Devices.talonSrxBaller.configPeakOutputForward(0.5);
-            Devices.talonSrxBaller.configPeakOutputReverse(-0.2);
+            Devices.talonSrxBaller.configPeakOutputForward(0.55);
+            Devices.talonSrxBaller.configPeakOutputReverse(-0.1);
 
             Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxBaller.setSensorPhase(SENSOR_PHASE);

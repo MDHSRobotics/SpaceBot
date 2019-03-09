@@ -31,7 +31,7 @@ public class Pulley extends Subsystem {
 
     private final double RESET_POSITION = 0;
     private final double LIFT_POSITION = (LIFT_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
-    private final double POSITION_TOLERANCE = 0;
+    private final double POSITION_TOLERANCE = 100;
 
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert

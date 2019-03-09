@@ -28,7 +28,7 @@ public class Hatcher extends Subsystem {
     private final double POSITION_TOLERANCE = 100;
 
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
+    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
