@@ -104,6 +104,9 @@ public class Robot extends TimedRobot {
         boolean cam0connected = Cameras.testConnection(0);
         if (cam0connected) robotCameraSight = Cameras.captureCamera(0);
 
+        // Ensure that the gyro is connected
+        if (!Devices.gyro.isConnected()) Logger.error("Gyro not connected!");
+
         // Instantiate Subsystems FIFTH
         robotMecDriver = new MecDriver();
         robotLighter = new Lighter();
