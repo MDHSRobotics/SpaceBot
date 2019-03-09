@@ -24,7 +24,7 @@ public class MecDriveSlowOrbitInwardClockwise extends Command {
 
     @Override
     protected void execute() {
-        Robot.robotMecDriver.orbitInward(.2);
+        Robot.robotMecDriver.orbitInward(.8, .4);
     }
 
     // This command finishes immediately, but is intended to be continually restarted while a button is held
@@ -36,8 +36,6 @@ public class MecDriveSlowOrbitInwardClockwise extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: MecDriveSlowOrbitInwardClockwise...");
-
-        Robot.robotMecDriver.stop();
     }
 
     @Override
