@@ -4,8 +4,8 @@ package frc.robot.commands.groups;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import frc.robot.consoles.Logger;
-import frc.robot.commands.auto.ArmReset;
-import frc.robot.commands.auto.PulleyReset;
+import frc.robot.commands.reactive.ArmReset;
+import frc.robot.commands.reactive.PulleyReset;
 
 
 // Resets the Arm and the Pulley to their start positions, in parallel

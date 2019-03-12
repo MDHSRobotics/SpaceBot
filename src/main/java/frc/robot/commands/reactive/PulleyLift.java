@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands.reactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,21 +8,21 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 
-// This command lowers the Arm via encoder, with the user option to manually override
-public class ArmLower extends Command {
+// This command lifts the Pulley via encoder, and keeps it there, with the user option to manually override
+public class PulleyLift extends Command {
 
-    public ArmLower() {
-        Logger.setup("Constructing Command: ArmLower...");
+    public PulleyLift() {
+        Logger.setup("Constructing Command: PulleyLift...");
 
-        requires(Robot.robotArm);
+        requires(Robot.robotPulley);
     }
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: ArmLower...");
+        Logger.action("Initializing Command: PulleyLift...");
 
         // Set the encoded position
-        Robot.robotArm.lower();
+        Robot.robotPulley.lift();
     }
 
     @Override
@@ -32,38 +32,34 @@ public class ArmLower extends Command {
         //       Instead, get the value and put it into a variable, and use that.
         //       (This is good practice anyway, as it forces you to name the value,
         //       which serves as documentation via code, and is easier for others to read and understand.)
-        if (OI.getArmLowerSpeed() != 0) {
-            // TODO: When this happens, set a state on the Arm subsystem to indicate it's now under manual control.
+        if (OI.getPulleyLiftSpeed() != 0) {
+            // TODO: When this happens, set a state on the Pulley subsystem to indicate it's now under manual control.
             //       Check that state first, and if it's manual, don't check that the input is not zero, just use the value.
-            Robot.robotArm.setSpeed(OI.getArmLowerSpeed());
+            Robot.robotPulley.setSpeed(OI.getPulleyLiftSpeed());
             // TODO: I know I said otherwise previously, but now I do think it might be better to have this start a new command instead.
         }
 
         // TODO: Comment out Logger output once this is determined to be working reliably.
         //       Excess logging during executes can slow things down and spam the log.
-        int position = Robot.robotArm.getPosition();
-        int velocity = Robot.robotArm.getVelocity();
-        Logger.info("ArmLower -> Position: " + position + "; Velocity: " + velocity);
+        int position = Robot.robotPulley.getPosition();
+        int velocity = Robot.robotPulley.getVelocity();
+        Logger.info("PulleyUp -> Position: " + position + "; Velocity: " + velocity);
     }
 
-    // This will finish when the Arm reaches its encoded "lower" position
+    // This will finish when the Pulley reaches its encoded "lift" position
     @Override
     protected boolean isFinished() {
-        return Robot.robotArm.isLowerPositionMet();
+        return false;
     }
 
     @Override
     protected void end() {
-        Logger.ending("Ending Command: ArmLower...");
-
-        Robot.robotArm.stop();
+        Logger.ending("Ending Command: PulleyLift...");
     }
 
     @Override
     protected void interrupted() {
-        Logger.ending("Interrupting Command: ArmLower...");
-
-        Robot.robotArm.stop();
+        Logger.ending("Interrupting Command: PulleyLift...");
     }
 
 }

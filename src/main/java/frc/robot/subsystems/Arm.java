@@ -15,59 +15,55 @@ import frc.robot.Devices;
 // plus a little extra controlled by the user.
 public class Arm extends Subsystem {
 
-    public enum ArmMode {
-        AUTO, MANUAL
-    }
-
-    // The public property to determine the Arm state
-    public ArmMode armMode = ArmMode.AUTO;
-
-    // Encoder constants
+    // Position constants
+    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 81;
+    // TODO: test to find the correct degree measures
+    private final double ROTATION_DEGREE = 90; // Amount of degrees the arm will lower/raise
 
-    private final double LOWER_ROTATION_DEGREE = 90; // TODO: test to find the correct degree measures
+    private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
 
     private final double RESET_POSITION = 0;
-    private final double LOWER_POSITION = (LOWER_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
-    private final double POSITION_TOLERANCE = 0; // TODO: test to see what tolerance works
+    private final double ARM_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
 
-    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+    // Encoder constants
+    private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
 
-
     public Arm() {
         Logger.setup("Constructing Subsystem: Arm...");
-
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArm);
         if (!m_talonsAreConnected) {
             Logger.error("Arm talons not all connected! Disabling Arm...");
         }
         else {
             Devices.talonSrxArm.configFactoryDefault();
 
-            Devices.talonSrxArm.configPeakCurrentDuration(TalonConstants.PEAK_CURRENT_DURATION, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.configPeakCurrentLimit(TalonConstants.PEAK_CURRENT_AMPS, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_CURRENT_LIMIT, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentDuration(TalonConstants.PEAK_AMPERAGE_DURATION, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configPeakCurrentLimit(TalonConstants.PEAK_AMPERAGE, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_AMPERAGE_LIMIT, TalonConstants.TIMEOUT_MS);
 
-            Devices.talonSrxArm.configNominalOutputForward(TalonConstants.NOMINAL_OUTPUT_FORWARD);
-            Devices.talonSrxArm.configNominalOutputReverse(TalonConstants.NOMINAL_OUTPUT_REVERSE);
+            Devices.talonSrxArm.configNominalOutputForward(0);
+            Devices.talonSrxArm.configNominalOutputReverse(0);
             Devices.talonSrxArm.configPeakOutputForward(0.3);
             Devices.talonSrxArm.configPeakOutputReverse(-0.3);
 
             Devices.talonSrxArm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.setSensorPhase(SENSOR_PHASE);
             Devices.talonSrxArm.setInverted(MOTOR_INVERT);
-            Devices.talonSrxArm.configAllowableClosedloopError(TalonConstants.PID_LOOP_PRIMARY, 0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.configAllowableClosedloopError(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxArm.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.06, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.045, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxArm.setSelectedSensorPosition(0, TalonConstants.PID_SLOT_0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArm.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxArm.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
@@ -85,8 +81,6 @@ public class Arm extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Arm DefaultCommand -> ArmStop...");
 
-        // This actively holds the arm up, which is appropriate because gravity will drop it
-        // TODO: Is the above statement true? Verify.
         setDefaultCommand(new ArmStop());
     }
 
@@ -98,23 +92,21 @@ public class Arm extends Subsystem {
 
     // Reset the Arm to its starting position
     public void resetPosition() {
-        if (!m_talonsAreConnected) return;
-        double targetPositionUnits = RESET_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
-        Logger.info("Arm -> Reset Position: " + targetPositionUnits);
-        Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
+        //if (!m_talonsAreConnected) return;
+        Logger.info("Arm -> Reset Position: " + RESET_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, RESET_POSITION);
     }
 
-    // Lowers the Arm to the encoded "lower" position
+    // Lowers the Arm to the encoded "full" position
     public void lower() {
         if (!m_talonsAreConnected) return;
-        double targetPositionUnits = LOWER_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
-        Logger.info("Arm -> Lower Position: " + targetPositionUnits);
-        Devices.talonSrxArm.set(ControlMode.Position, targetPositionUnits);
+        // Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
+        Logger.info("Arm -> Target Lower Full Position: " + ARM_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, ARM_POSITION);
     }
 
-    // Set the Arm motor speed explicitly
-    public void setSpeed(double speed){
-        Devices.talonSrxArm.set(speed);
+    public void manualControl(double jStickValue){
+        Devices.talonSrxArm.set(jStickValue);
     }
 
     // Get the current motor velocity
@@ -127,22 +119,6 @@ public class Arm extends Subsystem {
     public int getPosition() {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxArm.getSelectedSensorPosition();
-    }
-
-    // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isResetPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        double targetPositionUnits = RESET_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
-        return (Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE);
-    }
-
-    // Return whether or not the motor has reached the encoded "lower" position
-    public boolean isLowerPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        double targetPositionUnits = LOWER_POSITION * TalonConstants.REDLIN_ENCODER_TPR;
-        return Math.abs(currentPosition - targetPositionUnits) < POSITION_TOLERANCE;
     }
 
 }

@@ -3,8 +3,8 @@ package frc.robot.commands.instant;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-import frc.robot.commands.auto.HatchClawOpen;
-import frc.robot.commands.auto.HatchClawClose;
+import frc.robot.commands.reactive.HatchClawOpen;
+import frc.robot.commands.reactive.HatchClawClose;
 import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 

@@ -24,15 +24,15 @@ public class Pulley extends Subsystem {
     // The public property to determine the Pulley state
     public PulleyPosition currentPulleyPosition = PulleyPosition.DOWN;
 
-    // Encoder Constants
+    // Position Constants
+    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 28;
-
     private final double LIFT_ROTATION_DEGREE = 90;
 
     private final double RESET_POSITION = 0;
     private final double LIFT_POSITION = (LIFT_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
-    private final double POSITION_TOLERANCE = 0;
 
+    // Encoder Constants
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
@@ -55,9 +55,9 @@ public class Pulley extends Subsystem {
             Logger.error("Pulley talons not all connected! Disabling Pulley...");
         }
         else {
-            Devices.talonSrxPulleyMaster.configPeakCurrentDuration(TalonConstants.PEAK_CURRENT_DURATION, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxPulleyMaster.configPeakCurrentLimit(TalonConstants.PEAK_CURRENT_AMPS, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxPulleyMaster.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_CURRENT_LIMIT, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configPeakCurrentDuration(TalonConstants.PEAK_AMPERAGE_DURATION, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configPeakCurrentLimit(TalonConstants.PEAK_AMPERAGE, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxPulleyMaster.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_AMPERAGE_LIMIT, TalonConstants.TIMEOUT_MS);
            
             Devices.talonSrxPulleyMaster.configNominalOutputForward(TalonConstants.NOMINAL_OUTPUT_FORWARD);
             Devices.talonSrxPulleyMaster.configNominalOutputReverse(TalonConstants.NOMINAL_OUTPUT_REVERSE);
@@ -135,19 +135,5 @@ public class Pulley extends Subsystem {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxPulleyMaster.getSelectedSensorVelocity();
     }
-
-    // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isResetPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return (Math.abs(currentPosition - RESET_POSITION) < POSITION_TOLERANCE);
-    }
-
-    // Return whether or not the motor has reached the encoded "lift" position
-    public boolean isLiftPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        double currentPosition = getPosition();
-        return (Math.abs(currentPosition - LIFT_POSITION) < POSITION_TOLERANCE);
-    }  
 
 }
