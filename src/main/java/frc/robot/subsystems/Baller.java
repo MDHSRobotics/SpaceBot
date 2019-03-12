@@ -19,6 +19,7 @@ public class Baller extends Subsystem {
     public boolean ballIsTossed = false;
 
     // Position constants
+    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 16;
     private final double ROTATION_DEGREE = 120; // Amount of degrees the ball launcher will rotatate up/down
     private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
@@ -120,20 +121,6 @@ public class Baller extends Subsystem {
     public int getPosition() {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxBaller.getSelectedSensorPosition();
-    }
-
-    // Return whether or not the motor has reached the encoded "toss" position
-    public boolean isTossPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return Math.abs(currentPosition - TOSS_POSITION) < POSITION_TOLERANCE;
-    }
-
-    // Return whether or not the motor has reached the encoded "hold" position
-    public boolean isHoldPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return Math.abs(currentPosition - HOLD_POSITION) < POSITION_TOLERANCE;
     }
 
     //---------//

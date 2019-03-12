@@ -3,8 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
-
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.ArmStop;
@@ -18,6 +16,7 @@ import frc.robot.Devices;
 public class Arm extends Subsystem {
 
     // Position constants
+    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 81;
     // TODO: test to find the correct degree measures
     private final double ROTATION_DEGREE = 90; // Amount of degrees the arm will lower/raise
@@ -120,20 +119,6 @@ public class Arm extends Subsystem {
     public int getPosition() {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxArm.getSelectedSensorPosition();
-    }
-
-    // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isResetPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return (Math.abs(currentPosition) < POSITION_TOLERANCE);
-    }
-
-    // Return whether or not the motor has reached the encoded "full" position
-    public boolean isLowerPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return Math.abs(currentPosition - ARM_POSITION) < POSITION_TOLERANCE;
     }
 
 }

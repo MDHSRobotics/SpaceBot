@@ -7,7 +7,7 @@ import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
-// This command opens the Hatcher claw to grab the hatch
+// This command opens the Hatcher claw via encoder to grab the hatch, and keeps it there
 public class HatchClawOpen extends Command {
 
     public HatchClawOpen() {
@@ -22,16 +22,15 @@ public class HatchClawOpen extends Command {
         Logger.action("Initializing Command: HatchClawOpen...");
 
         // Set the encoded position
+        // TODO: I believe we need an openClaw() method on the Hatcher subsystem
         Robot.robotHatcher.closeClaw();
     }
 
     @Override
     protected void execute() {
-        // TODO: Comment out Logger output once this is determined to be working reliably.
-        //       Excess logging during executes can slow things down and spam the log.
-        int position = Robot.robotHatcher.getPosition();
-        int velocity = Robot.robotHatcher.getVelocity();
-        Logger.info("HatchClawOpen -> Position: " + position + "; Velocity: " + velocity);
+        // int position = Robot.robotHatcher.getPosition();
+        // int velocity = Robot.robotHatcher.getVelocity();
+        // Logger.info("HatchClawOpen -> Position: " + position + "; Velocity: " + velocity);
     }
 
     // This command is continues until interrupted
@@ -43,15 +42,11 @@ public class HatchClawOpen extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: HatchClawOpen...");
-
-        Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: HatchClawOpen...");
-
-        Robot.robotHatcher.stop();
     }
 
 }

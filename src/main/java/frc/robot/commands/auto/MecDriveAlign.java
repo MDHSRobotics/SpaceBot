@@ -45,6 +45,7 @@ public class MecDriveAlign extends Command {
     protected boolean isFinished() {
         if (m_targetAngle == -1) return true;
 
+        // TODO: Change this with the change to OI, to support whileHeld activation
         boolean aligned = Robot.robotMecDriver.isAligned(m_targetAngle);
         return aligned;
     }

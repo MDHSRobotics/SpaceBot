@@ -28,7 +28,7 @@ public class OI {
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
         Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
-        Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign());
+        Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign()); // TODO: Change this to whileHeld, and make appropriate changes to the command
         Devices.driveXboxBtnBumperLeft.whenPressed(new HatcherToggleClawPosition());
         Devices.driveXboxBtnBumperRight.whenPressed(new BallerToggleFlipperPosition());
         // Test drive commands
@@ -40,7 +40,7 @@ public class OI {
         // Bind the "climb" xbox buttons to specific commands
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
         Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
-        Devices.climbXboxBtnA.whenPressed(new ArmLower());
+        Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
     }
 
     //----------------------//

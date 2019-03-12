@@ -19,12 +19,17 @@ public class Hatcher extends Subsystem {
     public boolean clawIsClosed = false;
 
     // Position constants
+    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 20;
+    // TODO: This needs to take into account the start position
     private final double ROTATION_DEGREE = 10.3; // Amount of degrees the hatch claw will open/close
     private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
     private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-    private final double CLOSE_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE
+
+    private final double START_POSITION = 0;
+    // TODO: The "open" position needs to be relative to the "start" position
     private final double OPEN_POSITION = 0;
+    private final double CLOSE_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE
     private final double POSITION_TOLERANCE = 100;
 
     // Encoder constants
@@ -83,6 +88,7 @@ public class Hatcher extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Hatcher DefaultCommand -> HatcherStop...");
 
+        // TODO: The first thing the Hatcher needs to do is move to a position when the claw can drop forward
         setDefaultCommand(new HatcherStop());
     }
 
@@ -105,8 +111,7 @@ public class Hatcher extends Subsystem {
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, CLOSE_POSITION);
     }
 
-    // TODO: Test to make sure we don't need a controlled "openClaw" method,
-    //       instead of just letting to spring open it
+    // TODO: We're not using a spring anymore, so I believe we need an openClaw() method
 
     // Get the current Hatcher claw motor velocity
     public int getVelocity() {
@@ -118,20 +123,6 @@ public class Hatcher extends Subsystem {
     public int getPosition() {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxHatcher.getSelectedSensorPosition();
-    }
-
-    // Return whether or not the motor has reached the encoded "close" position
-    public boolean isClosePositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return Math.abs(currentPosition - CLOSE_POSITION) < POSITION_TOLERANCE;
-    }
-
-    // Return whether or not the motor has reached the encoded "open" position
-    public boolean isOpenPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return Math.abs(currentPosition - OPEN_POSITION) < POSITION_TOLERANCE;
     }
 
     //---------//

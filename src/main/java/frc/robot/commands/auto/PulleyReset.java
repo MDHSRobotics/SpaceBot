@@ -26,31 +26,25 @@ public class PulleyReset extends Command {
 
     @Override
     protected void execute() {
-        // TODO: Comment out Logger output once this is determined to be working reliably.
-        //       Excess logging during executes can slow things down and spam the log.
-        int position = Robot.robotPulley.getPosition();
-        int velocity = Robot.robotPulley.getVelocity();
-        Logger.info("PulleyReset -> Position: " + position + "; Velocity: " + velocity);
+        // int position = Robot.robotPulley.getPosition();
+        // int velocity = Robot.robotPulley.getVelocity();
+        // Logger.info("PulleyReset -> Position: " + position + "; Velocity: " + velocity);
     }
 
     // This will finish when the Pulley reaches its encoded "reset" position
     @Override
     protected boolean isFinished() {
-        return Robot.robotPulley.isResetPositionMet();
+        return false;
     }
 
     @Override
     protected void end() {
         Logger.ending("Ending Command: PulleyReset...");
-
-        Robot.robotPulley.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: PulleyReset...");
-
-        Robot.robotPulley.stop();
     }
 
 }

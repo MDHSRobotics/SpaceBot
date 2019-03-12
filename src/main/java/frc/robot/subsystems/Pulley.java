@@ -25,6 +25,7 @@ public class Pulley extends Subsystem {
     public PulleyPosition currentPulleyPosition = PulleyPosition.DOWN;
 
     // Encoder Constants
+    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 28;
 
     private final double LIFT_ROTATION_DEGREE = 90;
@@ -135,19 +136,5 @@ public class Pulley extends Subsystem {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxPulleyMaster.getSelectedSensorVelocity();
     }
-
-    // Return whether or not the motor has reached the encoded "reset" position
-    public boolean isResetPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        int currentPosition = getPosition();
-        return (Math.abs(currentPosition - RESET_POSITION) < POSITION_TOLERANCE);
-    }
-
-    // Return whether or not the motor has reached the encoded "lift" position
-    public boolean isLiftPositionMet() {
-        if (!m_talonsAreConnected) return true;
-        double currentPosition = getPosition();
-        return (Math.abs(currentPosition - LIFT_POSITION) < POSITION_TOLERANCE);
-    }  
 
 }

@@ -7,11 +7,11 @@ import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
-// This command resets the Arm to its starting position
+// This command resets the Arm to its starting position via encoder, and keeps it there
 public class ArmReset extends Command {
 
     public ArmReset() {
-        Logger.setup("Constructing Command: TankPulleyReset...");
+        Logger.setup("Constructing Command: ArmReset...");
 
         requires(Robot.robotArm);
     }
@@ -26,31 +26,25 @@ public class ArmReset extends Command {
 
     @Override
     protected void execute() {
-        // TODO: Comment out Logger output once this is determined to be working reliably.
-        //       Excess logging during executes can slow things down and spam the log.
-        int position = Robot.robotArm.getPosition();
-        int velocity = Robot.robotArm.getVelocity();
-        Logger.info("ArmReset -> Position: " + position + "; Velocity: " + velocity);
+        // int position = Robot.robotArm.getPosition();
+        // int velocity = Robot.robotArm.getVelocity();
+        // Logger.info("ArmReset -> Position: " + position + "; Velocity: " + velocity);
     }
 
-    // This will finish when the Arm reaches its encoded "reset" position
+    // This continues until interrupted
     @Override
     protected boolean isFinished() {
-        return Robot.robotArm.isResetPositionMet();
+        return false;
     }
 
     @Override
     protected void end() {
         Logger.ending("Ending Command: ArmReset...");
-
-        Robot.robotArm.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: ArmReset...");
-
-        Robot.robotArm.stop();
     }
 
 }
