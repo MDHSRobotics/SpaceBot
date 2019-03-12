@@ -23,6 +23,7 @@ public class Hatcher extends Subsystem {
     private final double GEAR_RATIO = 20;
     // TODO: This needs to take into account the start position
     private final double ROTATION_DEGREE = 10.3; // Amount of degrees the hatch claw will open/close
+    
     private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
     private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
 
@@ -30,7 +31,6 @@ public class Hatcher extends Subsystem {
     // TODO: The "open" position needs to be relative to the "start" position
     private final double OPEN_POSITION = 0;
     private final double CLOSE_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE
-    private final double POSITION_TOLERANCE = 100;
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase

@@ -24,16 +24,15 @@ public class Pulley extends Subsystem {
     // The public property to determine the Pulley state
     public PulleyPosition currentPulleyPosition = PulleyPosition.DOWN;
 
-    // Encoder Constants
+    // Position Constants
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 28;
-
     private final double LIFT_ROTATION_DEGREE = 90;
 
     private final double RESET_POSITION = 0;
     private final double LIFT_POSITION = (LIFT_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
-    private final double POSITION_TOLERANCE = 100;
 
+    // Encoder Constants
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
     private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
