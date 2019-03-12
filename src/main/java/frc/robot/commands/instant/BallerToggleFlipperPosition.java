@@ -3,8 +3,8 @@ package frc.robot.commands.instant;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-import frc.robot.commands.auto.BallHold;
-import frc.robot.commands.auto.BallToss;
+import frc.robot.commands.reactive.BallHold;
+import frc.robot.commands.reactive.BallToss;
 import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 

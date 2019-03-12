@@ -3,8 +3,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
+import frc.robot.commands.interactive.*;
 import frc.robot.commands.test.*;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;

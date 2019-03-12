@@ -3,8 +3,8 @@ package frc.robot.commands.instant;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-import frc.robot.commands.auto.ArmLower;
 import frc.robot.commands.groups.ArmPulleyReset;
+import frc.robot.commands.reactive.ArmLower;
 import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
