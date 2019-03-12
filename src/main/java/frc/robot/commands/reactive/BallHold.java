@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands.reactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,7 +7,7 @@ import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
-// This command moves the Baller to hold the cargo ball until it is ready to be tossed
+// This command moves the Baller to hold the cargo ball via encoder, and keeps it there until it is ready to be tossed
 public class BallHold extends Command {
 
     public BallHold() {
@@ -21,36 +21,31 @@ public class BallHold extends Command {
     protected void initialize() {
         Logger.action("Initializing Command: BallHold...");
 
+        // Set encoded position
         Robot.robotBaller.holdBall();
     }
 
     @Override
     protected void execute() {
-        // TODO: Comment out Logger output once this is determined to be working reliably.
-        //       Excess logging during executes can slow things down and spam the log.
-        int position = Robot.robotBaller.getPosition();
-        int velocity = Robot.robotBaller.getVelocity();
-        Logger.info("BallHold -> Position: " + position + "; Velocity: " + velocity);
+        // int position = Robot.robotBaller.getPosition();
+        // int velocity = Robot.robotBaller.getVelocity();
+        // Logger.info("BallHold -> Position: " + position + "; Velocity: " + velocity);
     }
 
-    // This command is finished when the ball has been fully blocked
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
-        return Robot.robotBaller.isHoldPositionMet();
+        return false;
     }
 
     @Override
     protected void end() {
         Logger.ending("Ending Command: BallHold...");
-
-        Robot.robotBaller.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: BallHold...");
-
-        Robot.robotBaller.stop();
     }
 
 }

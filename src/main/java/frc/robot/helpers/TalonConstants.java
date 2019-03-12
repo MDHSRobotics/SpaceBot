@@ -4,13 +4,13 @@ package frc.robot.helpers;
 public class TalonConstants {
     
     //number of miliseconds that the talon can stay at peak current
-    public static final int PEAK_CURRENT_DURATION = 40;
+    public static final int PEAK_AMPERAGE_DURATION = 40;
 
-    //max amps that the talon can be supplied at peak
-    public static final int PEAK_CURRENT_AMPS = 11;
+    //max amps that the talon can supply at peak
+    public static final int PEAK_AMPERAGE = 11;
 
-    //max amps that the talon can be supplied continuously
-    public static final int CONTINUOUS_CURRENT_LIMIT = 10;
+    //max amps that the talon can supply continuously
+    public static final int CONTINUOUS_AMPERAGE_LIMIT = 10;
     
     //minimum speed the talon can move forwards
     public static final int NOMINAL_OUTPUT_FORWARD = 0;

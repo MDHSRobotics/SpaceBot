@@ -3,8 +3,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-import frc.robot.commands.auto.*;
 import frc.robot.commands.instant.*;
+import frc.robot.commands.interactive.*;
 import frc.robot.commands.test.*;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;
@@ -28,7 +28,7 @@ public class OI {
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
         Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
-        Devices.driveXboxBtnDpad.whenPressed(new MecDriveAlign());
+        Devices.driveXboxBtnDpad.whileHeld(new MecDriveAlign());
         Devices.driveXboxBtnBumperLeft.whenPressed(new HatcherToggleClawPosition());
         Devices.driveXboxBtnBumperRight.whenPressed(new BallerToggleFlipperPosition());
         // Test drive commands
@@ -40,7 +40,7 @@ public class OI {
         // Bind the "climb" xbox buttons to specific commands
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
         Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
-        Devices.climbXboxBtnA.whenPressed(new ArmLower());
+        Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
     }
 
     //----------------------//

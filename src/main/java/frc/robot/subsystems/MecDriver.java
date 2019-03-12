@@ -271,6 +271,7 @@ public class MecDriver extends Subsystem {
         Logger.ending("^^");
     }
 
+    // TODO: Use this to indicate to the driver that the Robot is aligned with the target (lights? Shuffleboard?)
     public boolean isAligned(double targetAngle) {
         boolean straight = Gyro.isYawAligned(targetAngle);
         if (!straight) return false;
