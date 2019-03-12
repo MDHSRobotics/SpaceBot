@@ -30,38 +30,25 @@ public class MecDriveAlign extends Command {
 
     @Override
     protected void execute() {
-        if (m_targetAngle == -1) {
-            // TODO: This happens sometimes, so find a more reliable way to get the button that was pressed
-            Logger.warning("MecDriveAlign -> Missed the DPad button press!");
-            Robot.robotMecDriver.stop();
-            return;
+        if (m_targetAngle != -1) {
+            Robot.robotMecDriver.driveAlign(m_targetAngle);
         }
-
-        Robot.robotMecDriver.driveAlign(m_targetAngle);
     }
 
-    // We're finished when the line looks straight and is centered enough (or a line is not detected)
+    // This finishes immediately, but is intended to be continually restarted while a button is held
     @Override
     protected boolean isFinished() {
-        if (m_targetAngle == -1) return true;
-
-        // TODO: Change this with the change to OI, to support whileHeld activation
-        boolean aligned = Robot.robotMecDriver.isAligned(m_targetAngle);
-        return aligned;
+        return true;
     }
 
     @Override
     protected void end() {
         Logger.ending("Ending Command: MecDriveAlign...");
-
-        Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: MecDriveAlign...");
-
-        Robot.robotMecDriver.stop();
     }
 
 }
