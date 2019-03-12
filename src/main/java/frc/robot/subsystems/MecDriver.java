@@ -26,10 +26,12 @@ public class MecDriver extends Subsystem {
     private final int TIMEOUT_MS = 10;
 
     // Alignment Constants
+    // TODO: Add all of these to Shuffleboard
     private double ALIGN_FRONT_MAGNITUDE = .5;
     private double ALIGN_SIDE_MAGNITUDE = .5;
-    private double ALIGN_Z_SENSITIVITY = 1;
+    private double ALIGN_Z_SENSITIVITY = 1; // multiplier
     private double ALIGN_Z_SPEED_MINIMUM = .35;
+    private double ALIGN_Z_TOLERANCE = 2; // degrees
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -257,8 +259,11 @@ public class MecDriver extends Subsystem {
 
         // Get the rotation speed to align the Robot with the target gyro yaw
         double zRotation = (correction / 180) * ALIGN_Z_SENSITIVITY;
-        if (0 < zRotation && zRotation < ALIGN_Z_SPEED_MINIMUM) zRotation = ALIGN_Z_SPEED_MINIMUM;
-        if (0 > zRotation && zRotation > -ALIGN_Z_SPEED_MINIMUM) zRotation = -ALIGN_Z_SPEED_MINIMUM;
+        boolean isCloseEnough = Math.abs(correction) < ALIGN_Z_TOLERANCE;
+        if (!isCloseEnough) {
+            if (0 < zRotation && zRotation < ALIGN_Z_SPEED_MINIMUM) zRotation = ALIGN_Z_SPEED_MINIMUM;
+            if (0 > zRotation && zRotation > -ALIGN_Z_SPEED_MINIMUM) zRotation = -ALIGN_Z_SPEED_MINIMUM;
+        }
 
         Logger.action("MecDriver -> Drive Polar: " + magnitude + ", " + angle + ", " + zRotation);
         if (!m_talonsAreConnected) {
