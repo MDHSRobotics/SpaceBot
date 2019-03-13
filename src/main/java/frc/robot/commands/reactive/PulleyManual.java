@@ -9,35 +9,25 @@ import frc.robot.Robot;
 
 
 // This command lifts the Pulley via encoder, and keeps it there, with the user option to manually override
-public class PulleyLift extends Command {
+public class PulleyManual extends Command {
 
-    private PulleyManual m_pulleyManual;
-
-    public PulleyLift() {
-        Logger.setup("Constructing Command: PulleyLift...");
+    public PulleyManual() {
+        Logger.setup("Constructing Command: PulleyManual...");
 
         requires(Robot.robotPulley);
-        m_pulleyManual = new PulleyManual();
     }
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: PulleyLift...");
-
-        // Set the encoded position
-        Robot.robotPulley.lift();
+        Logger.action("Initializing Command: PulleyManual...");
     }
 
     @Override
     protected void execute() {
-
         // int position = Robot.robotPulley.getPosition();
         // int velocity = Robot.robotPulley.getVelocity();
         // Logger.info("PulleyUp -> Position: " + position + "; Velocity: " + velocity);
-        
-        if (OI.getPulleyLiftSpeed() != 0) {
-            m_pulleyManual.start();
-        }
+        Robot.robotPulley.setSpeed(OI.getPulleyLiftSpeed());
 
     }
 

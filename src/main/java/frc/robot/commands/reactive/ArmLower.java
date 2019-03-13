@@ -4,16 +4,22 @@ package frc.robot.commands.reactive;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 
 // This command lowers the Arm via encoder, and keeps it there
 public class ArmLower extends Command {
 
+    private ArmManual  m_armManualCmd;  
+    private PulleyLift m_pulleyLift;
+
     public ArmLower() {
         Logger.setup("Constructing Command: ArmLower...");
 
         requires(Robot.robotArm);
+        m_armManualCmd = new ArmManual();
+        m_pulleyLift = new PulleyLift();
     }
 
     @Override
@@ -22,15 +28,28 @@ public class ArmLower extends Command {
 
         // Set the encoded position
         Robot.robotArm.lower();
+
     }
 
     @Override
     protected void execute() {
-        int position = Robot.robotArm.getPosition();
+        if(OI.getArmLowerSpeed() != 0){
+            m_armManualCmd.start();
+        }
+
+        // int position = Robot.robotArm.getPosition();
         // int velocity = Robot.robotArm.getVelocity();
         // Logger.info("ArmLower -> Position: " + position + "; Velocity: " + velocity);
 
-        // TODO: The Pulley needs to start automatically when the Arm contacts the platform
+        if(Robot.robotArm.isArmOnHab()){
+            if(!Robot.robotPulley.pulleyState){
+                m_pulleyLift.start();
+                Robot.robotPulley.pulleyState = true;
+            }
+            if(OI.getArmLowerSpeed() != 0){
+                m_armManualCmd.start();
+            }
+        }
     }
 
     // This continues until interrupted

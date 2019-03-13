@@ -19,13 +19,16 @@ public class Arm extends Subsystem {
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 81;
     // TODO: test to find the correct degree measures
-    private final double ROTATION_DEGREE = 90; // Amount of degrees the arm will lower/raise
-
-    private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-
+    private final double OPEN_ROTATION_DEGREE = 90; // Amount of degrees the arm will lower/raise
+    private final double CLOSE_ROTATION_DEGREE = 45;
+    private final double OPEN_ROTATION_COUNT_GS = OPEN_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double OPEN_ROTATION_COUNT_MS = OPEN_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
+    private final double CLOSE_ROTATION_COUNT_GS = CLOSE_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double CLOSE_ROTATION_COUNT_MS = CLOSE_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
+    
     private final double RESET_POSITION = 0;
-    private final double ARM_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
+    private final double OPEN_ARM_POSITION = OPEN_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
+    private final double CLOSE_ARM_POSITION = CLOSE_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -101,13 +104,14 @@ public class Arm extends Subsystem {
     public void lower() {
         if (!m_talonsAreConnected) return;
         // Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
-        Logger.info("Arm -> Target Lower Full Position: " + ARM_POSITION);
-        Devices.talonSrxArm.set(ControlMode.Position, ARM_POSITION);
+        Logger.info("Arm -> Target Lower Full Position: " + OPEN_ARM_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, OPEN_ARM_POSITION);
     }
 
     public void manualControl(double jStickValue){
         Devices.talonSrxArm.set(jStickValue);
     }
+
 
     // Get the current motor velocity
     public int getVelocity() {
@@ -120,5 +124,13 @@ public class Arm extends Subsystem {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxArm.getSelectedSensorPosition();
     }
+    
+    public boolean isArmOnHab(){
+        if(getPosition() >= CLOSE_ARM_POSITION)
+        return true;
+        else
+        return false;
+    }
+
 
 }
