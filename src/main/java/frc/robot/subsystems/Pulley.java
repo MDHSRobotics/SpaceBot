@@ -1,8 +1,6 @@
 
 package frc.robot.subsystems;
 
-import java.lang.Math;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;

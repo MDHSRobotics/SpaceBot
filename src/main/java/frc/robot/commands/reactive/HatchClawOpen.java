@@ -23,7 +23,7 @@ public class HatchClawOpen extends Command {
 
         // Set the encoded position
         // TODO: I believe we need an openClaw() method on the Hatcher subsystem
-        Robot.robotHatcher.closeClaw();
+        Robot.robotHatcher.openClaw();
     }
 
     @Override

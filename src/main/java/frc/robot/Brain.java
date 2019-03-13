@@ -80,6 +80,9 @@ public class Brain {
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
 
+    //Subsystem - Hatcher
+    public static double hatchRotationDegreeDefault = 10.3;
+
     //---------------------//
     // NetworkTableEntries //
     //---------------------//
@@ -147,6 +150,9 @@ public class Brain {
 
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
+
+    //Subsystem - Hatcher
+    public static NetworkTableEntry hatchRotationDegreeEntry;
 
     //---------//
     // Setters //
@@ -419,6 +425,11 @@ public class Brain {
         driveOrientationEntry.setValue(value);
     }
 
+    public static void setHatchRotationDegrees(NetworkTableEntry entry){
+        double value = entry.getDouble(hatchRotationDegreeDefault);
+        hatchRotationDegreeEntry.setValue(value);
+    }
+
     //---------//
     // Getters //
     //---------//
@@ -592,6 +603,11 @@ public class Brain {
         String defaultString = driveOrientationDefault.toString();
         String orientationString = driveOrientationEntry.getString(defaultString);
         return DriveOrientation.valueOf(orientationString);
+    }
+
+    // Subsystems - Hatch
+    public static double getHatchRotationDegree(){
+        return hatchRotationDegreeEntry.getDouble(hatchRotationDegreeDefault);
     }
 
 }
