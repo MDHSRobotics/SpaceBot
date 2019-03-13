@@ -12,6 +12,7 @@ import frc.robot.commands.idle.PulleyStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
 import frc.robot.Devices;
+import frc.robot.OI;
 
 
 // Pulley subsystem for lifting the back end of robot up above a platform
@@ -38,6 +39,9 @@ public class Pulley extends Subsystem {
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
+
+    private double m_joyStickValue = OI.getPulleyLiftSpeed();
+    public boolean pulleyState = false;
 
     public Pulley() {
         Logger.setup("Constructing Subsystem: Pulley...");

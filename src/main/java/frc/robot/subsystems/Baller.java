@@ -101,8 +101,8 @@ public class Baller extends Subsystem {
     // Move the Baller flipper back to the hold position
     public void holdBall() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Baller -> Hold Position: " + HOLD_POSITION);
-        Devices.talonSrxBaller.set(ControlMode.Position, HOLD_POSITION);
+        Logger.info("Baller -> Hold Position: " + 0);
+        Devices.talonSrxBaller.set(ControlMode.Position, 0);
     }
 
     // Move the Baller flipper to toss the ball
