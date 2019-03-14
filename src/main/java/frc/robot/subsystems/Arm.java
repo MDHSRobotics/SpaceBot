@@ -18,17 +18,18 @@ public class Arm extends Subsystem {
     // Position constants
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 81;
+    private final double START_POSITION = 0;
+
     // TODO: test to find the correct degree measures
-    private final double OPEN_ROTATION_DEGREE = 90; // Amount of degrees the arm will lower/raise
-    private final double CLOSE_ROTATION_DEGREE = 45;
-    private final double OPEN_ROTATION_COUNT_GS = OPEN_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double OPEN_ROTATION_COUNT_MS = OPEN_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-    private final double CLOSE_ROTATION_COUNT_GS = CLOSE_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double CLOSE_ROTATION_COUNT_MS = CLOSE_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-    
-    private final double RESET_POSITION = 0;
-    private final double OPEN_ARM_POSITION = OPEN_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
-    private final double CLOSE_ARM_POSITION = CLOSE_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
+    private final double HAB_ROTATION_DEGREE = 45; // Amount of degrees the Arm will lower to contact the HAB
+    private final double HAB_ROTATION_COUNT_GS = HAB_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double HAB_ROTATION_COUNT_MS = HAB_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
+    private final double HAB_POSITION = HAB_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
+
+    private final double FULL_ROTATION_DEGREE = 90;
+    private final double FULL_ROTATION_COUNT_GS = FULL_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double FULL_ROTATION_COUNT_MS = FULL_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
+    private final double FULL_POSITION = FULL_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -93,25 +94,24 @@ public class Arm extends Subsystem {
         Devices.talonSrxArm.stopMotor();
     }
 
-    // Reset the Arm to its starting position
+    // Set the Arm motor speed explicitly
+    public void setSpeed(double speed){
+        Devices.talonSrxArm.set(speed);
+    }
+
+    // Reset the Arm to its encoded starting position
     public void resetPosition() {
-        //if (!m_talonsAreConnected) return;
-        Logger.info("Arm -> Reset Position: " + RESET_POSITION);
-        Devices.talonSrxArm.set(ControlMode.Position, RESET_POSITION);
+        if (!m_talonsAreConnected) return;
+        Logger.info("Arm -> Start Position: " + START_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, START_POSITION);
     }
 
     // Lowers the Arm to the encoded "full" position
-    public void lower() {
+    public void lowerFull() {
         if (!m_talonsAreConnected) return;
-        // Devices.talonSrxArm.setSelectedSensorPosition(0, 0, 20);
-        Logger.info("Arm -> Target Lower Full Position: " + OPEN_ARM_POSITION);
-        Devices.talonSrxArm.set(ControlMode.Position, OPEN_ARM_POSITION);
+        Logger.info("Arm -> Target Full Position: " + FULL_POSITION);
+        Devices.talonSrxArm.set(ControlMode.Position, FULL_POSITION);
     }
-
-    public void manualControl(double jStickValue){
-        Devices.talonSrxArm.set(jStickValue);
-    }
-
 
     // Get the current motor velocity
     public int getVelocity() {
@@ -125,12 +125,11 @@ public class Arm extends Subsystem {
         return Devices.talonSrxArm.getSelectedSensorPosition();
     }
     
-    public boolean isArmOnHab(){
-        if(getPosition() >= CLOSE_ARM_POSITION)
-        return true;
-        else
-        return false;
+    // Return true if the Arm is at or beyond the HAB position
+    public boolean isArmOnHab() {
+        int armPosition = getPosition();
+        boolean armIsOnHab = armPosition >= HAB_POSITION;
+        return armIsOnHab;
     }
-
 
 }

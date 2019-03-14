@@ -10,26 +10,23 @@ import frc.robot.commands.idle.PulleyStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
 import frc.robot.Devices;
-import frc.robot.OI;
 
 
 // Pulley subsystem for lifting the back end of robot up above a platform
 public class Pulley extends Subsystem {
 
-    public enum PulleyPosition {
-        DOWN, UP
-    }
-
-    // The public property to determine the Pulley state
-    public PulleyPosition currentPulleyPosition = PulleyPosition.DOWN;
+    // The public property to indicate whether the Pulley has started lifting
+    public boolean isLifting = false;
 
     // Position Constants
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 28;
-    private final double LIFT_ROTATION_DEGREE = 90;
+    private final double START_POSITION = 0;
 
-    private final double RESET_POSITION = 0;
-    private final double LIFT_POSITION = (LIFT_ROTATION_DEGREE / 360) * GEAR_RATIO * TalonConstants.REDLIN_ENCODER_TPR;
+    private final double LIFT_ROTATION_DEGREE = 90;
+    private final double LIFT_ROTATION_COUNT_GS = LIFT_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double LIFT_ROTATION_COUNT_MS = LIFT_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
+    private final double LIFT_POSITION = LIFT_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR;
 
     // Encoder Constants
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -37,9 +34,6 @@ public class Pulley extends Subsystem {
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
-
-    private double m_joyStickValue = OI.getPulleyLiftSpeed();
-    public boolean pulleyState = false;
 
     public Pulley() {
         Logger.setup("Constructing Subsystem: Pulley...");
@@ -95,9 +89,6 @@ public class Pulley extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Pulley DefaultCommand -> PulleyStop...");
 
-        // TODO: We should make a PulleyFeed command, and default to that. We don't need to use the power here.
-        // But while the Pulley is up, we need to use PulleyStop to keep it up.
-        // Look at other subsystems to see if they can default to a "Feed" command as well, to save power.
         setDefaultCommand(new PulleyStop());
     }
 
@@ -115,8 +106,8 @@ public class Pulley extends Subsystem {
      // Reset the Pulley to its starting position
      public void resetPosition() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Pulley -> Reset Position: " + RESET_POSITION);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, RESET_POSITION);
+        Logger.info("Pulley -> Reset Position: " + START_POSITION);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, START_POSITION);
     }
 
     // Lift the robot to the encoded Pulley motor position

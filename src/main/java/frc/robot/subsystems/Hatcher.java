@@ -8,9 +8,9 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.reactive.HatchClawClose;
-import frc.robot.Brain;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
+import frc.robot.Brain;
 import frc.robot.Devices;
 
 
@@ -21,16 +21,15 @@ public class Hatcher extends Subsystem {
     public boolean clawIsClosed = false;
 
     // Position constants
-    private final double POSITION_OFFSET = 0; // Position difference between start position and open position
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 20;
-    
-    private final double ROTATION_DEGREE = 10.3; // Amount of degrees the hatch claw will open/close
-    
-    private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
+    private final double POSITION_OFFSET = 0; // Position difference between start position and open position
 
     private final double OPEN_POSITION = POSITION_OFFSET;
+
+    private final double ROTATION_DEGREE = 10.3; // Amount of degrees the hatch claw will open/close
+    private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
+    private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
     private final double CLOSE_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR + POSITION_OFFSET; // Position in ticks to turn ROTATION_DEGREE
 
     // Encoder constants
@@ -133,7 +132,7 @@ public class Hatcher extends Subsystem {
     // Testing //
     //---------//
 
-    public void setSpeed() {
+    public void testMotor() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxHatcher.set(0.2);
     }

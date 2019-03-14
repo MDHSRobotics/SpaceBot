@@ -32,7 +32,7 @@ public class HatchClawClose extends Command {
         // Logger.info("HatchClawClose -> Position: " + position + "; Velocity: " + velocity);
     }
 
-    // This command currently continues until interrupted
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;

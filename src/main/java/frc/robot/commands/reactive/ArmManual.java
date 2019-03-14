@@ -8,27 +8,36 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 
-// This command lowers the Arm via encoder, and keeps it there
+// This command lowers the Arm manually
 public class ArmManual extends Command {
+
+    private PulleyLift m_pulleyLift;
 
     public ArmManual() {
         Logger.setup("Constructing Command: ArmManual...");
 
         requires(Robot.robotArm);
+
+        m_pulleyLift = new PulleyLift();
     }
 
     @Override
     protected void initialize() {
         Logger.action("Initializing Command: ArmManual...");
-
     }
 
     @Override
     protected void execute() {
-        Robot.robotArm.manualControl(OI.getArmLowerSpeed());
+        double speed = OI.getArmLowerSpeed();
+        Robot.robotArm.setSpeed(speed);
+
+        boolean armIsOnHab = Robot.robotArm.isArmOnHab();
+        if (armIsOnHab && !Robot.robotPulley.isLifting) {
+            m_pulleyLift.start();
+        }
     }
 
-    // This continues until interrupted
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;
