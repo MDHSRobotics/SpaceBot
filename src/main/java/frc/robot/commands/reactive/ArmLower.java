@@ -18,6 +18,7 @@ public class ArmLower extends Command {
         Logger.setup("Constructing Command: ArmLower...");
 
         requires(Robot.robotArm);
+
         m_armManualCmd = new ArmManual();
         m_pulleyLift = new PulleyLift();
     }
@@ -27,32 +28,27 @@ public class ArmLower extends Command {
         Logger.action("Initializing Command: ArmLower...");
 
         // Set the encoded position
-        Robot.robotArm.lower();
-
+        Robot.robotArm.lowerFull();
     }
 
     @Override
     protected void execute() {
-        if(OI.getArmLowerSpeed() != 0){
-            m_armManualCmd.start();
-        }
-
         // int position = Robot.robotArm.getPosition();
         // int velocity = Robot.robotArm.getVelocity();
         // Logger.info("ArmLower -> Position: " + position + "; Velocity: " + velocity);
 
-        if(Robot.robotArm.isArmOnHab()){
-            if(!Robot.robotPulley.pulleyState){
-                m_pulleyLift.start();
-                Robot.robotPulley.pulleyState = true;
-            }
-            if(OI.getArmLowerSpeed() != 0){
-                m_armManualCmd.start();
-            }
+        boolean armIsOnHab = Robot.robotArm.isArmOnHab();
+        if (armIsOnHab && !Robot.robotPulley.isLifting) {
+            m_pulleyLift.start();
+        }
+
+        double speed = OI.getArmLowerSpeed();
+        if (speed != 0) {
+            m_armManualCmd.start();
         }
     }
 
-    // This continues until interrupted
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;

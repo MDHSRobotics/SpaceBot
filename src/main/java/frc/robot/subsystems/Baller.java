@@ -21,12 +21,11 @@ public class Baller extends Subsystem {
     // Position constants
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 16;
-    private final double ROTATION_DEGREE = 120; // Amount of degrees the ball launcher will rotatate up/down
+    private final double HOLD_POSITION = 0;
 
+    private final double ROTATION_DEGREE = 120; // Amount of degrees the ball launcher will rotatate up/down
     private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
     private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-
-    private final double HOLD_POSITION = 0;
     private final double TOSS_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE
 
     // Encoder constants
@@ -101,8 +100,8 @@ public class Baller extends Subsystem {
     // Move the Baller flipper back to the hold position
     public void holdBall() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Baller -> Hold Position: " + 0);
-        Devices.talonSrxBaller.set(ControlMode.Position, 0);
+        Logger.info("Baller -> Hold Position: " + HOLD_POSITION);
+        Devices.talonSrxBaller.set(ControlMode.Position, HOLD_POSITION);
     }
 
     // Move the Baller flipper to toss the ball
@@ -128,7 +127,7 @@ public class Baller extends Subsystem {
     // Testing //
     //---------//
 
-    public void setSpeed() {
+    public void testMotor() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxBaller.set(0.2);
     }

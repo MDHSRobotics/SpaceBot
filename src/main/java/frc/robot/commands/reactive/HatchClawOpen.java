@@ -22,8 +22,7 @@ public class HatchClawOpen extends Command {
         Logger.action("Initializing Command: HatchClawOpen...");
 
         // Set the encoded position
-        // TODO: I believe we need an openClaw() method on the Hatcher subsystem
-        Robot.robotHatcher.closeClaw();
+        Robot.robotHatcher.openClaw();
     }
 
     @Override
@@ -33,7 +32,7 @@ public class HatchClawOpen extends Command {
         // Logger.info("HatchClawOpen -> Position: " + position + "; Velocity: " + velocity);
     }
 
-    // This command is continues until interrupted
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;

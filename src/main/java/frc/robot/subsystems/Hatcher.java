@@ -4,11 +4,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.idle.HatcherStop;
+import frc.robot.commands.reactive.HatchClawClose;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
+import frc.robot.Brain;
 import frc.robot.Devices;
 
 
@@ -21,16 +23,14 @@ public class Hatcher extends Subsystem {
     // Position constants
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 20;
-    // TODO: This needs to take into account the start position
+    private final double POSITION_OFFSET = 0; // Position difference between start position and open position
+
+    private final double OPEN_POSITION = POSITION_OFFSET;
+
     private final double ROTATION_DEGREE = 10.3; // Amount of degrees the hatch claw will open/close
-    
     private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
     private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-
-    private final double START_POSITION = 0;
-    // TODO: The "open" position needs to be relative to the "start" position
-    private final double OPEN_POSITION = 0;
-    private final double CLOSE_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE
+    private final double CLOSE_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR + POSITION_OFFSET; // Position in ticks to turn ROTATION_DEGREE
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -58,7 +58,7 @@ public class Hatcher extends Subsystem {
             Devices.talonSrxHatcher.configPeakOutputForward(0.5);
             Devices.talonSrxHatcher.configPeakOutputReverse(-0.5);
 
-            Devices.talonSrxHatcher.configMotionAcceleration(4000, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxHatcher.configMotionAcceleration(3000, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxHatcher.configMotionCruiseVelocity(8000, TalonConstants.TIMEOUT_MS);
 
             // Config TalonSRX Redline encoder
@@ -72,8 +72,8 @@ public class Hatcher extends Subsystem {
             Devices.talonSrxHatcher.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxHatcher.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
 
-            // Reset Encoder Position 
-            Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
+            // Initialize current encoder position as zero 
+            Devices.talonSrxHatcher.setSelectedSensorPosition(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxHatcher.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
@@ -88,8 +88,7 @@ public class Hatcher extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Hatcher DefaultCommand -> HatcherStop...");
 
-        // TODO: The first thing the Hatcher needs to do is move to a position when the claw can drop forward
-        setDefaultCommand(new HatcherStop());
+        setDefaultCommand(new HatchClawClose());
     }
 
     // Toggle the clawIsClosed state
@@ -106,12 +105,16 @@ public class Hatcher extends Subsystem {
     // Close the Hatcher claw
     public void closeClaw() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxHatcher.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
         Logger.info("Hatcher -> Close Position: " + CLOSE_POSITION);
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, CLOSE_POSITION);
     }
 
-    // TODO: We're not using a spring anymore, so I believe we need an openClaw() method
+    // Open the Hatcher claw
+    public void openClaw() {
+        if (!m_talonsAreConnected) return;
+        Logger.info("Hatcher -> Close Position: " + OPEN_POSITION);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, OPEN_POSITION);
+    }
 
     // Get the current Hatcher claw motor velocity
     public int getVelocity() {
@@ -129,7 +132,7 @@ public class Hatcher extends Subsystem {
     // Testing //
     //---------//
 
-    public void setSpeed() {
+    public void testMotor() {
         if (!m_talonsAreConnected) return;
         Devices.talonSrxHatcher.set(0.2);
     }

@@ -26,22 +26,22 @@ public class PulleyLift extends Command {
 
         // Set the encoded position
         Robot.robotPulley.lift();
+        Robot.robotPulley.isLifting = true;
     }
 
     @Override
     protected void execute() {
-
         // int position = Robot.robotPulley.getPosition();
         // int velocity = Robot.robotPulley.getVelocity();
         // Logger.info("PulleyUp -> Position: " + position + "; Velocity: " + velocity);
-        
-        if (OI.getPulleyLiftSpeed() != 0) {
+
+        double speed = OI.getPulleyLiftSpeed();
+        if (speed != 0) {
             m_pulleyManual.start();
         }
-
     }
 
-    // This will finish when the Pulley reaches its encoded "lift" position
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;

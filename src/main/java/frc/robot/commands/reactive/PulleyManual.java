@@ -8,7 +8,7 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 
-// This command lifts the Pulley via encoder, and keeps it there, with the user option to manually override
+// This command lifts the Pulley manually
 public class PulleyManual extends Command {
 
     public PulleyManual() {
@@ -27,11 +27,12 @@ public class PulleyManual extends Command {
         // int position = Robot.robotPulley.getPosition();
         // int velocity = Robot.robotPulley.getVelocity();
         // Logger.info("PulleyUp -> Position: " + position + "; Velocity: " + velocity);
-        Robot.robotPulley.setSpeed(OI.getPulleyLiftSpeed());
 
+        double speed = OI.getPulleyLiftSpeed();
+        Robot.robotPulley.setSpeed(speed);
     }
 
-    // This will finish when the Pulley reaches its encoded "lift" position
+    // This command continues until interrupted
     @Override
     protected boolean isFinished() {
         return false;
