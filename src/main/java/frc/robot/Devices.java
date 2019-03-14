@@ -84,21 +84,21 @@ public class Devices {
     public static final Relay lighterRelay = new Relay(1);
 
     // Motor Controllers
-    public static final WPI_TalonSRX talonSrxMecWheelFrontLeft = new WPI_TalonSRX(15); // 1 motor
+    public static final WPI_TalonSRX talonSrxMecWheelFrontLeft = new WPI_TalonSRX(5); // 1 motor
     public static final WPI_TalonSRX talonSrxMecWheelRearLeft = new WPI_TalonSRX(7); // 1 motor
-    public static final WPI_TalonSRX talonSrxMecWheelFrontRight = new WPI_TalonSRX(8); // 1 motor
-    public static final WPI_TalonSRX talonSrxMecWheelRearRight = new WPI_TalonSRX(6); // 1 motor
+    public static final WPI_TalonSRX talonSrxMecWheelFrontRight = new WPI_TalonSRX(6); // 1 motor
+    public static final WPI_TalonSRX talonSrxMecWheelRearRight = new WPI_TalonSRX(8); // 1 motor
 
     public static final WPI_TalonSRX talonSrxHatcher = new WPI_TalonSRX(9); // 1 motor
     public static final WPI_TalonSRX talonSrxBaller = new WPI_TalonSRX(10); // 1 motor
 
     public static final WPI_TalonSRX talonSrxArm = new WPI_TalonSRX(1); // 1 motor
-    public static final WPI_TalonSRX talonSrxTank = new WPI_TalonSRX(2); // 1 motor
+    public static final WPI_TalonSRX talonSrxTank = new WPI_TalonSRX(11); // 1 motor
 
-    public static final WPI_TalonSRX talonSrxPulleyMaster = new WPI_TalonSRX(3); // 4 motors
-    public static final WPI_TalonSRX talonSrxPulleySlaveA = new WPI_TalonSRX(5);
-    public static final WPI_TalonSRX talonSrxPulleySlaveB = new WPI_TalonSRX(11);
-    public static final WPI_TalonSRX talonSrxPulleySlaveC = new WPI_TalonSRX(12);
+    public static final WPI_TalonSRX talonSrxPulleyMaster = new WPI_TalonSRX(12); // 4 motors
+    public static final WPI_TalonSRX talonSrxPulleySlaveA = new WPI_TalonSRX(13);
+    public static final WPI_TalonSRX talonSrxPulleySlaveB = new WPI_TalonSRX(14);
+    public static final WPI_TalonSRX talonSrxPulleySlaveC = new WPI_TalonSRX(15);
 
     // Drives
     public static MecanumDrive mecDrive = null;
