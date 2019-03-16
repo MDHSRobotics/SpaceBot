@@ -22,11 +22,7 @@ public class Pulley extends Subsystem {
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 28;
     private final double START_POSITION = 0;
-
     private final double LIFT_ROTATION_DEGREE = 90;
-    private final double LIFT_ROTATION_COUNT_GS = LIFT_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double LIFT_ROTATION_COUNT_MS = LIFT_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-    private final double LIFT_POSITION = LIFT_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR;
 
     // Encoder Constants
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -113,8 +109,9 @@ public class Pulley extends Subsystem {
     // Lift the robot to the encoded Pulley motor position
     public void lift() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Pulley -> Lift Position: " + LIFT_POSITION);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, LIFT_POSITION);
+        double liftPositionTicks = TalonConstants.translateDegreesToTicks(LIFT_ROTATION_DEGREE, GEAR_RATIO);
+        Logger.info("Pulley -> Lift Position: " + liftPositionTicks);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, liftPositionTicks);
     }
 
      // Get the current motor position

@@ -22,11 +22,7 @@ public class Baller extends Subsystem {
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 16;
     private final double HOLD_POSITION = 0;
-
     private final double ROTATION_DEGREE = 120; // Amount of degrees the ball launcher will rotatate up/down
-    private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-    private final double TOSS_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -107,8 +103,9 @@ public class Baller extends Subsystem {
     // Move the Baller flipper to toss the ball
     public void tossBall() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Baller -> Toss Position: " + TOSS_POSITION);
-        Devices.talonSrxBaller.set(ControlMode.Position, TOSS_POSITION);
+        double tossPositionTicks = TalonConstants.translateDegreesToTicks(ROTATION_DEGREE, GEAR_RATIO);
+        Logger.info("Baller -> Toss Position: " + tossPositionTicks);
+        Devices.talonSrxBaller.set(ControlMode.Position, tossPositionTicks);
     }
 
     // Get the current Baller flipper motor velocity
