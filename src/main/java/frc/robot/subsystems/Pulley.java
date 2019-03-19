@@ -1,6 +1,6 @@
 
 package frc.robot.subsystems;
-
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
@@ -22,7 +22,7 @@ public class Pulley extends Subsystem {
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 28;
     private final double START_POSITION = 0;
-    private final double LIFT_ROTATION_DEGREE = 90;
+    private final double LIFT_ROTATION_DEGREE = 120;
 
     // Encoder Constants
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -75,9 +75,10 @@ public class Pulley extends Subsystem {
             if (MOTOR_INVERT) absolutePosition *= -1;
             // Set the quadrature (relative) sensor to match absolute
             Devices.talonSrxPulleyMaster.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
-            
-            Devices.talonSrxPulleyMaster.configMotionAcceleration(6000, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxPulleyMaster.configMotionCruiseVelocity(15000, TalonConstants.TIMEOUT_MS);
+                    
+            Devices.talonSrxPulleySlaveA.set(ControlMode.Follower, 12);
+            Devices.talonSrxPulleySlaveB.set(ControlMode.Follower, 12);
+            Devices.talonSrxPulleySlaveC.set(ControlMode.Follower, 12);
         }
     }
 
