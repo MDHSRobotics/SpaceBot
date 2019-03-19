@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.SPI;
@@ -17,9 +18,13 @@ import frc.robot.helpers.DPadButton.Direction;
 
 // This class contains singleton constants, for human interface devices and robot components, and mappings for each
 public class Devices {
+    
+    static private final int DRIVE_XBOX_STICK_NUM = 0;
+    static private final int CLIMB_XBOX_STICK_NUM = 1;
+    static private final int JSTICK_STICK_NUM = 2;
 
     // Joysticks
-    public static final Joystick jstick = new Joystick(2);
+    public static final Joystick jstick = new Joystick(JSTICK_STICK_NUM);
     public static final JoystickButton jstickBtn1 = new JoystickButton(jstick, 1); // Trigger
     public static final JoystickButton jstickBtn2 = new JoystickButton(jstick, 2);
     public static final JoystickButton jstickBtn3 = new JoystickButton(jstick, 3);
@@ -34,7 +39,7 @@ public class Devices {
     public static final JoystickButton jstickBtn12 = new JoystickButton(jstick, 12);
 
     // Xbox Controller - Drive & Delivery
-    public static final XboxController driveXbox = new XboxController(0);
+    public static final XboxController driveXbox = new XboxController(DRIVE_XBOX_STICK_NUM);
     public static final JoystickButton driveXboxBtnA = new JoystickButton(driveXbox, 1);
     public static final JoystickButton driveXboxBtnB = new JoystickButton(driveXbox, 2);
     public static final JoystickButton driveXboxBtnX = new JoystickButton(driveXbox, 3);
@@ -56,7 +61,7 @@ public class Devices {
     public static final DPadButton driveXboxBtnDpadDownRight = new DPadButton(driveXbox, Direction.DOWN_RIGHT);
 
     // Xbox Controller - Climb
-    public static final XboxController climbXbox = new XboxController(1);
+    public static final XboxController climbXbox = new XboxController(CLIMB_XBOX_STICK_NUM);
     public static final JoystickButton climbXboxBtnA = new JoystickButton(climbXbox, 1);
     public static final JoystickButton climbXboxBtnB = new JoystickButton(climbXbox, 2);
     public static final JoystickButton climbXboxBtnX = new JoystickButton(climbXbox, 3);
@@ -121,6 +126,22 @@ public class Devices {
         int firmVer = talon.getFirmwareVersion();
         boolean connected = (firmVer != -1);
         return connected;
+    }
+
+    // Determine if a given stick is connected
+    public static boolean isStickConnected(int stickNumber) {
+        int numberOfButtons = DriverStation.getInstance().getStickButtonCount(stickNumber);
+        return numberOfButtons > 0;
+    }
+
+    // Determine if the Drive XBox controller is connected
+    public static boolean isDriveXboxConnected() {
+        return isStickConnected(DRIVE_XBOX_STICK_NUM);
+    }
+
+    // Determine if the Climb XBox controller is connected
+    public static boolean isClimbXboxConnected() {
+        return isStickConnected(CLIMB_XBOX_STICK_NUM);
     }
 
 }

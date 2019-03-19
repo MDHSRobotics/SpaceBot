@@ -25,22 +25,32 @@ public class OI {
     public OI() {
         Logger.setup("Constructing OI...");
 
-        // Bind the "drive" xbox buttons to specific commands
-        Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
-        Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
-        Devices.driveXboxBtnDpad.whileHeld(new MecDriveAlign());
-        Devices.driveXboxBtnBumperLeft.whenPressed(new HatcherToggleClawPosition());
-        Devices.driveXboxBtnBumperRight.whenPressed(new BallerToggleFlipperPosition());
-        // Test drive commands
-        Devices.driveXboxBtnA.whileHeld(new MecDriveSlowForward());
-        Devices.driveXboxBtnB.whileHeld(new MecDriveSlowTurnRight());
-        Devices.driveXboxBtnX.whileHeld(new MecDriveSlowOrbitInwardClockwise());
-        Devices.driveXboxBtnY.whileHeld(new MecDriveSlowOrbitOutwardClockwise());
+        if (!Devices.isDriveXboxConnected()) {
+            Logger.error("Drive XBox controller not plugged in!");
+        }
+        else {
+            // Bind the "drive" xbox buttons to specific commands
+            Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
+            Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
+            Devices.driveXboxBtnDpad.whileHeld(new MecDriveAlign());
+            Devices.driveXboxBtnBumperLeft.whenPressed(new HatcherToggleClawPosition());
+            Devices.driveXboxBtnBumperRight.whenPressed(new BallerToggleFlipperPosition());
+            // Test drive commands
+            Devices.driveXboxBtnA.whileHeld(new MecDriveSlowForward());
+            Devices.driveXboxBtnB.whileHeld(new MecDriveSlowTurnRight());
+            Devices.driveXboxBtnX.whileHeld(new MecDriveSlowOrbitInwardClockwise());
+            Devices.driveXboxBtnY.whileHeld(new MecDriveSlowOrbitOutwardClockwise());
+        }
 
-        // Bind the "climb" xbox buttons to specific commands
-        Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
-        Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
-        Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
+        if (!Devices.isClimbXboxConnected()) {
+            Logger.error("Climb XBox controller not plugged in!");
+        }
+        else {
+            // Bind the "climb" xbox buttons to specific commands
+            Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
+            Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
+            Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
+        }
     }
 
     //----------------------//
