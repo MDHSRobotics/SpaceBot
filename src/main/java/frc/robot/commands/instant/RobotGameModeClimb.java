@@ -20,8 +20,17 @@ public class RobotGameModeClimb extends InstantCommand {
         System.out.println("--");
         Logger.action("Initializing InstantCommand: RobotGameModeClimb...");
 
-        Logger.info("Robot Game Mode is now CLIMB");
         Robot.robotGameMode = Robot.GameMode.CLIMB;
+        Logger.info("Robot Game Mode is now CLIMB");
+
+        if(Robot.robotClimbMode == Robot.ClimbMode.HAB2){
+            Robot.robotClimbMode = Robot.ClimbMode.HAB3;
+            Logger.info("Robot Climb Mode is now Climb HAB3");
+        }
+        else if(Robot.robotClimbMode == Robot.ClimbMode.HAB3){
+            Robot.robotClimbMode = Robot.ClimbMode.HAB2;
+            Logger.info("Robot Climb Mode is now Climb HAB2");
+        }
     }
 
 }

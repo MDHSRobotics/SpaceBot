@@ -9,6 +9,7 @@ import frc.robot.commands.idle.ArmStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
 import frc.robot.Devices;
+import frc.robot.Robot;
 
 
 // Subsystem to move the Arm down into two different set positions,
@@ -19,7 +20,8 @@ public class Arm extends Subsystem {
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 81;
     private final double START_POSITION = 0;
-    private final double HAB_ROTATION_DEGREE = 55; // Amount of degrees the Arm will lower to contact the HAB
+    private final double HAB2_ROTATION_DEGREE = 55; // Amount of degrees the Arm will lower to contact the HAB2
+    private final double HAB3_ROTATION_DEGREE = 110; // Amount of degrees the Arm will lower to contact the HAB3
     private final double FULL_ROTATION_DEGREE = 220;
 
     // Encoder constants
@@ -121,7 +123,13 @@ public class Arm extends Subsystem {
     // Return true if the Arm is at or beyond the HAB position
     public boolean isArmOnHab() {
         int armPosition = getPosition();
-        double habPositionDegrees = HAB_ROTATION_DEGREE;
+        double habPositionDegrees = 0;
+        if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
+            habPositionDegrees = HAB2_ROTATION_DEGREE;
+        }
+        else if (Robot.robotClimbMode == Robot.ClimbMode.HAB3) {
+            habPositionDegrees = HAB3_ROTATION_DEGREE;
+        }
         double habPositionTicks = TalonConstants.translateDegreesToTicks(habPositionDegrees, GEAR_RATIO);
         boolean armIsOnHab = armPosition >= habPositionTicks;
         return armIsOnHab;

@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
     }
 
     public enum ClimbMode {
-        ARM, LIFT, CLIMB
+        HAB2, HAB3
     }
 
     // Variant is used to configure different device mappings for different "robots"
@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
     // TODO: Determine the best default. What's the first action the Robot will take during Sandstorm?
     public static DeliveryMode robotDeliveryMode = DeliveryMode.GET_HATCH;
     // Climb Mode tells the climb commands which system needs to be activated next
-    public static ClimbMode robotClimbMode = ClimbMode.ARM;
+    public static ClimbMode robotClimbMode = ClimbMode.HAB2;
 
     // Core Classes
     public static Logger robotLogger;
