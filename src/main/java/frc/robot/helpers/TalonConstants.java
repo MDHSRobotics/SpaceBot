@@ -1,6 +1,6 @@
 
 package frc.robot.helpers;
-
+// TODO change name to "TalonUtils"
 public class TalonConstants {
     
     //number of miliseconds that the talon can stay at peak current
@@ -39,11 +39,15 @@ public class TalonConstants {
      */
     public static final int PID_LOOP_PRIMARY = 0;
 
-    
-    // The amount of native ticks per revolution (Tpr) in the CTRE MagEncoder
-    public static final int MAG_ENCODER_TPR = 4096;
-
     // The amount of native ticks per revolution (Tpr) in the Redline Encoder
-    public static final int REDLIN_ENCODER_TPR = 4096;
+    public static final int ENCODER_TPR = 4096;
+
+    // Computes the encoder ticks based on the desried rotation in degrees for a given gearbox ratio
+    public static double translateDegreesToTicks(double rotationDegrees, double gearRatio){
+        double rotationCountGS = rotationDegrees / 360; // Amount of rotations on the gearbox shaft
+        double rotationCountMS = rotationCountGS * gearRatio; // Amount of rotations on the motor shaft
+        double rotationTicks = rotationCountMS * TalonConstants.ENCODER_TPR; // Amount of ticks to rotate
+        return rotationTicks;
+    }
 
 }
