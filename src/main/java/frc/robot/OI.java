@@ -5,6 +5,9 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.instant.*;
 import frc.robot.commands.interactive.*;
+import frc.robot.commands.reactive.ArmManual;
+import frc.robot.commands.reactive.PulleyLift;
+import frc.robot.commands.reactive.PulleyManual;
 import frc.robot.commands.test.*;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;
@@ -37,6 +40,14 @@ public class OI {
         }
         else {
             configureClimbXBoxButtons();
+            // Bind the "climb" xbox buttons to specific commands
+            Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
+            Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
+            Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
+            //Test Climb Commands
+            Devices.climbXboxBtnY.whenPressed(new ArmManual());
+            Devices.climbXboxBtnB.whenPressed(new PulleyManual());
+
         }
     }
 

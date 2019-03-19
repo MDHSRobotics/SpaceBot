@@ -104,6 +104,7 @@ public class Devices {
     public static final WPI_TalonSRX talonSrxPulleySlaveA = new WPI_TalonSRX(13);
     public static final WPI_TalonSRX talonSrxPulleySlaveB = new WPI_TalonSRX(14);
     public static final WPI_TalonSRX talonSrxPulleySlaveC = new WPI_TalonSRX(15);
+    
 
     // Drives
     public static MecanumDrive mecDrive = null;

@@ -24,9 +24,9 @@ public class PulleyManual extends Command {
 
     @Override
     protected void execute() {
-        // int position = Robot.robotPulley.getPosition();
-        // int velocity = Robot.robotPulley.getVelocity();
-        // Logger.info("PulleyUp -> Position: " + position + "; Velocity: " + velocity);
+        int position = Robot.robotPulley.getPosition();
+        int velocity = Robot.robotPulley.getVelocity();
+        Logger.info("PulleyUp -> Position: " + position + "; Velocity: " + velocity);
 
         double speed = OI.getPulleyLiftSpeed();
         Robot.robotPulley.setSpeed(speed);

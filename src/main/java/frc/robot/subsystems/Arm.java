@@ -19,12 +19,12 @@ public class Arm extends Subsystem {
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 81;
     private final double START_POSITION = 0;
-    private final double HAB_ROTATION_DEGREE = 45; // Amount of degrees the Arm will lower to contact the HAB
-    private final double FULL_ROTATION_DEGREE = 90;
+    private final double HAB_ROTATION_DEGREE = 55; // Amount of degrees the Arm will lower to contact the HAB
+    private final double FULL_ROTATION_DEGREE = 220;
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
+    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -44,8 +44,8 @@ public class Arm extends Subsystem {
 
             Devices.talonSrxArm.configNominalOutputForward(0);
             Devices.talonSrxArm.configNominalOutputReverse(0);
-            Devices.talonSrxArm.configPeakOutputForward(0.3);
-            Devices.talonSrxArm.configPeakOutputReverse(-0.3);
+            Devices.talonSrxArm.configPeakOutputForward(0.5);
+            Devices.talonSrxArm.configPeakOutputReverse(-0.5);
 
             Devices.talonSrxArm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxArm.setSensorPhase(SENSOR_PHASE);
@@ -103,7 +103,7 @@ public class Arm extends Subsystem {
         double fullPositionDegrees = FULL_ROTATION_DEGREE;
         double fullPositionTicks = TalonConstants.translateDegreesToTicks(fullPositionDegrees, GEAR_RATIO);
         Logger.info("Arm -> Target Full Position: " + fullPositionTicks);
-        Devices.talonSrxArm.set(ControlMode.Position, fullPositionTicks);
+        Devices.talonSrxArm.set(ControlMode.MotionMagic, fullPositionTicks);
     }
 
     // Get the current motor velocity
