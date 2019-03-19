@@ -19,17 +19,8 @@ public class Arm extends Subsystem {
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 81;
     private final double START_POSITION = 0;
-
-    // TODO: test to find the correct degree measures
     private final double HAB_ROTATION_DEGREE = 45; // Amount of degrees the Arm will lower to contact the HAB
-    private final double HAB_ROTATION_COUNT_GS = HAB_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double HAB_ROTATION_COUNT_MS = HAB_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-    private final double HAB_POSITION = HAB_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
-
     private final double FULL_ROTATION_DEGREE = 90;
-    private final double FULL_ROTATION_COUNT_GS = FULL_ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double FULL_ROTATION_COUNT_MS = FULL_ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-    private final double FULL_POSITION = FULL_ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR; // Position in ticks to turn ROTATION_DEGREE 
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -109,8 +100,10 @@ public class Arm extends Subsystem {
     // Lowers the Arm to the encoded "full" position
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Arm -> Target Full Position: " + FULL_POSITION);
-        Devices.talonSrxArm.set(ControlMode.Position, FULL_POSITION);
+        double fullPositionDegrees = FULL_ROTATION_DEGREE;
+        double fullPositionTicks = TalonConstants.translateDegreesToTicks(fullPositionDegrees, GEAR_RATIO);
+        Logger.info("Arm -> Target Full Position: " + fullPositionTicks);
+        Devices.talonSrxArm.set(ControlMode.Position, fullPositionTicks);
     }
 
     // Get the current motor velocity
@@ -128,7 +121,9 @@ public class Arm extends Subsystem {
     // Return true if the Arm is at or beyond the HAB position
     public boolean isArmOnHab() {
         int armPosition = getPosition();
-        boolean armIsOnHab = armPosition >= HAB_POSITION;
+        double habPositionDegrees = HAB_ROTATION_DEGREE;
+        double habPositionTicks = TalonConstants.translateDegreesToTicks(habPositionDegrees, GEAR_RATIO);
+        boolean armIsOnHab = armPosition >= habPositionTicks;
         return armIsOnHab;
     }
 

@@ -23,14 +23,8 @@ public class Hatcher extends Subsystem {
     // Position constants
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 20;
-    private final double POSITION_OFFSET = 0; // Position difference between start position and open position
-
-    private final double OPEN_POSITION = POSITION_OFFSET;
-
-    private final double ROTATION_DEGREE = 10.3; // Amount of degrees the hatch claw will open/close
-    private final double ROTATION_COUNT_GS = ROTATION_DEGREE / 360; // Amount of rotations on the gearbox shaft
-    private final double ROTATION_COUNT_MS = ROTATION_COUNT_GS * GEAR_RATIO; // Amount of rotations on the motor shaft
-    private final double CLOSE_POSITION = ROTATION_COUNT_MS * TalonConstants.REDLIN_ENCODER_TPR + POSITION_OFFSET; // Position in ticks to turn ROTATION_DEGREE
+    private final double START_POSITION = 0;
+    private final double OPEN_POSITION = 20; // Position in ticks to turn -rotationDegree
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -102,18 +96,22 @@ public class Hatcher extends Subsystem {
         Devices.talonSrxHatcher.stopMotor();
     }
 
-    // Close the Hatcher claw
-    public void closeClaw() {
-        if (!m_talonsAreConnected) return;
-        Logger.info("Hatcher -> Close Position: " + CLOSE_POSITION);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, CLOSE_POSITION);
-    }
-
     // Open the Hatcher claw
     public void openClaw() {
         if (!m_talonsAreConnected) return;
-        Logger.info("Hatcher -> Close Position: " + OPEN_POSITION);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, OPEN_POSITION);
+        double openPositionDegrees = OPEN_POSITION;
+        double openPositionTicks = TalonConstants.translateDegreesToTicks(openPositionDegrees, GEAR_RATIO);
+        Logger.info("Hatcher -> Open Position: " + openPositionTicks);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, openPositionTicks);
+    }
+
+    // Close the Hatcher claw
+    public void closeClaw() {
+        if (!m_talonsAreConnected) return;
+        double closePositionDegrees = Brain.getHatchRotationDegree(); // Amount of degrees the hatch claw will open/close
+        double closePositionTicks = TalonConstants.translateDegreesToTicks(closePositionDegrees, GEAR_RATIO);
+        Logger.info("Hatcher -> Close Position: " + closePositionTicks);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, closePositionTicks);
     }
 
     // Get the current Hatcher claw motor velocity
