@@ -80,6 +80,8 @@ public class Robot extends TimedRobot {
 
     // OI
     public static OI robotOI;
+    public boolean driveXBoxConnected = false;
+    public boolean climbXBoxConnected = false;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -133,6 +135,10 @@ public class Robot extends TimedRobot {
         robotShuffler.initialize();
         robotShuffler.configure();
         robotOI = new OI();
+
+        // Check which controllers are plugged in
+        driveXBoxConnected = Devices.isDriveXboxConnected();
+        climbXBoxConnected = Devices.isClimbXboxConnected();
     }
 
     /**
@@ -146,6 +152,24 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         robotShuffler.update();
+
+        // Detect whether a controller has been plugged in after start-up
+        if (!driveXBoxConnected) {
+            if (Devices.isDriveXboxConnected()) {
+                // Drive XBox was not previously plugged in but now it is so set up buttons
+                OI.configureDriveXBoxButtons();
+                Logger.setup("Drive XBox controller detected and configured");
+                driveXBoxConnected = true;
+            }
+        }
+        if (!climbXBoxConnected) {
+            if (Devices.isClimbXboxConnected()) {
+                // Climb XBox was not previously plugged in but now it is so set up buttons
+                OI.configureClimbXBoxButtons();
+                Logger.setup("Climb XBox controller detected and configured");
+                climbXBoxConnected = true;
+            }
+        }
     }
 
     /**
