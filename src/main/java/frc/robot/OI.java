@@ -40,14 +40,6 @@ public class OI {
         }
         else {
             configureClimbXBoxButtons();
-            // Bind the "climb" xbox buttons to specific commands
-            Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
-            Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
-            Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
-            //Test Climb Commands
-            Devices.climbXboxBtnY.whenPressed(new ArmManual());
-            Devices.climbXboxBtnB.whenPressed(new PulleyManual());
-
         }
     }
 
@@ -76,6 +68,10 @@ public class OI {
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
         Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
         Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
+        //Test Climb Commands
+        Devices.climbXboxBtnY.whenPressed(new ArmManual());
+        Devices.climbXboxBtnB.whenPressed(new PulleyManual());
+
     }
 
 
