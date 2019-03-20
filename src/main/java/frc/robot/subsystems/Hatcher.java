@@ -21,10 +21,7 @@ public class Hatcher extends Subsystem {
     public boolean clawIsClosed = false;
 
     // Position constants
-    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 20;
-    private final double START_POSITION = 0;
-    private final double OPEN_POSITION = 20; // Position in ticks to turn -rotationDegree
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -99,8 +96,8 @@ public class Hatcher extends Subsystem {
     // Open the Hatcher claw
     public void openClaw() {
         if (!m_talonsAreConnected) return;
-        double openRotationDegrees = Brain.getHatchOpenRotationDegree();
-        double openRotationTicks = TalonConstants.translateDegreesToTicks(openRotationDegrees, GEAR_RATIO);
+        double openAngle = Brain.getHatchOpenAngle();
+        double openRotationTicks = TalonConstants.translateAngleToTicks(openAngle, GEAR_RATIO);
         Logger.info("Hatcher -> Open Position: " + openRotationTicks);
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, openRotationTicks);
     }
@@ -108,8 +105,8 @@ public class Hatcher extends Subsystem {
     // Close the Hatcher claw
     public void closeClaw() {
         if (!m_talonsAreConnected) return;
-        double closeRotationDegrees = Brain.getHatchOpenRotationDegree() + Brain.getHatchCloseRotationDegree(); // Amount of degrees the hatch claw will open/close
-        double closeRotationTicks = TalonConstants.translateDegreesToTicks(closeRotationDegrees, GEAR_RATIO);
+        double closeAngle = Brain.getHatchOpenAngle() + Brain.getHatchCloseAngle(); // Amount of degrees the hatch claw will open/close
+        double closeRotationTicks = TalonConstants.translateAngleToTicks(closeAngle, GEAR_RATIO);
         Logger.info("Hatcher -> Close Position: " + closeRotationTicks);
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, closeRotationTicks);
     }

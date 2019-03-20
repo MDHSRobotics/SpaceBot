@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.idle.PulleyStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
+import frc.robot.Brain;
 import frc.robot.Devices;
 import frc.robot.Robot;
 
@@ -24,9 +25,6 @@ public class Pulley extends Subsystem {
     // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 28;
     private final double START_POSITION = 0;
-    private final double HAB2_ROTATION_DEGREE = 120;
-    private final double HAB3_ROTATION_DEGREE = 220;
-    
 
     // Encoder Constants
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -122,10 +120,12 @@ public class Pulley extends Subsystem {
         if (!m_talonsAreConnected) return;
         double liftPositionTicks = 0;
         if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
-            liftPositionTicks = TalonConstants.translateDegreesToTicks(HAB2_ROTATION_DEGREE, GEAR_RATIO);
+            double HAB2angle = Brain.getPulleyHAB2RotationDegrees();
+            liftPositionTicks = TalonConstants.translateAngleToTicks(HAB2angle, GEAR_RATIO);
         }
         else if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
-            liftPositionTicks = TalonConstants.translateDegreesToTicks(HAB3_ROTATION_DEGREE, GEAR_RATIO);
+            double HAB3angle = Brain.getPulleyHAB3RotationDegrees();
+            liftPositionTicks = TalonConstants.translateAngleToTicks(HAB3angle, GEAR_RATIO);
         }
         Logger.info("Pulley -> Lift Position: " + liftPositionTicks);
         Devices.talonSrxPulleyMaster.set(ControlMode.Position, liftPositionTicks);

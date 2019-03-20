@@ -103,7 +103,7 @@ public class Arm extends Subsystem {
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
         double fullPositionDegrees = FULL_ROTATION_DEGREE;
-        double fullPositionTicks = TalonConstants.translateDegreesToTicks(fullPositionDegrees, GEAR_RATIO);
+        double fullPositionTicks = TalonConstants.translateAngleToTicks(fullPositionDegrees, GEAR_RATIO);
         Logger.info("Arm -> Target Full Position: " + fullPositionTicks);
         Devices.talonSrxArm.set(ControlMode.MotionMagic, fullPositionTicks);
     }
@@ -130,7 +130,7 @@ public class Arm extends Subsystem {
         else if (Robot.robotClimbMode == Robot.ClimbMode.HAB3) {
             habPositionDegrees = HAB3_ROTATION_DEGREE;
         }
-        double habPositionTicks = TalonConstants.translateDegreesToTicks(habPositionDegrees, GEAR_RATIO);
+        double habPositionTicks = TalonConstants.translateAngleToTicks(habPositionDegrees, GEAR_RATIO);
         boolean armIsOnHab = armPosition >= habPositionTicks;
         return armIsOnHab;
     }

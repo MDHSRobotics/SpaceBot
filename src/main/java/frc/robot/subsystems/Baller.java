@@ -103,7 +103,7 @@ public class Baller extends Subsystem {
     // Move the Baller flipper to toss the ball
     public void tossBall() {
         if (!m_talonsAreConnected) return;
-        double tossPositionTicks = TalonConstants.translateDegreesToTicks(ROTATION_DEGREE, GEAR_RATIO);
+        double tossPositionTicks = TalonConstants.translateAngleToTicks(ROTATION_DEGREE, GEAR_RATIO);
         Logger.info("Baller -> Toss Position: " + tossPositionTicks);
         Devices.talonSrxBaller.set(ControlMode.Position, tossPositionTicks);
     }

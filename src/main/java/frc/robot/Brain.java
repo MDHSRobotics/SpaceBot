@@ -81,8 +81,12 @@ public class Brain {
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
 
     //Subsystem - Hatcher
-    public static double hatchOpenRotationDegreeDefault = 20;
-    public static double hatchCloseRotationDegreeDefault = 10.3;
+    public static double hatchOpenRotationDegreesDefault = 20;
+    public static double hatchCloseRotationDegreesDefault = 10.3;
+
+    // Subsystem - Pulley
+    public static double pulleyHAB2RotationDegreesDefault = 120;
+    public static double pulleyHAB3RotationDegreesDefault = 240;
 
     //---------------------//
     // NetworkTableEntries //
@@ -152,10 +156,13 @@ public class Brain {
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
 
-    //Subsystem - Hatcher
+    // Subsystem - Hatcher
     public static NetworkTableEntry hatchOpenRotationDegreeEntry;
     public static NetworkTableEntry hatchCloseRotationDegreeEntry;
 
+    // Subystem - Pulley
+    public static NetworkTableEntry pulleyHAB2RotationDegreesEntry;
+    public static NetworkTableEntry pulleyHAB3RotationDegreesEntry;
 
     //---------//
     // Setters //
@@ -429,13 +436,23 @@ public class Brain {
     }
 
     public static void setHatchOpenRotationDegrees(NetworkTableEntry entry){
-        double value = entry.getDouble(hatchOpenRotationDegreeDefault);
+        double value = entry.getDouble(hatchOpenRotationDegreesDefault);
         hatchOpenRotationDegreeEntry.setValue(value);
     }
 
     public static void setHatchCloseRotationDegrees(NetworkTableEntry entry){
-        double value = entry.getDouble(hatchCloseRotationDegreeDefault);
+        double value = entry.getDouble(hatchCloseRotationDegreesDefault);
         hatchCloseRotationDegreeEntry.setValue(value);
+    }
+
+    public static void setPulleyHAB2RotationDegrees(NetworkTableEntry entry){
+        double value = entry.getDouble(pulleyHAB2RotationDegreesDefault);
+        pulleyHAB2RotationDegreesEntry.setValue(value);
+    }
+
+    public static void setPulleyHAB3RotationDegrees(NetworkTableEntry entry){
+        double value = entry.getDouble(pulleyHAB3RotationDegreesDefault);
+        pulleyHAB3RotationDegreesEntry.setValue(value);
     }
 
     //---------//
@@ -614,12 +631,21 @@ public class Brain {
     }
 
     // Subsystems - Hatch
-    public static double getHatchOpenRotationDegree(){
-        return hatchOpenRotationDegreeEntry.getDouble(hatchOpenRotationDegreeDefault);
+    public static double getHatchOpenAngle(){
+        return hatchOpenRotationDegreeEntry.getDouble(hatchOpenRotationDegreesDefault);
     }
 
-    public static double getHatchCloseRotationDegree(){
-        return hatchCloseRotationDegreeEntry.getDouble(hatchCloseRotationDegreeDefault);
+    public static double getHatchCloseAngle(){
+        return hatchCloseRotationDegreeEntry.getDouble(hatchCloseRotationDegreesDefault);
+    }
+
+    // Subystems - Pulley
+    public static double getPulleyHAB2RotationDegrees(){
+        return pulleyHAB2RotationDegreesEntry.getDouble(pulleyHAB2RotationDegreesDefault);
+    }
+
+    public static double getPulleyHAB3RotationDegrees(){
+        return pulleyHAB3RotationDegreesEntry.getDouble(pulleyHAB3RotationDegreesDefault);
     }
 
 }
