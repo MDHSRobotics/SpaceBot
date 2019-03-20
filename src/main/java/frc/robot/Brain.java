@@ -81,7 +81,8 @@ public class Brain {
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
 
     //Subsystem - Hatcher
-    public static double hatchRotationDegreeDefault = 10.3;
+    public static double hatchOpenRotationDegreeDefault = 20;
+    public static double hatchCloseRotationDegreeDefault = 10.3;
 
     //---------------------//
     // NetworkTableEntries //
@@ -152,7 +153,9 @@ public class Brain {
     public static NetworkTableEntry driveOrientationEntry;
 
     //Subsystem - Hatcher
-    public static NetworkTableEntry hatchRotationDegreeEntry;
+    public static NetworkTableEntry hatchOpenRotationDegreeEntry;
+    public static NetworkTableEntry hatchCloseRotationDegreeEntry;
+
 
     //---------//
     // Setters //
@@ -425,9 +428,14 @@ public class Brain {
         driveOrientationEntry.setValue(value);
     }
 
-    public static void setHatchRotationDegrees(NetworkTableEntry entry){
-        double value = entry.getDouble(hatchRotationDegreeDefault);
-        hatchRotationDegreeEntry.setValue(value);
+    public static void setHatchOpenRotationDegrees(NetworkTableEntry entry){
+        double value = entry.getDouble(hatchOpenRotationDegreeDefault);
+        hatchOpenRotationDegreeEntry.setValue(value);
+    }
+
+    public static void setHatchCloseRotationDegrees(NetworkTableEntry entry){
+        double value = entry.getDouble(hatchCloseRotationDegreeDefault);
+        hatchCloseRotationDegreeEntry.setValue(value);
     }
 
     //---------//
@@ -606,8 +614,12 @@ public class Brain {
     }
 
     // Subsystems - Hatch
-    public static double getHatchRotationDegree(){
-        return hatchRotationDegreeEntry.getDouble(hatchRotationDegreeDefault);
+    public static double getHatchOpenRotationDegree(){
+        return hatchOpenRotationDegreeEntry.getDouble(hatchOpenRotationDegreeDefault);
+    }
+
+    public static double getHatchCloseRotationDegree(){
+        return hatchCloseRotationDegreeEntry.getDouble(hatchCloseRotationDegreeDefault);
     }
 
 }

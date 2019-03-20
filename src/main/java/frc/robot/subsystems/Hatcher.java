@@ -99,19 +99,19 @@ public class Hatcher extends Subsystem {
     // Open the Hatcher claw
     public void openClaw() {
         if (!m_talonsAreConnected) return;
-        double openPositionDegrees = OPEN_POSITION;
-        double openPositionTicks = TalonConstants.translateDegreesToTicks(openPositionDegrees, GEAR_RATIO);
-        Logger.info("Hatcher -> Open Position: " + openPositionTicks);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, openPositionTicks);
+        double openRotationDegrees = Brain.getHatchOpenRotationDegree();
+        double openRotationTicks = TalonConstants.translateDegreesToTicks(openRotationDegrees, GEAR_RATIO);
+        Logger.info("Hatcher -> Open Position: " + openRotationTicks);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, openRotationTicks);
     }
 
     // Close the Hatcher claw
     public void closeClaw() {
         if (!m_talonsAreConnected) return;
-        double closePositionDegrees = Brain.getHatchRotationDegree(); // Amount of degrees the hatch claw will open/close
-        double closePositionTicks = TalonConstants.translateDegreesToTicks(closePositionDegrees, GEAR_RATIO);
-        Logger.info("Hatcher -> Close Position: " + closePositionTicks);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, closePositionTicks);
+        double closeRotationDegrees = Brain.getHatchOpenRotationDegree() + Brain.getHatchCloseRotationDegree(); // Amount of degrees the hatch claw will open/close
+        double closeRotationTicks = TalonConstants.translateDegreesToTicks(closeRotationDegrees, GEAR_RATIO);
+        Logger.info("Hatcher -> Close Position: " + closeRotationTicks);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, closeRotationTicks);
     }
 
     // Get the current Hatcher claw motor velocity

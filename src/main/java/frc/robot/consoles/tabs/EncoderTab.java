@@ -17,7 +17,8 @@ public class EncoderTab {
     private ShuffleboardTab m_tab;
 
     // Encoder Properties
-    private SimpleWidget m_hatchRotationDegreesWidget;
+    private SimpleWidget m_hatchOpenRotationDegreesWidget;
+    private SimpleWidget m_hatchCloseRotationDegreesWidget;
 
     // Constructor
     public EncoderTab() {
@@ -28,8 +29,11 @@ public class EncoderTab {
 
     // Create Brain Widgets
     public void preInitialize() {
-        m_hatchRotationDegreesWidget = m_tab.add("Hatch Rotations", Brain.hatchRotationDegreeDefault);
-        Brain.hatchRotationDegreeEntry = m_hatchRotationDegreesWidget.getEntry();
+        m_hatchOpenRotationDegreesWidget = m_tab.add("Hatch Open Rotations", Brain.hatchOpenRotationDegreeDefault);
+        Brain.hatchOpenRotationDegreeEntry = m_hatchOpenRotationDegreesWidget.getEntry();
+
+        m_hatchCloseRotationDegreesWidget = m_tab.add("Hatch Close Rotations", Brain.hatchCloseRotationDegreeDefault);
+        Brain.hatchCloseRotationDegreeEntry = m_hatchCloseRotationDegreesWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -38,13 +42,17 @@ public class EncoderTab {
 
     // Configure all Widgets
     public void configure() {
-        m_hatchRotationDegreesWidget.withWidget(BuiltInWidgets.kTextView);
+        m_hatchOpenRotationDegreesWidget.withWidget(BuiltInWidgets.kTextView);
+        m_hatchCloseRotationDegreesWidget.withWidget(BuiltInWidgets.kTextView);
     }
 
     // This will be called in the robotPeriodic
     public void update() {
-        NetworkTableEntry hatchRotationDegreeEntry = m_hatchRotationDegreesWidget.getEntry();
-            Brain.setHatchRotationDegrees(hatchRotationDegreeEntry);
+        NetworkTableEntry hatchOpenRotationDegreeEntry = m_hatchOpenRotationDegreesWidget.getEntry();
+            Brain.setHatchOpenRotationDegrees(hatchOpenRotationDegreeEntry);
+
+        NetworkTableEntry hatchCloseRotationDegreeEntry = m_hatchCloseRotationDegreesWidget.getEntry();
+            Brain.setHatchCloseRotationDegrees(hatchCloseRotationDegreeEntry);
     }
 
 }
