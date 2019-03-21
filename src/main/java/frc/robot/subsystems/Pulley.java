@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.idle.PulleyStop;
@@ -79,9 +80,15 @@ public class Pulley extends Subsystem {
             // Set the quadrature (relative) sensor to match absolute
             Devices.talonSrxPulleyMaster.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
                     
-            Devices.talonSrxPulleySlaveA.set(ControlMode.Follower, 12);
-            Devices.talonSrxPulleySlaveB.set(ControlMode.Follower, 12);
-            Devices.talonSrxPulleySlaveC.set(ControlMode.Follower, 12);
+            // Associate the master controller with each of the followers
+            Devices.talonSrxPulleySlaveA.follow(Devices.talonSrxPulleyMaster);
+            Devices.talonSrxPulleySlaveB.follow(Devices.talonSrxPulleyMaster);
+            Devices.talonSrxPulleySlaveC.follow(Devices.talonSrxPulleyMaster);
+            
+            // Assume that the follower controllers have the same "invert" state as the master
+            Devices.talonSrxPulleySlaveA.setInverted(InvertType.FollowMaster);
+            Devices.talonSrxPulleySlaveB.setInverted(InvertType.FollowMaster);
+            Devices.talonSrxPulleySlaveC.setInverted(InvertType.FollowMaster);
         }
     }
 
