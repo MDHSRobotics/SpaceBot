@@ -35,7 +35,13 @@ public class LightToggle extends Command {
             int dpadAngle = OI.getDpadAngleForGyro();
             boolean isAligned = Robot.robotMecDriver.isAligned(dpadAngle);
             if (isAligned) {
-                Robot.robotLighter.turnOnRedOnly();
+                boolean closeEnough = false;
+                if (closeEnough){
+                    Robot.robotLighter.turnOnAll();
+                }
+                else {
+                    Robot.robotLighter.turnOnRedOnly();
+                }
             }
             else {
                 Robot.robotLighter.turnOnWhiteOnly();
