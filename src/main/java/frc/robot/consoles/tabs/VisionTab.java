@@ -45,6 +45,9 @@ public class VisionTab {
     private SimpleWidget m_rightXcenterWidget;
     private SimpleWidget m_rightYcenterWidget;
 
+    // Distance
+    private SimpleWidget m_distanceWidget;
+
     // Constructor
     public VisionTab() {
         ShuffleLogger.logTrivial("Constructing VisionTab...");
@@ -117,6 +120,9 @@ public class VisionTab {
 
         m_rightYcenterWidget = m_rightCamLayout.add("Right Line Center Y", Brain.rightLineYcenterDefault);
         Brain.rightLineYcenterEntry = m_rightYcenterWidget.getEntry();
+    
+        m_distanceWidget = m_tab.add("Distance Sensor", Brain.distanceDefault);
+        Brain.distanceEntry = m_distanceWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -175,6 +181,10 @@ public class VisionTab {
         m_rightAngleWidget.withWidget(BuiltInWidgets.kTextView);
         m_rightXcenterWidget.withWidget(BuiltInWidgets.kTextView);
         m_rightYcenterWidget.withWidget(BuiltInWidgets.kTextView);
+        
+        // Distance
+        m_distanceWidget.withWidget(BuiltInWidgets.kTextView);
+        m_distanceWidget.withPosition(5, 5); 
     }
 
     // This will be called in the robotPeriodic
