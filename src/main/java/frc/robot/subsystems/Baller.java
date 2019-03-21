@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.idle.BallerStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
+import frc.robot.Brain;
 import frc.robot.Devices;
 
 
@@ -19,10 +20,8 @@ public class Baller extends Subsystem {
     public boolean ballIsTossed = false;
 
     // Position constants
-    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 16;
     private final double HOLD_POSITION = 0;
-    private final double ROTATION_DEGREE = 120; // Amount of degrees the ball launcher will rotatate up/down
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -103,9 +102,10 @@ public class Baller extends Subsystem {
     // Move the Baller flipper to toss the ball
     public void tossBall() {
         if (!m_talonsAreConnected) return;
-        double tossPositionTicks = TalonConstants.translateDegreesToTicks(ROTATION_DEGREE, GEAR_RATIO);
-        Logger.info("Baller -> Toss Position: " + tossPositionTicks);
-        Devices.talonSrxBaller.set(ControlMode.Position, tossPositionTicks);
+        double angle = Brain.getBallTossAngle();
+        double tossTicks = TalonConstants.translateAngleToTicks(angle, GEAR_RATIO);
+        Logger.info("Baller -> Toss Position: " + tossTicks);
+        Devices.talonSrxBaller.set(ControlMode.Position, tossTicks);
     }
 
     // Get the current Baller flipper motor velocity

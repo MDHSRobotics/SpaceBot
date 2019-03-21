@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.instant.*;
 import frc.robot.commands.interactive.*;
 import frc.robot.commands.reactive.ArmManual;
-import frc.robot.commands.reactive.PulleyLift;
 import frc.robot.commands.reactive.PulleyManual;
 import frc.robot.commands.test.*;
 import frc.robot.consoles.Logger;

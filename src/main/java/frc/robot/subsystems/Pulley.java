@@ -1,6 +1,5 @@
 
 package frc.robot.subsystems;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
@@ -10,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.idle.PulleyStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
+import frc.robot.Brain;
 import frc.robot.Devices;
 import frc.robot.Robot;
 
@@ -21,12 +21,9 @@ public class Pulley extends Subsystem {
     public boolean isLifting = false;
 
     // Position Constants
-    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
+    private final double SPOOL_DIAMETER = 1; // TODO: This needs to be measured
     private final double GEAR_RATIO = 28;
     private final double START_POSITION = 0;
-    private final double HAB2_ROTATION_DEGREE = 120;
-    private final double HAB3_ROTATION_DEGREE = 220;
-    
 
     // Encoder Constants
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
@@ -106,7 +103,7 @@ public class Pulley extends Subsystem {
     }
 
     // Set the Pulley motor speed explicitly
-    public void setSpeed(double speed){
+    public void setSpeed(double speed) {
         Devices.talonSrxPulleyMaster.set(speed);
     }
 
@@ -120,15 +117,16 @@ public class Pulley extends Subsystem {
     // Lift the robot to the encoded Pulley motor position
     public void lift() {
         if (!m_talonsAreConnected) return;
-        double liftPositionTicks = 0;
+        double distance = 0;
         if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
-            liftPositionTicks = TalonConstants.translateDegreesToTicks(HAB2_ROTATION_DEGREE, GEAR_RATIO);
+            distance = Brain.getPulleyHAB2Distance();
         }
         else if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
-            liftPositionTicks = TalonConstants.translateDegreesToTicks(HAB3_ROTATION_DEGREE, GEAR_RATIO);
+            distance = Brain.getPulleyHAB3Distance();
         }
-        Logger.info("Pulley -> Lift Position: " + liftPositionTicks);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, liftPositionTicks);
+        double liftTicks = TalonConstants.translateDistanceToTicks(distance, SPOOL_DIAMETER, GEAR_RATIO);
+        Logger.info("Pulley -> Lift Position: " + liftTicks);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, liftTicks);
     }
 
      // Get the current motor position

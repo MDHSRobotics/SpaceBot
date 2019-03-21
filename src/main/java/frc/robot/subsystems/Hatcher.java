@@ -21,10 +21,7 @@ public class Hatcher extends Subsystem {
     public boolean clawIsClosed = false;
 
     // Position constants
-    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 20;
-    private final double START_POSITION = 0;
-    private final double OPEN_POSITION = 20; // Position in ticks to turn -rotationDegree
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -99,19 +96,19 @@ public class Hatcher extends Subsystem {
     // Open the Hatcher claw
     public void openClaw() {
         if (!m_talonsAreConnected) return;
-        double openPositionDegrees = OPEN_POSITION;
-        double openPositionTicks = TalonConstants.translateDegreesToTicks(openPositionDegrees, GEAR_RATIO);
-        Logger.info("Hatcher -> Open Position: " + openPositionTicks);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, openPositionTicks);
+        double openAngle = Brain.getHatchOpenAngle();
+        double openTicks = TalonConstants.translateAngleToTicks(openAngle, GEAR_RATIO);
+        Logger.info("Hatcher -> Open Position: " + openTicks);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, openTicks);
     }
 
     // Close the Hatcher claw
     public void closeClaw() {
         if (!m_talonsAreConnected) return;
-        double closePositionDegrees = Brain.getHatchRotationDegree(); // Amount of degrees the hatch claw will open/close
-        double closePositionTicks = TalonConstants.translateDegreesToTicks(closePositionDegrees, GEAR_RATIO);
-        Logger.info("Hatcher -> Close Position: " + closePositionTicks);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, closePositionTicks);
+        double closeAngle = Brain.getHatchCloseAngle();
+        double closeTicks = TalonConstants.translateAngleToTicks(closeAngle, GEAR_RATIO);
+        Logger.info("Hatcher -> Close Position: " + closeTicks);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, closeTicks);
     }
 
     // Get the current Hatcher claw motor velocity

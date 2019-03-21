@@ -1,5 +1,7 @@
 
 package frc.robot.helpers;
+
+import java.lang.Math;
 // TODO change name to "TalonUtils"
 public class TalonConstants {
     
@@ -42,9 +44,18 @@ public class TalonConstants {
     // The amount of native ticks per revolution (Tpr) in the Redline Encoder
     public static final int ENCODER_TPR = 4096;
 
-    // Computes the encoder ticks based on the desried rotation in degrees for a given gearbox ratio
-    public static double translateDegreesToTicks(double rotationDegrees, double gearRatio){
-        double rotationCountGS = rotationDegrees / 360; // Amount of rotations on the gearbox shaft
+    // Computes the encoder ticks based on the desired rotation in degrees for a given gearbox ratio
+    public static double translateAngleToTicks(double angle, double gearRatio){
+        double rotationCountGS = angle / 360; // Amount of rotations on the gearbox shaft
+        double rotationCountMS = rotationCountGS * gearRatio; // Amount of rotations on the motor shaft
+        double rotationTicks = rotationCountMS * TalonConstants.ENCODER_TPR; // Amount of ticks to rotate
+        return rotationTicks;
+    }
+
+    // Computes the encoder ticks based on the desired distance in inches for a given winch diameter and gearbox ratio
+    public static double translateDistanceToTicks(double distance, double spoolDiameter, double gearRatio){
+        double spoolCircumerence = Math.PI * spoolDiameter;
+        double rotationCountGS = distance / spoolCircumerence; // Amount of rotations on the gearbox shaft
         double rotationCountMS = rotationCountGS * gearRatio; // Amount of rotations on the motor shaft
         double rotationTicks = rotationCountMS * TalonConstants.ENCODER_TPR; // Amount of ticks to rotate
         return rotationTicks;
