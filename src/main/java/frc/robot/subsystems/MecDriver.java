@@ -25,14 +25,6 @@ public class MecDriver extends Subsystem {
     private final double SECONDS_FROM_NEUTRAL_TO_FULL = 0;
     private final int TIMEOUT_MS = 10;
 
-    // Alignment Constants
-    // TODO: Add all of these to Shuffleboard
-    private double ALIGN_FRONT_MAGNITUDE = .5;
-    private double ALIGN_SIDE_MAGNITUDE = .5;
-    private double ALIGN_Z_SENSITIVITY = 1; // multiplier
-    private double ALIGN_Z_SPEED_MINIMUM = .35;
-    private double ALIGN_Z_TOLERANCE = 2; // degrees
-
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
 
@@ -222,7 +214,7 @@ public class MecDriver extends Subsystem {
                 if (!centered) {
                     double imageX = Vision.getFrontCorrectedX();
                     angle = correction + 90;
-                    magnitude = ALIGN_FRONT_MAGNITUDE;
+                    magnitude = Brain.getAlignFrontMagnitude();
                     if (imageX < 0) magnitude = -magnitude;
                     Logger.info("MecDriver -> Front Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
                 }
@@ -236,7 +228,7 @@ public class MecDriver extends Subsystem {
                 if (!centered) {
                     double imageX = Vision.getLeftCorrectedX();
                     angle = correction + 90;
-                    magnitude = ALIGN_SIDE_MAGNITUDE;
+                    magnitude = Brain.getAlignSideMagnitude();
                     if (imageX < 0) magnitude = -magnitude;
                     Logger.info("MecDriver -> Left Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
                 }
@@ -250,7 +242,7 @@ public class MecDriver extends Subsystem {
                 if (!centered) {
                     double imageX = Vision.getRightCorrectedX();
                     angle = correction + 90;
-                    magnitude = ALIGN_SIDE_MAGNITUDE;
+                    magnitude = Brain.getAlignSideMagnitude();
                     if (imageX > 0) magnitude = -magnitude;
                     Logger.info("MecDriver -> Right Camera -> Pixels to correct: " + imageX + "; Magnitude: " + magnitude + "; Angle: " + angle);
                 }
@@ -258,11 +250,11 @@ public class MecDriver extends Subsystem {
         }
 
         // Get the rotation speed to align the Robot with the target gyro yaw
-        double zRotation = (correction / 180) * ALIGN_Z_SENSITIVITY;
-        boolean isCloseEnough = Math.abs(correction) < ALIGN_Z_TOLERANCE;
+        double zRotation = (correction / 180) * Brain.getAlignZSensitivity();
+        boolean isCloseEnough = Math.abs(correction) < Brain.getAlignZTolerance();
         if (!isCloseEnough) {
-            if (0 < zRotation && zRotation < ALIGN_Z_SPEED_MINIMUM) zRotation = ALIGN_Z_SPEED_MINIMUM;
-            if (0 > zRotation && zRotation > -ALIGN_Z_SPEED_MINIMUM) zRotation = -ALIGN_Z_SPEED_MINIMUM;
+            if (0 < zRotation && zRotation < Brain.getAlignZSpeedMinimum()) zRotation = Brain.getAlignZSpeedMinimum();
+            if (0 > zRotation && zRotation > -Brain.getAlignZSpeedMinimum()) zRotation = -Brain.getAlignZSpeedMinimum();
         }
 
         Logger.action("MecDriver -> Drive Polar: " + magnitude + ", " + angle + ", " + zRotation);

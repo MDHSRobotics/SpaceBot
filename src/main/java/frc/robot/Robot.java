@@ -246,6 +246,7 @@ public class Robot extends TimedRobot {
         if (m_autoCmd != null) {
             m_autoCmd.cancel();
         }
+
     }
 
     /**

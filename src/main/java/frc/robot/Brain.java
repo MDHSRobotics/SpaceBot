@@ -79,6 +79,11 @@ public class Brain {
 
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
+    public static double alignFrontMagnitudeDefault = .5;
+    public static double alignSideMagnitudeDefault = .5;
+    public static double alignZSensitivityDefault = 1;
+    public static double alignZSpeedMinimumDefault = .35;
+    public static double alignZToleranceDefault = 2;
 
     // Subsystem - Baller
     public static double ballTossAngleDefault = 120;
@@ -163,6 +168,11 @@ public class Brain {
 
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
+    public static NetworkTableEntry alignFrontMagnitudeEntry;
+    public static NetworkTableEntry alignSideMagnitudeEntry;
+    public static NetworkTableEntry alignZSensitivityEntry;
+    public static NetworkTableEntry alignZSpeedMinimumEntry;
+    public static NetworkTableEntry alignZToleranceEntry;
 
     // Subsystem - Baller
     public static NetworkTableEntry ballTossAngleEntry;
@@ -668,6 +678,26 @@ public class Brain {
         String defaultString = driveOrientationDefault.toString();
         String orientationString = driveOrientationEntry.getString(defaultString);
         return DriveOrientation.valueOf(orientationString);
+    }
+
+    public static double getAlignFrontMagnitude() {
+        return alignFrontMagnitudeEntry.getDouble(alignFrontMagnitudeDefault);
+    }
+
+    public static double getAlignSideMagnitude() {
+        return alignSideMagnitudeEntry.getDouble(alignSideMagnitudeDefault);
+    }
+
+    public static double getAlignZSensitivity() {
+        return alignZSensitivityEntry.getDouble(alignZSensitivityDefault);
+    }
+
+    public static double getAlignZSpeedMinimum() {
+        return alignZSpeedMinimumEntry.getDouble(alignZSpeedMinimumDefault);
+    }
+
+    public static double getAlignZTolerance() {
+        return alignZToleranceEntry.getDouble(alignZToleranceDefault);
     }
 
     // Subsystems - Baller
