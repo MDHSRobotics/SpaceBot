@@ -38,5 +38,8 @@ public class Lighter extends Subsystem {
     public void turnOffBoth() {
         Devices.lighterRelay.set(Relay.Value.kOff);
     }
-
+    public void turnOnAll() {
+        Devices.lighterRelay.set(Relay.Value.kOn);
+        
+    }
 }

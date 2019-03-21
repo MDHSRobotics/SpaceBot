@@ -4,7 +4,9 @@ package frc.robot.commands.reactive;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
+import frc.robot.sensors.Distance;
 import frc.robot.sensors.Vision;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 
@@ -25,20 +27,30 @@ public class LightToggle extends Command {
 
     @Override
     protected void execute() {
-        // TODO: this need to check to see if the left and right lines are detected as well
-        boolean lineDetected = Vision.frontLineDetected();
-        if (lineDetected) {
-            Robot.robotLighter.turnOnWhiteOnly();
+        boolean frontLineDetected = Vision.frontLineDetected();
+        boolean rightLineDetected = Vision.rightLineDetected();
+        boolean leftLineDetected = Vision.leftLineDetected();
+        if (frontLineDetected || leftLineDetected || rightLineDetected) {
+            int dpadAngle = OI.getDpadAngleForGyro();
+            boolean isAligned = Robot.robotMecDriver.isAligned(dpadAngle);
+            if (isAligned) {
+                boolean closeEnough = Distance.distanceReached();
+                if (closeEnough){
+                    Robot.robotLighter.turnOnAll();
+                }
+                else {
+                    Robot.robotLighter.turnOnRedOnly();
+                }
+            }
+            else {
+                Robot.robotLighter.turnOnWhiteOnly();
+            }
         }
         else {
-            Robot.robotLighter.turnOnRedOnly();
+            Robot.robotLighter.turnOffBoth();
         }
-        Robot.robotLighter.turnOnRedOnly();
-        // TODO: this actually needs to handle three different states:
-        // 1. off = robot is driving too fast to detect a line
-        // 2. red = robot is driving slow enough to detect a line, but no line is detected
-        // 3. white = robot is driving slow enough to detect a line, and a line is detected
-        // This necessitates that the MecDriver updates a public property called "lineIsDetectable", the value of which is based on input speed while driving
+
+        // TODO: this needs to handle a distance state
     }
 
     // This command continues until interrupted
