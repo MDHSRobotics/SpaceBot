@@ -28,11 +28,12 @@ public class LightToggle extends Command {
         // TODO: this need to check to see if the left and right lines are detected as well
         boolean lineDetected = Vision.frontLineDetected();
         if (lineDetected) {
-            Robot.robotLighter.turnOnForward();
+            Robot.robotLighter.turnOnWhiteOnly();
         }
         else {
-            Robot.robotLighter.turnOnReverse();
+            Robot.robotLighter.turnOnRedOnly();
         }
+        Robot.robotLighter.turnOnRedOnly();
         // TODO: this actually needs to handle three different states:
         // 1. off = robot is driving too fast to detect a line
         // 2. red = robot is driving slow enough to detect a line, but no line is detected
@@ -50,14 +51,14 @@ public class LightToggle extends Command {
     protected void end() {
         Logger.ending("Ending Command: LightToggle...");
 
-        Robot.robotLighter.turnOff();
+        Robot.robotLighter.turnOffBoth();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: LightToggle...");
 
-        Robot.robotLighter.turnOff();
+        Robot.robotLighter.turnOffBoth();
     }
 
 }
