@@ -5,14 +5,18 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 
 import frc.robot.consoles.Logger;
 import frc.robot.Robot;
+import frc.robot.commands.interactive.MecDrivePlatForm;
 
 
 // This command sets the Game Mode to Climb
 public class RobotGameModeClimb extends InstantCommand {
 
+    private MecDrivePlatForm m_mecDrivePlatFormCmd;
+
     public RobotGameModeClimb() {
         super();
         Logger.setup("Constructing InstantCommand: RobotGameModeClimb...");
+        m_mecDrivePlatFormCmd = new MecDrivePlatForm();
     }
 
     @Override
@@ -31,6 +35,7 @@ public class RobotGameModeClimb extends InstantCommand {
             Robot.robotClimbMode = Robot.ClimbMode.HAB2;
             Logger.info("Robot Climb Mode is now Climb HAB2");
         }
+        m_mecDrivePlatFormCmd.start();
     }
 
 }

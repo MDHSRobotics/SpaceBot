@@ -93,6 +93,11 @@ public class MecDriver extends Subsystem {
 
         return orientation;
     }
+    public void platformDrive(double speed){
+        if(!m_talonsAreConnected) return;
+        Devices.talonSrxMecWheelFrontLeft.set(speed);
+        Devices.talonSrxMecWheelFrontRight.set(speed);
+    }
 
     // Stop all the drive motors
     public void stop() {

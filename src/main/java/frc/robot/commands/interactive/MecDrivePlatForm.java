@@ -9,24 +9,24 @@ import frc.robot.Robot;
 
 
 // This command spins the Tank
-public class TankSpin extends Command {
+public class MecDrivePlatForm extends Command {
 
-    public TankSpin() {
-        Logger.setup("Constructing Command: TankSpin...");
+    public MecDrivePlatForm() {
+        Logger.setup("Constructing Command: MecDrivePlatForm...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotTank);
+        requires(Robot.robotMecDriver);
     }
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: TankSpin...");
+        Logger.action("Initializing Command: MecDrivePlatForm...");
     }
 
     @Override
     protected void execute() {
-        double speed = OI.getTankSpinSpeed();
-        Robot.robotTank.spin(speed);
+        double speed = OI.getplatformDriveSpeed();
+        Robot.robotMecDriver.platformDrive(speed);
     }
 
     // This command continues until interrupted
@@ -37,16 +37,16 @@ public class TankSpin extends Command {
 
     @Override
     protected void end() {
-        Logger.ending("Ending Command: TankSpin...");
+        Logger.ending("Ending Command: MecDrivePlatForm...");
 
-        // Robot.robotTank.stop();
+        // Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
-        Logger.ending("Interrupting Command: TankSpin...");
+        Logger.ending("Interrupting Command: MecDrivePlatForm...");
 
-        // Robot.robotTank.stop();
+        // Robot.robotMecDriver.stop();
     }
 
 }

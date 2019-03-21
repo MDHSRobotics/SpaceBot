@@ -256,16 +256,18 @@ public class OI {
     }
 
     // Gets the Arm speed from the climb xbox controller's Left Thumbstick X axis position
-    // TODO: Wouldn't we want to use the Y for both the Pulley and Arm?
     public static double getArmLowerSpeed() {
-        double x = Devices.climbXbox.getX(Hand.kLeft);
+        double x = Devices.climbXbox.getY(Hand.kLeft);
         return x;
     }
 
     // Gets the Tank "Spin" speed from the climb xbox controller's Right Trigger axis position
-    // TODO: This needs to be controlled by the driveXbox controller now.
     public static double getTankSpinSpeed() {
-        double triggerAxis = Devices.climbXbox.getTriggerAxis(Hand.kRight);
+        double triggerAxis = Devices.driveXbox.getTriggerAxis(Hand.kRight);
+        return triggerAxis;
+    }
+    public static double getplatformDriveSpeed() {
+        double triggerAxis = Devices.driveXbox.getTriggerAxis(Hand.kRight);
         return triggerAxis;
     }
 
