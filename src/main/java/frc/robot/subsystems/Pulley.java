@@ -22,7 +22,7 @@ public class Pulley extends Subsystem {
     public boolean isLifting = false;
 
     // Position Constants
-    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
+    private final double SPOOL_DIAMETER = 1; // TODO: This needs to be measured
     private final double GEAR_RATIO = 28;
     private final double START_POSITION = 0;
 
@@ -118,17 +118,17 @@ public class Pulley extends Subsystem {
     // Lift the robot to the encoded Pulley motor position
     public void lift() {
         if (!m_talonsAreConnected) return;
-        double liftPositionTicks = 0;
+        double liftTicks = 0;
+        double distance = 0;
         if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
-            double HAB2angle = Brain.getPulleyHAB2RotationDegrees();
-            liftPositionTicks = TalonConstants.translateAngleToTicks(HAB2angle, GEAR_RATIO);
+            distance = Brain.getPulleyHAB2Distance();
         }
         else if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
-            double HAB3angle = Brain.getPulleyHAB3RotationDegrees();
-            liftPositionTicks = TalonConstants.translateAngleToTicks(HAB3angle, GEAR_RATIO);
+            distance = Brain.getPulleyHAB3Distance();
         }
-        Logger.info("Pulley -> Lift Position: " + liftPositionTicks);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, liftPositionTicks);
+        liftTicks = TalonConstants.translateDistanceToTicks(distance, SPOOL_DIAMETER, GEAR_RATIO);
+        Logger.info("Pulley -> Lift Position: " + liftTicks);
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, liftTicks);
     }
 
      // Get the current motor position

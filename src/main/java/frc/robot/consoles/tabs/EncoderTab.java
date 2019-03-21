@@ -17,11 +17,11 @@ public class EncoderTab {
     private ShuffleboardTab m_tab;
 
     // Encoder Properties
-    private SimpleWidget m_hatchOpenRotationDegreesWidget;
-    private SimpleWidget m_hatchCloseRotationDegreesWidget;
+    private SimpleWidget m_hatchOpenAngleWidget;
+    private SimpleWidget m_hatchCloseAngleWidget;
 
-    private SimpleWidget m_pulleyHAB2RotationDegreesWidget;
-    private SimpleWidget m_pulleyHAB3RotationDegreesWidget;
+    private SimpleWidget m_pulleyHAB2DistanceWidget;
+    private SimpleWidget m_pulleyHAB3DistanceWidget;
 
     // Constructor
     public EncoderTab() {
@@ -32,17 +32,17 @@ public class EncoderTab {
 
     // Create Brain Widgets
     public void preInitialize() {
-        m_hatchOpenRotationDegreesWidget = m_tab.add("Hatch Open Degrees", Brain.hatchOpenRotationDegreesDefault);
-        Brain.hatchOpenRotationDegreeEntry = m_hatchOpenRotationDegreesWidget.getEntry();
+        m_hatchOpenAngleWidget = m_tab.add("Hatch Open Degrees", Brain.hatchOpenAngleDefault);
+        Brain.hatchOpenAngleEntry = m_hatchOpenAngleWidget.getEntry();
 
-        m_hatchCloseRotationDegreesWidget = m_tab.add("Hatch Close Degrees", Brain.hatchCloseRotationDegreesDefault);
-        Brain.hatchCloseRotationDegreeEntry = m_hatchCloseRotationDegreesWidget.getEntry();
+        m_hatchCloseAngleWidget = m_tab.add("Hatch Close Degrees", Brain.hatchCloseAngleDefault);
+        Brain.hatchCloseAngleEntry = m_hatchCloseAngleWidget.getEntry();
 
-        m_pulleyHAB2RotationDegreesWidget = m_tab.add("Pulley HAB2 Distance", Brain.pulleyHAB2RotationDegreesDefault);
-        Brain.pulleyHAB2RotationDegreesEntry = m_pulleyHAB2RotationDegreesWidget.getEntry();
+        m_pulleyHAB2DistanceWidget = m_tab.add("Pulley HAB2 Distance", Brain.pulleyHAB2DistanceDefault);
+        Brain.pulleyHAB2DistanceEntry = m_pulleyHAB2DistanceWidget.getEntry();
 
-        m_pulleyHAB3RotationDegreesWidget = m_tab.add("Pulley HAB3 Distance", Brain.pulleyHAB3RotationDegreesDefault);
-        Brain.pulleyHAB3RotationDegreesEntry = m_pulleyHAB3RotationDegreesWidget.getEntry();
+        m_pulleyHAB3DistanceWidget = m_tab.add("Pulley HAB3 Distance", Brain.pulleyHAB3DistanceDefault);
+        Brain.pulleyHAB3DistanceEntry = m_pulleyHAB3DistanceWidget.getEntry();
     }
 
     // Create all other Widgets
@@ -51,23 +51,23 @@ public class EncoderTab {
 
     // Configure all Widgets
     public void configure() {
-        m_hatchOpenRotationDegreesWidget.withWidget(BuiltInWidgets.kTextView);
-        m_hatchCloseRotationDegreesWidget.withWidget(BuiltInWidgets.kTextView);
+        m_hatchOpenAngleWidget.withWidget(BuiltInWidgets.kTextView);
+        m_hatchCloseAngleWidget.withWidget(BuiltInWidgets.kTextView);
     }
 
     // This will be called in the robotPeriodic
     public void update() {
-        NetworkTableEntry hatchOpenRotationDegreeEntry = m_hatchOpenRotationDegreesWidget.getEntry();
-            Brain.setHatchOpenRotationDegrees(hatchOpenRotationDegreeEntry);
+        NetworkTableEntry hatchOpenAngleEntry = m_hatchOpenAngleWidget.getEntry();
+        Brain.setHatchOpenAngle(hatchOpenAngleEntry);
 
-        NetworkTableEntry hatchCloseRotationDegreeEntry = m_hatchCloseRotationDegreesWidget.getEntry();
-            Brain.setHatchCloseRotationDegrees(hatchCloseRotationDegreeEntry);
+        NetworkTableEntry hatchCloseAngleEntry = m_hatchCloseAngleWidget.getEntry();
+        Brain.setHatchCloseAngle(hatchCloseAngleEntry);
 
-        NetworkTableEntry pulleyHAB2RotationDegreeEntry = m_pulleyHAB2RotationDegreesWidget.getEntry();
-            Brain.setPulleyHAB2RotationDegrees(pulleyHAB2RotationDegreeEntry);
+        NetworkTableEntry pulleyHAB2DistanceEntry = m_pulleyHAB2DistanceWidget.getEntry();
+        Brain.setPulleyHAB2Distance(pulleyHAB2DistanceEntry);
 
-            NetworkTableEntry pulleyHAB3RotationDegreeEntry = m_pulleyHAB3RotationDegreesWidget.getEntry();
-            Brain.setPulleyHAB3RotationDegrees(pulleyHAB3RotationDegreeEntry);
+        NetworkTableEntry pulleyHAB3DistanceEntry = m_pulleyHAB3DistanceWidget.getEntry();
+        Brain.setPulleyHAB3Distance(pulleyHAB3DistanceEntry);
     }
 
 }
