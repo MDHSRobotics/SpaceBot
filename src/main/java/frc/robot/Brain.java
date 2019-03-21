@@ -80,9 +80,17 @@ public class Brain {
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
 
+    // Subsystem - Baller
+    public static double ballTossAngleDefault = 120;
+
     // Subsystem - Hatcher
     public static double hatchOpenAngleDefault = 45;
     public static double hatchCloseAngleDefault = 75;
+
+    // Subsystem - Arm
+    public static double armHAB2AngleDefault = 55;
+    public static double armHAB3AngleDefault = 110;
+    public static double armFullAngleDefault = 220;
 
     // Subsystem - Pulley
     public static double pulleyHAB2DistanceDefault = 120;
@@ -156,9 +164,17 @@ public class Brain {
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
 
+    // Subsystem - Baller
+    public static NetworkTableEntry ballTossAngleEntry;
+
     // Subsystem - Hatcher
     public static NetworkTableEntry hatchOpenAngleEntry;
     public static NetworkTableEntry hatchCloseAngleEntry;
+
+    // Subystem - Arm
+    public static NetworkTableEntry armHAB2AngleEntry;
+    public static NetworkTableEntry armHAB3AngleEntry;
+    public static NetworkTableEntry armFullAngleEntry;
 
     // Subystem - Pulley
     public static NetworkTableEntry pulleyHAB2DistanceEntry;
@@ -435,7 +451,13 @@ public class Brain {
         driveOrientationEntry.setValue(value);
     }
 
-    // Subsystems - Hatch
+    // Subsystems - Baller
+    public static void setBallTossAngle(NetworkTableEntry entry) {
+        double value = entry.getDouble(ballTossAngleDefault);
+        ballTossAngleEntry.setValue(value);
+    }
+
+    // Subsystems - Hatcher
     public static void setHatchOpenAngle(NetworkTableEntry entry) {
         double value = entry.getDouble(hatchOpenAngleDefault);
         hatchOpenAngleEntry.setValue(value);
@@ -444,6 +466,22 @@ public class Brain {
     public static void setHatchCloseAngle(NetworkTableEntry entry) {
         double value = entry.getDouble(hatchCloseAngleDefault);
         hatchCloseAngleEntry.setValue(value);
+    }
+
+    // Subsystems - Arm
+    public static void setArmHAB2Angle(NetworkTableEntry entry) {
+        double value = entry.getDouble(armHAB2AngleDefault);
+        armHAB2AngleEntry.setValue(value);
+    }
+
+    public static void setArmHAB3Angle(NetworkTableEntry entry) {
+        double value = entry.getDouble(armHAB3AngleDefault);
+        armHAB3AngleEntry.setValue(value);
+    }
+
+    public static void setArmFullAngle(NetworkTableEntry entry) {
+        double value = entry.getDouble(armFullAngleDefault);
+        armFullAngleEntry.setValue(value);
     }
 
     // Subsystems - Pulley
@@ -632,13 +670,31 @@ public class Brain {
         return DriveOrientation.valueOf(orientationString);
     }
 
-    // Subsystems - Hatch
+    // Subsystems - Baller
+    public static double getBallTossAngle() {
+        return ballTossAngleEntry.getDouble(ballTossAngleDefault);
+    }
+
+    // Subsystems - Hatcher
     public static double getHatchOpenAngle() {
         return hatchOpenAngleEntry.getDouble(hatchOpenAngleDefault);
     }
 
     public static double getHatchCloseAngle() {
         return hatchCloseAngleEntry.getDouble(hatchCloseAngleDefault);
+    }
+
+    // Subystems - Arm
+    public static double getArmHAB2Angle() {
+        return armHAB2AngleEntry.getDouble(armHAB2AngleDefault);
+    }
+
+    public static double getArmHAB3Angle() {
+        return armHAB3AngleEntry.getDouble(armHAB3AngleDefault);
+    }
+
+    public static double getArmFullAngle() {
+        return armFullAngleEntry.getDouble(armFullAngleDefault);
     }
 
     // Subystems - Pulley

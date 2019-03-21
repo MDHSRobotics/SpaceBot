@@ -1,6 +1,5 @@
 
 package frc.robot.subsystems;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
@@ -104,7 +103,7 @@ public class Pulley extends Subsystem {
     }
 
     // Set the Pulley motor speed explicitly
-    public void setSpeed(double speed){
+    public void setSpeed(double speed) {
         Devices.talonSrxPulleyMaster.set(speed);
     }
 
@@ -118,7 +117,6 @@ public class Pulley extends Subsystem {
     // Lift the robot to the encoded Pulley motor position
     public void lift() {
         if (!m_talonsAreConnected) return;
-        double liftTicks = 0;
         double distance = 0;
         if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
             distance = Brain.getPulleyHAB2Distance();
@@ -126,7 +124,7 @@ public class Pulley extends Subsystem {
         else if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
             distance = Brain.getPulleyHAB3Distance();
         }
-        liftTicks = TalonConstants.translateDistanceToTicks(distance, SPOOL_DIAMETER, GEAR_RATIO);
+        double liftTicks = TalonConstants.translateDistanceToTicks(distance, SPOOL_DIAMETER, GEAR_RATIO);
         Logger.info("Pulley -> Lift Position: " + liftTicks);
         Devices.talonSrxPulleyMaster.set(ControlMode.Position, liftTicks);
     }

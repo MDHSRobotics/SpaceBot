@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.idle.ArmStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
+import frc.robot.Brain;
 import frc.robot.Devices;
 import frc.robot.Robot;
 
@@ -17,12 +18,8 @@ import frc.robot.Robot;
 public class Arm extends Subsystem {
 
     // Position constants
-    // TODO: The constants that might change from the test robot to the competition robot need to be added to Shuffleboard
     private final double GEAR_RATIO = 81;
     private final double START_POSITION = 0;
-    private final double HAB2_ANGLE = 55; // Amount of degrees the Arm will lower to contact the HAB2
-    private final double HAB3_ANGLE = 110; // Amount of degrees the Arm will lower to contact the HAB3
-    private final double FULL_ROTATION_DEGREE = 220;
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
@@ -100,12 +97,13 @@ public class Arm extends Subsystem {
     }
 
     // Lowers the Arm to the encoded "full" position
+    // TODO: Do we need a different full angle for HAB2 and HAB3?
     public void lowerFull() {
         if (!m_talonsAreConnected) return;
-        double fullPositionDegrees = FULL_ROTATION_DEGREE;
-        double fullPositionTicks = TalonConstants.translateAngleToTicks(fullPositionDegrees, GEAR_RATIO);
-        Logger.info("Arm -> Target Full Position: " + fullPositionTicks);
-        Devices.talonSrxArm.set(ControlMode.MotionMagic, fullPositionTicks);
+        double fullAngle = Brain.getArmFullAngle();
+        double fullTicks = TalonConstants.translateAngleToTicks(fullAngle, GEAR_RATIO);
+        Logger.info("Arm -> Target Full Position: " + fullTicks);
+        Devices.talonSrxArm.set(ControlMode.MotionMagic, fullTicks);
     }
 
     // Get the current motor velocity
@@ -125,10 +123,10 @@ public class Arm extends Subsystem {
         int armPosition = getPosition();
         double angle = 0;
         if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
-            angle = HAB2_ANGLE;
+            angle = Brain.getArmHAB2Angle();
         }
         else if (Robot.robotClimbMode == Robot.ClimbMode.HAB3) {
-            angle = HAB3_ANGLE;
+            angle = Brain.getArmHAB3Angle();
         }
         double habTicks = TalonConstants.translateAngleToTicks(angle, GEAR_RATIO);
         boolean armIsOnHab = armPosition >= habTicks;

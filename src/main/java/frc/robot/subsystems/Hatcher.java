@@ -105,7 +105,7 @@ public class Hatcher extends Subsystem {
     // Close the Hatcher claw
     public void closeClaw() {
         if (!m_talonsAreConnected) return;
-        double closeAngle = Brain.getHatchOpenAngle() + Brain.getHatchCloseAngle(); // Amount of degrees the hatch claw will open/close
+        double closeAngle = Brain.getHatchCloseAngle();
         double closeTicks = TalonConstants.translateAngleToTicks(closeAngle, GEAR_RATIO);
         Logger.info("Hatcher -> Close Position: " + closeTicks);
         Devices.talonSrxHatcher.set(ControlMode.MotionMagic, closeTicks);
