@@ -128,6 +128,7 @@ public class Robot extends TimedRobot {
         autoCommandChooser.addOption("MecDrive - Straight Distance", new MecDriveStraightDistance());
         autoCommandChooser.addOption("MecDrive - Rotate Angle", new MecDriveRotateAngle());
         autoCommandChooser.addOption("MecDrive - Toggle Orientation", new MecDriveToggleOrientation());
+        autoCommandChooser.addOption("Light - Cycle Lights", new LightTestCycle());
 
         SmartDashboard.putData("AutoMode", autoCommandChooser);
 

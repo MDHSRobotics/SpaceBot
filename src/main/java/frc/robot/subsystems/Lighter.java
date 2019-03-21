@@ -23,7 +23,7 @@ public class Lighter extends Subsystem {
         setDefaultCommand(new LightToggle());
     }
 
-    public void turnOnRedAndWhite() {
+    public void turnOnBoth() {
         Devices.lighterRelay.set(Relay.Value.kOn);
     }
 
