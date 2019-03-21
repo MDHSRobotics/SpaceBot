@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 
 import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Brain;
-import frc.robot.Robot;
-import frc.robot.consoles.Logger;
 
 
 // The Shuffleboard Sight Tab
