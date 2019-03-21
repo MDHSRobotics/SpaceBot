@@ -68,10 +68,28 @@ public class EncoderTab {
     // Configure all Widgets
     public void configure() {
         m_ballTossAngleWidget.withWidget(BuiltInWidgets.kTextView);
+        m_ballTossAngleWidget.withPosition(0, 0);
+
         m_hatchOpenAngleWidget.withWidget(BuiltInWidgets.kTextView);
+        m_hatchOpenAngleWidget.withPosition(1, 0);
+
         m_hatchCloseAngleWidget.withWidget(BuiltInWidgets.kTextView);
+        m_hatchCloseAngleWidget.withPosition(2, 0);
+
         m_pulleyHAB2DistanceWidget.withWidget(BuiltInWidgets.kTextView);
+        m_pulleyHAB2DistanceWidget.withPosition(0, 1);
+
         m_pulleyHAB3DistanceWidget.withWidget(BuiltInWidgets.kTextView);
+        m_pulleyHAB3DistanceWidget.withPosition(1, 1);
+
+        m_armHAB2AngleWidget.withWidget(BuiltInWidgets.kTextView);
+        m_armHAB2AngleWidget.withPosition(0, 2);
+
+        m_armHAB3AngleWidget.withWidget(BuiltInWidgets.kTextView);
+        m_armHAB3AngleWidget.withPosition(1, 2);
+
+        m_armFullAngleWidget.withWidget(BuiltInWidgets.kTextView);
+        m_armFullAngleWidget.withPosition(2, 2);
     }
 
     // This will be called in the robotPeriodic
@@ -90,6 +108,15 @@ public class EncoderTab {
 
         NetworkTableEntry pulleyHAB3DistanceEntry = m_pulleyHAB3DistanceWidget.getEntry();
         Brain.setPulleyHAB3Distance(pulleyHAB3DistanceEntry);
+
+        NetworkTableEntry armHAB2AngleEntry = m_armHAB2AngleWidget.getEntry();
+        Brain.setArmHAB2Angle(armHAB2AngleEntry);
+
+        NetworkTableEntry armHAB3AngleEntry = m_armHAB3AngleWidget.getEntry();
+        Brain.setArmHAB3Angle(armHAB3AngleEntry);
+
+        NetworkTableEntry armFullAngleEntry = m_armFullAngleWidget.getEntry();
+        Brain.setArmFullAngle(armFullAngleEntry);
     }
 
 }
