@@ -23,20 +23,19 @@ public class Lighter extends Subsystem {
         setDefaultCommand(new LightToggle());
     }
 
-    public void turnOn() {
+    public void turnOnBoth() {
         Devices.lighterRelay.set(Relay.Value.kOn);
     }
 
-    // TODO: change "Forward" and "Reverse" to "White" and "Red" once we know which is which
-    public void turnOnForward() {
+    public void turnOnWhiteOnly() {
         Devices.lighterRelay.set(Relay.Value.kForward);
     }
 
-    public void turnOnReverse() {
+    public void turnOnRedOnly() {
         Devices.lighterRelay.set(Relay.Value.kReverse);
     }
 
-    public void turnOff() {
+    public void turnOffBoth() {
         Devices.lighterRelay.set(Relay.Value.kOff);
     }
 

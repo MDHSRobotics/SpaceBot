@@ -30,44 +30,46 @@ public class Arm extends Subsystem {
 
     public Arm() {
         Logger.setup("Constructing Subsystem: Arm...");
-        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArm);
+        m_talonsAreConnected = Devices.isConnected(Devices.talonSrxArmMaster);
         if (!m_talonsAreConnected) {
             Logger.error("Arm talons not all connected! Disabling Arm...");
         }
         else {
-            Devices.talonSrxArm.configFactoryDefault();
+            Devices.talonSrxArmMaster.configFactoryDefault();
 
             Devices.talonSrxHatcher.configPeakCurrentDuration(TalonConstants.PEAK_AMPERAGE_DURATION, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxHatcher.configPeakCurrentLimit(TalonConstants.PEAK_AMPERAGE, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxHatcher.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_AMPERAGE_LIMIT, TalonConstants.TIMEOUT_MS);
 
-            Devices.talonSrxArm.configNominalOutputForward(0);
-            Devices.talonSrxArm.configNominalOutputReverse(0);
-            Devices.talonSrxArm.configPeakOutputForward(0.5);
-            Devices.talonSrxArm.configPeakOutputReverse(-0.5);
+            Devices.talonSrxArmMaster.configNominalOutputForward(0);
+            Devices.talonSrxArmMaster.configNominalOutputReverse(0);
+            Devices.talonSrxArmMaster.configPeakOutputForward(0.5);
+            Devices.talonSrxArmMaster.configPeakOutputReverse(-0.5);
 
-            Devices.talonSrxArm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.setSensorPhase(SENSOR_PHASE);
-            Devices.talonSrxArm.setInverted(MOTOR_INVERT);
-            Devices.talonSrxArm.configAllowableClosedloopError(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.setSensorPhase(SENSOR_PHASE);
+            Devices.talonSrxArmMaster.setInverted(MOTOR_INVERT);
+            Devices.talonSrxArmMaster.configAllowableClosedloopError(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
 
-            Devices.talonSrxArm.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.045, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.045, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxArm.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
-            SensorCollection sensorCol = Devices.talonSrxArm.getSensorCollection();
+            Devices.talonSrxArmMaster.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
+            SensorCollection sensorCol = Devices.talonSrxArmMaster.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
             if (SENSOR_PHASE) absolutePosition *= -1;
             if (MOTOR_INVERT) absolutePosition *= -1;
             // Set the quadrature (relative) sensor to match absolute
-            Devices.talonSrxArm.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             
-            Devices.talonSrxArm.configMotionAcceleration(1500, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxArm.configMotionCruiseVelocity(4000, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.configMotionAcceleration(1500, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxArmMaster.configMotionCruiseVelocity(4000, TalonConstants.TIMEOUT_MS);
+
+            Devices.talonSrxArmSlave.follow(Devices.talonSrxArmMaster);
         }
     }
 
@@ -81,19 +83,19 @@ public class Arm extends Subsystem {
     // Stop the Arm motor
     public void stop() {
         if (!m_talonsAreConnected) return;
-        Devices.talonSrxArm.stopMotor();
+        Devices.talonSrxArmMaster.stopMotor();
     }
 
     // Set the Arm motor speed explicitly
     public void setSpeed(double speed){
-        Devices.talonSrxArm.set(speed);
+        Devices.talonSrxArmMaster.set(speed);
     }
 
     // Reset the Arm to its encoded starting position
     public void resetPosition() {
         if (!m_talonsAreConnected) return;
         Logger.info("Arm -> Start Position: " + START_POSITION);
-        Devices.talonSrxArm.set(ControlMode.Position, START_POSITION);
+        Devices.talonSrxArmMaster.set(ControlMode.Position, START_POSITION);
     }
 
     // Lowers the Arm to the encoded "full" position
@@ -103,19 +105,19 @@ public class Arm extends Subsystem {
         double fullAngle = Brain.getArmFullAngle();
         double fullTicks = TalonConstants.translateAngleToTicks(fullAngle, GEAR_RATIO);
         Logger.info("Arm -> Target Full Position: " + fullTicks);
-        Devices.talonSrxArm.set(ControlMode.MotionMagic, fullTicks);
+        Devices.talonSrxArmMaster.set(ControlMode.MotionMagic, fullTicks);
     }
 
     // Get the current motor velocity
     public int getVelocity() {
         if (!m_talonsAreConnected) return 0;
-        return Devices.talonSrxArm.getSelectedSensorVelocity();
+        return Devices.talonSrxArmMaster.getSelectedSensorVelocity();
     }
 
     // Get the current motor position
     public int getPosition() {
         if (!m_talonsAreConnected) return 0;
-        return Devices.talonSrxArm.getSelectedSensorPosition();
+        return Devices.talonSrxArmMaster.getSelectedSensorPosition();
     }
     
     // Return true if the Arm is at or beyond the HAB position

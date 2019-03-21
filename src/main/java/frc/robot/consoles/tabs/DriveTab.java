@@ -44,14 +44,14 @@ public class DriveTab {
 
     // Configure all Widgets
     public void configure() {
-        m_mecDriverWidget.withPosition(0, 0);
-        m_mecDriverWidget.withSize(2, 1);
+        // m_mecDriverWidget.withPosition(0, 0);
+        // m_mecDriverWidget.withSize(2, 1);
 
-        m_targetDistanceWidget.withPosition(0, 1);
-        m_targetDistanceWidget.withWidget(BuiltInWidgets.kTextView);
+        // m_targetDistanceWidget.withPosition(0, 1);
+        // m_targetDistanceWidget.withWidget(BuiltInWidgets.kTextView);
 
-        m_mecDriveStraightCmdWidget.withPosition(0, 2);
-        m_mecDriveStraightCmdWidget.withSize(2, 1);
+        // m_mecDriveStraightCmdWidget.withPosition(0, 2);
+        // m_mecDriveStraightCmdWidget.withSize(2, 1);
 
         m_mecDriveWidget.withPosition(3, 1);
         m_mecDriveWidget.withSize(4, 3);
