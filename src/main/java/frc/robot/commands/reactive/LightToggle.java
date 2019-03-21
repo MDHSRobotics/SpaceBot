@@ -4,6 +4,7 @@ package frc.robot.commands.reactive;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.consoles.Logger;
+import frc.robot.sensors.Distance;
 import frc.robot.sensors.Vision;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -30,12 +31,10 @@ public class LightToggle extends Command {
         boolean rightLineDetected = Vision.rightLineDetected();
         boolean leftLineDetected = Vision.leftLineDetected();
         if (frontLineDetected || leftLineDetected || rightLineDetected) {
-            Robot.robotLighter.turnOnWhiteOnly();
-
             int dpadAngle = OI.getDpadAngleForGyro();
             boolean isAligned = Robot.robotMecDriver.isAligned(dpadAngle);
             if (isAligned) {
-                boolean closeEnough = false;
+                boolean closeEnough = Distance.distanceReached();
                 if (closeEnough){
                     Robot.robotLighter.turnOnAll();
                 }

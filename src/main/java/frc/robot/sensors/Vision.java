@@ -40,29 +40,6 @@ public class Vision {
         return detected;
     }
 
-    // public static boolean isFrontStraight() {
-    //     double angle = Brain.getFrontLineAngle();
-    //     boolean straight = isStraight(angle);
-    //     return straight;
-    // }
-
-    // public static boolean isLeftStraight() {
-    //     double angle = Brain.getLeftLineAngle();
-    //     boolean straight = isStraight(angle);
-    //     return straight;
-    // }
-
-    // public static boolean isRightStraight() {
-    //     double angle = Brain.getRightLineAngle();
-    //     boolean straight = isStraight(angle);
-    //     return straight;
-    // }
-
-    // public static boolean isStraight(double angle) {
-    //     boolean straight = (ANGLE_TARGET - ANGLE_THRESHOLD <= angle || angle <= -ANGLE_TARGET + ANGLE_THRESHOLD);
-    //     return straight;
-    // }
-
     public static boolean isFrontCentered() {
         double centerX = Brain.getFrontLineXcenter();
         boolean centered = isCentered(centerX);
@@ -85,29 +62,6 @@ public class Vision {
         boolean centered = (CENTER_X_TARGET - CENTER_X_THRESHOLD <= centerX && centerX <= CENTER_X_TARGET + CENTER_X_THRESHOLD);
         return centered;
     }
-
-    // public static double getFrontCorrectedZ() {
-    //     double angle = Brain.getFrontLineAngle();
-    //     double z = getCorrectedZ(angle);
-    //     return z;
-    // }
-
-    // public static double getLeftCorrectedZ() {
-    //     double angle = Brain.getLeftLineAngle();
-    //     double z = getCorrectedZ(angle);
-    //     return z;
-    // }
-
-    // public static double getRightCorrectedZ() {
-    //     double angle = Brain.getRightLineAngle();
-    //     double z = getCorrectedZ(angle);
-    //     return z;
-    // }
-
-    // public static double getCorrectedZ(double angle) {
-    //     double z = ANGLE_TARGET + angle;
-    //     return z;
-    // }
 
     public static double getFrontCorrectedX() {
         double centerX = Brain.getFrontLineXcenter();

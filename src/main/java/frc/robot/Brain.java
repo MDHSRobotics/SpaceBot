@@ -77,6 +77,9 @@ public class Brain {
     public static double rightLineYcenterDefault = 0;
     public static boolean rightLineDetectedDefault = false;
 
+    //Distance
+    public static double distanceDefault = -1;
+
     // Subsystem - MecDriver
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
     public static double alignFrontMagnitudeDefault = .5;
@@ -165,6 +168,9 @@ public class Brain {
     public static NetworkTableEntry rightLineXcenterEntry;
     public static NetworkTableEntry rightLineYcenterEntry;
     public static NetworkTableEntry rightLineDetectedEntry;
+    
+    // Distance 
+    public static NetworkTableEntry distanceEntry;
 
     // Subsystem - MecDriver
     public static NetworkTableEntry driveOrientationEntry;
@@ -449,6 +455,12 @@ public class Brain {
         rightLineYcenterEntry.setDouble(value);
     }
 
+    // Distance 
+    public static void setDistance(NetworkTableEntry entry) {
+        double value = entry.getDouble(distanceDefault);
+        distanceEntry.setDouble(value);
+    }
+
     // Subsystems - MecDriver
     public static void setDriveOrientation(NetworkTableEntry entry) {
         String defaultString = Brain.driveOrientationDefault.toString();
@@ -671,6 +683,11 @@ public class Brain {
 
     public static double getRightLineYcenter() {
         return rightLineYcenterEntry.getDouble(rightLineYcenterDefault);
+    }
+
+    // Distance 
+    public static double getDistance() {
+        return distanceEntry.getDouble(distanceDefault);
     }
 
     // Subsystems - MecDriver
