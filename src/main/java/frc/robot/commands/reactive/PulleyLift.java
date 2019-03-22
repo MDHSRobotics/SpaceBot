@@ -3,6 +3,7 @@ package frc.robot.commands.reactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.commands.interactive.PulleyManual;
 import frc.robot.consoles.Logger;
 import frc.robot.OI;
 import frc.robot.Robot;

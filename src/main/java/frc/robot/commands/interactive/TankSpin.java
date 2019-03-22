@@ -38,15 +38,11 @@ public class TankSpin extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: TankSpin...");
-
-        // Robot.robotTank.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: TankSpin...");
-
-        // Robot.robotTank.stop();
     }
 
 }

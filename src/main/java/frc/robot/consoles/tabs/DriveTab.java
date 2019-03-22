@@ -1,14 +1,13 @@
 
 package frc.robot.consoles.tabs;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
-import frc.robot.commands.test.MecDriveStraightDistance;
+// import frc.robot.commands.test.MecDriveStraightDistance;
 import frc.robot.consoles.ShuffleLogger;
 import frc.robot.Brain;
 import frc.robot.Devices;
-import frc.robot.Robot;
+// import frc.robot.Robot;
 
 
 // The Shuffleboard Drive Tab
@@ -17,9 +16,9 @@ public class DriveTab {
     // Tab, layout, and widget objects
     private ShuffleboardTab m_tab;
     private ComplexWidget m_mecDriveWidget;
-    private ComplexWidget m_mecDriverWidget;
-    private ComplexWidget m_mecDriveStraightCmdWidget;
-    private SimpleWidget m_targetDistanceWidget;
+    // private ComplexWidget m_mecDriverWidget;
+    // private ComplexWidget m_mecDriveStraightCmdWidget;
+    // private SimpleWidget m_targetDistanceWidget;
     private SimpleWidget m_alignFrontMagnitudeWidget;
     private SimpleWidget m_alignSideMagnitudeWidget;
     private SimpleWidget m_alignZSensitivityWidget;
@@ -85,7 +84,6 @@ public class DriveTab {
 
     // This will be called in the robotPeriodic
     public void update() {
-        
     }
 
 }

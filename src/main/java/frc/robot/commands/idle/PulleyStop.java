@@ -36,15 +36,11 @@ public class PulleyStop extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: PulleyStop...");
-
-        Robot.robotPulley.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: PulleyStop...");
-
-        Robot.robotPulley.stop();
     }
 
 }

@@ -13,15 +13,15 @@ public class HatchClawOpen extends Command {
     public HatchClawOpen() {
         Logger.setup("Constructing Command: HatchClawOpen...");
 
-         // Declare subsystem dependencies
-         requires(Robot.robotHatcher);
+        // Declare subsystem dependencies
+        requires(Robot.robotHatcher);
     }
 
     @Override
     protected void initialize() {
         Logger.action("Initializing Command: HatchClawOpen...");
 
-        // Set the encoded position
+        // Set encoded position
         Robot.robotHatcher.openClaw();
     }
 

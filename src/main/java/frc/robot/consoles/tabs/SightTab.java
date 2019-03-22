@@ -54,13 +54,12 @@ public class SightTab {
     public void update() {
 
         // Don't need to update anything if the sight camera is not active
-        if (Robot.robotCameraSight == null ) return;
+        if (Robot.robotCameraSight == null) return;
 
         double brightness = Brain.getBrightness();
         NetworkTableEntry brightnessEntry = m_brightnessWidget.getEntry();
         double newBrightness = brightnessEntry.getDouble(brightness);
         if (newBrightness != brightness) {
-            Brain.setBrightness(brightnessEntry);
             Robot.robotCameraSight.setBrightness((int)newBrightness);
         }
 
@@ -68,7 +67,6 @@ public class SightTab {
         NetworkTableEntry exposureEntry = m_exposureWidget.getEntry();
         double newExposure = exposureEntry.getDouble(brightness);
         if (newExposure != exposure) {
-            Brain.setExposure(exposureEntry);
             Robot.robotCameraSight.setExposureManual((int)newExposure);
         }
 
@@ -76,7 +74,6 @@ public class SightTab {
         NetworkTableEntry whiteBalanceEntry = m_whiteBalanceWidget.getEntry();
         double newWhiteBalance = whiteBalanceEntry.getDouble(whiteBalance);
         if (newWhiteBalance != whiteBalance) {
-            Brain.setWhiteBalance(whiteBalanceEntry);
             Robot.robotCameraSight.setWhiteBalanceManual((int)newWhiteBalance);
         }
     }

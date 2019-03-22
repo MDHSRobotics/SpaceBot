@@ -10,14 +10,14 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 
-// This command toggles the "Lighter" lights when a line is detected by Vision
+// This command toggles the "Lighter" lights from certain sensor states
 public class LightToggle extends Command {
 
     public LightToggle() {
         Logger.setup("Constructing Command: LightToggle...");
 
-         // Declare subsystem dependencies
-         requires(Robot.robotLighter);
+        // Declare subsystem dependencies
+        requires(Robot.robotLighter);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class LightToggle extends Command {
             boolean isAligned = Robot.robotMecDriver.isAligned(dpadAngle);
             if (isAligned) {
                 boolean closeEnough = Distance.distanceReached();
-                if (closeEnough){
-                    Robot.robotLighter.turnOnAll();
+                if (closeEnough) {
+                    Robot.robotLighter.turnOnBoth();
                 }
                 else {
                     Robot.robotLighter.turnOnRedOnly();
@@ -49,8 +49,6 @@ public class LightToggle extends Command {
         else {
             Robot.robotLighter.turnOffBoth();
         }
-
-        // TODO: this needs to handle a distance state
     }
 
     // This command continues until interrupted

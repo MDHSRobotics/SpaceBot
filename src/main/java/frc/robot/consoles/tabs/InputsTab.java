@@ -1,7 +1,6 @@
 
 package frc.robot.consoles.tabs;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
 
@@ -160,58 +159,6 @@ public class InputsTab {
 
     // This will be called in the robotPeriodic
     public void update() {
-        // OI
-        NetworkTableEntry controlStickEntry = m_controlStickWidget.getEntry();
-        Brain.setControlStick(controlStickEntry);
-
-        // Mecanum Drive
-        NetworkTableEntry driveOrientationEntry = m_driveOrientationWidget.getEntry();
-        Brain.setDriveOrientation(driveOrientationEntry);
-
-        // Thumbstick - Left
-        NetworkTableEntry yLeftDeadZoneEntry = m_yLeftDeadZoneWidget.getEntry();
-        Brain.setYleftDeadZone(yLeftDeadZoneEntry);
-
-        NetworkTableEntry xLeftDeadZoneEntry = m_xLeftDeadZoneWidget.getEntry();
-        Brain.setXleftDeadZone(xLeftDeadZoneEntry);
-
-        NetworkTableEntry yLeftSensitivityEntry = m_yLeftSensitivityWidget.getEntry();
-        Brain.setYleftSensitivity(yLeftSensitivityEntry);
-
-        NetworkTableEntry xLeftSensitivityEntry = m_xLeftSensitivityWidget.getEntry();
-        Brain.setXleftSensitivity(xLeftSensitivityEntry);
-
-        // Thumbstick - Right
-        NetworkTableEntry yRightDeadZoneEntry = m_yRightDeadZoneWidget.getEntry();
-        Brain.setYrightDeadZone(yRightDeadZoneEntry);
-
-        NetworkTableEntry xRightDeadZoneEntry = m_xRightDeadZoneWidget.getEntry();
-        Brain.setXrightDeadZone(xRightDeadZoneEntry);
-
-        NetworkTableEntry yRightSensitivityEntry = m_yRightSensitivityWidget.getEntry();
-        Brain.setYrightSensitivity(yRightSensitivityEntry);
-
-        NetworkTableEntry xRightSensitivityEntry = m_xRightSensitivityWidget.getEntry();
-        Brain.setXrightSensitivity(xRightSensitivityEntry);
-
-        // Joystick
-        NetworkTableEntry yDeadZoneEntry = m_yDeadZoneWidget.getEntry();
-        Brain.setYdeadZone(yDeadZoneEntry);
-
-        NetworkTableEntry xDeadZoneEntry = m_xDeadZoneWidget.getEntry();
-        Brain.setXdeadZone(xDeadZoneEntry);
-
-        NetworkTableEntry zDeadZoneEntry = m_zDeadZoneWidget.getEntry();
-        Brain.setZdeadZone(zDeadZoneEntry);
-
-        NetworkTableEntry ySensitivityEntry = m_ySensitivityWidget.getEntry();
-        Brain.setYsensitivity(ySensitivityEntry);
-
-        NetworkTableEntry xSensitivityEntry = m_xSensitivityWidget.getEntry();
-        Brain.setXsensitivity(xSensitivityEntry);
-
-        NetworkTableEntry zSensitivityEntry = m_zSensitivityWidget.getEntry();
-        Brain.setZsensitivity(zSensitivityEntry);
     }
 
 }

@@ -13,6 +13,7 @@ public class ArmReset extends Command {
     public ArmReset() {
         Logger.setup("Constructing Command: ArmReset...");
 
+        // Declare subsystem dependencies
         requires(Robot.robotArm);
     }
 
@@ -20,7 +21,7 @@ public class ArmReset extends Command {
     protected void initialize() {
         Logger.action("Initializing Command: ArmReset...");
 
-        // Set the encoded position
+        // Set encoded position
         Robot.robotArm.resetPosition();
     }
 

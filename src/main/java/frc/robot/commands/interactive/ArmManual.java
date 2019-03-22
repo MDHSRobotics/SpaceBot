@@ -1,8 +1,9 @@
 
-package frc.robot.commands.reactive;
+package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.commands.reactive.PulleyLift;
 import frc.robot.consoles.Logger;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -16,6 +17,7 @@ public class ArmManual extends Command {
     public ArmManual() {
         Logger.setup("Constructing Command: ArmManual...");
 
+        // Declare subsystem dependencies
         requires(Robot.robotArm);
 
         m_pulleyLift = new PulleyLift();

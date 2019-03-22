@@ -1,12 +1,13 @@
 
 package frc.robot.subsystems;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.idle.PulleyStop;
+import frc.robot.commands.reactive.PulleyReset;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
 import frc.robot.Brain;
@@ -91,9 +92,9 @@ public class Pulley extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        Logger.setup("Initializing Pulley DefaultCommand -> PulleyStop...");
+        Logger.setup("Initializing Pulley DefaultCommand -> PulleyReset...");
 
-        setDefaultCommand(new PulleyStop());
+        setDefaultCommand(new PulleyReset());
     }
 
     // Stop the Pulley motor
@@ -104,19 +105,20 @@ public class Pulley extends Subsystem {
 
     // Set the Pulley motor speed explicitly
     public void setSpeed(double speed) {
+        if (!m_talonsAreConnected) return;
         Devices.talonSrxPulleyMaster.set(speed);
     }
 
      // Reset the Pulley to its starting position
      public void resetPosition() {
+        Logger.info("Pulley -> Set Position to START: " + START_POSITION + " ticks");
+
         if (!m_talonsAreConnected) return;
-        Logger.info("Pulley -> Reset Position: " + START_POSITION);
         Devices.talonSrxPulleyMaster.set(ControlMode.Position, START_POSITION);
     }
 
     // Lift the robot to the encoded Pulley motor position
     public void lift() {
-        if (!m_talonsAreConnected) return;
         double distance = 0;
         if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
             distance = Brain.getPulleyHAB2Distance();
@@ -124,9 +126,11 @@ public class Pulley extends Subsystem {
         else if (Robot.robotClimbMode == Robot.ClimbMode.HAB3) {
             distance = Brain.getPulleyHAB3Distance();
         }
-        double liftTicks = TalonConstants.translateDistanceToTicks(distance, SPOOL_DIAMETER, GEAR_RATIO);
-        Logger.info("Pulley -> Lift Position: " + liftTicks);
-        Devices.talonSrxPulleyMaster.set(ControlMode.Position, liftTicks);
+        double ticks = TalonConstants.translateDistanceToTicks(distance, SPOOL_DIAMETER, GEAR_RATIO);
+        Logger.info("Pulley -> Set Position to " + Robot.robotClimbMode + " LIFT: " + distance + " distance, " + ticks + " ticks");
+
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxPulleyMaster.set(ControlMode.Position, ticks);
     }
 
      // Get the current motor position
@@ -139,6 +143,15 @@ public class Pulley extends Subsystem {
     public int getVelocity() {
         if (!m_talonsAreConnected) return 0;
         return Devices.talonSrxPulleyMaster.getSelectedSensorVelocity();
+    }
+
+    //---------//
+    // Testing //
+    //---------//
+
+    public void testMotors() {
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxPulleyMaster.set(0.2);
     }
 
 }

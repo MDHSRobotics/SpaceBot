@@ -36,15 +36,11 @@ public class HatcherStop extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: HatcherStop...");
-
-        Robot.robotHatcher.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: HatcherStop...");
-
-        Robot.robotHatcher.stop();
     }
 
 }

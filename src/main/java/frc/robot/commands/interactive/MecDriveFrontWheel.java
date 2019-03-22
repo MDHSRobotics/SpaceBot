@@ -8,11 +8,11 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 
-// This command spins the Tank
-public class MecDrivePlatForm extends Command {
+// This command uses the joystick input to front wheel drive
+public class MecDriveFrontWheel extends Command {
 
-    public MecDrivePlatForm() {
-        Logger.setup("Constructing Command: MecDrivePlatForm...");
+    public MecDriveFrontWheel() {
+        Logger.setup("Constructing Command: MecDriveFrontWheel...");
 
         // Declare subsystem dependencies
         requires(Robot.robotMecDriver);
@@ -20,13 +20,13 @@ public class MecDrivePlatForm extends Command {
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: MecDrivePlatForm...");
+        Logger.action("Initializing Command: MecDriveFrontWheel...");
     }
 
     @Override
     protected void execute() {
-        double speed = OI.getplatformDriveSpeed();
-        Robot.robotMecDriver.platformDrive(speed);
+        double speed = OI.getFrontWheelDriveSpeed();
+        Robot.robotMecDriver.frontWheelDrive(speed);
     }
 
     // This command continues until interrupted
@@ -37,16 +37,12 @@ public class MecDrivePlatForm extends Command {
 
     @Override
     protected void end() {
-        Logger.ending("Ending Command: MecDrivePlatForm...");
-
-        // Robot.robotMecDriver.stop();
+        Logger.ending("Ending Command: MecDriveFrontWheel...");
     }
 
     @Override
     protected void interrupted() {
-        Logger.ending("Interrupting Command: MecDrivePlatForm...");
-
-        // Robot.robotMecDriver.stop();
+        Logger.ending("Interrupting Command: MecDriveFrontWheel...");
     }
 
 }

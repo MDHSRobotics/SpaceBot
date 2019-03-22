@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.instant.*;
 import frc.robot.commands.interactive.*;
-import frc.robot.commands.reactive.ArmManual;
-import frc.robot.commands.reactive.PulleyManual;
 import frc.robot.commands.test.*;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;
@@ -67,12 +65,10 @@ public class OI {
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
         Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
         Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
-        //Test Climb Commands
+        // Test climb commands
         Devices.climbXboxBtnY.whenPressed(new ArmManual());
         Devices.climbXboxBtnB.whenPressed(new PulleyManual());
-
     }
-
 
     //----------------------//
     // Active Control Stick //
@@ -175,6 +171,12 @@ public class OI {
     // Xbox Thumbsticks //
     //------------------//
 
+    // Determines the speed at which to drive front wheels from the current xbox right hand trigger axis
+    public static double getFrontWheelDriveSpeed() {
+        double triggerAxis = Devices.driveXbox.getTriggerAxis(Hand.kLeft);
+        return triggerAxis;
+    }
+
     // Determines the cartesian movement (forward/backward speed, side to side speed, rotation speed)
     // from the current xbox thumbstick positions
     public static CartesianMovement getCartesianMovementFromThumbsticks(boolean isYleftFlipped) {
@@ -264,10 +266,6 @@ public class OI {
     // Gets the Tank "Spin" speed from the climb xbox controller's Right Trigger axis position
     public static double getTankSpinSpeed() {
         double triggerAxis = Devices.climbXbox.getTriggerAxis(Hand.kRight);
-        return triggerAxis;
-    }
-    public static double getplatformDriveSpeed() {
-        double triggerAxis = Devices.driveXbox.getTriggerAxis(Hand.kRight);
         return triggerAxis;
     }
 

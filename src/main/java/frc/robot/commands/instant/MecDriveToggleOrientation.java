@@ -38,15 +38,11 @@ public class MecDriveToggleOrientation extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: MecDriveToggleOrientation...");
-
-        Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: MecDriveToggleOrientation...");
-
-        Robot.robotMecDriver.stop();
     }
 
 }

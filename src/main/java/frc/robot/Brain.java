@@ -77,7 +77,7 @@ public class Brain {
     public static double rightLineYcenterDefault = 0;
     public static boolean rightLineDetectedDefault = false;
 
-    //Distance
+    // Distance
     public static double distanceDefault = -1;
 
     // Subsystem - MecDriver
@@ -207,174 +207,24 @@ public class Brain {
         matchTimeEntry.setDouble(matchTime);
     }
 
-    // Shuffler - Drive Tab
-    public static void setTargetDriveDistance(NetworkTableEntry entry) {
-        double value = entry.getDouble(driveTargetDistanceDefault);
-        driveTargetDistanceEntry.setDouble(value);
-    }
-
     // OI
-    public static void setControlStick(NetworkTableEntry entry) {
-        String defaultString = Brain.controlStickDefault.toString();
-        String value = entry.getString(defaultString);
-        controlStickEntry.setValue(value);
-    }
-
     public static void setControlStick(ControlStick stick) {
         String value = stick.toString();
         controlStickEntry.setValue(value);
     }
 
-    // OI - Joystick
-    public static void setYdeadZone(NetworkTableEntry entry) {
-        double value = entry.getDouble(yDeadZoneDefault);
-        yDeadZoneEntry.setDouble(value);
-    }
-
-    public static void setXdeadZone(NetworkTableEntry entry) {
-        double value = entry.getDouble(xDeadZoneDefault);
-        xDeadZoneEntry.setDouble(value);
-    }
-
-    public static void setZdeadZone(NetworkTableEntry entry) {
-        double value = entry.getDouble(zDeadZoneDefault);
-        zDeadZoneEntry.setDouble(value);
-    }
-
-    public static void setYsensitivity(NetworkTableEntry entry) {
-        double value = entry.getDouble(ySensitivityDefault);
-        ySensitivityEntry.setDouble(value);
-    }
-
-    public static void setXsensitivity(NetworkTableEntry entry) {
-        double value = entry.getDouble(xSensitivityDefault);
-        xSensitivityEntry.setDouble(value);
-    }
-
-    public static void setZsensitivity(NetworkTableEntry entry) {
-        double value = entry.getDouble(zSensitivityDefault);
-        zSensitivityEntry.setDouble(value);
-    }
-
-    // OI - Xbox Thumbsticks
-    public static void setYleftDeadZone(NetworkTableEntry entry) {
-        double value = entry.getDouble(yLeftDeadZoneDefault);
-        yLeftDeadZoneEntry.setDouble(value);
-    }
-
-    public static void setXleftDeadZone(NetworkTableEntry entry) {
-        double value = entry.getDouble(xLeftDeadZoneDefault);
-        xLeftDeadZoneEntry.setDouble(value);
-    }
-
-    public static void setYrightDeadZone(NetworkTableEntry entry) {
-        double value = entry.getDouble(yRightDeadZoneDefault);
-        yRightDeadZoneEntry.setDouble(value);
-    }
-
-    public static void setXrightDeadZone(NetworkTableEntry entry) {
-        double value = entry.getDouble(xRightDeadZoneDefault);
-        xRightDeadZoneEntry.setDouble(value);
-    }
-
-    public static void setYleftSensitivity(NetworkTableEntry entry) {
-        double value = entry.getDouble(yLeftSensitivityDefault);
-        yLeftSensitivityEntry.setDouble(value);
-    }
-
-    public static void setXleftSensitivity(NetworkTableEntry entry) {
-        double value = entry.getDouble(xLeftSensitivityDefault);
-        xLeftSensitivityEntry.setDouble(value);
-    }
-
-    public static void setYrightSensitivity(NetworkTableEntry entry) {
-        double value = entry.getDouble(yRightSensitivityDefault);
-        yRightSensitivityEntry.setDouble(value);
-    }
-
-    public static void setXrightSensitivity(NetworkTableEntry entry) {
-        double value = entry.getDouble(xRightSensitivityDefault);
-        xRightSensitivityEntry.setDouble(value);
-    }
-
-    // Sight
-    public static void setBrightness(NetworkTableEntry entry) {
-        double value = entry.getDouble(brightnessDefault);
-        brightnessEntry.setDouble(value);
-    }
-
-    public static void setExposure(NetworkTableEntry entry) {
-        double value = entry.getDouble(exposureDefault);
-        exposureEntry.setDouble(value);
-    }
-
-    public static void setWhiteBalance(NetworkTableEntry entry) {
-        double value = entry.getDouble(whiteBalanceDefault);
-        whiteBalanceEntry.setDouble(value);
-    }
-
-    // Vision - Line Pipeline
-    public static void setHueMin(NetworkTableEntry entry) {
-        double value = entry.getDouble(hueMinDefault);
-        hueMinEntry.setDouble(value);
-    }
-
-    public static void setHueMax(NetworkTableEntry entry) {
-        double value = entry.getDouble(hueMaxDefault);
-        hueMaxEntry.setDouble(value);
-    }
-
-    public static void setSaturationMin(NetworkTableEntry entry) {
-        double value = entry.getDouble(saturationMinDefault);
-        saturationMinEntry.setDouble(value);
-    }
-
-    public static void setSaturationMax(NetworkTableEntry entry) {
-        double value = entry.getDouble(saturationMaxDefault);
-        saturationMaxEntry.setDouble(value);
-    }
-
-    public static void setValueMin(NetworkTableEntry entry) {
-        double value = entry.getDouble(valueMinDefault);
-        valueMinEntry.setDouble(value);
-    }
-
-    public static void setValueMax(NetworkTableEntry entry) {
-        double value = entry.getDouble(valueMaxDefault);
-        valueMaxEntry.setDouble(value);
-    }
-
     // Vision - Front Line
-    public static void setFrontLineArea(NetworkTableEntry entry) {
-        double value = entry.getDouble(frontLineAreaDefault);
-        frontLineAreaEntry.setDouble(value);
-    }
 
     public static void setFrontLineArea(double value) {
         frontLineAreaEntry.setDouble(value);
-    }
-
-    public static void setFrontLineAngle(NetworkTableEntry entry) {
-        double value = entry.getDouble(frontLineAngleDefault);
-        frontLineAngleEntry.setDouble(value);
     }
 
     public static void setFrontLineAngle(double value) {
         frontLineAngleEntry.setDouble(value);
     }
 
-    public static void setFrontLineXcenter(NetworkTableEntry entry) {
-        double value = entry.getDouble(frontLineXcenterDefault);
-        frontLineXcenterEntry.setDouble(value);
-    }
-
     public static void setFrontLineXcenter(double value) {
         frontLineXcenterEntry.setDouble(value);
-    }
-
-    public static void setFrontLineYcenter(NetworkTableEntry entry) {
-        double value = entry.getDouble(frontLineYcenterDefault);
-        frontLineYcenterEntry.setDouble(value);
     }
 
     public static void setFrontLineYcenter(double value) {
@@ -382,36 +232,16 @@ public class Brain {
     }
 
     // Vision - Left Line
-    public static void setLeftLineArea(NetworkTableEntry entry) {
-        double value = entry.getDouble(leftLineAreaDefault);
-        leftLineAreaEntry.setDouble(value);
-    }
-
     public static void setLeftLineArea(double value) {
         leftLineAreaEntry.setDouble(value);
-    }
-
-    public static void setLeftLineAngle(NetworkTableEntry entry) {
-        double value = entry.getDouble(leftLineAngleDefault);
-        leftLineAngleEntry.setDouble(value);
     }
 
     public static void setLeftLineAngle(double value) {
         leftLineAngleEntry.setDouble(value);
     }
 
-    public static void setLeftLineXcenter(NetworkTableEntry entry) {
-        double value = entry.getDouble(leftLineXcenterDefault);
-        leftLineXcenterEntry.setDouble(value);
-    }
-
     public static void setLeftLineXcenter(double value) {
         leftLineXcenterEntry.setDouble(value);
-    }
-
-    public static void setLeftLineYcenter(NetworkTableEntry entry) {
-        double value = entry.getDouble(leftLineYcenterDefault);
-        leftLineYcenterEntry.setDouble(value);
     }
 
     public static void setLeftLineYcenter(double value) {
@@ -419,102 +249,26 @@ public class Brain {
     }
 
     // Vision - Right Line
-    public static void setRightLineArea(NetworkTableEntry entry) {
-        double value = entry.getDouble(rightLineAreaDefault);
-        rightLineAreaEntry.setDouble(value);
-    }
-
     public static void setRightLineArea(double value) {
         rightLineAreaEntry.setDouble(value);
-    }
-
-    public static void setRightLineAngle(NetworkTableEntry entry) {
-        double value = entry.getDouble(rightLineAngleDefault);
-        rightLineAngleEntry.setDouble(value);
     }
 
     public static void setRightLineAngle(double value) {
         rightLineAngleEntry.setDouble(value);
     }
 
-    public static void setRightLineXcenter(NetworkTableEntry entry) {
-        double value = entry.getDouble(rightLineXcenterDefault);
-        rightLineXcenterEntry.setDouble(value);
-    }
-
     public static void setRightLineXcenter(double value) {
         rightLineXcenterEntry.setDouble(value);
-    }
-
-    public static void setRightLineYcenter(NetworkTableEntry entry) {
-        double value = entry.getDouble(rightLineYcenterDefault);
-        rightLineYcenterEntry.setDouble(value);
     }
 
     public static void setRightLineYcenter(double value) {
         rightLineYcenterEntry.setDouble(value);
     }
 
-    // Distance 
-    public static void setDistance(NetworkTableEntry entry) {
-        double value = entry.getDouble(distanceDefault);
-        distanceEntry.setDouble(value);
-    }
-
     // Subsystems - MecDriver
-    public static void setDriveOrientation(NetworkTableEntry entry) {
-        String defaultString = Brain.driveOrientationDefault.toString();
-        String value = entry.getString(defaultString);
-        driveOrientationEntry.setValue(value);
-    }
-
     public static void setDriveOrientation(DriveOrientation orientation) {
         String value = orientation.toString();
         driveOrientationEntry.setValue(value);
-    }
-
-    // Subsystems - Baller
-    public static void setBallTossAngle(NetworkTableEntry entry) {
-        double value = entry.getDouble(ballTossAngleDefault);
-        ballTossAngleEntry.setValue(value);
-    }
-
-    // Subsystems - Hatcher
-    public static void setHatchOpenAngle(NetworkTableEntry entry) {
-        double value = entry.getDouble(hatchOpenAngleDefault);
-        hatchOpenAngleEntry.setValue(value);
-    }
-
-    public static void setHatchCloseAngle(NetworkTableEntry entry) {
-        double value = entry.getDouble(hatchCloseAngleDefault);
-        hatchCloseAngleEntry.setValue(value);
-    }
-
-    // Subsystems - Arm
-    public static void setArmHAB2Angle(NetworkTableEntry entry) {
-        double value = entry.getDouble(armHAB2AngleDefault);
-        armHAB2AngleEntry.setValue(value);
-    }
-
-    public static void setArmHAB3Angle(NetworkTableEntry entry) {
-        double value = entry.getDouble(armHAB3AngleDefault);
-        armHAB3AngleEntry.setValue(value);
-    }
-
-    public static void setArmFullAngle(NetworkTableEntry entry) {
-        double value = entry.getDouble(armFullAngleDefault);
-        armFullAngleEntry.setValue(value);
-    }
-
-    // Subsystems - Pulley
-    public static void setPulleyHAB2Distance(NetworkTableEntry entry) {
-        double value = entry.getDouble(pulleyHAB2DistanceDefault);
-        pulleyHAB2DistanceEntry.setValue(value);
-    }
-
-    public static void setPulleyHAB3Distance(NetworkTableEntry entry) {
-        double value = entry.getDouble(pulleyHAB3DistanceDefault);
-        pulleyHAB3DistanceEntry.setValue(value);
     }
 
     //---------//

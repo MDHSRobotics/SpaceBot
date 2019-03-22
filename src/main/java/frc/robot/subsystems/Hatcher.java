@@ -4,10 +4,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.reactive.HatchClawClose;
+import frc.robot.commands.reactive.HatchClawOpen;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
 import frc.robot.Brain;
@@ -77,9 +76,9 @@ public class Hatcher extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        Logger.setup("Initializing Hatcher DefaultCommand -> HatcherStop...");
+        Logger.setup("Initializing Hatcher DefaultCommand -> HatchClawOpen...");
 
-        setDefaultCommand(new HatchClawClose());
+        setDefaultCommand(new HatchClawOpen());
     }
 
     // Toggle the clawIsClosed state
@@ -95,20 +94,22 @@ public class Hatcher extends Subsystem {
 
     // Open the Hatcher claw
     public void openClaw() {
+        double angle = Brain.getHatchOpenAngle();
+        double ticks = TalonConstants.translateAngleToTicks(angle, GEAR_RATIO);
+        Logger.info("Hatcher -> Motion Magic to OPEN: " + angle + " angle, " + ticks + " ticks");
+
         if (!m_talonsAreConnected) return;
-        double openAngle = Brain.getHatchOpenAngle();
-        double openTicks = TalonConstants.translateAngleToTicks(openAngle, GEAR_RATIO);
-        Logger.info("Hatcher -> Open Position: " + openTicks);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, openTicks);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, ticks);
     }
 
     // Close the Hatcher claw
     public void closeClaw() {
+        double angle = Brain.getHatchCloseAngle();
+        double ticks = TalonConstants.translateAngleToTicks(angle, GEAR_RATIO);
+        Logger.info("Hatcher -> Motion Magic to CLOSE: " + angle + " angle, " + ticks + " ticks");
+
         if (!m_talonsAreConnected) return;
-        double closeAngle = Brain.getHatchCloseAngle();
-        double closeTicks = TalonConstants.translateAngleToTicks(closeAngle, GEAR_RATIO);
-        Logger.info("Hatcher -> Close Position: " + closeTicks);
-        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, closeTicks);
+        Devices.talonSrxHatcher.set(ControlMode.MotionMagic, ticks);
     }
 
     // Get the current Hatcher claw motor velocity

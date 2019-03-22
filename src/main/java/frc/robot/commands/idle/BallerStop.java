@@ -36,15 +36,11 @@ public class BallerStop extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: BallerStop...");
-
-        Robot.robotBaller.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: BallerStop...");
-
-        Robot.robotBaller.stop();
     }
 
 }

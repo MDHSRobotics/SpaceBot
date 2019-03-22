@@ -38,15 +38,11 @@ public class MecDriveFlipControlStick extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: MecDriveFlipControlStick...");
-
-        Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: MecDriveFlipControlStick...");
-
-        Robot.robotMecDriver.stop();
     }
 
 }

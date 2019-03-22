@@ -1,7 +1,6 @@
 
 package frc.robot.consoles.tabs;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
 
@@ -189,65 +188,6 @@ public class VisionTab {
 
     // This will be called in the robotPeriodic
     public void update() {
-        // Hue Thresholds
-        NetworkTableEntry hueMinEntry = m_hueMinWidget.getEntry();
-        Brain.setHueMin(hueMinEntry);
-
-        NetworkTableEntry hueMaxEntry = m_hueMaxWidget.getEntry();
-        Brain.setHueMax(hueMaxEntry);
-
-        // Saturation Thresholds
-        NetworkTableEntry saturationMinEntry = m_saturationMinWidget.getEntry();
-        Brain.setSaturationMin(saturationMinEntry);
-
-        NetworkTableEntry saturationMaxEntry = m_saturationMaxWidget.getEntry();
-        Brain.setSaturationMax(saturationMaxEntry);
-
-        // Value Thresholds
-        NetworkTableEntry valueMinEntry = m_valueMinWidget.getEntry();
-        Brain.setValueMin(valueMinEntry);
-
-        NetworkTableEntry valueMaxEntry = m_valueMaxWidget.getEntry();
-        Brain.setValueMax(valueMaxEntry);
-
-        // Front Camera
-        NetworkTableEntry frontAreaEntry = m_frontAreaWidget.getEntry();
-        Brain.setFrontLineArea(frontAreaEntry);
-
-        NetworkTableEntry frontAngleEntry = m_frontAngleWidget.getEntry();
-        Brain.setFrontLineAngle(frontAngleEntry);
-
-        NetworkTableEntry frontXcenterEntry = m_frontXcenterWidget.getEntry();
-        Brain.setFrontLineXcenter(frontXcenterEntry);
-
-        NetworkTableEntry frontYcenterEntry = m_frontYcenterWidget.getEntry();
-        Brain.setFrontLineYcenter(frontYcenterEntry);
-
-        // Left Camera
-        NetworkTableEntry leftAreaEntry = m_leftAreaWidget.getEntry();
-        Brain.setLeftLineArea(leftAreaEntry);
-
-        NetworkTableEntry leftAngleEntry = m_leftAngleWidget.getEntry();
-        Brain.setLeftLineAngle(leftAngleEntry);
-
-        NetworkTableEntry leftXcenterEntry = m_leftXcenterWidget.getEntry();
-        Brain.setLeftLineXcenter(leftXcenterEntry);
-
-        NetworkTableEntry leftYcenterEntry = m_leftYcenterWidget.getEntry();
-        Brain.setLeftLineYcenter(leftYcenterEntry);
-
-        // Right Camera
-        NetworkTableEntry rightAreaEntry = m_rightAreaWidget.getEntry();
-        Brain.setRightLineArea(rightAreaEntry);
-
-        NetworkTableEntry rightAngleEntry = m_rightAngleWidget.getEntry();
-        Brain.setRightLineAngle(rightAngleEntry);
-
-        NetworkTableEntry rightXcenterEntry = m_rightXcenterWidget.getEntry();
-        Brain.setRightLineXcenter(rightXcenterEntry);
-
-        NetworkTableEntry rightYcenterEntry = m_rightYcenterWidget.getEntry();
-        Brain.setRightLineYcenter(rightYcenterEntry);
     }
 
 }

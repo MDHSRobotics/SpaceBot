@@ -36,15 +36,11 @@ public class MecDriverStop extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: MecDriverStop...");
-
-        Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: MecDriverStop...");
-
-        Robot.robotMecDriver.stop();
     }
 
 }

@@ -27,6 +27,10 @@ public class Lighter extends Subsystem {
         Devices.lighterRelay.set(Relay.Value.kOn);
     }
 
+    public void turnOffBoth() {
+        Devices.lighterRelay.set(Relay.Value.kOff);
+    }
+
     public void turnOnWhiteOnly() {
         Devices.lighterRelay.set(Relay.Value.kForward);
     }
@@ -35,11 +39,4 @@ public class Lighter extends Subsystem {
         Devices.lighterRelay.set(Relay.Value.kReverse);
     }
 
-    public void turnOffBoth() {
-        Devices.lighterRelay.set(Relay.Value.kOff);
-    }
-    public void turnOnAll() {
-        Devices.lighterRelay.set(Relay.Value.kOn);
-        
-    }
 }

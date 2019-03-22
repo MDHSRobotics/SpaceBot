@@ -24,10 +24,14 @@ public class RobotGameModeDelivery extends InstantCommand {
         System.out.println("--");
         Logger.action("Initializing InstantCommand: RobotGameModeDelivery...");
 
-        Logger.info("Robot Game Mode is now DELIVERY");
-        Robot.robotGameMode = Robot.GameMode.DELIVERY;
-        m_mecDriveCartesianCmd.start();
-
+        if (Robot.robotGameMode == Robot.GameMode.DELIVERY) {
+            Logger.info("Robot Game Mode is still DELIVERY");
+        }
+        else {
+            Logger.info("Robot Game Mode is now DELIVERY");
+            Robot.robotGameMode = Robot.GameMode.DELIVERY;
+            m_mecDriveCartesianCmd.start();
+        }
     }
 
 }

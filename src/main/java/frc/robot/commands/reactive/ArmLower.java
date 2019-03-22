@@ -3,6 +3,7 @@ package frc.robot.commands.reactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.commands.interactive.ArmManual;
 import frc.robot.consoles.Logger;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -17,6 +18,7 @@ public class ArmLower extends Command {
     public ArmLower() {
         Logger.setup("Constructing Command: ArmLower...");
 
+        // Declare subsystem dependencies
         requires(Robot.robotArm);
 
         m_armManualCmd = new ArmManual();

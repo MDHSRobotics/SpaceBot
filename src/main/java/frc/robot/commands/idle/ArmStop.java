@@ -36,15 +36,11 @@ public class ArmStop extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: ArmStop...");
-
-        Robot.robotArm.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: ArmStop...");
-
-        Robot.robotArm.stop();
     }
 
 }

@@ -93,11 +93,6 @@ public class MecDriver extends Subsystem {
 
         return orientation;
     }
-    public void platformDrive(double speed){
-        if(!m_talonsAreConnected) return;
-        Devices.talonSrxMecWheelFrontLeft.set(speed);
-        Devices.talonSrxMecWheelFrontRight.set(speed);
-    }
 
     // Stop all the drive motors
     public void stop() {
@@ -107,6 +102,17 @@ public class MecDriver extends Subsystem {
         }
 
         Devices.mecDrive.stopMotor();
+    }
+
+    // Drive with just the front two wheels at the given speed
+    public void frontWheelDrive(double speed){
+        if (!m_talonsAreConnected) {
+            Devices.mecDrive.feed();
+            return;
+        }
+
+        Devices.talonSrxMecWheelFrontLeft.set(speed);
+        Devices.talonSrxMecWheelFrontRight.set(speed);
     }
 
     // Strafe at the given speed

@@ -13,8 +13,8 @@ public class HatchClawClose extends Command {
     public HatchClawClose() {
         Logger.setup("Constructing Command: HatchClawClose...");
 
-         // Declare subsystem dependencies
-         requires(Robot.robotHatcher);
+        // Declare subsystem dependencies
+        requires(Robot.robotHatcher);
     }
 
     @Override

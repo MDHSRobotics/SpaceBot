@@ -1,7 +1,6 @@
 
 package frc.robot.consoles.tabs;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
 import frc.robot.consoles.ShuffleLogger;
@@ -95,29 +94,6 @@ public class EncoderTab {
 
     // This will be called in the robotPeriodic
     public void update() {
-        NetworkTableEntry ballTossAngleEntry = m_ballTossAngleWidget.getEntry();
-        Brain.setBallTossAngle(ballTossAngleEntry);
-
-        NetworkTableEntry hatchOpenAngleEntry = m_hatchOpenAngleWidget.getEntry();
-        Brain.setHatchOpenAngle(hatchOpenAngleEntry);
-
-        NetworkTableEntry hatchCloseAngleEntry = m_hatchCloseAngleWidget.getEntry();
-        Brain.setHatchCloseAngle(hatchCloseAngleEntry);
-
-        NetworkTableEntry pulleyHAB2DistanceEntry = m_pulleyHAB2DistanceWidget.getEntry();
-        Brain.setPulleyHAB2Distance(pulleyHAB2DistanceEntry);
-
-        NetworkTableEntry pulleyHAB3DistanceEntry = m_pulleyHAB3DistanceWidget.getEntry();
-        Brain.setPulleyHAB3Distance(pulleyHAB3DistanceEntry);
-
-        NetworkTableEntry armHAB2AngleEntry = m_armHAB2AngleWidget.getEntry();
-        Brain.setArmHAB2Angle(armHAB2AngleEntry);
-
-        NetworkTableEntry armHAB3AngleEntry = m_armHAB3AngleWidget.getEntry();
-        Brain.setArmHAB3Angle(armHAB3AngleEntry);
-
-        NetworkTableEntry armFullAngleEntry = m_armFullAngleWidget.getEntry();
-        Brain.setArmFullAngle(armFullAngleEntry);
     }
 
 }

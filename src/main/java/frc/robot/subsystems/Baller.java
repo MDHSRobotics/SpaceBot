@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.idle.BallerStop;
+import frc.robot.commands.reactive.BallHold;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
 import frc.robot.Brain;
@@ -40,9 +40,9 @@ public class Baller extends Subsystem {
         else {
             Devices.talonSrxBaller.configFactoryDefault();
 
-            Devices.talonSrxHatcher.configPeakCurrentDuration(TalonConstants.PEAK_AMPERAGE_DURATION, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.configPeakCurrentLimit(TalonConstants.PEAK_AMPERAGE, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxHatcher.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_AMPERAGE_LIMIT, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configPeakCurrentDuration(TalonConstants.PEAK_AMPERAGE_DURATION, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configPeakCurrentLimit(TalonConstants.PEAK_AMPERAGE, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.configContinuousCurrentLimit(TalonConstants.CONTINUOUS_AMPERAGE_LIMIT, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxBaller.configNominalOutputForward(0);
             Devices.talonSrxBaller.configNominalOutputReverse(0);
@@ -78,7 +78,7 @@ public class Baller extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Baller DefaultCommand -> BallerStop...");
 
-        setDefaultCommand(new BallerStop());
+        setDefaultCommand(new BallHold());
     }
 
     // Toggle the ballIsTossed state
@@ -94,18 +94,20 @@ public class Baller extends Subsystem {
 
     // Move the Baller flipper back to the hold position
     public void holdBall() {
+        Logger.info("Baller -> Set Position to HOLD: " + HOLD_POSITION + " ticks");
+
         if (!m_talonsAreConnected) return;
-        Logger.info("Baller -> Hold Position: " + HOLD_POSITION);
         Devices.talonSrxBaller.set(ControlMode.Position, HOLD_POSITION);
     }
 
     // Move the Baller flipper to toss the ball
     public void tossBall() {
-        if (!m_talonsAreConnected) return;
         double angle = Brain.getBallTossAngle();
-        double tossTicks = TalonConstants.translateAngleToTicks(angle, GEAR_RATIO);
-        Logger.info("Baller -> Toss Position: " + tossTicks);
-        Devices.talonSrxBaller.set(ControlMode.Position, tossTicks);
+        double ticks = TalonConstants.translateAngleToTicks(angle, GEAR_RATIO);
+        Logger.info("Baller -> Set Position to TOSS: " + angle + " angle, " + ticks + " ticks");
+
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxBaller.set(ControlMode.Position, ticks);
     }
 
     // Get the current Baller flipper motor velocity

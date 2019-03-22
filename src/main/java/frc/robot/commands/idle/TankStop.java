@@ -36,15 +36,11 @@ public class TankStop extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: TankStop...");
-
-        Robot.robotTank.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: TankStop...");
-
-        Robot.robotTank.stop();
     }
 
 }

@@ -39,15 +39,11 @@ public class MecDrivePolar extends Command {
     @Override
     protected void end() {
         Logger.ending("Ending Command: MecDrivePolar...");
-
-        Robot.robotMecDriver.stop();
     }
 
     @Override
     protected void interrupted() {
         Logger.ending("Interrupting Command: MecDrivePolar...");
-
-        Robot.robotMecDriver.stop();
     }
 
 }
