@@ -3,7 +3,6 @@ package frc.robot.commands.interactive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.commands.reactive.PulleyLift;
 import frc.robot.consoles.Logger;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -12,15 +11,11 @@ import frc.robot.Robot;
 // This command lowers the Arm manually
 public class ArmManual extends Command {
 
-    private PulleyLift m_pulleyLift;
-
     public ArmManual() {
         Logger.setup("Constructing Command: ArmManual...");
 
         // Declare subsystem dependencies
         requires(Robot.robotArm);
-
-        m_pulleyLift = new PulleyLift();
     }
 
     @Override
@@ -32,11 +27,6 @@ public class ArmManual extends Command {
     protected void execute() {
         double speed = OI.getArmLowerSpeed();
         Robot.robotArm.setSpeed(speed);
-
-        boolean armIsOnHab = Robot.robotArm.isArmOnHab();
-        if (armIsOnHab && !Robot.robotPulley.isLifting) {
-            m_pulleyLift.start();
-        }
     }
 
     // This command continues until interrupted

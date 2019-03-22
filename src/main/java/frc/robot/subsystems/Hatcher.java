@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import frc.robot.commands.reactive.HatchClawOpen;
+import frc.robot.commands.idle.HatcherStop;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.TalonConstants;
 import frc.robot.Brain;
@@ -78,7 +78,7 @@ public class Hatcher extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing Hatcher DefaultCommand -> HatchClawOpen...");
 
-        setDefaultCommand(new HatchClawOpen());
+        setDefaultCommand(new HatcherStop());
     }
 
     // Toggle the clawIsClosed state
