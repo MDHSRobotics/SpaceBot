@@ -2,6 +2,7 @@
 package frc.robot.consoles.tabs;
 
 import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ public class MainTab {
     private ComplexWidget m_autoCmdWidget;
     private SimpleWidget m_matchTimeWidget;
     private SimpleWidget m_frontLineDetectedWidget;
+    private SimpleWidget m_gameModeWidget;
+    private SimpleWidget m_climbModeWidget;
 
     // Constructor
     public MainTab() {
@@ -36,6 +39,9 @@ public class MainTab {
         // Front Line Detected
         m_frontLineDetectedWidget = m_tab.add("Front Line Detected", Brain.frontLineDetectedDefault);
         Brain.frontLineDetectedEntry = m_frontLineDetectedWidget.getEntry();
+
+        m_gameModeWidget = m_tab.add("Game Mode", Robot.robotGameMode.toString());
+        m_climbModeWidget = m_tab.add("Climb Mode", Robot.robotClimbMode.toString());
     }
 
     // Create all other Widgets
@@ -54,6 +60,9 @@ public class MainTab {
         m_matchTimeWidget.withProperties(Map.of("min", -1, "max", 135)); // this property setting isn't working
 
         m_frontLineDetectedWidget.withPosition(3, 0);
+
+        m_gameModeWidget.withPosition(0, 2);
+        m_climbModeWidget.withPosition(1, 2);
     }
 
     // This will be called in the robotPeriodic
@@ -66,6 +75,14 @@ public class MainTab {
         // Front Line Detector
         boolean frontLineDetected = Vision.frontLineDetected();
         Brain.frontLineDetectedEntry.setBoolean(frontLineDetected);
+
+        // updating the value of the game mode
+        NetworkTableEntry gameModeEntry = m_gameModeWidget.getEntry();
+        gameModeEntry.setString(Robot.robotGameMode.toString());
+
+        // updating the value of the climb mode
+        NetworkTableEntry climbModeEntry = m_climbModeWidget.getEntry();
+        climbModeEntry.setString(Robot.robotClimbMode.toString());
     }
 
 }

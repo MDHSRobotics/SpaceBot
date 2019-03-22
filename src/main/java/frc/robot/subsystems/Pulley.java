@@ -121,7 +121,7 @@ public class Pulley extends Subsystem {
         if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
             distance = Brain.getPulleyHAB2Distance();
         }
-        else if (Robot.robotClimbMode == Robot.ClimbMode.HAB2) {
+        else if (Robot.robotClimbMode == Robot.ClimbMode.HAB3) {
             distance = Brain.getPulleyHAB3Distance();
         }
         double liftTicks = TalonConstants.translateDistanceToTicks(distance, SPOOL_DIAMETER, GEAR_RATIO);
