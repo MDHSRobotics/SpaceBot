@@ -18,7 +18,7 @@ import frc.robot.Robot;
 public class Arm extends Subsystem {
 
     // Position constants
-    private final double GEAR_RATIO = 81;
+    private final double GEAR_RATIO = 20;
     private final double START_POSITION = 0;
 
     // Encoder constants

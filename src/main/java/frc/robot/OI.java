@@ -263,7 +263,7 @@ public class OI {
 
     // Gets the Tank "Spin" speed from the climb xbox controller's Right Trigger axis position
     public static double getTankSpinSpeed() {
-        double triggerAxis = Devices.driveXbox.getTriggerAxis(Hand.kRight);
+        double triggerAxis = Devices.climbXbox.getTriggerAxis(Hand.kRight);
         return triggerAxis;
     }
     public static double getplatformDriveSpeed() {

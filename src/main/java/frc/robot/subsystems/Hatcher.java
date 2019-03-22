@@ -21,7 +21,7 @@ public class Hatcher extends Subsystem {
     public boolean clawIsClosed = false;
 
     // Position constants
-    private final double GEAR_RATIO = 20;
+    private final double GEAR_RATIO = 16;
 
     // Encoder constants
     private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
