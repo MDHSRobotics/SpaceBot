@@ -92,6 +92,12 @@ public class Baller extends Subsystem {
         Devices.talonSrxBaller.stopMotor();
     }
 
+    public void resetPosition() {
+        if (!m_talonsAreConnected) return;
+        Devices.talonSrxBaller.set(-0.2);
+        Devices.talonSrxBaller.setSelectedSensorPosition(0);
+    }
+
     // Move the Baller flipper back to the hold position
     public void holdBall() {
         Logger.info("Baller -> Set Position to HOLD: " + HOLD_POSITION + " ticks");
