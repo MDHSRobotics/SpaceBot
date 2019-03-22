@@ -113,6 +113,9 @@ public class MecDriver extends Subsystem {
 
         Devices.talonSrxMecWheelFrontLeft.set(speed);
         Devices.talonSrxMecWheelFrontRight.set(speed);
+        Devices.talonSrxMecWheelRearLeft.set(0);
+        Devices.talonSrxMecWheelRearRight.set(0);
+        Devices.mecDrive.feed();
     }
 
     // Strafe at the given speed
