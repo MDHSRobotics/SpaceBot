@@ -46,8 +46,8 @@ public class Baller extends Subsystem {
 
             Devices.talonSrxBaller.configNominalOutputForward(0);
             Devices.talonSrxBaller.configNominalOutputReverse(0);
-            Devices.talonSrxBaller.configPeakOutputForward(0.55);
-            Devices.talonSrxBaller.configPeakOutputReverse(-0.1);
+            Devices.talonSrxBaller.configPeakOutputForward(0.4);
+            Devices.talonSrxBaller.configPeakOutputReverse(-0.35);
 
             Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxBaller.setSensorPhase(SENSOR_PHASE);
@@ -55,7 +55,7 @@ public class Baller extends Subsystem {
             Devices.talonSrxBaller.configAllowableClosedloopError(0, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxBaller.config_kF(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
-            Devices.talonSrxBaller.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.0125, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.config_kP(TalonConstants.PID_LOOP_PRIMARY, 0.2, TalonConstants.TIMEOUT_MS); //0.0125
             Devices.talonSrxBaller.config_kI(TalonConstants.PID_LOOP_PRIMARY, 0.0, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxBaller.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.1, TalonConstants.TIMEOUT_MS);
 
@@ -76,7 +76,7 @@ public class Baller extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        Logger.setup("Initializing Baller DefaultCommand -> BallerStop...");
+        Logger.setup("Initializing Baller DefaultCommand -> BallHold...");
 
         setDefaultCommand(new BallHold());
     }

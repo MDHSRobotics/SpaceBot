@@ -22,7 +22,7 @@ public class Pulley extends Subsystem {
     public boolean isLifting = false;
 
     // Position Constants
-    private final double SPOOL_DIAMETER = 1; // TODO: This needs to be measured
+    private final double SPOOL_DIAMETER = 2.42; // inches
     private final double GEAR_RATIO = 28;
     private final double START_POSITION = 0;
 

@@ -38,8 +38,8 @@ public class Brain {
     public static double xLeftDeadZoneDefault = .001;
     public static double yRightDeadZoneDefault = .001;
     public static double xRightDeadZoneDefault = .001;
-    public static double yLeftSensitivityDefault = .5;
-    public static double xLeftSensitivityDefault = .5;
+    public static double yLeftSensitivityDefault = 1;
+    public static double xLeftSensitivityDefault = 1;
     public static double yRightSensitivityDefault = .5;
     public static double xRightSensitivityDefault = .5;
 
@@ -84,9 +84,9 @@ public class Brain {
     public static DriveOrientation driveOrientationDefault = DriveOrientation.ROBOT;
     public static double alignFrontMagnitudeDefault = .5;
     public static double alignSideMagnitudeDefault = .5;
-    public static double alignZSensitivityDefault = 1;
-    public static double alignZSpeedMinimumDefault = .35;
-    public static double alignZToleranceDefault = 2;
+    public static double alignZSensitivityDefault = .7;
+    public static double alignZSpeedMinimumDefault = .25;
+    public static double alignZToleranceDefault = 10;
 
     // Subsystem - Baller
     public static double ballTossAngleDefault = 120;
