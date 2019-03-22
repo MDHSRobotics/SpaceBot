@@ -48,7 +48,7 @@ public class Arm extends Subsystem {
 
             Devices.talonSrxArmMaster.configNominalOutputForward(0);
             Devices.talonSrxArmMaster.configNominalOutputReverse(0);
-            Devices.talonSrxArmMaster.configPeakOutputForward(0.5);
+            Devices.talonSrxArmMaster.configPeakOutputForward(1.0);
             Devices.talonSrxArmMaster.configPeakOutputReverse(-0.5);
 
             Devices.talonSrxArmMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
