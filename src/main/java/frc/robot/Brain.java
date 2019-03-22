@@ -89,7 +89,7 @@ public class Brain {
     public static double alignZToleranceDefault = 10;
 
     // Subsystem - Baller
-    public static double ballTossAngleDefault = 120;
+    public static double ballTossAngleDefault = 40;
 
     // Subsystem - Hatcher
     public static double hatchOpenAngleDefault = 45;

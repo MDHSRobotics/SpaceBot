@@ -27,9 +27,9 @@ public class BallToss extends Command {
 
     @Override
     protected void execute() {
-        // int position = Robot.robotBaller.getPosition();
-        // int velocity = Robot.robotBaller.getVelocity();
-        // Logger.info("BallToss -> Position: " + position + "; Velocity: " + velocity);
+        int position = Robot.robotBaller.getPosition();
+        int velocity = Robot.robotBaller.getVelocity();
+        Logger.info("BallToss -> Position: " + position + "; Velocity: " + velocity);
     }
 
     // This command continues until interrupted
@@ -47,5 +47,6 @@ public class BallToss extends Command {
     protected void interrupted() {
         Logger.ending("Interrupting Command: BallToss...");
     }
+
 
 }

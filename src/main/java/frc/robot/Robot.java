@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.commands.idle.*;
 import frc.robot.commands.instant.*;
+import frc.robot.commands.interactive.MecDriveCartesian;
 import frc.robot.commands.test.*;
 import frc.robot.consoles.*;
 import frc.robot.sensors.*;
@@ -124,11 +125,7 @@ public class Robot extends TimedRobot {
         Logger.setup("Adding AutoModes to SmartDashboard...");
         autoCommandChooser = new SendableChooser<>();
 
-        autoCommandChooser.setDefaultOption("MecDrive - Stop", new MecDriverStop());
-        autoCommandChooser.addOption("MecDrive - Straight Distance", new MecDriveStraightDistance());
-        autoCommandChooser.addOption("MecDrive - Rotate Angle", new MecDriveRotateAngle());
-        autoCommandChooser.addOption("MecDrive - Toggle Orientation", new MecDriveToggleOrientation());
-        autoCommandChooser.addOption("Light - Cycle Lights", new LightTestCycle());
+        autoCommandChooser.setDefaultOption("MecDrive - Cartesian", new MecDriveCartesian());
 
         SmartDashboard.putData("AutoMode", autoCommandChooser);
 

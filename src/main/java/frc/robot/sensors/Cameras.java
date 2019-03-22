@@ -25,13 +25,13 @@ public class Cameras {
         cam.setResolution(CAM_RESOLUTION_WIDTH, CAM_RESOLUTION_HEIGHT);
         cam.setFPS(FPS);
 
-        int brightness = (int)Brain.getBrightness();
-        int exposure = (int)Brain.getExposure();
-        int whiteBalance = (int)Brain.getWhiteBalance();
+        // int brightness = (int)Brain.getBrightness();
+        // int exposure = (int)Brain.getExposure();
+        // int whiteBalance = (int)Brain.getWhiteBalance();
 
-        cam.setBrightness(brightness);
-        cam.setExposureManual(exposure);
-        cam.setWhiteBalanceManual(whiteBalance);
+        // cam.setBrightness(brightness);
+        // cam.setExposureManual(exposure);
+        // cam.setWhiteBalanceManual(whiteBalance);
 
         return cam;
     }

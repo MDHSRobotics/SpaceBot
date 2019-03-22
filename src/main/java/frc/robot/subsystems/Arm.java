@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -34,8 +35,9 @@ public class Arm extends Subsystem {
 
         boolean talonMasterIsConnected = Devices.isConnected(Devices.talonSrxArmMaster);
         boolean talonSlaveIsConnected = Devices.isConnected(Devices.talonSrxArmSlave);
+        boolean talonSlave2IsConnected = Devices.isConnected(Devices.talonSrxArmSlave2);
 
-        m_talonsAreConnected = (talonMasterIsConnected && talonSlaveIsConnected);
+        m_talonsAreConnected = (talonMasterIsConnected && talonSlaveIsConnected && talonSlave2IsConnected);
         if (!m_talonsAreConnected) {
             Logger.error("Arm talons not all connected! Disabling Arm...");
         }
@@ -75,6 +77,10 @@ public class Arm extends Subsystem {
             Devices.talonSrxArmMaster.configMotionCruiseVelocity(4000, TalonConstants.TIMEOUT_MS);
 
             Devices.talonSrxArmSlave.follow(Devices.talonSrxArmMaster);
+            Devices.talonSrxArmSlave2.follow(Devices.talonSrxArmMaster);
+
+            Devices.talonSrxArmSlave.setInverted(InvertType.FollowMaster);
+            Devices.talonSrxArmSlave2.setInverted(InvertType.FollowMaster);
         }
     }
 

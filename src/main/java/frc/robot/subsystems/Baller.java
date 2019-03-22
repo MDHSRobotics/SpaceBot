@@ -47,7 +47,7 @@ public class Baller extends Subsystem {
             Devices.talonSrxBaller.configNominalOutputForward(0);
             Devices.talonSrxBaller.configNominalOutputReverse(0);
             Devices.talonSrxBaller.configPeakOutputForward(0.4);
-            Devices.talonSrxBaller.configPeakOutputReverse(-0.35);
+            Devices.talonSrxBaller.configPeakOutputReverse(-0.3);
 
             Devices.talonSrxBaller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             Devices.talonSrxBaller.setSensorPhase(SENSOR_PHASE);
@@ -60,7 +60,7 @@ public class Baller extends Subsystem {
             Devices.talonSrxBaller.config_kD(TalonConstants.PID_LOOP_PRIMARY, 0.1, TalonConstants.TIMEOUT_MS);
 
             // Reset Encoder Position 
-            Devices.talonSrxBaller.setSelectedSensorPosition(0, 0, TalonConstants.TIMEOUT_MS);
+            Devices.talonSrxBaller.setSelectedSensorPosition(0, TalonConstants.PID_SLOT_0, TalonConstants.TIMEOUT_MS);
             SensorCollection sensorCol = Devices.talonSrxBaller.getSensorCollection();
             int absolutePosition = sensorCol.getPulseWidthPosition();
             absolutePosition &= 0xFFF;
@@ -69,8 +69,8 @@ public class Baller extends Subsystem {
             // Set the quadrature (relative) sensor to match absolute
             Devices.talonSrxBaller.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
             
-            Devices.talonSrxBaller.configMotionAcceleration(6000, 20);
-            Devices.talonSrxBaller.configMotionCruiseVelocity(15000, 20);
+            Devices.talonSrxBaller.configMotionAcceleration(5000, 20);
+            Devices.talonSrxBaller.configMotionCruiseVelocity(10000, 20);
         }
     }
 
@@ -100,6 +100,8 @@ public class Baller extends Subsystem {
 
     // Move the Baller flipper back to the hold position
     public void holdBall() {
+        // double angle = Brain.getBallTossAngle();
+        // double ticks = TalonConstants.translateAngleToTicks(angle, GEAR_RATIO);
         Logger.info("Baller -> Set Position to HOLD: " + HOLD_POSITION + " ticks");
 
         if (!m_talonsAreConnected) return;

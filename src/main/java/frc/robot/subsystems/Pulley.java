@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.reactive.PulleyReset;
@@ -28,7 +28,7 @@ public class Pulley extends Subsystem {
 
     // Encoder Constants
     private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -37,11 +37,11 @@ public class Pulley extends Subsystem {
         Logger.setup("Constructing Subsystem: Pulley...");
 
         boolean talonMasterIsConnected = Devices.isConnected(Devices.talonSrxPulleyMaster);
-        boolean talonSlaveAIsConnected = Devices.isConnected(Devices.talonSrxPulleySlaveA);
+        //boolean talonSlaveAIsConnected = Devices.isConnected(Devices.talonSrxPulleySlaveA);
         boolean talonSlaveBIsConnected = Devices.isConnected(Devices.talonSrxPulleySlaveB);
         boolean talonSlaveCIsConnected = Devices.isConnected(Devices.talonSrxPulleySlaveC);
         m_talonsAreConnected = (talonMasterIsConnected &&
-                                talonSlaveAIsConnected && 
+                                //talonSlaveAIsConnected && 
                                 talonSlaveBIsConnected && 
                                 talonSlaveCIsConnected);
 
@@ -79,12 +79,12 @@ public class Pulley extends Subsystem {
             Devices.talonSrxPulleyMaster.setSelectedSensorPosition(absolutePosition, TalonConstants.PID_LOOP_PRIMARY, TalonConstants.TIMEOUT_MS);
                     
             // Associate the master controller with each of the followers
-            Devices.talonSrxPulleySlaveA.follow(Devices.talonSrxPulleyMaster);
+           // Devices.talonSrxPulleySlaveA.follow(Devices.talonSrxPulleyMaster);
             Devices.talonSrxPulleySlaveB.follow(Devices.talonSrxPulleyMaster);
             Devices.talonSrxPulleySlaveC.follow(Devices.talonSrxPulleyMaster);
             
             // Assume that the follower controllers have the same "invert" state as the master
-            Devices.talonSrxPulleySlaveA.setInverted(InvertType.FollowMaster);
+            // Devices.talonSrxPulleySlaveA.setInverted(InvertType.FollowMaster);
             Devices.talonSrxPulleySlaveB.setInverted(InvertType.FollowMaster);
             Devices.talonSrxPulleySlaveC.setInverted(InvertType.FollowMaster);
         }
