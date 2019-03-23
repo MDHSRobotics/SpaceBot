@@ -63,6 +63,7 @@ public class OI {
         // Bind the "climb" xbox buttons to specific commands
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
         Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
+        Devices.climbXboxBtnX.whenPressed(new BackPulleyManual());
         Devices.climbXboxBtnB.whenPressed(new FrontPulleyManual());
     }
 
