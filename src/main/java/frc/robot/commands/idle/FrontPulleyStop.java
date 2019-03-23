@@ -7,24 +7,24 @@ import frc.robot.consoles.Logger;
 import frc.robot.Robot;
 
 
-// This command stops the Pulley motor
-public class PulleyStop extends Command {
+// This command stops the FrontPulley motor
+public class FrontPulleyStop extends Command {
 
-    public PulleyStop() {
-        Logger.setup("Constructing Command: PulleyStop...");
+    public FrontPulleyStop() {
+        Logger.setup("Constructing Command: FrontPulleyStop...");
 
         // Declare subsystem dependencies
-        requires(Robot.robotPulley);
+        requires(Robot.robotFrontPulley);
     }
 
     @Override
     protected void initialize() {
-        Logger.action("Initializing Command: PulleyStop...");
+        Logger.action("Initializing Command: FrontPulleyStop...");
     }
 
     @Override
     protected void execute() {
-        Robot.robotPulley.stop();
+        Robot.robotFrontPulley.stop();
     }
 
     // This command continues until interrupted
@@ -35,12 +35,12 @@ public class PulleyStop extends Command {
 
     @Override
     protected void end() {
-        Logger.ending("Ending Command: PulleyStop...");
+        Logger.ending("Ending Command: FrontPulleyStop...");
     }
 
     @Override
     protected void interrupted() {
-        Logger.ending("Interrupting Command: PulleyStop...");
+        Logger.ending("Interrupting Command: FrontPulleyStop...");
     }
 
 }

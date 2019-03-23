@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import frc.robot.commands.idle.*;
-import frc.robot.commands.instant.*;
+// import frc.robot.commands.idle.*;
+// import frc.robot.commands.instant.*;
 import frc.robot.commands.interactive.MecDriveCartesian;
-import frc.robot.commands.test.*;
+// import frc.robot.commands.test.*;
 import frc.robot.consoles.*;
 import frc.robot.sensors.*;
 import frc.robot.subsystems.*;
@@ -66,9 +66,8 @@ public class Robot extends TimedRobot {
     public static Hatcher robotHatcher;
     public static Baller robotBaller;
 
-    public static Arm robotArm;
-    public static Tank robotTank;
-    public static Pulley robotPulley;
+    public static BackPulley robotBackPulley;
+    public static FrontPulley robotFrontPulley;
 
     // Sensors
     public static Gyro robotGyo;
@@ -117,9 +116,8 @@ public class Robot extends TimedRobot {
         robotHatcher = new Hatcher();
         robotBaller = new Baller();
 
-        robotArm = new Arm();
-        robotTank = new Tank();
-        robotPulley = new Pulley();
+        robotBackPulley = new BackPulley();
+        robotFrontPulley = new FrontPulley();
 
         // Add the commands to the SmartDashboard
         Logger.setup("Adding AutoModes to SmartDashboard...");

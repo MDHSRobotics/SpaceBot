@@ -20,7 +20,6 @@ public class Shuffler {
     private InputsTab m_inputsTab;
     private EncoderTab m_encoderTab;
     private DriveTab m_driveTab;
-    private SubsystemsTab m_subsystemsTab;
     private DebugTab m_debugTab;
 
     public Shuffler() {
@@ -32,7 +31,6 @@ public class Shuffler {
         m_inputsTab = new InputsTab();
         m_encoderTab = new EncoderTab();
         m_driveTab = new DriveTab();
-        m_subsystemsTab = new SubsystemsTab();
         m_debugTab = new DebugTab();
     }
 
@@ -45,7 +43,6 @@ public class Shuffler {
         m_inputsTab.preInitialize();
         m_encoderTab.preInitialize();
         m_driveTab.preInitialize();
-        m_subsystemsTab.preInitialize();
         m_debugTab.preInitialize();
     }
 
@@ -58,7 +55,6 @@ public class Shuffler {
         m_inputsTab.initialize();
         m_encoderTab.initialize();
         m_driveTab.initialize();
-        m_subsystemsTab.initialize();
         m_debugTab.initialize();
     }
 
@@ -71,7 +67,6 @@ public class Shuffler {
         m_inputsTab.configure();
         m_encoderTab.configure();
         m_driveTab.configure();
-        m_subsystemsTab.configure();
         m_debugTab.configure();
 
         setupSmartdashboard();
@@ -84,7 +79,6 @@ public class Shuffler {
         m_inputsTab.update();
         m_encoderTab.update();
         m_driveTab.update();
-        m_subsystemsTab.update();
         m_debugTab.update();
     }
 

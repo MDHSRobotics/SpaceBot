@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import frc.robot.commands.instant.*;
 import frc.robot.commands.interactive.*;
-import frc.robot.commands.test.*;
 import frc.robot.consoles.Logger;
 import frc.robot.helpers.*;
 import frc.robot.Brain;
@@ -45,7 +44,7 @@ public class OI {
     //-------------------------//
  
     // Drive XBox Buttons
-    public static void configureDriveXBoxButtons(){
+    public static void configureDriveXBoxButtons() {
         // Bind the "drive" xbox buttons to specific commands
         Devices.driveXboxBtnStart.whenPressed(new RobotGameModeDelivery());
         Devices.driveXboxBtnBack.whenPressed(new RobotGameModeClimb());
@@ -53,21 +52,18 @@ public class OI {
         Devices.driveXboxBtnBumperLeft.whileHeld(new BallReset());
         Devices.driveXboxBtnBumperRight.whenPressed(new BallerToggleFlipperPosition());
         // Test drive commands
-        Devices.driveXboxBtnA.whileHeld(new MecDriveSlowForward());
-        Devices.driveXboxBtnB.whileHeld(new MecDriveSlowTurnRight());
-        Devices.driveXboxBtnX.whileHeld(new MecDriveSlowOrbitInwardClockwise());
-        Devices.driveXboxBtnY.whileHeld(new MecDriveSlowOrbitOutwardClockwise());
+        // Devices.driveXboxBtnA.whileHeld(new MecDriveSlowForward());
+        // Devices.driveXboxBtnB.whileHeld(new MecDriveSlowTurnRight());
+        // Devices.driveXboxBtnX.whileHeld(new MecDriveSlowOrbitInwardClockwise());
+        // Devices.driveXboxBtnY.whileHeld(new MecDriveSlowOrbitOutwardClockwise());
     }
 
     // Climb XBox Buttons
-    public static void configureClimbXBoxButtons(){
+    public static void configureClimbXBoxButtons() {
         // Bind the "climb" xbox buttons to specific commands
         Devices.climbXboxBtnStart.whenPressed(new RobotGameModeClimb());
         Devices.climbXboxBtnBack.whenPressed(new RobotGameModeDelivery());
-        Devices.climbXboxBtnA.whenPressed(new ClimbNextStage());
-        // Test climb commands
-        Devices.climbXboxBtnY.whenPressed(new ArmManual());
-        Devices.climbXboxBtnB.whenPressed(new PulleyManual());
+        Devices.climbXboxBtnB.whenPressed(new FrontPulleyManual());
     }
 
     //----------------------//
@@ -251,22 +247,16 @@ public class OI {
     // Interactive Climbing //
     //----------------------//
 
-    // Gets the Pulley speed from the climb xbox controller's Right Thumbstick Y axis position
-    public static double getPulleyLiftSpeed() {
-        double y = Devices.climbXbox.getY(Hand.kRight);
+    // Gets the Pulley speed from the climb xbox controller's Left Thumbstick Y axis position
+    public static double getBackPulleyLiftSpeed() {
+        double y = Devices.climbXbox.getY(Hand.kLeft);
         return y;
     }
 
-    // Gets the Arm speed from the climb xbox controller's Left Thumbstick X axis position
-    public static double getArmLowerSpeed() {
-        double x = Devices.climbXbox.getY(Hand.kLeft);
-        return x;
-    }
-
-    // Gets the Tank "Spin" speed from the climb xbox controller's Right Trigger axis position
-    public static double getTankSpinSpeed() {
-        double triggerAxis = Devices.climbXbox.getTriggerAxis(Hand.kRight);
-        return triggerAxis;
+    // Gets the Pulley speed from the climb xbox controller's Right Thumbstick Y axis position
+    public static double getFrontPulleyLiftSpeed() {
+        double y = Devices.climbXbox.getY(Hand.kRight);
+        return y;
     }
 
 }
