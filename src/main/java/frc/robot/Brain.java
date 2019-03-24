@@ -38,8 +38,8 @@ public class Brain {
     public static double xLeftDeadZoneDefault = .001;
     public static double yRightDeadZoneDefault = .001;
     public static double xRightDeadZoneDefault = .001;
-    public static double yLeftSensitivityDefault = 1;
-    public static double xLeftSensitivityDefault = 1;
+    public static double yLeftSensitivityDefault = .75;
+    public static double xLeftSensitivityDefault = .75;
     public static double yRightSensitivityDefault = .5;
     public static double xRightSensitivityDefault = .5;
 

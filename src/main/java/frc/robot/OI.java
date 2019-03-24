@@ -260,4 +260,10 @@ public class OI {
         return y;
     }
 
+    // Gets the Pulley speed from the drive Xbox controller's Right Thumbstick Y
+    public static double getBallSpeed() {
+        double triggerAxis = Devices.driveXbox.getTriggerAxis(Hand.kRight);
+        return triggerAxis;
+    }
+
 }
