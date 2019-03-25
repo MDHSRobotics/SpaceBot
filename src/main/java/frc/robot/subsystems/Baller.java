@@ -24,8 +24,8 @@ public class Baller extends Subsystem {
     private final double HOLD_POSITION = 0;
 
     // Encoder constants
-    private final boolean SENSOR_PHASE = true; // So that Talon does not report sensor out of phase
-    private final boolean MOTOR_INVERT = false; // Which direction you want to be positive; this does not affect motor invert
+    private final boolean SENSOR_PHASE = false; // So that Talon does not report sensor out of phase
+    private final boolean MOTOR_INVERT = true; // Which direction you want to be positive; this does not affect motor invert
 
     // The Talon connection state, to prevent watchdog warnings during testing
     private boolean m_talonsAreConnected = false;
@@ -100,8 +100,6 @@ public class Baller extends Subsystem {
 
     // Move the Baller flipper back to the hold position
     public void holdBall() {
-        // double angle = Brain.getBallTossAngle();
-        // double ticks = TalonConstants.translateAngleToTicks(angle, GEAR_RATIO);
         Logger.info("Baller -> Set Position to HOLD: " + HOLD_POSITION + " ticks");
 
         if (!m_talonsAreConnected) return;
