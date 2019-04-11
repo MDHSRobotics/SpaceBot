@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.commands.interactive.MecDriveCartesian;
+import frc.robot.commands.interactive.MecDriveTank;
 import frc.robot.consoles.Logger;
 import frc.robot.sensors.Gyro;
 import frc.robot.sensors.Vision;
@@ -57,7 +58,7 @@ public class MecDriver extends Subsystem {
     public void initDefaultCommand() {
         Logger.setup("Initializing MecDriver DefaultCommand -> MecDriveCartesian...");
 
-        setDefaultCommand(new MecDriveCartesian());
+        setDefaultCommand(new MecDriveTank());
     }
 
     // Flip the control direction of the joystick in Y (or Y Left for Xbox thumbsticks)
@@ -169,6 +170,20 @@ public class MecDriver extends Subsystem {
 
         // TODO: Test that this does what the method description says it does
         Devices.mecDrive.drivePolar(magnitude, 90, zRotation);
+    }
+
+    // Drive using the cartesian method, using the current control orientation
+    public void driveTank(double xSpeedLeft, double xSpeedRight) {
+        if (!m_talonsAreConnected) {
+            Devices.mecDrive.feed();
+            return;
+        }
+        DriveOrientation orientation = Brain.getDriveOrientation();
+
+        Devices.talonSrxMecWheelFrontLeft.set(xSpeedLeft);
+        Devices.talonSrxMecWheelRearLeft.set(xSpeedLeft);
+        Devices.talonSrxMecWheelFrontRight.set(xSpeedRight);
+        Devices.talonSrxMecWheelRearRight.set(xSpeedRight);
     }
 
     // Drive using the cartesian method, using the current control orientation
