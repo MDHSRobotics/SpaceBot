@@ -178,12 +178,15 @@ public class MecDriver extends Subsystem {
             Devices.mecDrive.feed();
             return;
         }
-        DriveOrientation orientation = Brain.getDriveOrientation();
 
         Devices.talonSrxMecWheelFrontLeft.set(xSpeedLeft);
         Devices.talonSrxMecWheelRearLeft.set(xSpeedLeft);
         Devices.talonSrxMecWheelFrontRight.set(xSpeedRight);
         Devices.talonSrxMecWheelRearRight.set(xSpeedRight);
+        // Even if you are periodically setting every drive motor,
+        // feeding the Mecanum Drive object is necessary to prevent
+        // motor safety warnings which will periodically disable your motors
+        Devices.mecDrive.feed();
     }
 
     // Drive using the cartesian method, using the current control orientation

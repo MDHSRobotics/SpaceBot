@@ -24,8 +24,10 @@ public class MecDriveTank extends Command {
 
     @Override
     protected void execute() {
+        // TODO: Oh my goodness, this isn't the place to compensate for motors running backwards (I know this was a rush)
         double xSpeedLeft = -Devices.driveXbox.getY(Hand.kLeft);
         double xSpeedRight = Devices.driveXbox.getY(Hand.kRight);
+        // TODO: Commands should get control values from OI, not directly from Devices (again, I know this was a quick hack)
         //CartesianMovement move = OI.getCartesianMovement(Robot.robotMecDriver.controlStickDirectionFlipped);
         Robot.robotMecDriver.driveTank(xSpeedLeft, xSpeedRight);
     }
